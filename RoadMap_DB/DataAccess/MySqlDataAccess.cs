@@ -151,7 +151,7 @@ namespace RoadMap_DB.DataAccess
         }
 
 
-        public static string ConnectionString //connect to server
+       /** public static string ConnectionString //connect to server
         {
             get
             {
@@ -160,6 +160,7 @@ namespace RoadMap_DB.DataAccess
 
             }
         }
+        */
     }
 
 }
