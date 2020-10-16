@@ -25,7 +25,7 @@ namespace RoadMap_DB.Controllers
             string sql = "SELECT  * FROM USERS ";
             JsonResult result=MySqlDataAccess.AccesData(sql, new User());
 
-            Console.Write(result);
+           // Console.Write(result);
             return new JsonResult(result);
         }
 
@@ -36,7 +36,7 @@ namespace RoadMap_DB.Controllers
             string sql = "SELECT  * FROM department_lists ";
             JsonResult result = MySqlDataAccess.AccesData(sql, new Department_list());
 
-            Console.Write(result);
+            //Console.Write(result);
             return new JsonResult(result);
 
         }
@@ -48,7 +48,7 @@ namespace RoadMap_DB.Controllers
             string sql = "SELECT  * FROM v_routes ";
             JsonResult result = MySqlDataAccess.AccesData(sql, new v_route());
 
-            Console.Write(result);
+           // Console.Write(result);
             return new JsonResult(result);
 
         }
@@ -60,7 +60,7 @@ namespace RoadMap_DB.Controllers
             string sql = "SELECT  * FROM v_routes ";
             JsonResult result = MySqlDataAccess.AccesData(sql, new v_route());
 
-            Console.Write(result);
+            //Console.Write(result);
             return new JsonResult(result);
 
         }
@@ -73,7 +73,7 @@ namespace RoadMap_DB.Controllers
             string sql = "SELECT  * FROM user_location ";
             JsonResult result = MySqlDataAccess.AccesData(sql, new User_location());
 
-            Console.Write(result);
+           // Console.Write(result);
             return new JsonResult(result);
 
         }
@@ -85,7 +85,7 @@ namespace RoadMap_DB.Controllers
             string sql = "SELECT  * FROM floors ";
             JsonResult result = MySqlDataAccess.AccesData(sql, new Floor());
 
-            Console.Write(result);
+           // Console.Write(result);
             return new JsonResult(result);
 
         }
