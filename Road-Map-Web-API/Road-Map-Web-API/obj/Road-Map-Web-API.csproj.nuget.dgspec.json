@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\Group Project\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj": {}
+    "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\Don't Change\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\Group Project\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj": {
+    "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\Don't Change\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\Group Project\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
+        "projectUniqueName": "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\Don't Change\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
         "projectName": "Road-Map-Web-API",
-        "projectPath": "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\Group Project\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
+        "projectPath": "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\Don't Change\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
         "packagesPath": "C:\\Users\\DILANCHANUKALASANTHA\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\Group Project\\Road-Map-Web-API\\Road-Map-Web-API\\obj\\",
+        "outputPath": "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\Don't Change\\Road-Map-Web-API\\Road-Map-Web-API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -42,12 +42,6 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
-            "Microsoft.CodeAnalysis.FxCopAnalyzers": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[3.3.0, )"
-            },
             "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
               "version": "[3.1.8, )"

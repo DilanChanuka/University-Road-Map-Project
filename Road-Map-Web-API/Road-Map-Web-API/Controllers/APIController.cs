@@ -50,12 +50,14 @@ namespace Road_Map_Web_API.Controllers
 
         [HttpGet]
         public IActionResult GetRoute(int start,int end)
-        {              
+        {
+            //Calculations cal = new Calculations();
+            //return Json(cal.GetFootRouteNumbers(start, end));
             return Json(new
             {
                 latitude = 15.961329,
                 longitude = 28.385640
-            }); 
+            });
         }
 
         [HttpPost("{username}/{password}")]
