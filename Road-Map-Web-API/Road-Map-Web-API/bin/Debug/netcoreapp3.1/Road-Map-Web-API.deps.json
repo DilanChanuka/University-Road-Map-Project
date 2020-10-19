@@ -24,7 +24,6 @@
     ".NETCoreApp,Version=v3.1": {
       "Road-Map-Web-API/1.0.0": {
         "dependencies": {
-          "Microsoft.CodeAnalysis.FxCopAnalyzers": "3.3.0",
           "Microsoft.Extensions.Configuration.Json": "3.1.8",
           "Newtonsoft.Json": "12.0.3",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
@@ -300,16 +299,6 @@
           "Road-Map-Web-API.dll": {}
         }
       },
-      "Microsoft.CodeAnalysis.FxCopAnalyzers/3.3.0": {
-        "dependencies": {
-          "Microsoft.CodeAnalysis.VersionCheckAnalyzer": "3.3.0",
-          "Microsoft.CodeQuality.Analyzers": "3.3.0",
-          "Microsoft.NetCore.Analyzers": "3.3.0",
-          "Microsoft.NetFramework.Analyzers": "3.3.0"
-        }
-      },
-      "Microsoft.CodeAnalysis.VersionCheckAnalyzer/3.3.0": {},
-      "Microsoft.CodeQuality.Analyzers/3.3.0": {},
       "Microsoft.Extensions.Configuration/3.1.8": {
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "3.1.8"
@@ -419,8 +408,6 @@
           "lib/netcoreapp3.1/Microsoft.Extensions.Primitives.dll": {}
         }
       },
-      "Microsoft.NetCore.Analyzers/3.3.0": {},
-      "Microsoft.NetFramework.Analyzers/3.3.0": {},
       "Newtonsoft.Json/12.0.3": {
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
@@ -2030,27 +2017,6 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.CodeAnalysis.FxCopAnalyzers/3.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-k3Icqx8kc+NrHImuiB8Jc/wd32Xeyd2B/7HOR5Qu9pyKzXQ4ikPeBAwzG2FSTuYhyIuNWvwL5k9yYBbbVz6w9w==",
-      "path": "microsoft.codeanalysis.fxcopanalyzers/3.3.0",
-      "hashPath": "microsoft.codeanalysis.fxcopanalyzers.3.3.0.nupkg.sha512"
-    },
-    "Microsoft.CodeAnalysis.VersionCheckAnalyzer/3.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-xjLM3DRFZMan3nQyBQEM1mBw6VqQybi4iMJhMFW6Ic1E1GCvqJR3ABOwEL7WtQjDUzxyrGld9bASnAos7G/Xyg==",
-      "path": "microsoft.codeanalysis.versioncheckanalyzer/3.3.0",
-      "hashPath": "microsoft.codeanalysis.versioncheckanalyzer.3.3.0.nupkg.sha512"
-    },
-    "Microsoft.CodeQuality.Analyzers/3.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-zZ3miq6u22UFQKhfJyLnVEJ+DgeOopLh3eKJnKAcOetPP2hiv3wa7kHZlBDeTvtqJQiAQhAVbttket8XxjN1zw==",
-      "path": "microsoft.codequality.analyzers/3.3.0",
-      "hashPath": "microsoft.codequality.analyzers.3.3.0.nupkg.sha512"
-    },
     "Microsoft.Extensions.Configuration/3.1.8": {
       "type": "package",
       "serviceable": true,
@@ -2106,20 +2072,6 @@
       "sha512": "sha512-XcIoXQhT0kwnEhOKv/LmpWR6yF6QWmBTy9Fcsz4aHuCOgTJ7Zd23ELtUA4BfwlYoFlSedavS+vURz9tNekd44g==",
       "path": "microsoft.extensions.primitives/3.1.8",
       "hashPath": "microsoft.extensions.primitives.3.1.8.nupkg.sha512"
-    },
-    "Microsoft.NetCore.Analyzers/3.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-6qptTHUu1Wfszuf83NhU0IoAb4j7YWOpJs6oc6S4G/nI6aGGWKH/Xi5Vs9L/8lrI74ijEEzPcIwafSQW5ASHtA==",
-      "path": "microsoft.netcore.analyzers/3.3.0",
-      "hashPath": "microsoft.netcore.analyzers.3.3.0.nupkg.sha512"
-    },
-    "Microsoft.NetFramework.Analyzers/3.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-JTfMic5fEFWICePbr7GXOGPranqS9Qxu2U/BZEcnnGbK1SFW8TxRyGp6O1L52xsbfOdqmzjc0t5ubhDrjj+Xpg==",
-      "path": "microsoft.netframework.analyzers/3.3.0",
-      "hashPath": "microsoft.netframework.analyzers.3.3.0.nupkg.sha512"
     },
     "Newtonsoft.Json/12.0.3": {
       "type": "package",
