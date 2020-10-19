@@ -19,6 +19,7 @@ class SBody extends StatefulWidget
 class _SignUpPageState extends State<SBody> 
 {
   String username,password,email,id;
+  bool checkB = false;
   Widget _buildLogo(){
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -98,13 +99,26 @@ class _SignUpPageState extends State<SBody>
         ),
       );
   }
-  Widget buildForgetPasswordButton() 
+  Widget buildAgreeButton() // Terms and Conditions
   {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        FlatButton(onPressed: (){}, child: Text("Agree with Terms & Conditions"),),
+        SizedBox(width: 10,),
+        Checkbox(
+          checkColor: Colors.red,
+          activeColor: Colors.white,
+          value:this.checkB, 
+          onChanged:(bool value){
+            setState(() {
+              this.checkB = value;
+            });
+          }
+          ),
+        Text(
+          "Agree with Terms & Conditions"
+          ),
       ],
     );
   }
