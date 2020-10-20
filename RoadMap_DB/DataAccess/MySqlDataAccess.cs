@@ -171,34 +171,30 @@ namespace RoadMap_DB.DataAccess
 
         public static double[,] VRoutes(string sql)
         {
-           
-            using(MySqlConnection con=new MySqlConnection(ConnectionString))
+
+            using (MySqlConnection con = new MySqlConnection(ConnectionString))
             {
-                double[,] data = new double[NUM_ROW, 2];
+
                 con.Open();
                 MySqlCommand cmd = new MySqlCommand(sql, con);
-                try
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+                //reader.Read();
+                int numRows = dt.Rows.Count;
+                double[,] data = new double[numRows, 2];
+
+                for (int i = 0; i < numRows; i++)
                 {
-                    using(MySqlDataReader reader=cmd.ExecuteReader())
-                    {
-                        
-                        int i = 0;
-                        while(reader.Read())
-                        {
-                            data[i, 0] = reader.GetDouble("lat");
-                            data[i, 1] = reader.GetDouble("lng");
-                            i++;
-                        }
-                                                                     
-                    }
-                }
-                catch
-                {
+                    data[i, 0] = double.Parse(dt.Rows[i]["lat"].ToString());
+                    data[i, 1] = double.Parse(dt.Rows[i]["lng"].ToString());
 
                 }
+
                 con.Close();
                 return data;
-                
+
             }
         }
 
@@ -208,28 +204,23 @@ namespace RoadMap_DB.DataAccess
 
             using (MySqlConnection con = new MySqlConnection(ConnectionString))
             {
-                double[,] data = new double[NUM_ROW, 2];
+
                 con.Open();
                 MySqlCommand cmd = new MySqlCommand(sql, con);
-                try
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+                //reader.Read();
+                int numRows = dt.Rows.Count;
+                double[,] data = new double[numRows, 2];
+
+                for (int i = 0; i < numRows; i++)
                 {
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-
-                        int i = 0;
-                        while (reader.Read())
-                        {
-                            data[i, 0] = reader.GetDouble("lat");
-                            data[i, 1] = reader.GetDouble("lng");
-                            i++;
-                        }
-
-                    }
+                    data[i, 0] = double.Parse(dt.Rows[i]["lat"].ToString());
+                    data[i, 1] = double.Parse(dt.Rows[i]["lng"].ToString());
                 }
-                catch
-                {
 
-                }
                 con.Close();
                 return data;
 
@@ -253,12 +244,8 @@ namespace RoadMap_DB.DataAccess
                
                 for (int i = 0; i < numRows; i++)
                 {
-                   
-                   
-                    data[i, 0] = double.Parse(dt.Columns["lat"].ToString());
-                    data[i, 1] = double.Parse(dt.Columns["lng"].ToString());
-                   // data[i, 0] = reader.GetDouble("lat");
-                    //data[i, 1] = reader.GetDouble("lng");
+                    data[i, 0] = double.Parse(dt.Rows[i]["lat"].ToString());
+                    data[i, 1] = double.Parse(dt.Rows[i]["lng"].ToString());
                 }
                    
                 con.Close();
@@ -273,28 +260,25 @@ namespace RoadMap_DB.DataAccess
 
             using (MySqlConnection con = new MySqlConnection(ConnectionString))
             {
-                double[,] data = new double[NUM_ROW, 2];
+
                 con.Open();
                 MySqlCommand cmd = new MySqlCommand(sql, con);
-                try
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+                //reader.Read();
+                int numRows = dt.Rows.Count;
+                double[,] data = new double[numRows, 2];
+
+                for (int i = 0; i < numRows; i++)
                 {
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-
-                        int i = 0;
-                        while (reader.Read())
-                        {
-                            data[i, 0] = reader.GetDouble("lat");
-                            data[i, 1] = reader.GetDouble("lng");
-                            i++;
-                        }
-
-                    }
+                    data[i, 0] = double.Parse(dt.Rows[i]["lat"].ToString());
+                    data[i, 1] = double.Parse(dt.Rows[i]["lng"].ToString());
+                    //data[i, 0] = reader.GetDouble("lat");
+                    //data[i, 1] = reader.GetDouble("lng");
                 }
-                catch
-                {
 
-                }
                 con.Close();
                 return data;
 
