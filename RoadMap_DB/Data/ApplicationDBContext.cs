@@ -18,16 +18,16 @@ namespace RoadMap_DB.Data
 
         public DbSet<f_route> f_Routes { get; set; }
         public DbSet<v_route> v_Routes { get; set; }
+        public DbSet<Inner_route> inner_Routes { get; set; }
+        public DbSet<Vertext_Location> vertext_Locations { get; set; }
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    modelBuilder.Ignore<f_route>();
         //    modelBuilder.Entity<f_route>().HasNoKey();
-
-        //    modelBuilder.Ignore<v_route>();
-        //    modelBuilder.Entity<v_route>().HasNoKey();
         //}
 
-
+        public DbSet<Deparment_Places> Depaerment_Places { get; set; }
+        public DbSet<Entrance> entrances { get; set; }
         public DbSet<User> users { get; set; }
         public DbSet<Floor> floors { get; set; }      
         public DbSet<User_location> user_Locations { get; set; }
