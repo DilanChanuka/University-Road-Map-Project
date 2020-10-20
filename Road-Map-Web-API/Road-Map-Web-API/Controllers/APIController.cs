@@ -16,69 +16,118 @@ namespace Road_Map_Web_API.Controllers
     [ApiController]
     [Route("[controller]")]
     public class APIController : Controller
-    {  
-        [HttpGet("{department}")]
-        public IActionResult GetDepartment(string department)
+    {
+        [HttpGet]
+        [Route("GetFloor/{department:int}/{floor:int}")]
+        public IActionResult GetFloor(int department,int floor)
         {
-            return Json(new
-            {
-                latitude = 15.961329,
-                longitude = 28.385640
-            });
+            //GetFloorLocations(department, floor);
+            //GetFloorPlaces(department, floor);
 
-        }
-
-        [HttpGet("{department}/{floor}")]
-        public IActionResult GetFloor(string department, string floor)
-        {
-            return Json(new
-            {
-                latitude = 15.961329,
-                longitude = 28.385640
-            });
-        }
-
-        [HttpGet("{department}/{floor}/{place}")]
-        public IActionResult GetPlace(string department, string floor,string place)
-        {
-            return Json(new
-            {
-                latitude = 15.961329,
-                longitude = 28.385640
-            });
+            return Json("Department - "+department+" Florr - "+floor+" Requested..!");
         }
 
         [HttpGet]
-        public IActionResult GetRoute(int start,int end)
+        [Route("GetRoute/{startLAT:double}/{startLON:double}/{endLAT:double}/{endLON:double}/{method}")]
+        public IActionResult GetRoute(double startLAT, double startLON, double endLAT, double endLON , [FromRoute] string method)
         {
-            //Calculations cal = new Calculations();
-            //return Json(cal.GetFootRouteNumbers(start, end));
-            return Json(new
+            Calculations cal = new Calculations();
+            int V_No;
+            switch (method)
             {
-                latitude = 15.961329,
-                longitude = 28.385640
-            });
+                case "F":
+                    V_No = Data.footGrapheVertices;break;
+                case "V":
+                    V_No = Data.vehicleGrapheVertices;break;
+                case "I":
+                    V_No = Data.innerGrapheVertices_1;break;
+                default:
+                    V_No=Data.footGrapheVertices;break;
+            }
+            int start = cal.GetNearestVertexNo(V_No, startLAT, startLON);
+            int end=cal.GetNearestVertexNo(V_No, endLAT, endLON);
+
+            int[] routes= cal.GetFootRouteNumbers(start, end);
+
+            //foreach (int r in routes)
+            //{
+            //    GetFootRoute(r);
+            //}
+
+            //return Json([]);
+
+            return Json(startLAT+" -- "+ startLON + " -- "+ endLAT + " -- "+ endLON + " -- "+ method);
+        }
+
+        [HttpGet]
+        [Route("GetPlace/{startLAT:double}/{startLON:double}/{placeID:int}/{method}")]
+        public IActionResult GetPlace(double startLAT, double startLON, int placeID, string method)
+        {
+            Calculations cal = new Calculations();
+            int V_No;
+            switch (method)
+            {
+                case "F":
+                    V_No = Data.footGrapheVertices; break;
+                case "V":
+                    V_No = Data.vehicleGrapheVertices; break;
+                case "I":
+                    V_No = Data.innerGrapheVertices_1; break;
+                default:
+                    V_No = Data.footGrapheVertices; break;
+            }
+            int start = cal.GetNearestVertexNo(V_No, startLAT, startLON);
+            int localEnd= cal.FindEnterenceVertexNo(placeID, startLAT, startLON);
+
+            int[] routesSet1 = cal.GetFootRouteNumbers(start, localEnd);
+
+            //foreach (int r in routesSet1)
+            //{
+            //    GetFootRoute(r);
+            //}
+            int[] fl = cal.FindDepartmentAndFloor(placeID);
+            //GetFloorLocations(fl[0], fl[1]);
+
+            //GetFloorPlace(fl[0], placeID);
+
+            int[] innerVertices = cal.FindInnerVertices(fl[0],fl[1],localEnd, placeID);
+
+            int[] routesSet2 = cal.GetInnerRouteNumbers(Data.innerRoutesGraph_1,Data.innerGrapheVertices_1,innerVertices[0], innerVertices[1]);
+
+            //foreach (int r in routesSet2)
+            //{
+            //    GetInnerRoute(r);
+            //}
+
+            //return Json([]);
+
+            return Json(startLAT + " -- " + startLON + " -- " + placeID + " -- " + method);
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Json("Connected..!");
         }
 
         [HttpPost("{username}/{password}")]
-        public string IdentifyUser(string username, string password)
+        public IActionResult IdentifyUser(string username, string password)
         {
-            string pwd = "123";
-            if(pwd==password)
-                return username + " Authenicated...!";
-            else
-                return username + " Incorrect password...!";
+            //if (GetUser(username, password))
+            //    return Ok();
+            //else
+            //    return Unauthorized();
+            return Ok();
         }
 
         [HttpPost]
-        public string RegisterUser([FromBody]User user)
+        public IActionResult RegisterUser([FromBody]User user)
         {
-            return user.id +"\t"+ user.username +"\t"+ user.email+"\t Entered..!";
-        }
-
-        public string CalculateShortestPath(int place_1,int place_2)
-        {
-            return "done";
+            //if (SetUser(user))
+            //    return Created("https://localhost:44342/API", user.username);
+            //else
+            //    return BadRequest();
+            return Ok();
         }
     }
 }
