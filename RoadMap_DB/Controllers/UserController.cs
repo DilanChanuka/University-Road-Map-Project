@@ -19,8 +19,8 @@ namespace RoadMap_DB.Controllers
         }
 
 
-        [Route("User/Index")]
-        public void  Index(string name,string email,string type,string password)
+        [Route("User/setuser")]
+        public void setuser(string name,string email,string type,string pwd)//Register user
         {
             //insert User Data
             User u = new User()
@@ -28,7 +28,7 @@ namespace RoadMap_DB.Controllers
                 name=name,
                 email=email,
                 type=type,
-                pwd=password
+                pwd=pwd
             };
 
             _db.users.Add(u);
