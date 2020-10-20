@@ -9,11 +9,16 @@ using System.Data;
 using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Mvc;
 using RoadMap_DB.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace RoadMap_DB.DataAccess
 {
+    
     public static class MySqlDataAccess
     {
+        const int NUM_ROW = 1000;
+       
         public static string GetConnectionString()
         {
             return ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -34,27 +39,8 @@ namespace RoadMap_DB.DataAccess
             {
                 con.Open();
                 MySqlCommand cmd = new MySqlCommand(sql, con);
-                if (T is User)
-                {
-                    List<User> user = new List<User>();
-                    
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        reader.Read();
-                        user.Add(new User()
-                        {
-                            name = reader.GetString("name"),
-                            email = reader.GetString("email"),
-                            type = reader.GetString("type"),
-                            pwd = reader.GetString("pwd")
-                        });
-
-                        reader.Close();
-                    }
-               
-                    return new JsonResult(user);
-                }
-                else if(T is User_location)
+                
+                if(T is User_location)
                 {
                     List<User_location> _Locations = new List<User_location>();
                     using (MySqlDataReader reader = cmd.ExecuteReader())
@@ -74,59 +60,46 @@ namespace RoadMap_DB.DataAccess
 
                     return new JsonResult(_Locations);
                 }
-                else if (T is f_route)
+                else if (T is Floor)
                 {
-                    List<f_route> f_Routes  = new List<f_route>();
+                    List<Floor> floor = new List<Floor>();
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while(reader.Read())
+                        {
+                            floor.Add(new Floor()
+                            {
+                               
+                                floor_name = reader.GetString("name"),
+                                lat_value = reader.GetDouble("lat"),
+                                lng_value = reader.GetDouble("lng")
+                            });
+                        }
+                       
+                       
+                        reader.Close();
+                    }
+
+                    return new JsonResult(floor);
+                }
+                else if (T is Deparment_Places)
+                {
+                    List<Deparment_Places> place = new List<Deparment_Places>();
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         reader.Read();
-                        f_Routes.Add(new f_route()
+                        place.Add(new Deparment_Places()
                         {
-                            id=reader.GetInt32("id"),
+                            place_name=reader.GetString("place_name"),
                             lat=reader.GetDouble("lat"),
                             lng=reader.GetDouble("lng")
                         });
                         reader.Close();
                     }
 
-                    return new JsonResult(f_Routes);
+                    return new JsonResult(place);
                 }
-                else if (T is v_route)
-                {
-                    List<v_route> v_Routes = new List<v_route>();
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        reader.Read();
-                        v_Routes.Add(new v_route()
-                        {
-                            id=reader.GetInt32("id"),
-                            lat=reader.GetDouble("lat"),
-                            lng = reader.GetDouble("lng")
-                        });
-                        reader.Close();
-                    }
 
-                    return new JsonResult(v_Routes);
-                }
-                else if (T is Floor)
-                {
-                    List<Floor> floor = new List<Floor>();
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        reader.Read();
-                        floor.Add(new Floor()
-                        {
-                            floor_id=reader.GetInt32("id"),
-                            floor_name=reader.GetString("name"),
-                            f_dept_id=reader.GetInt32("f_dept_id"),
-                            lat_value=reader.GetDouble("lat"),
-                            lng_value=reader.GetDouble("lng")
-                        });
-                        reader.Close();
-                    }
-
-                    return new JsonResult(floor);
-                }
                 else
                 {
                     List<Department_list> deptlist = new List<Department_list>();
@@ -150,8 +123,214 @@ namespace RoadMap_DB.DataAccess
                       
         }
 
+        private static string Encryption(string password)
+        {
+            MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] encrypt;
+            //encrypt the given password string into Encrypted data  
+            encrypt = md5Hasher.ComputeHash(encoder.GetBytes(password));
+            StringBuilder encryptdata = new StringBuilder();
+            //Create a new string by using the encrypted data  
+            for (int i = 0; i < encrypt.Length; i++)
+            {
+                encryptdata.Append(encrypt[i].ToString());
+            }
+            return encryptdata.ToString();
 
-       /** public static string ConnectionString //connect to server
+        }
+        public static string[] GetUser(string sql)
+        {
+
+            using (MySqlConnection con = new MySqlConnection(ConnectionString))
+            {
+                string[] data = new string[4];
+                
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                try
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        reader.Read();
+                        data[0] = reader.GetString("name");
+                        data[1] = reader.GetString("email");
+                        data[2] = reader.GetString("type");
+                        data[3] = reader.GetString("pwd");
+                    }
+                }
+                catch
+                {
+
+                }
+                con.Close();
+                return data;
+
+            }
+        }
+
+        public static double[,] VRoutes(string sql)
+        {
+           
+            using(MySqlConnection con=new MySqlConnection(ConnectionString))
+            {
+                double[,] data = new double[NUM_ROW, 2];
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                try
+                {
+                    using(MySqlDataReader reader=cmd.ExecuteReader())
+                    {
+                        
+                        int i = 0;
+                        while(reader.Read())
+                        {
+                            data[i, 0] = reader.GetDouble("lat");
+                            data[i, 1] = reader.GetDouble("lng");
+                            i++;
+                        }
+                                                                     
+                    }
+                }
+                catch
+                {
+
+                }
+                con.Close();
+                return data;
+                
+            }
+        }
+
+
+        public static double[,] FRoute(string sql)
+        {
+
+            using (MySqlConnection con = new MySqlConnection(ConnectionString))
+            {
+                double[,] data = new double[NUM_ROW, 2];
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                try
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+
+                        int i = 0;
+                        while (reader.Read())
+                        {
+                            data[i, 0] = reader.GetDouble("lat");
+                            data[i, 1] = reader.GetDouble("lng");
+                            i++;
+                        }
+
+                    }
+                }
+                catch
+                {
+
+                }
+                con.Close();
+                return data;
+
+            }
+        }
+        public static double[,] GetFloor(string sql)
+        {
+
+            using (MySqlConnection con = new MySqlConnection(ConnectionString))
+            {
+                
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, con);            
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+                //reader.Read();
+                int numRows = dt.Rows.Count;
+                double[,] data = new double[numRows, 2];
+               
+                for (int i = 0; i < numRows; i++)
+                {
+                   
+                   
+                    data[i, 0] = double.Parse(dt.Columns["lat"].ToString());
+                    data[i, 1] = double.Parse(dt.Columns["lng"].ToString());
+                   // data[i, 0] = reader.GetDouble("lat");
+                    //data[i, 1] = reader.GetDouble("lng");
+                }
+                   
+                con.Close();
+                return data;
+
+            }
+        }
+
+
+        public static double[,] InnerRoute(string sql)
+        {
+
+            using (MySqlConnection con = new MySqlConnection(ConnectionString))
+            {
+                double[,] data = new double[NUM_ROW, 2];
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                try
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+
+                        int i = 0;
+                        while (reader.Read())
+                        {
+                            data[i, 0] = reader.GetDouble("lat");
+                            data[i, 1] = reader.GetDouble("lng");
+                            i++;
+                        }
+
+                    }
+                }
+                catch
+                {
+
+                }
+                con.Close();
+                return data;
+
+            }
+        }
+        public static double[] Dept_place(string sql)
+        {
+
+            using (MySqlConnection con = new MySqlConnection(ConnectionString))
+            {
+                double[] data = new double[2];
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                try
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            data[0] = reader.GetDouble("lat");
+                            data[1] = reader.GetDouble("lng");
+                        }
+                    }
+                }
+                catch
+                {
+
+                }
+                con.Close();
+                return data;
+            }
+        }
+
+
+
+        public static string ConnectionString //connect to server
         {
             get
             {
@@ -160,7 +339,6 @@ namespace RoadMap_DB.DataAccess
 
             }
         }
-        */
     }
 
 }
