@@ -99,7 +99,9 @@ class _SignUpPageState extends State<SBody>
         ),
       );
   }
+
   Widget buildAgreeButton() // Terms and Conditions
+
   {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
