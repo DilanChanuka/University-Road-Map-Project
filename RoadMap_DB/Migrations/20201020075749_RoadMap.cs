@@ -8,6 +8,23 @@ namespace RoadMap_DB.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Depaerment_Places",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    dept_id = table.Column<int>(nullable: false),
+                    d_floor_id = table.Column<int>(nullable: false),
+                    place_name = table.Column<string>(nullable: true),
+                    lat = table.Column<double>(nullable: false),
+                    lng = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Depaerment_Places", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "department_Lists",
                 columns: table => new
                 {
@@ -21,11 +38,28 @@ namespace RoadMap_DB.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "entrances",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    dept_id = table.Column<int>(nullable: false),
+                    floor_ID = table.Column<int>(nullable: false),
+                    lat = table.Column<double>(nullable: false),
+                    lng = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_entrances", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "f_Routes",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    f_route_id = table.Column<int>(nullable: false),
                     lat = table.Column<double>(nullable: false),
                     lng = table.Column<double>(nullable: false)
                 },
@@ -40,6 +74,7 @@ namespace RoadMap_DB.Migrations
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    floor_id = table.Column<int>(nullable: false),
                     f_dept_id = table.Column<int>(nullable: false),
                     name = table.Column<string>(nullable: true),
                     lat = table.Column<double>(nullable: false),
@@ -48,6 +83,21 @@ namespace RoadMap_DB.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_floors", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "inner_Routes",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    in_r_id = table.Column<int>(nullable: false),
+                    lat = table.Column<double>(nullable: false),
+                    lng = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_inner_Routes", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,6 +139,7 @@ namespace RoadMap_DB.Migrations
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    v_route_id = table.Column<int>(nullable: false),
                     lat = table.Column<double>(nullable: false),
                     lng = table.Column<double>(nullable: false)
                 },
@@ -96,18 +147,41 @@ namespace RoadMap_DB.Migrations
                 {
                     table.PrimaryKey("PK_v_Routes", x => x.id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "vertext_Locations",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    lat = table.Column<double>(nullable: false),
+                    lng = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_vertext_Locations", x => x.id);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Depaerment_Places");
+
+            migrationBuilder.DropTable(
                 name: "department_Lists");
+
+            migrationBuilder.DropTable(
+                name: "entrances");
 
             migrationBuilder.DropTable(
                 name: "f_Routes");
 
             migrationBuilder.DropTable(
                 name: "floors");
+
+            migrationBuilder.DropTable(
+                name: "inner_Routes");
 
             migrationBuilder.DropTable(
                 name: "User_location");
@@ -117,6 +191,9 @@ namespace RoadMap_DB.Migrations
 
             migrationBuilder.DropTable(
                 name: "v_Routes");
+
+            migrationBuilder.DropTable(
+                name: "vertext_Locations");
         }
     }
 }

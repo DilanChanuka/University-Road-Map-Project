@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RoadMap_DB.Data;
 using RoadMap_DB.Models;
 
 namespace RoadMap_DB.Controllers
@@ -12,7 +13,7 @@ namespace RoadMap_DB.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+       
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;

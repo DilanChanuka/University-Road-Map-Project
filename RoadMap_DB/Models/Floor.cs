@@ -9,19 +9,20 @@ namespace RoadMap_DB.Models
 {
     public class Floor
     {
-        [Key,Column("id",Order =0)]
+        [Key,Column(Order =0)]
+        public int id { get; set; }
         public int floor_id { get; set; }
 
-        [Column(Order =1)]
+        [Column(Order =2)]
         public int f_dept_id { get; set; }
 
-        [Column("name",Order =2)]
+        [Column("name",Order =3)]
         public string floor_name { get; set; }
 
-        [Column("lat",Order =3)]
+        [Column("lat",Order =4)]
         public double lat_value { get; set; }
 
-        [Column("lng", Order = 4)]
+        [Column("lng", Order = 5)]
         public double lng_value { get; set; }
     }
 }

@@ -7,17 +7,19 @@ using System.Threading.Tasks;
 
 namespace RoadMap_DB.Models
 {
-    public class v_route
+    public class Deparment_Places
     {
-        [Key,Column(Order =0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
-        public int v_route_id { get; set; }
 
-        [Column(Order =2)]
+        [Key, Column("id", Order = 0)]
+        public int d_place_id { get; set; }       
+        public int dept_id { get; set; }
+        public int d_floor_id { get; set; }
+        public string place_name { get; set; }
+        
+        [Column(Order =4)]
         public double lat { get; set; }
 
-        [Column(Order = 3)]
+        [Column(Order = 5)]
         public double lng { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using RoadMap_DB.Data;
 namespace RoadMap_DB.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20201013154411_RoadMap")]
+    [Migration("20201020075749_RoadMap")]
     partial class RoadMap
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +17,33 @@ namespace RoadMap_DB.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("RoadMap_DB.Models.Deparment_Places", b =>
+                {
+                    b.Property<int>("d_place_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("d_floor_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("dept_id")
+                        .HasColumnType("int");
+
+                    b.Property<double>("lat")
+                        .HasColumnType("double");
+
+                    b.Property<double>("lng")
+                        .HasColumnType("double");
+
+                    b.Property<string>("place_name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("d_place_id");
+
+                    b.ToTable("Depaerment_Places");
+                });
 
             modelBuilder.Entity("RoadMap_DB.Models.Department_list", b =>
                 {
@@ -33,14 +60,39 @@ namespace RoadMap_DB.Migrations
                     b.ToTable("department_Lists");
                 });
 
+            modelBuilder.Entity("RoadMap_DB.Models.Entrance", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("dept_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("floor_ID")
+                        .HasColumnType("int");
+
+                    b.Property<double>("lat")
+                        .HasColumnType("double");
+
+                    b.Property<double>("lng")
+                        .HasColumnType("double");
+
+                    b.HasKey("id");
+
+                    b.ToTable("entrances");
+                });
+
             modelBuilder.Entity("RoadMap_DB.Models.Floor", b =>
                 {
-                    b.Property<int>("floor_id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("int");
 
                     b.Property<int>("f_dept_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("floor_id")
                         .HasColumnType("int");
 
                     b.Property<string>("floor_name")
@@ -55,9 +107,29 @@ namespace RoadMap_DB.Migrations
                         .HasColumnName("lng")
                         .HasColumnType("double");
 
-                    b.HasKey("floor_id");
+                    b.HasKey("id");
 
                     b.ToTable("floors");
+                });
+
+            modelBuilder.Entity("RoadMap_DB.Models.Inner_route", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("in_r_id")
+                        .HasColumnType("int");
+
+                    b.Property<double>("lat")
+                        .HasColumnType("double");
+
+                    b.Property<double>("lng")
+                        .HasColumnType("double");
+
+                    b.HasKey("id");
+
+                    b.ToTable("inner_Routes");
                 });
 
             modelBuilder.Entity("RoadMap_DB.Models.User", b =>
@@ -114,10 +186,30 @@ namespace RoadMap_DB.Migrations
                     b.ToTable("User_location");
                 });
 
+            modelBuilder.Entity("RoadMap_DB.Models.Vertext_Location", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<double>("lat")
+                        .HasColumnType("double");
+
+                    b.Property<double>("lng")
+                        .HasColumnType("double");
+
+                    b.HasKey("id");
+
+                    b.ToTable("vertext_Locations");
+                });
+
             modelBuilder.Entity("RoadMap_DB.Models.f_route", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("f_route_id")
                         .HasColumnType("int");
 
                     b.Property<double>("lat")
@@ -142,6 +234,9 @@ namespace RoadMap_DB.Migrations
 
                     b.Property<double>("lng")
                         .HasColumnType("double");
+
+                    b.Property<int>("v_route_id")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
