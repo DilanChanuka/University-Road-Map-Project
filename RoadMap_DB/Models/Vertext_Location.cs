@@ -11,6 +11,8 @@ namespace RoadMap_DB.Models
     {
         [Key,Column(Order =0)]
         public int id { get; set; }
+        public int graph_No { get; set; }
+        public int vertex_No { get; set; }
         public double lat { get; set; }
         public double lng { get; set; }
     }
