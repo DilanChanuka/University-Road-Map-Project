@@ -198,6 +198,20 @@ namespace RoadMap_DB.DataAccess
             }
         }
 
+        public static double[] GetVertex(string sql)
+        {
+            using (MySqlConnection con = new MySqlConnection(ConnectionString))
+            {
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                double[] data = new double[2];
+                data[0] = reader.GetDouble("lat");
+                data[1] = reader.GetDouble("lng");
+
+                return data;
+            }
+        }
 
         public static double[,] FRoute(string sql)
         {
@@ -226,6 +240,7 @@ namespace RoadMap_DB.DataAccess
 
             }
         }
+
         public static double[,] GetFloor(string sql)
         {
 
@@ -254,6 +269,63 @@ namespace RoadMap_DB.DataAccess
             }
         }
 
+        public static Dictionary<string, double[]> GetFloorplaces(string sql)
+        {
+            using (MySqlConnection con=new MySqlConnection(ConnectionString))
+            {
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+                int numRow = dt.Rows.Count;
+                Dictionary<String, double[]> places = new Dictionary<string, double[]>();
+                string name = dt.Rows[0]["name"].ToString();
+
+                for (int i = 0; i < numRow; i++)
+                {                  
+                    double lat=double.Parse(dt.Rows[i]["lat"].ToString());
+                    double lng = double.Parse(dt.Rows[i]["lng"].ToString());
+                    places.Add(name,new double[] { lat,lng});
+                }
+
+                con.Clone();
+                return places;
+            }
+        }
+
+        public static double[] GetOnePlace(string sql)
+        {
+            using (MySqlConnection con = new MySqlConnection(ConnectionString))
+            {
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                double[] data = new double[2];
+                reader.Read();
+                data[0] = reader.GetDouble("lat");
+                data[1] = reader.GetDouble("lng");
+
+                return data;
+            }
+        }
+
+        public static int[] DeptAndFloorID(string sql)
+        {
+            using (MySqlConnection con=new MySqlConnection(ConnectionString))
+            {
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                MySqlDataReader reader = cmd.ExecuteReader();             
+                int[] data = new int[2];
+
+                reader.Read();
+                data[0] = reader.GetInt32("dept_id");
+                data[1] = reader.GetInt32("d_floor_id");
+                con.Close();
+                return data;
+            }
+        }
 
         public static double[,] InnerRoute(string sql)
         {
@@ -284,6 +356,31 @@ namespace RoadMap_DB.DataAccess
 
             }
         }
+
+        public static string[] GetIdentity(string sql)
+        {
+            using (MySqlConnection con=new MySqlConnection(ConnectionString))
+            {
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                string[] data = new string[2];
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+
+                if(dt.Rows.Count>0)
+                {
+
+                    data[0] = dt.Rows[0]["name"].ToString();
+                    data[1] = dt.Rows[0]["pwd"].ToString();                       
+                }
+               
+                con.Close();
+                return data;
+
+            }
+        }
+
         public static double[] Dept_place(string sql)
         {
 
@@ -312,7 +409,47 @@ namespace RoadMap_DB.DataAccess
             }
         }
 
+        public static double[,] GetEntryLocation(string sql)
+        {
+            using (MySqlConnection con=new MySqlConnection(ConnectionString))
+            {
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                MySqlDataReader reader = cmd.ExecuteReader();
 
+                DataTable dt = new DataTable();
+                dt.Load(reader);
+                int numRows = dt.Rows.Count;
+                double[,] data = new double[numRows, 2];
+                for (int i = 0; i < numRows; i++)
+                {
+                    data[i,0]=double.Parse(dt.Rows[i]["lat"].ToString());
+                    data[i, 1] = double.Parse(dt.Rows[i]["lng"].ToString());
+                }
+                con.Close();
+                return data;
+            }
+        }
+
+        public static Dictionary<string ,double[]> GetplaceAndName(string sql)
+        {
+            using (MySqlConnection con = new MySqlConnection(ConnectionString))
+            {
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                Dictionary<String, double[]> data = new Dictionary<string, double[]>();
+                reader.Read();
+
+                string name = reader.GetString("place_name");
+                double lat = double.Parse(reader.GetDouble("lat").ToString());
+                double lng = double.Parse(reader.GetDouble("lng").ToString());
+                data.Add(name, new double[] { lat, lng });
+                con.Clone();
+                return data;
+            }
+
+        }
 
         public static string ConnectionString //connect to server
         {
