@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "H:\\New folder\\Don't Change\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj": {}
+    "H:\\Final\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj": {}
   },
   "projects": {
-    "H:\\New folder\\Don't Change\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj": {
+    "H:\\Final\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\New folder\\Don't Change\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
+        "projectUniqueName": "H:\\Final\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
         "projectName": "Road-Map-Web-API",
-        "projectPath": "H:\\New folder\\Don't Change\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
+        "projectPath": "H:\\Final\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
         "packagesPath": "C:\\Users\\DILANCHANUKALASANTHA\\.nuget\\packages\\",
-        "outputPath": "H:\\New folder\\Don't Change\\Road-Map-Web-API\\Road-Map-Web-API\\obj\\",
+        "outputPath": "H:\\Final\\Road-Map-Web-API\\Road-Map-Web-API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"

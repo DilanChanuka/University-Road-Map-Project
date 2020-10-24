@@ -7,10 +7,8 @@ namespace Road_Map_Web_API
 {
     public class User
     {
-        public string id { get; set; }
         public string username { get; set; }
         public string email { get; set; }
         public string password { get; set; }
-
     }
 }

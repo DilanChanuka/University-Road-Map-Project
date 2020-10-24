@@ -112,6 +112,7 @@ namespace Road_Map_Web_API.Controllers
         {
             List<double[]> lst = new List<double[]>();
             var final = new Hashtable();
+            double[,] routeLocations;
             double[] temp = new double[2];
             Calculations cal = new Calculations();
             int V_No, grapgNo;
@@ -137,7 +138,6 @@ namespace Road_Map_Web_API.Controllers
             if (start != localEnd)
             {
                 int[] routes = cal.GetRouteNumbers(grapgNo, start, localEnd);
-                double[,] routeLocations;
                 foreach (int r in routes)
                 {
                     if (grapgNo == 0)
@@ -175,20 +175,32 @@ namespace Road_Map_Web_API.Controllers
                 pl.lon = temp[1];               
             }
             final.Add("place", pl);
-            
-            
-            ////int[] innerVertices = cal.FindInnerVertices(fl[0], fl[1], localEnd, placeID);
 
-            ////int[] routesSet2 = cal.GetInnerRouteNumbers(Data.innerRoutesGraph_1, Data.innerGrapheVertices_1, innerVertices[0], innerVertices[1]);
+            int[] innerRouteSet = cal.GetInnerRouteNumbers(localEnd, placeID);
+            int graphNo=0;
+            switch (ids[1])
+            {
+                case 0: graphNo = 2; break;
+                case 1: graphNo = 3; break;
+                case 2: graphNo = 4; break;
+            }
+            lst.Clear();
+            foreach (int r in innerRouteSet)
+            {              
+                routeLocations = GetInnerRoute(graphNo,r);
 
-            //////foreach (int r in routesSet2)
-            //////{
-            //////    GetInnerRoute(r);
-            //////}
+                for (int i = 0; i < routeLocations.GetLength(0); i++)
+                {
+                    temp[0] = routeLocations[i, 0];
+                    temp[1] = routeLocations[i, 1];
+                    lst.Add(temp);
+                }
+            }
+            final.Add("innerroutelocations", lst);
 
-            //////    //return Json([]);
+            return Json(final);
 
-            return Json(startLAT + " -- " + startLON + " -- " + placeID + " -- " + method);
+            //return Json(startLAT + " -- " + startLON + " -- " + placeID + " -- " + method);
         }
 
         [HttpGet]
@@ -250,7 +262,7 @@ namespace Road_Map_Web_API.Controllers
         [HttpPost("{username}/{password}")]
         public IActionResult IdentifyUser(string username, string password)
         {
-            if (false)
+            if (GetUserIdentity(username,password))
                 return Ok();
             else
                 return Unauthorized();
@@ -260,7 +272,7 @@ namespace Road_Map_Web_API.Controllers
         [HttpPost]
         public IActionResult RegisterUser([FromBody]User user)
         {
-            if (false)
+            if (SetUser(user.username,user.email,user.password))
                 return Created("https://localhost:44342/API", user.username);
             else
                 return BadRequest();

@@ -34,25 +34,52 @@ namespace Road_Map_Web_API
             return  Data.EntranceOuterMatch[Array.IndexOf(distance, distance.Min())];
         }
 
-        public int[] FindInnerVertices(int department,int floor,int outerEnd,int placeID)
+        public int[] GetInnerRouteNumbers(int outerEnd,int placeID)
         {
-            List<int> set=new List<int>();
+            int[] ids = GetDepartmentAndFloor(placeID);
+            int[] matchInnerOuter,matchInnerPlace;
+            int start=0, end=0,graphNo;
+            switch (ids[1])
+            {
+                case 0:
+                    matchInnerOuter = Data.InnerOuterMatch_0;
+                    matchInnerPlace = Data.InnerPlaceMatch_0;
+                    graphNo = 2;
+                    break;
+                case 1:
+                    matchInnerOuter = Data.InnerOuterMatch_1;
+                    matchInnerPlace = Data.InnerPlaceMatch_1;
+                    graphNo = 3;
+                    break;
+                case 2:
+                    matchInnerOuter = Data.InnerOuterMatch_2;
+                    matchInnerPlace = Data.InnerPlaceMatch_2;
+                    graphNo = 4;
+                    break;
+                default:
+                    matchInnerOuter = Data.InnerOuterMatch_0;
+                    matchInnerPlace = Data.InnerPlaceMatch_0;
+                    graphNo = 2;
+                    break;
+            }                                   
 
-            for (int i = 0; i < Data.InnerOuterMatch_1.Length; i++)
-                if (Data.InnerGraph_1_Places[i] == outerEnd)
+            for (int i = 0; i < matchInnerOuter.Length; i++)
+                if (matchInnerOuter[i] == outerEnd)
                 {
-                    set.Add(i);
+                    start = i;
                     break;
                 }
 
-            for (int i = 0; i < Data.InnerGraph_1_Places.Length; i++)
-                if (Data.InnerGraph_1_Places[i] == placeID)
+            for (int i = 0; i < matchInnerPlace.Length; i++)
+                if (matchInnerPlace[i] == placeID)
                 {
-                    set.Add(i);
+                    end = i;
                     break;
                 }
-
-            return set.ToArray();
+            if (start != end)
+                return GetRouteNumbers(graphNo, start, end);
+            else
+                return new int[] { };
         }
 
         public int[] GetRouteNumbers(int graphNo,int start,int end)
@@ -73,19 +100,19 @@ namespace Road_Map_Web_API
                     endPoints = Data.vehicleRouteEndpoints;
                     break;
                 case 2:
-                    graph = Data.innerRoutesGraph_1;
-                    V_No = Data.innerGrapheVertices_1;
-                    endPoints = Data.innerRouteEndpoints_1;
+                    graph = Data.innerRoutesGraph_0;
+                    V_No = Data.innerGraphe_0_Vertices;
+                    endPoints = Data.inner_0_RouteEndpoints;
                     break;
                 case 3:
-                    graph = Data.innerRoutesGraph_2;
-                    V_No = Data.innerGrapheVertices_2;
-                    endPoints = Data.innerRouteEndpoints_2;
+                    graph = Data.innerRoutesGraph_1;
+                    V_No = Data.innerGraphe_1_Vertices;
+                    endPoints = Data.inner_1_RouteEndpoints;
                     break;
                 case 4:
-                    graph = Data.innerRoutesGraph_3;
-                    V_No = Data.innerGrapheVertices_3;
-                    endPoints = Data.innerRouteEndpoints_3;
+                    graph = Data.innerRoutesGraph_2;
+                    V_No = Data.innerGraphe_2_Vertices;
+                    endPoints = Data.inner_2_RouteEndpoints;
                     break;
                 default:
                     graph = Data.flootRoutesGraph;
@@ -100,7 +127,7 @@ namespace Road_Map_Web_API
 
             for (int j = 0; j < path.Length-1; j++)
             {
-                for (int i = 0; i < Data.foorRouteEndpoints.GetLength(0); i++)
+                for (int i = 0; i < endPoints.GetLength(0); i++)
                 {
                     if((endPoints[i,0]==path[j] && endPoints[i, 1] == path[j + 1]) ||
                         (endPoints[i, 1] == path[j] && endPoints[i, 0] == path[j + 1]))
@@ -111,28 +138,6 @@ namespace Road_Map_Web_API
                 }
             }
             return routeNumbers.ToArray();
-        }
-
-        //public int[] GetInnerRouteNumbers(int[,] graph,int vertices,int start, int end)
-        //{
-        //    FindShortestPath find = new FindShortestPath();
-        //    List<int[]> allPaths = find.GetShortestPathList(graph, vertices, start);
-        //    int[] path = allPaths[end];
-        //    List<int> routeNumbers = new List<int>();
-
-        //    for (int j = 0; j < path.Length - 1; j++)
-        //    {
-        //        for (int i = 0; i < graph.GetLength(0); i++)
-        //        {
-        //            if ((Data.innerRouteEndpoints_1[i, 0] == path[j] && Data.innerRouteEndpoints_1[i, 1] == path[j + 1]) ||
-        //                (Data.innerRouteEndpoints_1[i, 1] == path[j] && Data.innerRouteEndpoints_1[i, 0] == path[j + 1]))
-        //            {
-        //                routeNumbers.Add(i);
-        //                break;
-        //            }
-        //        }
-        //    }
-        //    return routeNumbers.ToArray();
-        //}
+        }      
     }
 }
