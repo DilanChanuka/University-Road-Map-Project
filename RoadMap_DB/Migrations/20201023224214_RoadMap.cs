@@ -92,6 +92,7 @@ namespace RoadMap_DB.Migrations
                     id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     in_r_id = table.Column<int>(nullable: false),
+                    graph_No = table.Column<int>(nullable: false),
                     lat = table.Column<double>(nullable: false),
                     lng = table.Column<double>(nullable: false)
                 },
@@ -154,6 +155,8 @@ namespace RoadMap_DB.Migrations
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    graph_No = table.Column<int>(nullable: false),
+                    vertex_No = table.Column<int>(nullable: false),
                     lat = table.Column<double>(nullable: false),
                     lng = table.Column<double>(nullable: false)
                 },

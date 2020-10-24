@@ -116,6 +116,9 @@ namespace RoadMap_DB.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("graph_No")
+                        .HasColumnType("int");
+
                     b.Property<int>("in_r_id")
                         .HasColumnType("int");
 
@@ -190,11 +193,17 @@ namespace RoadMap_DB.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("graph_No")
+                        .HasColumnType("int");
+
                     b.Property<double>("lat")
                         .HasColumnType("double");
 
                     b.Property<double>("lng")
                         .HasColumnType("double");
+
+                    b.Property<int>("vertex_No")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 

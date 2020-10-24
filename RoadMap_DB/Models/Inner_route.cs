@@ -13,6 +13,7 @@ namespace RoadMap_DB.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         public int in_r_id { get; set; }
+        public int graph_No { get; set; }
 
         [Column(Order = 2)]
         public double lat { get; set; }
