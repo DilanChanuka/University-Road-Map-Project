@@ -144,7 +144,7 @@ namespace RoadMap_DB.DataAccess
 
             using (MySqlConnection con = new MySqlConnection(ConnectionString))
             {
-                string[] data = new string[4];
+                string[] data = new string[3];
                 
                 con.Open();
                 MySqlCommand cmd = new MySqlCommand(sql, con);
@@ -154,9 +154,8 @@ namespace RoadMap_DB.DataAccess
                     {
                         reader.Read();
                         data[0] = reader.GetString("name");
-                        data[1] = reader.GetString("email");
-                        data[2] = reader.GetString("type");
-                        data[3] = reader.GetString("pwd");
+                        data[1] = reader.GetString("email");                    
+                        data[2] = reader.GetString("pwd");
                     }
                 }
                 catch

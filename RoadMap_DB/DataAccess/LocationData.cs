@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using RoadMap_DB.Controllers;
+using RoadMap_DB.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,7 +112,27 @@ namespace RoadMap_DB.DataAccess
             return MySqlDataAccess.GetplaceAndName(sql);
         }
 
-        
+        public static bool SetUser(string username, string email, string password)
+        {
+            User u = new User()
+            {
+                name = username,
+                email=email,
+                pwd=password,
+               
+            };
+
+            try
+            {
+                GetDataController._db.users.Add(u);
+                GetDataController._db.SaveChanges();
+                return true;
+            }
+            catch { }
+            return false;
+        }
+
+
     }
 }
 
