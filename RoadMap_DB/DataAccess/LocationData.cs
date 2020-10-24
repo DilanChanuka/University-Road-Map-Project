@@ -41,10 +41,10 @@ namespace RoadMap_DB.DataAccess
         
         }
 
-        public double[] GetVertexLoaction(int graphNo, int vertexNo)
+        public static double[] GetVertexLoaction(int graphNo, int vertexNo)
         {
-            string sql = "SELECT lst,lng FROM roadmap_db.vertext_locations " +
-                "where graph_No="+ graphNo + "and vertex_No="+ vertexNo + " ;";
+            string sql = "SELECT lat,lng FROM roadmap_db.vertext_locations " +
+                "where graph_No="+ graphNo + " and vertex_No="+ vertexNo + " ;";
 
             return MySqlDataAccess.GetVertex(sql);
         }
@@ -75,7 +75,7 @@ namespace RoadMap_DB.DataAccess
 
         }
 
-        public double[,] GetInnerRoute(int graphNo, int routeNo)
+        public static double[,] GetInnerRoute(int graphNo, int routeNo)
         {
             string sql = "SELECT lat,lng FROM roadmap_db.inner_routes" +
                 " where in_r_id=" + routeNo + " and graph_No="+graphNo+";";

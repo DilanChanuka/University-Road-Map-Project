@@ -205,6 +205,7 @@ namespace RoadMap_DB.DataAccess
                 MySqlCommand cmd = new MySqlCommand(sql, con);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 double[] data = new double[2];
+                reader.Read();
                 data[0] = reader.GetDouble("lat");
                 data[1] = reader.GetDouble("lng");
 
