@@ -320,8 +320,16 @@ namespace RoadMap_DB.DataAccess
                 int[] data = new int[2];
 
                 reader.Read();
-                data[0] = reader.GetInt32("dept_id");
-                data[1] = reader.GetInt32("d_floor_id");
+                try
+                {
+                    data[0] = reader.GetInt32("dept_id");
+                    data[1] = reader.GetInt32("d_floor_id");
+                }
+                catch
+                {
+
+                }
+               
                 con.Close();
                 return data;
             }
