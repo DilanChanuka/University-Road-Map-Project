@@ -204,6 +204,222 @@ namespace Road_Map_Web_API.Controllers
         }
 
         [HttpGet]
+        [Route("GetPlaceInOut/{department:int}/{floor:int}/{startLAT:double}/{startLON:double}/{endLAT:double}/{endLON:double}")]
+        public IActionResult GetPlaceInOut(int department, int floor,double startLAT, double startLON, double endLAT, double endLON)
+        {
+            List<double[]> lst = new List<double[]>();
+            var final = new Hashtable();
+            double[,] routeLocations;
+            double[] temp = new double[2];
+            Calculations cal = new Calculations();
+            int graphNo,V_No;
+            switch (floor)
+            {
+                case 0:
+                    graphNo = 2;
+                    V_No = Data.innerGraphe_0_Vertices;
+                    break;
+                case 1:
+                    graphNo = 3;
+                    V_No = Data.innerGraphe_1_Vertices;
+                    break;
+                case 2:
+                    graphNo = 4;
+                    V_No = Data.innerGraphe_2_Vertices;
+                    break;
+                default:
+                    graphNo = 2;
+                    V_No = Data.innerGraphe_0_Vertices;
+                    break;
+            }
+            int start = cal.GetNearestVertexNo(V_No, graphNo, startLAT, startLON);
+            int[] EntranceAndInnerEnd = cal.FindEnterenceVertexNo(department,floor,startLAT,startLON,endLAT,endLON);
+            int innerEnd = EntranceAndInnerEnd[1];
+            if (start != innerEnd)
+            {
+                int[] routes = cal.GetRouteNumbers(graphNo, start, innerEnd);
+                foreach (int r in routes)
+                {                   
+                    routeLocations = GetInnerRoute(graphNo,r); 
+                    for (int i = 0; i < routeLocations.GetLength(0); i++)
+                    {
+                        temp[0] = routeLocations[i, 0];
+                        temp[1] = routeLocations[i, 1];
+                        lst.Add(temp);
+                    }
+                }
+                final.Add("innerroutelocations", lst);
+            }
+            lst.Clear();
+            double[,] floorLocations = GetFloorLocations(department, floor);         
+            for (int i = 0; i < floorLocations.GetLength(0); i++)
+            {
+                temp[0] = floorLocations[i, 0];
+                temp[1] = floorLocations[i, 1];
+                lst.Add(temp);
+            }
+            final.Add("floorlocations", lst);
+            int outerStrat = Data.EntranceOuterMatch[EntranceAndInnerEnd[0]];
+            int outerEnd= cal.GetNearestVertexNo(Data.footGrapheVertices, 0, endLAT, endLON);
+            lst.Clear();
+            if (outerStrat != outerEnd)
+            {
+                int[] routes = cal.GetRouteNumbers(0, outerStrat, outerEnd);
+                foreach (int r in routes)
+                {
+                    routeLocations = GetFootRoute(r);
+
+                    for (int i = 0; i < routeLocations.GetLength(0); i++)
+                    {
+                        temp[0] = routeLocations[i, 0];
+                        temp[1] = routeLocations[i, 1];
+                        lst.Add(temp);
+                    }
+                }
+                final.Add("outerroutelocations", lst);
+            }
+            return Json(final);
+        }
+
+        [HttpGet]
+        [Route("GetPlaceInIn/{department:int}/{floor:int}/{startLAT:double}/{startLON:double}/{placeID:int}")]
+        public IActionResult GetPlaceInIn(int department, int floor,double startLAT, double startLON, int placeID)
+        {
+            List<double[]> lst = new List<double[]>();
+            var final = new Hashtable();
+            double[,] floorLocations;
+            double[,] routeLocations;
+            double[] temp = new double[2];
+            Calculations cal = new Calculations();
+            int graphNo = 5;
+            int start= cal.GetNearestVertexNo(department,floor,Data.CSDepartmentGrapheVertices, graphNo, startLAT, startLON);                        
+            int end=0;
+            for (int i = 0; i < Data.CSMainPlaceMatch.Length; i++)
+                if (Data.CSMainPlaceMatch[i] == placeID)
+                {
+                    end = i;
+                    break;
+                }
+            if (start != end)
+            {
+                int[] routes = cal.GetRouteNumbers(graphNo, start, end);
+                List<int> zeroFloorRouteSet = new List<int>();
+                List<int> stairRouteSet = new List<int>();
+                List<int> firstFloorRouteSet = new List<int>();
+                List<int> secondFloorRouteSet =  new List<int>();
+
+                //int[] ids = cal.GetDepartmentAndFloor(placeID);
+                //according to the department,no of arrays should change
+                foreach (int rt in routes)
+                {
+                    if (Data.CSFloor_0_RouteNumbers.Contains(rt))
+                        zeroFloorRouteSet.Add(rt);
+                    else if (Data.CSFloor_1_RouteNumbers.Contains(rt))
+                        firstFloorRouteSet.Add(rt);
+                    else if (Data.CSFloor_2_RouteNumbers.Contains(rt))
+                        secondFloorRouteSet.Add(rt);
+                    else if (Data.CSStairRouteNumbers.Contains(rt))
+                        stairRouteSet.Add(rt);
+                }
+                foreach (int r in zeroFloorRouteSet)
+                {
+                    routeLocations = GetInnerRoute(graphNo, r);
+                    for (int i = 0; i < routeLocations.GetLength(0); i++)
+                    {
+                        temp[0] = routeLocations[i, 0];
+                        temp[1] = routeLocations[i, 1];
+                        lst.Add(temp);
+                    }
+                }
+                if (lst.Count != 0)
+                {
+                    final.Add("groundfloorrouteset", lst);
+                    lst.Clear();
+                    floorLocations = GetFloorLocations(department, 0);
+                    for (int i = 0; i < floorLocations.GetLength(0); i++)
+                    {
+                        temp[0] = floorLocations[i, 0];
+                        temp[1] = floorLocations[i, 1];
+                        lst.Add(temp);
+                    }
+                    final.Add("groundfloorlocations", lst);
+                }
+                   
+                lst.Clear();
+                foreach (int r in firstFloorRouteSet)
+                {
+                    routeLocations = GetInnerRoute(graphNo, r);
+                    for (int i = 0; i < routeLocations.GetLength(0); i++)
+                    {
+                        temp[0] = routeLocations[i, 0];
+                        temp[1] = routeLocations[i, 1];
+                        lst.Add(temp);
+                    }
+                }
+                if (lst.Count != 0)
+                {
+                    final.Add("firstfloorrouteset", lst);
+                    lst.Clear();
+                    floorLocations = GetFloorLocations(department, 1);
+                    for (int i = 0; i < floorLocations.GetLength(0); i++)
+                    {
+                        temp[0] = floorLocations[i, 0];
+                        temp[1] = floorLocations[i, 1];
+                        lst.Add(temp);
+                    }
+                    final.Add("firstfloorlocations", lst);
+                }
+                lst.Clear();
+                foreach (int r in secondFloorRouteSet)
+                {
+                    routeLocations = GetInnerRoute(graphNo, r);
+                    for (int i = 0; i < routeLocations.GetLength(0); i++)
+                    {
+                        temp[0] = routeLocations[i, 0];
+                        temp[1] = routeLocations[i, 1];
+                        lst.Add(temp);
+                    }
+                }
+                if (lst.Count != 0)
+                {
+                    final.Add("secondfloorrouteset", lst);
+                    lst.Clear();
+                    floorLocations = GetFloorLocations(department, 2);
+                    for (int i = 0; i < floorLocations.GetLength(0); i++)
+                    {
+                        temp[0] = floorLocations[i, 0];
+                        temp[1] = floorLocations[i, 1];
+                        lst.Add(temp);
+                    }
+                    final.Add("secondfloorlocations", lst);
+                }
+                lst.Clear();
+
+                foreach (int r in stairRouteSet)
+                {
+                    routeLocations = GetInnerRoute(graphNo, r);
+                    for (int i = 0; i < routeLocations.GetLength(0); i++)
+                    {
+                        temp[0] = routeLocations[i, 0];
+                        temp[1] = routeLocations[i, 1];
+                        lst.Add(temp);
+                    }
+                    if (Data.CSStairBetwenn_0_1.Contains(r))
+                    {
+                        final.Add("stairlocations_0_1", lst);
+                        lst.Clear();
+                    }
+                    else if (Data.CSStairBetwenn_1_2.Contains(r))
+                    {               
+                        final.Add("stairlocations_1_2", lst);
+                        lst.Clear();
+                    }
+                } 
+            }
+            return Json(final);
+        }
+
+        [HttpGet]
         public IActionResult Get()
         {
             //double[] aa = new double[] { 0.122222, 5.55555 };
