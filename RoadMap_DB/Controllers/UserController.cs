@@ -20,20 +20,33 @@ namespace RoadMap_DB.Controllers
 
 
         [Route("User/setuser")]
-        public void setuser(string name,string email,string type,string pwd)//Register user
+        public string setuser(string name,string email,string pwd)//Register user
         {
-            //insert User Data
+            if (SetUser(name, email, pwd))
+                return "Done";
+            else
+                return "Not Done";
+        }
+
+        public bool SetUser(string username, string email, string password)
+        {
             User u = new User()
             {
-                name=name,
-                email=email,
-                type=type,
-                pwd=pwd
+                name = username,
+                email = email,
+                pwd = password,
+
             };
 
-            _db.users.Add(u);
-            _db.SaveChanges();
-            //return View();
+            try
+            {
+                _db.users.Add(u);
+                _db.SaveChanges();
+                return true;
+            }
+            catch { }
+            return false;
         }
+
     }
 }

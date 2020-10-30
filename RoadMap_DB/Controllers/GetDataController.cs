@@ -69,12 +69,11 @@ namespace RoadMap_DB.Controllers
         [Route("GetData/VRoute")]
         public IActionResult VRoute()
         {
-            //int[] data = LocationData.GetDepartmentAndFloor(10); // this is a sample
+            
+           // int[] data = LocationData.GetDepartmentAndFloor(1); // this is a sample
 
-            //Dictionary<string, double[]> data = LocationData.GetFloorPlaces(20,10);
+            Dictionary<string, double[]> data = LocationData.GetFloorPlaces(10,20);
 
-            bool a = LocationData.SetUser("aaas", "sdfsd@s", "aass");
-         
             return View();
         }
 
