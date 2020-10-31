@@ -60,11 +60,12 @@ void drawfloor(String jsonplaceholder) async  //getfloor
     }
 }
 
-List<LatLng> drawplaceout(String response,int selectedfloorId,int floorID) //getplaceinout
+List<List<LatLng>> drawplaceout(String response,int selectedfloorId,int floorID) //getplaceinout
 {
 
     var jsonresponse=json.decode(response);
     List<LatLng> finalDataArray=[];
+    List<LatLng> finalFloorDataArray=[];
   
           var innerroutearray = jsonresponse["innerroutelocations"];
           var floor0array = jsonresponse["floor_0_locations"];
@@ -115,19 +116,20 @@ List<LatLng> drawplaceout(String response,int selectedfloorId,int floorID) //get
         //floor location Array
         for(int i=0;i<floordata.length;i++)
         {
-            finalDataArray.add(LatLng(floordata[i][0],floordata[i][1]));
+            finalFloorDataArray.add(LatLng(floordata[i][0],floordata[i][1]));
         }
      
-    
+       List<List<LatLng>> arr=[];
+       arr.add(finalDataArray);
+       arr.add(finalFloorDataArray);
    
-    return finalDataArray;
+    return arr;
 }
 
 List<LatLng> drawplacaeinin(String response,int destinationID,int selectedFloorID,int floorID)  //getplaceinin
 {
 
-  var jsonresponse=json.decode(response);
-
+    var jsonresponse=json.decode(response);
     var floor0location = jsonresponse["floor_0_locations"];
     var floor1location = jsonresponse["floor_1_locations"];
     var floor2location = jsonresponse["floor_2_locations"];
@@ -142,10 +144,14 @@ List<LatLng> drawplacaeinin(String response,int destinationID,int selectedFloorI
     double lat,lng;
     String derection;
 
+    List<LatLng> finalRouteArray=[];
+    List<LatLng> finalStairArray=[];
+    List<LatLng> finalFloorLocation=[]; //relevent selected floor id
+
     List<String> floorlocation=["floor_0_locations","floor_1_locations","floor_2_locations"];
     List<String> floorRlocation=["floor_0_routelocations","floor_1_routelocations","floor_2_routelocations"];
     List<String> stair=["stair_0_1_locations","stair_1_2_locations"];
-    List<LatLng> finalDataArray=[];
+
     List<List<double>> stair01;
     List<List<double>> stair12;
 
@@ -153,10 +159,10 @@ List<LatLng> drawplacaeinin(String response,int destinationID,int selectedFloorI
     int start=floorID;
 
     int destFloor=getdestionationFloor(destinationID);  //get destination floor number(0/1/2)
-
+    derection=getderection(start,destFloor);  //get dierection (UP /DOWN)
     if(stair12location!=null || stair01location!=null) //check user wants to stair
     {
-         derection=getderection(start,destFloor);  //get dierection (UP /DOWN)
+        
 
         if(stair01location!=null)       
         {
@@ -301,11 +307,21 @@ List<LatLng> drawplacaeinin(String response,int destinationID,int selectedFloorI
       if(fRarray[selectedFloorID]!=null)
       {
             //draw route ---> fRarray[selectedFloorID]
-            print(fRarray[selectedFloorID]);
+
+            for(int i=0;i<fRarray[selectedFloorID].length;i++)
+            {
+                finalRouteArray.add(LatLng(fRarray[selectedFloorID][i][0], fRarray[selectedFloorID][i][1]));
+            }
+           // print(fRarray[selectedFloorID]);
       }
-      if(selectedFloorID<2 && stairArray[selectedFloorID]!=null)
+      if(selectedFloorID<2 && stairArray[selectedFloorID]!=null)  //selectedfloorId= 0/1
       {
           //draw stair -->> stairArray[selectedFloorID]
+          for(int i=0;i<stairArray[selectedFloorID].length;i++)
+          {
+             finalStairArray.add(LatLng(stairArray[selectedFloorID], stairArray[selectedFloorID][i][1]));
+          }
+
           print(stairArray[selectedFloorID]);
       }
 
@@ -316,26 +332,53 @@ List<LatLng> drawplacaeinin(String response,int destinationID,int selectedFloorI
       if(fRarray[selectedFloorID]!=null)
        {
              //draw route --->>  fRarray[selectedFloorID]
+         for(int i=0;i<fRarray[selectedFloorID].length;i++)
+         {
+            finalRouteArray.add(LatLng(fRarray[selectedFloorID][i][0], fRarray[selectedFloorID][i][1]));
+         }
        }
 
-       if(selectedFloorID==2)
+       if(selectedFloorID==2 && stairArray[selectedFloorID-1]!=null)
        {
             //draw stair 1 to 2 -->> stairArray[selectedFloorID]
+            for(int i=0;i<stairArray[selectedFloorID-1].length;i++)
+            {
+                finalStairArray.add(LatLng(stairArray[selectedFloorID-1][i][0],stairArray[selectedFloorID-1][i][1]));
+            }
        }
-       else if(selectedFloorID==1)
+       else if(selectedFloorID==1 && stairArray[selectedFloorID]!=null)
        {
             //draw stair 1 to 0 -->>  stairArray[selectedFloorID]
+            for(int i=0;i<stairArray[selectedFloorID].length;i++)
+            {
+                finalStairArray.add(LatLng(stairArray[selectedFloorID][i][0],stairArray[selectedFloorID][i][1]));
+            }
+
        }
 
   }
   else if(derection=="NO" && fRarray[selectedFloorID]!=null)
   {
       //draw route -->> fRarray[selectedFloorID]
+
+      if(fRarray[selectedFloorID]!=null)
+       {
+            
+         for(int i=0;i<fRarray[selectedFloorID].length;i++)
+         {
+            finalRouteArray.add(LatLng(fRarray[selectedFloorID][i][0], fRarray[selectedFloorID][i][1]));
+         }
+       }
+
   }  
 
+    //return finalRouteArray   and finalstaireArray
+    List<List<LatLng>> arr=[];
+    arr.add(finalRouteArray);
+    arr.add(finalStairArray);
 
-  return finalDataArray;
-
+    //return arr 
+    
 }
 
 List<LatLng> drawplace(String response)   //getplace
