@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 //import 'dart:html';
 //import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:MapView/Map/drawline.dart';
 import  'package:MapView/Common/data.dart';
@@ -34,9 +35,6 @@ void drawroute(String jsonplaceholder) async  //getroute -------------done
       }  
     }
      
-    DrawRouteLine line=new DrawRouteLine(data);
-    line.createState();
-
   }
   else
   {
@@ -62,14 +60,12 @@ void drawfloor(String jsonplaceholder) async  //getfloor
     }
 }
 
-void drawplaceout(String jsonplaceholder,int selectedfloorId,int floorID) async //getplaceinout
+List<LatLng> drawplaceout(String response,int selectedfloorId,int floorID) //getplaceinout
 {
 
-    var data=await http.get(jsonplaceholder);
-    var jsonresponse=json.decode(data.body);
-
-    if(data.statusCode==200)
-    {
+    var jsonresponse=json.decode(response);
+    List<LatLng> finalDataArray=[];
+  
           var innerroutearray = jsonresponse["innerroutelocations"];
           var floor0array = jsonresponse["floor_0_locations"];
           var outerroutearray = jsonresponse["outerroutelocations"];
@@ -104,18 +100,33 @@ void drawplaceout(String jsonplaceholder,int selectedfloorId,int floorID) async 
               }
           } 
           
-           //in here drwa route acoudinf to  innera  and outer 2d aray
+          //inner route array
+        for(int i=0;i<inner.length;i++)
+        {
+            finalDataArray.add(LatLng(inner[i][0],inner[i][1]));
+        }
 
+        //outer route array
+        for(int i=0;i<outer.length;i++)
+        {
+            finalDataArray.add(LatLng(outer[i][0], outer[i][1]));
+        }
+
+        //floor location Array
+        for(int i=0;i<floordata.length;i++)
+        {
+            finalDataArray.add(LatLng(floordata[i][0],floordata[i][1]));
+        }
+     
+    
    
-    }
-   
+    return finalDataArray;
 }
 
-void drawplacaeinin(String jsonplaceholder,int destinationID,int selectedFloorID,int floorID) async  //getplaceinin
+List<LatLng> drawplacaeinin(String response,int destinationID,int selectedFloorID,int floorID)  //getplaceinin
 {
 
-  var data=await http.get(jsonplaceholder);
-  var jsonresponse=json.decode(data.body);
+  var jsonresponse=json.decode(response);
 
     var floor0location = jsonresponse["floor_0_locations"];
     var floor1location = jsonresponse["floor_1_locations"];
@@ -134,7 +145,7 @@ void drawplacaeinin(String jsonplaceholder,int destinationID,int selectedFloorID
     List<String> floorlocation=["floor_0_locations","floor_1_locations","floor_2_locations"];
     List<String> floorRlocation=["floor_0_routelocations","floor_1_routelocations","floor_2_routelocations"];
     List<String> stair=["stair_0_1_locations","stair_1_2_locations"];
-
+    List<LatLng> finalDataArray=[];
     List<List<double>> stair01;
     List<List<double>> stair12;
 
@@ -323,35 +334,30 @@ void drawplacaeinin(String jsonplaceholder,int destinationID,int selectedFloorID
   }  
 
 
+  return finalDataArray;
+
 }
 
-void drawplace(String jsonplaceholder) async  //getplace
+List<LatLng> drawplace(String response)   //getplace
 {
 
-  var data=await http.get(jsonplaceholder);
-  var jsonresponse=json.decode(data.body);
+  var jsonresponse=json.decode(response);
 
-  List<List<double>> innerroute = jsonresponse['innerroutelocations'];
-  List<List<double>> outerroute = jsonresponse['outerroutelocations'];
-  List<List<double>> floor1location = jsonresponse['floor_1_locations'];
+  var innrR=jsonresponse['innerroutelocations'];
+  var outerR=jsonresponse['outerroutelocations'];
+  var floor2L=jsonresponse['floor_2_locations'];
+  var floor1L=jsonresponse['floor_0_locations'];
+  var floor0L=jsonresponse['floor_0_locations'];
+
+  List<String> floorlocation=["floor_0_locations","floor_0_locations","floor_2_locations"];
+
   var place=jsonresponse["place"];
   String name;
   double lat,lng;
 
-  //or
-    //Draw route
-   DrawRouteLine line=new DrawRouteLine(innerroute);
-   line.createState();
-   
-   DrawRouteLine line1=new DrawRouteLine(outerroute);
-   line1.createState();
-
-   DrawRouteLine line2=new DrawRouteLine(floor1location);
-   line2.createState();
-
   //get place details
-  if(data.statusCode==200)
-  {
+  //if(data.statusCode==200)
+ // {
     if(place.length>0)
     {         
          if(place!=null){
@@ -360,38 +366,36 @@ void drawplace(String jsonplaceholder) async  //getplace
             lat=map["lat"];
             lng=map["lon"];
          }  
+    }
+    // check user sitting floor 
+  int floor=getUserFloor(jsonresponse);
+  int n=jsonresponse[floorlocation[floor]].length;
+ 
+  List<List<double>> inner=List.generate(innrR.length,(_)=>List.generate(2, (_) => 0.0));
+  List<List<double>> outer=List.generate(outerR.length,(_)=>List.generate(2, (_) => 0.0));
+  List<List<double>> floordata=List.generate(n,(_)=>List.generate(2, (_) => 0.0));//select relevent floor
+
+  List<int> length=[innrR.length,outerR.length,n];
+  List<dynamic> dataarray=[inner,outer,floordata];
+  List<String> jsonarray=["innerroutelocations","outerroutelocations",floorlocation[floor]];
+
+
+  if(innrR.legth>0 || outerR.length>0|| floor0L.length>0||
+  floor1L.length>0 || floor2L.length>0)
+  {
+      for(int i=0;i<3;i++) //for 3 json array
+      {
+          for(int j=0;j<length[i];j++) //get data for each double array
+          {
+              dataarray[i][j][0]=jsonresponse[jsonarray[i]][j][0];
+              dataarray[i][j][1]=jsonresponse[jsonarray[i]][j][1];
+          }
+      }  
+
   }
 
-  ///consider this later
-  /*List<String> placeholder=["innerroutelocations","outerroutelocations","floor_1_locations"];
-  if(data.statusCode == 200)
-  {
-    
-    for(int i=0;i<3;i++)
-    {
-         List<dynamic> values=new List<dynamic>();
-         values=jsonresponse[placeholder[i]];
-          //create 2d array
-          List<List<double>> data=List.generate(0,(_)=>List.generate(2, (_) => 0.0));
-          if(values.length>0)
-          {
-            for(int i=0;i<values.length;i++)
-            {
-              if(values[i]!=null)
-              {
-                  data[i][0]=values[i][0];
-                  data[i][1]=values[i][1];                
-              }
-            }  
-          }
-    }    
-  }
-  else
-  {
-    throw Exception('Failed to load');  
-  }
-  */
-  }
+
+    //drwa route acording to dataarray data....................
 
 }
 
@@ -425,7 +429,6 @@ int getUserFloor(var response)
 
     return floor;
 }
-
 
 int getArraylength(var response)
 {
