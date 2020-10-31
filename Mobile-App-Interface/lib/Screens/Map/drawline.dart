@@ -5,31 +5,28 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 
 const String KEY="AIzaSyD27-xwm_C9mv9V2mb2hki_XfzKTD5TYRg";
-//Demo pouruse
 const double CAMERA_ZOOM = 18;
 const double CAMERA_TILT = 0;
 const double CAMERA_BEARING = 30;
 
-List<List<double>> location=List.generate(0, (_) =>List.generate(2, (_) => 0.0));
-
+//List<List<double>> location=[[7.353296, 80.932708],[7.354007, 80.933680]];
+List<LatLng> geolocation=new List<LatLng>();
+List<List<double>> location=List.generate(12, (_) =>List.generate(2, (_) => 0.0));
 
 class DrawRouteLine extends StatefulWidget 
 {
 
-  DrawRouteLine(List<List<double>> data)
+  DrawRouteLine(List<LatLng> data)
   {
-      location=data;
+      geolocation=data;  
   }
 
   @override
-  _DrawState  createState() => _DrawState ();
-
-  /* 
-  State<StatefulWidget> createState(){
+  //_DrawState  createState() => _DrawState ();
+   
+  State<StatefulWidget> createState(){   
     return _DrawState();
-  }
-  */
-
+  } 
 }
 
 class _DrawState  extends State<DrawRouteLine> 
@@ -38,7 +35,7 @@ class _DrawState  extends State<DrawRouteLine>
   GoogleMapController mapcontroller;
   Completer<GoogleMapController> _controller=Completer();
 
-   
+    
     Set<Marker> _marker={};
     Set<Polyline> _polyline={}; 
     List<LatLng> _polylinecordinates=[];
@@ -64,9 +61,19 @@ class _DrawState  extends State<DrawRouteLine>
 
     void _onMapCreated(GoogleMapController controller)
     {
-        _controller.complete(controller);
+        _controller.complete(controller); 
+        putData();
         setMapPing();
         setPolyLine();
+    }
+
+   void putData()
+    {
+        for(int i=0;i<geolocation.length;i++)
+        {
+            location[i][0]=geolocation[i].latitude;
+            location[i][1]=geolocation[i].longitude;
+        }
     }
 
     void setMapPing()
@@ -91,22 +98,20 @@ class _DrawState  extends State<DrawRouteLine>
     void setPolyLine() async
     {       
 
+        double sLat=7.467286;
+        double sLng=81.017683;
+        double dLat=7.468795;
+        double dLng=81.020086;
+
         List<PointLatLng> result=await
         _polylinePoints?.getRouteBetweenCoordinates(
-          key,
-          location[0][0],
-          location[0][1],
-          location[location.length-1][0],
-          location[location.length-1][1], );
+          key,sLat,sLng,dLat,dLng);
 
           if(result.isNotEmpty)
           {
             
-               for(int i=0;i<location.length;i++)
-               {
-                 _polylinecordinates.add(LatLng(location[i][0], location[i][1]));
-               }
-         
+               _polylinecordinates=geolocation;
+
              setState(() {
                //create a polyline instence
                // with an id, an RGB color and the list of LatLng pairs
