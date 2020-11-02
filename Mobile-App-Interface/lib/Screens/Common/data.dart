@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 
 //Science Faculty
 
@@ -28,6 +29,18 @@ List<int> groundFloor=[16,15,16];
 List<int> firstFloor=[10,13,4,6,5,3,11,12];
 List<int> secondFloor=[18,9];
 List<int> thirdFloor=[];
+
+
+//Color
+const routeColor=Color.fromARGB(255,40,122,198);
+const floorColor=Color.fromARGB(255,100,12,198);
+const stairColor=Colors.red;
+
+//width
+
+const int routeWidth=8;
+const int floorWidth=6;
+const int stairWidth=7;
 
 const MAX_FLOOR=3;
 const GROUND_FLOOR=0;
