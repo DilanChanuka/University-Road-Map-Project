@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
   
-        home:DrawRouteLine()
+        home:DrawRouteLine(getplaceinOut())
       );
   }
 
@@ -43,13 +43,14 @@ class MyApp extends StatelessWidget
         String url=port+"/getplaceinout/"+deptID+"/"+floorID+"/"+sourcelat+"/"+sourcelng+"/"+destlat+"/"+destlng+"";
         
         Future<String> path=jsondata(url);
-
+        
         //get data from server (3 json array from )
-        String path1='{"floor_0_locations":[[1.125896,10.258964],[1.458963,52.489653],[1.125896,82.258964],[1.458963,2.489653]],"outerroutelocations":[[1.125896,10.258964],[1.458963,52.489653],[1.125896,82.258964],[1.458963,2.489653]],"innerroutelocations":[[7.467066, 81.012821],[7.467410, 81.017642],[7.466966, 81.018871],[7.467816, 81.019546]]}';
-    return drawplaceout(path1,selectedfloorId,floorId);
+        //String path1='{"floor_0_locations":[[1.125896,10.258964],[1.458963,52.489653],[1.125896,82.258964],[1.458963,2.489653]],"outerroutelocations":[[1.125896,10.258964],[1.458963,52.489653],[1.125896,82.258964],[1.458963,2.489653]],"innerroutelocations":[[7.467066, 81.012821],[7.467410, 81.017642],[7.466966, 81.018871],[7.467816, 81.019546]]}';
+    return drawplaceout(path,selectedfloorId,floorId);
+
   } 
 
-  List<LatLng> getplaceInIn(int deptID,int floorID,int destinationID,List<double> array,int selectedfloorId) //Request a inside Place from inside
+  List<List<LatLng>> getplaceInIn(int deptID,int floorID,int destinationID,List<double> array,int selectedfloorId) //Request a inside Place from inside
   {
         String sourcelat=array[0].toString();
         String sourcelng=array[1].toString();
@@ -58,8 +59,9 @@ class MyApp extends StatelessWidget
         String destinationId=destinationID.toString();
 
         String url=port+"/getplaceinin/"+deptId+"/"+floorId+"/"+sourcelat+"/"+sourcelng+"/"+destinationId+"";
+        Future<String> path=jsondata(url);
 
-       return drawplacaeinin(url,selectedfloorId,destinationID,floorID);
+       return drawplacaeinin(path,selectedfloorId,destinationID,floorID);
   }
 
   List<LatLng> getfloor(int deptID,int floorID)
@@ -68,21 +70,22 @@ class MyApp extends StatelessWidget
           String floorId=floorID.toString();
 
           String url=port+"/getfloor/"+deptId+"/"+floorId+"";
-
+           Future<String> path=jsondata(url);
+      
           //2 json array from server
-          drawfloor(url);
+      return drawfloor(path);
           
   }
 
-  List<LatLng> getplace(List<double> array,int placeID,String vORf)
+  List<List<LatLng>> getplace(List<double> array,int placeID,String vORf)
   {
           String sourcelat=array[0].toString();
           String sourcelng=array[1].toString();
           String placeId=placeID.toString();
 
           String url=port+"/getplace/"+sourcelat+"/"+sourcelng+"/"+placeId+"/"+vORf+"";
-
-          drawplace(url);  // 4 json array from server
+           Future<String> path=jsondata(url);
+      return drawplace(path);  // 4 json array from server
   }
 
   List<LatLng> getroute(List<List<double>> array ,String vORf)
@@ -95,11 +98,11 @@ class MyApp extends StatelessWidget
 
         String url=port+"/getroute/"+sourcelat+"/"+sourcelng+"/"+destlat+"/"+destlng+"/"+vORf+"";
 
-        String path="F:\Flutter\Selanium\getroute.txt";
-        drawroute(path);  //get data from server (1 json array )
+        Future<String> path=jsondata(url);
+      
+     return drawroute(path);  //get data from server (1 json array )
   }
   
-
   Future<String> jsondata(String url) async
   {
       var data=await http.get(url);
