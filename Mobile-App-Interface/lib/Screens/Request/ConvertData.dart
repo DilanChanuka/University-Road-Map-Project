@@ -1,87 +1,94 @@
 import 'dart:convert';
 import 'dart:async';
-//import 'dart:html';
-//import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:MapView/Map/drawline.dart';
-import  'package:MapView/Common/data.dart';
+import 'package:uor_road_map/Screens/Common/data.dart';
 
  
 
-List<LatLng> drawroute(String response)  //getroute 
+List<LatLng> drawroute(String jsonplaceholder)   //getroute   ---
 {
-    var jsonresponse=json.decode(response)['routelocations'];
-    List<LatLng> finalDataArray=[];
-    List<List<double>> array=List.generate(jsonresponse.length,(_)=>List.generate(2, (_) => 0.0));
 
-    for(int i=0;i<jsonresponse.length;i++)
+  var jsonresponse=json.decode(jsonplaceholder)['routelocations'];
+
+  int n=jsonresponse.length;
+    //create 2d array
+    List<List<double>> data=List.generate(n,(_)=>List.generate(2, (_) => 0.0));
+    List<LatLng> routeL=[];
+    for(int i=0;i<n;i++)
     {
-        array[i][0]=jsonresponse[i][0];
-        array[i][1]=jsonresponse[i][1];
+        data[i][0]=jsonresponse[i][0];
+        data[i][1]=jsonresponse[i][1];
     }
 
-    for(int i=0;i<array.length;i++)
+    for(int i=0;i<n;i++)
     {
-        finalDataArray.add(LatLng(array[i][0],array[i][1]));
+        routeL.add(LatLng(data[i][0],data[i][1]));
     }
 
-    return finalDataArray;
+    return routeL;
+   
 }
 
-List<LatLng> drawfloor(String jsonplaceholder)  //getfloor
+List<dynamic> drawfloor(String jsonplaceholder,int selectedfloorID)   //getfloor
 {
 
     var jsonresponse=json.decode(jsonplaceholder);
+    var floor0array = jsonresponse["floor_0_locations"];
+    var floor1array = jsonresponse["floor_1_locations"];
+    var floor2array = jsonresponse["floor_2_locations"];
+    var places = jsonresponse["places"];  //this will come places array
 
-    var floor0=jsonresponse["floor_0_locations"];
-    var floor1=jsonresponse["floor_1_locations"];
-    var floor2=jsonresponse["floor_2_locations"];
-    var place=jsonresponse["place"];
+    List<dynamic> finalarray=new List<dynamic>();
 
-    List<String> fResponse=["floor_0_locations","floor_1_locations","floor_2_locations"];
-
-    List<List<double>> f0Location;
-    List<List<double>> f1Location;
-    List<List<double>> f2Location;
-    List<dynamic> releventF=[f0Location,f1Location,f2Location];
-    List<LatLng> finalArray=[];
-      
-    String name;
-    double lat,lng;
-
-    //get place details
-      if(place.length>0)
-      {         
-          if(place!=null){
-              Map<String,dynamic> map=place;
-              name=map["name"];
-              lat=map["lat"];
-              lng=map["lon"];
-          }  
+    List<String> floorlocation=["floor_0_locations","floor_1_locations","floor_2_locations"];
+    int n=jsonresponse[floorlocation[selectedfloorID]].length;
+    List<List<double>> releventfloor=List.generate(n,(_)=>List.generate(2, (_) => 0.0));
+    int numPlaces=places.length;
+    List<List<dynamic>> allplaces=new List<List<dynamic>>();
+    List<LatLng> floorL=[];
+    
+  if(jsonresponse[floorlocation[selectedfloorID]]!=null)
+  {
+      for(int i=0;i<n;i++)
+      {
+        releventfloor[i][0]=jsonresponse[floorlocation[selectedfloorID]][i][0];
+        releventfloor[i][1]=jsonresponse[floorlocation[selectedfloorID]][i][1];
       }
 
-    //get relevent  floor details
-    int floor=getUserFloor(jsonresponse);
-    if(jsonresponse[fResponse[floor]]!=null)
-    {
-        int n=jsonresponse[fResponse[floor]].length;
-        //initialize  2d array
-        releventF[floor]=List.generate(n,(_)=>List.generate(2, (_) => 0.0));
-        for(int i=0;i<n;i++)
-        {
-            releventF[floor][i][0]=jsonresponse[fResponse[floor]][i][0];
-            releventF[floor][i][1]=jsonresponse[fResponse[floor]][i][1];
-        }
+      for(int i=0;i<n;i++)
+      {
+          floorL.add(LatLng(releventfloor[i][0],releventfloor[i][1]));
+      }
+  }
 
-        for(int i=0;i<releventF[floor].length;i++)
-        {
-            finalArray.add(LatLng(releventF[floor][i][0],releventF[floor][i][1]));
-        }
-    }
+  finalarray.add(floorL);
 
-    return finalArray;
+  //get places
+  if(numPlaces!=null)
+  {
+      for(int i=0;i<numPlaces;i++)
+      {   
+          String name;
+          double lat,lng;
+          Map<String,dynamic> map=places[i];
+          name=places[i]["name"];
+          lat=places[i]["lat"];
+          lng=places[i]["lon"];
 
+          List<dynamic> oneplace=new List<dynamic>();
+          oneplace.add(name);
+          oneplace.add(lat);
+          oneplace.add(lng);
+
+          allplaces.add(oneplace);
+          
+      }
+  }
+  
+  finalarray.add(allplaces);
+  return finalarray;
+    
 }
 
 List<List<LatLng>> drawplaceout(String response,int selectedfloorId,int floorID) //getplaceinout
@@ -150,10 +157,13 @@ List<List<LatLng>> drawplaceout(String response,int selectedfloorId,int floorID)
     return arr;
 }
 
-List<List<LatLng>> drawplacaeinin(String response,int destinationID,int selectedFloorID,int floorID)  //getplaceinin
+List<dynamic> drawplaceinin(String url,int destinationID,int selectedFloorID,int floorID) //getplaceinout
 {
 
-    var jsonresponse=json.decode(response);
+    //var data=await http.get(jsonplaceholder);
+    
+    var jsonresponse=json.decode(url);
+
     var floor0location = jsonresponse["floor_0_locations"];
     var floor1location = jsonresponse["floor_1_locations"];
     var floor2location = jsonresponse["floor_2_locations"];
@@ -338,23 +348,12 @@ List<List<LatLng>> drawplacaeinin(String response,int destinationID,int selected
             }
            // print(fRarray[selectedFloorID]);
       }
-
-      if(fLarray[selectedFloorID]!=null)
-      {
-          //drwa floor 
-          for(int i=0;i<fLarray[selectedFloorID].length;i++)
-          {
-              finalFloorLocation.add(LatLng(fLarray[selectedFloorID][i][0],fLarray[selectedFloorID][i][1]));
-          }
-
-      }
-
       if(selectedFloorID<2 && stairArray[selectedFloorID]!=null)  //selectedfloorId= 0/1
       {
           //draw stair -->> stairArray[selectedFloorID]
           for(int i=0;i<stairArray[selectedFloorID].length;i++)
           {
-             finalStairArray.add(LatLng(stairArray[selectedFloorID], stairArray[selectedFloorID][i][1]));
+             finalStairArray.add(LatLng(stairArray[selectedFloorID][i][0], stairArray[selectedFloorID][i][1]));
           }
 
           //print(stairArray[selectedFloorID]);
@@ -373,34 +372,26 @@ List<List<LatLng>> drawplacaeinin(String response,int destinationID,int selected
          }
        }
 
-       if(fLarray[selectedFloorID]!=null)
-       {
-           for(int i=0;i<fLarray[selectedFloorID].length;i++)
-           {
-              finalFloorLocation.add(LatLng(fLarray[selectedFloorID][i][0],fLarray[selectedFloorID][i][1]));
-           }
-       }
-
        if(selectedFloorID==2 && stairArray[selectedFloorID-1]!=null)
        {
             //draw stair 1 to 2 -->> stairArray[selectedFloorID]
-            for(int i=0;i<stairArray[1].length;i++)
+            for(int i=0;i<stairArray[selectedFloorID-1].length;i++)
             {
-                finalStairArray.add(LatLng(stairArray[1][i][0],stairArray[1][i][1]));
+                finalStairArray.add(LatLng(stairArray[selectedFloorID-1][i][0],stairArray[selectedFloorID-1][i][1]));
             }
        }
-       else if(selectedFloorID==1 && stairArray[selectedFloorID-1]!=null)
+       else if(selectedFloorID==1 && stairArray[selectedFloorID]!=null)
        {
             //draw stair 1 to 0 -->>  stairArray[selectedFloorID]
-            for(int i=0;i<stairArray[0].length;i++)
+            for(int i=0;i<stairArray[selectedFloorID].length;i++)
             {
-                finalStairArray.add(LatLng(stairArray[0][i][0],stairArray[0][i][1]));
+                finalStairArray.add(LatLng(stairArray[selectedFloorID][i][0],stairArray[selectedFloorID][i][1]));
             }
 
        }
 
   }
-  else if(derection=="NO" && fRarray[selectedFloorID]!=null && fLarray[selectedFloorID]!=null)
+  else if(derection=="NO" && fRarray[selectedFloorID]!=null)
   {
       //draw route -->> fRarray[selectedFloorID]
 
@@ -413,112 +404,214 @@ List<List<LatLng>> drawplacaeinin(String response,int destinationID,int selected
          }
        }
 
-       if(fLarray[selectedFloorID]!=null)
-       {
-           for(int i=0;i<fLarray[selectedFloorID].length;i++)
-           {
-              finalFloorLocation.add(LatLng(fLarray[selectedFloorID][i][0],fLarray[selectedFloorID][i][1]));
-           }
-       }
-
   }  
+
+  //get relevent floor location for final array
+
+    if(fLarray[selectedFloorID]!=null)
+    {
+        for(int i=0;i<fLarray[selectedFloorID].length;i++)
+        {
+           finalFloorLocation.add(LatLng(fLarray[selectedFloorID][i][0],fLarray[selectedFloorID][i][1]));
+        }
+    }
+    
 
     //return finalRouteArray   and finalstaireArray
     List<List<LatLng>> arr=[];
     arr.add(finalRouteArray);
-    arr.add(finalStairArray);
-    arr.add(finalFloorLocation);
+    if(finalStairArray!=null)
+      arr.add(finalStairArray);
+    if(finalFloorLocation!=null)
+      arr.add(finalFloorLocation);
 
-    //return arr 
-    return arr;
-    
+
+    List<double> placeLatLng=[lat,lng];
+
+    List<dynamic> allDetails=[arr,placeLatLng,name];
+
+    return allDetails;
 }
 
-List<List<LatLng>> drawplace(String response)   //getplace   
+List<dynamic> drawplace(String jsonplaceholder,int selectedfloorID)  //getplace
 {
 
-  var jsonresponse=json.decode(response);
+        
+      var jsonresponse=json.decode(jsonplaceholder);
 
-  var innrR=jsonresponse['innerroutelocations'];
-  var outerR=jsonresponse['outerroutelocations'];
-  var floor2L=jsonresponse['floor_2_locations'];
-  var floor1L=jsonresponse['floor_0_locations'];
-  var floor0L=jsonresponse['floor_0_locations'];
+      var floor0R=jsonresponse['floor_0_routelocations'];
+      var floor1R=jsonresponse['floor_1_routelocations'];
+      var floor2R=jsonresponse['floor_2_routelocations'];
+      var outerR=jsonresponse['outerroutelocations'];
+      var floor2L=jsonresponse['floor_2_locations'];
+      var floor1L=jsonresponse['floor_1_locations'];
+      var floor0L=jsonresponse['floor_0_locations'];
+      var stair01=jsonresponse['stair_0_1_locations'];
+      var stair12=jsonresponse['stair_1_2_locations'];
+      var place=jsonresponse["place"];
 
-  List<String> floorlocation=["floor_0_locations","floor_0_locations","floor_2_locations"];
-  List<LatLng> finalinnrArray=[];
-  List<LatLng> finalouterArray=[];
-  List<LatLng> finalFloorArray=[];
+      List<String> floorlocation=["floor_0_locations","floor_0_locations","floor_2_locations"];
+      List<String> floorRL=["floor_0_routelocations","floor_1_routelocations","floor_2_routelocations"];
+      List<String> stairRL=["stair_0_1_locations","stair_1_2_locations"];
+    
+      String name;
+      double lat,lng;
 
-  var place=jsonresponse["place"];
-  String name;
-  double lat,lng;
+      List<LatLng> finalFloor0R=[];
+      List<LatLng> finalFloor1R=[];
+      List<LatLng> finalFloor2R=[];
 
-  //get place details
-  //if(data.statusCode==200)
- // {
-    if(place.length>0)
-    {         
-         if(place!=null){
-            Map<String,dynamic> map=place;
-            name=map["name"];
-            lat=map["lat"];
-            lng=map["lon"];
-         }  
-    }
-    // check user sitting floor 
-  int floor=getUserFloor(jsonresponse);
-  int n=jsonresponse[floorlocation[floor]].length;
- 
-  List<List<double>> inner=List.generate(innrR.length,(_)=>List.generate(2, (_) => 0.0));
-  List<List<double>> outer=List.generate(outerR.length,(_)=>List.generate(2, (_) => 0.0));
-  List<List<double>> floordata=List.generate(n,(_)=>List.generate(2, (_) => 0.0));//select relevent floor
+      List<LatLng> finalOuterR=[];
 
-  List<int> length=[innrR.length,outerR.length,n];
-  List<dynamic> dataarray=[inner,outer,floordata];
-  List<String> jsonarray=["innerroutelocations","outerroutelocations",floorlocation[floor]];
+      List<LatLng> finalStair01=[];
+      List<LatLng> finalStair12=[];
 
+      List<LatLng> finalFloor0=[];
+      List<LatLng> finalFloor1=[];
+      List<LatLng> finalFloor2=[];
+      
+      List<dynamic> routes=[finalFloor0R,finalFloor1R,finalFloor2R];
+      List<dynamic> stair=[finalStair01,finalStair12];
+      List<dynamic> floor=[finalFloor0,finalFloor1,finalFloor2];
 
-  if(innrR.legth>0 || outerR.length>0|| floor0L.length>0||
-  floor1L.length>0 || floor2L.length>0)
-  {
-      for(int i=0;i<3;i++) //for 3 json array
+        //get place details
+        if(place.length>0)
+        {         
+            if(place!=null){
+                Map<String,dynamic> map=place;
+                name=map["name"];
+                lat=map["lat"];
+                lng=map["lon"];
+            }  
+        }
+      List<dynamic> placeDetails=[name,lat,lng];
+
+      //get outer route
+      //outer route must come from json array
+      double a,b;
+      for(int i=0;i<outerR.length;i++)  
       {
-          for(int j=0;j<length[i];j++) //get data for each double array
+          a=outerR[i][0];
+          b=outerR[i][1];
+          finalOuterR.add(LatLng(a,b));
+      }
+      //get inner routes
+      //inner routes should get relevent selecteted floor 
+
+      if(selectedfloorID==2)  //should be 0 1 and 2 floors
+      {
+          for(int i=0;i<3;i++)
           {
-              dataarray[i][j][0]=jsonresponse[jsonarray[i]][j][0];
-              dataarray[i][j][1]=jsonresponse[jsonarray[i]][j][1];
+          
+            if(jsonresponse[floorRL[i]]!=null || jsonresponse[selectedfloorID]!=null)
+            {   
+              int n=jsonresponse[floorRL[i]].length;
+              for(int j=0;j<n;j++)
+              {
+                  routes[i].add(LatLng(jsonresponse[floorRL[i]][j][0],jsonresponse[floorRL[i]][j][1]));
+              }
+            }
           }
-      }  
 
-  }
+          //get stair
+          //should be all stair (01  and 12)
+          for(int i=0;i<2;i++)
+          {
+              
+              if(jsonresponse[stairRL[i]]!=null )
+              {
+                  int n=jsonresponse[stairRL[i]].length;
+                  for(int j=0;j<n;j++)
+                  {
+                      stair[i].add(LatLng(jsonresponse[stairRL[i]][j][0],jsonresponse[stairRL[i]][j][1]));
+                  }
+              }
+          }
 
-      //drwa route acording to dataarray data....................
-    List<List<LatLng>> arr=[];
+          //get floor location
+          //should be relevent floor location ( floor 2)
+          if(jsonresponse["floor_2_locations"]!=null)
+          {
+              int n=jsonresponse["floor_2_locations"].length;
+              for(int i=0;i<n;i++)
+              {
+                  floor[2].add(LatLng(jsonresponse["floor_2_locations"][i][0],jsonresponse["floor_2_locations"][i][1]));
+              }
+          }
 
-    //inner route
-    for(int i=0;i<inner.length;i++)
-    {
-        finalinnrArray.add(LatLng(inner[i][0],inner[i][1]));
-    }
-    
-    //outer
-    for(int i=0;i<outer.length;i++)
-    {
-        finalouterArray.add(LatLng(outer[i][0],outer[i][1]));
-    }
+      }
+      else if(selectedfloorID==1) //should be 0  and 1 floos
+      {
+        for(int i=0;i<2;i++)
+        {
+          
+            if(jsonresponse[floorRL[i]]!=null || jsonresponse[selectedfloorID]!=null)
+            {
+                int n=jsonresponse[floorRL[i]].length;
+                for(int j=0;j<n;j++)
+                {
+                    routes[i].add(LatLng(jsonresponse[floorRL[i]][j][0],jsonresponse[floorRL[i]][j][1]));
+                }
+            }
+        }
 
-    
-    for(int i=0;i<floordata.length;i++)
-    {
-        finalFloorArray.add(LatLng(floordata[i][0],floordata[i][1]));
-    }
+          //get stair
+          //should be one (01)
+        
+            
+            if(jsonresponse[stairRL[0]]!=null )
+            {
+                int n=jsonresponse[stairRL[0]].length;
+                for(int j=0;j<n;j++)
+                {
+                    stair[0].add(LatLng(jsonresponse[stairRL[0]][j][0],jsonresponse[stairRL[0]][j][1]));
+                }
+            }   
 
-    arr.add(finalinnrArray);
-    arr.add(finalouterArray);
-    arr.add(finalFloorArray);
+            //get floor location
+          //should be relevent floor location ( floor 2)
+          if(jsonresponse["floor_1_locations"]!=null)
+          {
+              int n=jsonresponse["floor_1_locations"].length;
+              for(int i=0;i<n;i++)
+              {
+                  floor[1].add(LatLng(jsonresponse["floor_1_locations"][i][0],jsonresponse["floor_1_locations"][i][1]));
+              }
+          }  
+      }
+      else //should be  0 floor
+      {
+          
+          if(jsonresponse[floorRL[0]]!=null || jsonresponse[selectedfloorID]!=null)
+          {
+              int n=jsonresponse[floorRL[0]].length;
+              for(int j=0;j<n;j++)
+              {
+                routes[0].add(LatLng(jsonresponse[floorRL[0]][j][0],jsonresponse[floorRL[0]][j][1]));
+              }
+          }
 
-  return arr;
+              //get floor location
+          //should be relevent floor location ( floor 2)
+          if(jsonresponse["floor_0_locations"]!=null)
+          {
+              int n=jsonresponse["floor_0_locations"].length;
+              for(int i=0;i<n;i++)
+              {
+                  floor[0].add(LatLng(jsonresponse["floor_0_locations"][i][0],jsonresponse["floor_0_locations"][i][1]));
+              }
+          }
+
+      }
+          
+      List<dynamic> allData=[];
+      allData.add(finalOuterR);
+      allData.add(routes);
+      allData.add(stair);
+      allData.add(floor);
+      allData.add(placeDetails);
+      
+      return allData;
 }
 
 Future<bool> loginuser(String jsonplaceholder) async  //login user
@@ -532,6 +625,89 @@ Future<bool> loginuser(String jsonplaceholder) async  //login user
           return false;
     else
           return false;
+}
+
+List<dynamic> drawfloorWplace(String response) //getfloorwithplace
+{
+
+    var jsonresponse=json.decode(response);
+
+    var floor0=jsonresponse["floor_0_locations"];
+    var floor1=jsonresponse["floor_1_locations"];
+    var floor2=jsonresponse["floor_2_locations"];
+    var releventPlace=jsonresponse["place"];
+    var otherplaces=jsonresponse["places"]; //other all places in relevent floor
+
+    int releventfloor=getreleventfloor(jsonresponse);
+    List<dynamic> arr=[floor0,floor1,floor2];
+
+    List<dynamic> rPlace=[];
+    List<dynamic> allplaces=[];
+    //get place details
+    if(releventPlace.length>0)
+    {
+        String name;
+        double lat,lng;
+
+        Map<String,dynamic> map=releventPlace;
+        name=map["name"];
+        lat=map["lat"];
+        lng=map["lon"];
+
+        rPlace.add(name);
+        rPlace.add(lat);
+        rPlace.add(lng);
+    }
+
+    //get other all places in relevent floor
+    if(otherplaces!=null)
+    {
+        int count=otherplaces.length;
+        
+        for(int i=0;i<count;i++)
+        {
+            List<dynamic> oneplace=[];
+            String name;
+            double lat,lng;
+            Map<String,dynamic> map=otherplaces[i];
+            name=map["name"];
+            lat=map["lat"];
+            lng=map["lon"];
+
+            oneplace.add(name);
+            oneplace.add(lat);
+            oneplace.add(lng);
+
+            allplaces.add(oneplace);
+        }
+    }
+
+    //get floor location
+    List<LatLng> floorL=[];
+    if(arr[releventfloor]!=null)
+    {
+          for(int i=0;i<arr[releventfloor].length;i++)
+          {
+            floorL.add(LatLng(arr[releventfloor][i][0],arr[releventfloor][i][1]));
+          }
+    }
+    
+    List<dynamic> finalData=[];
+    finalData.add(floorL);
+    finalData.add(rPlace);
+    finalData.add(allplaces);
+
+    return finalData;
+}
+
+int getreleventfloor(var data)
+{
+   if(data["floor_0_locations"]!=null)
+      return 0;
+   else if(data["floor_1_locations"]!=null)
+      return 1;
+   else
+      return 2;
 }
 
 int getUserFloor(var response)
