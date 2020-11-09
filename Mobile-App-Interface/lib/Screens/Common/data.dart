@@ -41,6 +41,11 @@ const routeColor=Color.fromARGB(255,40,122,198);
 const floorColor=Color.fromARGB(255,100,12,198);
 const stairColor=Colors.red;
 
+//width
+const int routeWidth=8;
+const int floorWidth=5;
+const int stairWidth=8;
+
 const MAX_FLOOR=3;
 const GROUND_FLOOR=0;
 const FIRST_FLOOR=1;
