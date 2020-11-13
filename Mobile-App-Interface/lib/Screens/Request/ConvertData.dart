@@ -91,7 +91,7 @@ List<dynamic> drawfloor(String jsonplaceholder,int selectedfloorID)   //getfloor
     
 }
 
-List<dynamic> drawplaceout(String response,int selectedfloorId) //getplaceinout
+List<dynamic> drawplaceinout(String response,int selectedfloorId) //getplaceinout
 {
 
 
