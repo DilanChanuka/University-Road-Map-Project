@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:MapView/Common/data.dart';
+import 'package:uor_road_map/Screens/Common/data.dart';
 
 
 const String KEY="AIzaSyD27-xwm_C9mv9V2mb2hki_XfzKTD5TYRg";
@@ -10,19 +10,15 @@ const double CAMERA_ZOOM = 18;
 const double CAMERA_TILT = 0;
 const double CAMERA_BEARING = 30;
 
-List<List<LatLng>> geolocation=new List<List<LatLng>>();
-List<List<double>> location;
-List<List<double>> floor;
-List<List<double>> stair;
 
-List<dynamic> array=[location,floor,stair];
+List<LatLng> location;
 
-class Rsflocation extends StatefulWidget 
+class DrawRouteLine extends StatefulWidget   //this class call for draw only route  <getroute>
 {
 
-  Rsflocation(List<List<LatLng>> data)
+  DrawRouteLine(List<LatLng> data)
   {
-      geolocation=data;  
+      location=data;  
   }
 
   @override
@@ -33,14 +29,14 @@ class Rsflocation extends StatefulWidget
   } 
 }
 
-class _DrawState  extends State<Rsflocation> 
+class _DrawState  extends State<DrawRouteLine> 
 {
  
   GoogleMapController mapcontroller;
   Completer<GoogleMapController> _controller=Completer();
 
     
-    //this will hold marker
+     //this will hold marker
     Set<Marker> _marker={};
 
     //this will hold polyline
@@ -48,13 +44,10 @@ class _DrawState  extends State<Rsflocation>
 
     //this will hold each polyline cordinates as Lat and Lng pairs
     List<LatLng> _polylinecordinates=[];
-    List<LatLng> _floorCordinates=[];
-    List<LatLng> _stairCordinates=[];
   
     //this is the key object -the polylinepoints
     //which genarated every polyiline bitween start and finish
-   // PolylinePoints _polylinePoints=PolylinePoints();
-
+    PolylinePoints _polylinePoints=PolylinePoints();
     String key=KEY;
 
     //for my custom icon
@@ -77,28 +70,11 @@ class _DrawState  extends State<Rsflocation>
     void _onMapCreated(GoogleMapController controller)
     {
         _controller.complete(controller); 
-        putData();
+       // putData();
         setMapPing();
         setPolyLine();
     }
 
-   void putData()
-    {
-        location=List.generate(geolocation[0].length, (_) =>List.generate(2, (_) => 0.0));
-        floor=List.generate(geolocation[1].length, (_) =>List.generate(2, (_) => 0.0));
-        stair=List.generate(geolocation[2].length, (_) =>List.generate(2, (_) => 0.0));
-
-        for(int i=0;i<3;i++) //route and floor
-        {
-            
-            for(int j=0;j<geolocation[i].length;j++)
-            {
-                array[i][j][0]=geolocation[i][j].latitude;
-                array[i][j][1]=geolocation[i][j].longitude;
-            }
-
-        }
-    }
 
     void setMapPing()
     {
@@ -106,77 +82,37 @@ class _DrawState  extends State<Rsflocation>
           //source ping
           _marker.add(Marker(
             markerId:MarkerId('source'),
-            position: LatLng(location[0][0], location[0][1]),
+            position: LatLng(location[0].latitude, location[0].longitude),
             icon: sourceIcon
             ));
 
           //destination pin
           _marker.add(Marker(
             markerId:MarkerId('destination'),
-            position: LatLng(stair[stair.length-1][0],stair[stair.length-1][1]),
+            position: LatLng(location[location.length-1].latitude, location[location.length-1].longitude),
             icon: destinationIcon
              ));
         });
     }
 
-    void setPolyLine() async
+    void setPolyLine() 
     {       
 
-       /* List<PointLatLng> result=await
-        _polylinePoints?.getRouteBetweenCoordinates(
-          key,
-          location[0][0],
-          location[0][1],
-          location[location.length-1][0],
-          location[location.length-1][1],
-          );
-*/
-          //if(result.isNotEmpty)
-          if(true)
-          {
-             int last=geolocation[0].length-1;
-
-              _polylinecordinates=geolocation[0];
-
-              //add last value for stair as a fist value
-              _stairCordinates.add(LatLng(geolocation[0][last].latitude,geolocation[0][last].longitude));
-              _stairCordinates=geolocation[2];
-              
-              _floorCordinates=geolocation[1];
-
-              //add first cordinat again for continu polygon
-              _floorCordinates.add(LatLng(geolocation[1][0].latitude, geolocation[1][0].longitude));
+              _polylinecordinates=location;
 
              setState(() {
                //create a polyline instence
                // with an id, an RGB color and the list of LatLng pairs
-               Polyline routes=Polyline(
+              Polyline routes=Polyline(
                  polylineId:PolylineId("route"),
                  color:routeColor,
-                 width: routeWidth,
                  points: _polylinecordinates 
                 );
-
-
-                Polyline floor=Polyline(
-                 polylineId:PolylineId("floor"),
-                 color: floorColor,
-                 width: floorWidth,
-                 points: _floorCordinates 
-                );
-
-                Polyline stair=Polyline(
-                 polylineId:PolylineId("stair"),
-                 color:stairColor,
-                 width: stairWidth,
-                 points: _floorCordinates 
-                );
-
+                        
                 _polyline.add(routes);
-                _polyline.add(floor);
-                _polyline.add(stair);
+              
             });
-          }
+          
     }
    
       @override
@@ -186,12 +122,15 @@ class _DrawState  extends State<Rsflocation>
           zoom: CAMERA_ZOOM,
           bearing: CAMERA_BEARING,
           tilt: CAMERA_TILT,
-          target:LatLng(geolocation[0][0].latitude,geolocation[0][0].longitude)
+          target:LatLng(location[0].latitude, location[0].longitude)
           );
       
           return MaterialApp(
             home: Scaffold(
-
+              appBar: AppBar(
+                title: Text("UOR RoadMap"),
+                backgroundColor: Colors.green[700],
+              ),
               body: GoogleMap(
                 myLocationEnabled: true,
                 compassEnabled: true,
