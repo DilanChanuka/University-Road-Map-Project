@@ -169,13 +169,18 @@ namespace Road_Map_Web_API.Controllers
         public IActionResult GetPlace(double startLAT, double startLON, int placeID, string method)
         {
             List<double[]> lst = new List<double[]>();            
-
             var final = new Hashtable();
             double[,] routeLocations;
             double[] temp = new double[2];
             Calculations cal = new Calculations();
             int V_No, graphNo;
             double[,] floorLocations;
+            List<double[]> zeroFloorRouteSet = new List<double[]>();
+            List<double[]> stair_0_1_RouteSet = new List<double[]>();
+            List<double[]> stair_1_2_RouteSet = new List<double[]>();
+            List<double[]> firstFloorRouteSet = new List<double[]>();
+            List<double[]> secondFloorRouteSet = new List<double[]>();
+
             switch (method)
             {
                 case "f":
@@ -222,12 +227,7 @@ namespace Road_Map_Web_API.Controllers
             graphNo = 2;
             int[] ids = LocationData.GetDepartmentAndFloor(placeID);
 
-            int[] routes = cal.GetRouteNumbers(graphNo, innerStart, innerEnd);
-            List<double[]> zeroFloorRouteSet = new List<double[]>();
-            List<double[]> stair_0_1_RouteSet = new List<double[]>();
-            List<double[]> stair_1_2_RouteSet = new List<double[]>();
-            List<double[]> firstFloorRouteSet = new List<double[]>();
-            List<double[]> secondFloorRouteSet = new List<double[]>();
+            int[] routes = cal.GetRouteNumbers(graphNo, innerStart, innerEnd);            
 
             //according to the department,no of arrays should change
             foreach (int rt in routes)
