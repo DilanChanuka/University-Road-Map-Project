@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+//import 'package:uor_road_map/Screens/Map/log_guest_map.dart';
+//import 'package:uor_road_map/Screens/Map/main_map.dart';
+//import 'package:uor_road_map/Screens/Map/search_map_show_page.dart';
 import 'package:uor_road_map/load_page.dart';
 //import 'package:uor_road_map/Screens/Welcome/welcome_page.dart';
-//import 'package:uor_road_map/Screens/Map/map_show_page.dart';
+//import 'package:uor_road_map/Screens/Map/addSearch_map_show_page.dart';
 //import 'package:uor_road_map/Screens/Search/search_page.dart';
 //import 'package:uor_road_map/Screens/AddSearch/add_search_page.dart';
 //import 'package:uor_road_map/Screens/Term&Con/term_con_page.dart';

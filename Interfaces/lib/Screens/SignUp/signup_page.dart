@@ -35,7 +35,7 @@ class _SignUpPageState extends State<SBody>
         Text(
           "UOR NAVIGATION",
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height/15,
+              fontSize: MediaQuery.of(context).size.height/20,
               fontWeight: FontWeight.bold,
               color: blackcolor,
             ),
@@ -212,7 +212,7 @@ class _SignUpPageState extends State<SBody>
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 40),
+          padding: EdgeInsets.only(bottom: 100.0,top: 5.0),
           child: FlatButton(
             onPressed: () => {
               Navigator.push(context, 

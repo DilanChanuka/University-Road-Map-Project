@@ -9,10 +9,6 @@ class AddSSPage extends StatelessWidget
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "University of Ruhuna",
-      theme: ThemeData(
-        primaryColor: Colors.white,
-      ),
       home: Spage(),
     );
   }
@@ -34,12 +30,58 @@ class _MHPage extends State<Spage>
           appBar: AppBar(
             backgroundColor: firstColor,
             title: Text("University of Ruhuna"),
-            leading: IconButton(icon: Icon(Icons.menu),
-             onPressed: () {}
-             ),
           ),
-          body: Center(
+          body: SingleChildScrollView(
              child: _buildUser(),
+          ),
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                UserAccountsDrawerHeader(
+                  accountName: Text("User Name"), 
+                  accountEmail: Text("User Email"),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundColor: mainColor,
+                    child: Text("A"),
+                  ),
+                  decoration: BoxDecoration(
+                    color: firstColor,
+                  ),
+                ),
+
+                ListTile(
+                  title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.exit_to_app,color: blackcolor,), 
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Profile",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.person,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Contacts",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.contacts,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Settings",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.settings,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Help and feedback",style: TextStyle(fontSize: 20.0),),
+                  leading: Icon(Icons.help,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+              ],
+            ),
           ),
       ),
     );
@@ -102,7 +144,7 @@ class _MHPage extends State<Spage>
             Radius.circular(20),
           ),
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.7,
+            height: MediaQuery.of(context).size.height * 0.64,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -125,7 +167,7 @@ class _MHPage extends State<Spage>
             Radius.circular(20),
           ),
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.17 ,
+            height: MediaQuery.of(context).size.height * 0.22 ,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -145,4 +187,5 @@ class _MHPage extends State<Spage>
       ],
     );
   }
+
 }
