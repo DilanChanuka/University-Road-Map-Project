@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:uor_road_map/constanents.dart';
-import 'package:dropdownfield/dropdownfield.dart';
+//import 'package:dropdownfield/dropdownfield.dart';
 
-class MapDemo extends StatefulWidget
+class AddSearch extends StatefulWidget
 {
-  MapDemo() : super();
+  AddSearch() : super();
 
-  final String txt= "UOR MAP";
+  final String txt= "UOR";
   @override
-  MapsDemoState createState() => MapsDemoState();
+  AddSearchState createState() => AddSearchState();
 
 }
 class Floor
@@ -28,11 +28,11 @@ class Floor
     ];
   }
 }
-class MapsDemoState extends State<MapDemo>
+class AddSearchState extends State<AddSearch>
 {
   List<Floor> _floor = Floor.getFloor();
-List<DropdownMenuItem<Floor>> _dropdownMenuitem;
-Floor _selectedFloor;
+  List<DropdownMenuItem<Floor>> _dropdownMenuitem;
+  Floor _selectedFloor; 
 
 @override
 void initState()
@@ -136,9 +136,6 @@ onChangeDropdwonItem(Floor selectedFloor){
           ),
           ),
           backgroundColor: firstColor,
-          leading: IconButton(icon: Icon(Icons.menu),
-             onPressed: () {}
-          ),
           actions: <Widget>[
              SizedBox(width: 60.0,),
                DropdownButton(
@@ -150,6 +147,55 @@ onChangeDropdwonItem(Floor selectedFloor){
                   ),
           ],
         ),
+        drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                UserAccountsDrawerHeader(
+                  accountName: Text("User Name"), 
+                  accountEmail: Text("User Email"),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundColor: mainColor,
+                    child: Text("A"),
+                  ),
+                  decoration: BoxDecoration(
+                    color: firstColor,
+                  ),
+                ),
+
+                ListTile(
+                  title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.exit_to_app,color: blackcolor,), 
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Profile",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.person,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Contacts",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.contacts,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Settings",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.settings,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Help and feedback",style: TextStyle(fontSize: 20.0),),
+                  leading: Icon(Icons.help,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+              ],
+            ),
+          ),
         body: Stack(
           children: <Widget>[
             GoogleMap(

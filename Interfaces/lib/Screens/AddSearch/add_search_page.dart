@@ -56,7 +56,7 @@ Future<String> createAlertDialog(BuildContext context) async{
               children:<Widget>[
               Text("Select Department"), 
               Container(
-                height:MediaQuery.of(context).size.height * 0.1,
+                height:MediaQuery.of(context).size.height * 0.076,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: Colors.lightGreen,
@@ -152,7 +152,7 @@ Future<String> createAlertDialog(BuildContext context) async{
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             backgroundColor: firstColor,
-            title: Text("UOR MAP"),
+            title: Text("Find out"),
             actions: <Widget>[
 
                DropdownButton<int>(
@@ -182,25 +182,7 @@ Future<String> createAlertDialog(BuildContext context) async{
                     });
                    },
                  ),
-
-               //SizedBox(width: 40.0,),
-              /* DropdownButton(
-                   value: _selectedSide,
-                   items: _dropdownMenuitem, 
-                   onChanged: onChangeDropdwonItem,
-                   iconSize: 50.0,
-                   onTap: (){ 
-                     createAlertDialog(context).then((value) => "In Side");
-                   },
-                   ),*/
-              IconButton(
-                icon: Icon(Icons.more_vert), 
-                onPressed: () {},
-                ),
             ],
-            leading: IconButton(icon: Icon(Icons.menu),
-             onPressed: () {}
-             ),
              bottom: TabBar(
                tabs:[
                  Tab(icon: Icon(Icons.directions_car),
@@ -211,6 +193,55 @@ Future<String> createAlertDialog(BuildContext context) async{
                  ),
                ], 
                ),
+          ),
+           drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                UserAccountsDrawerHeader(
+                  accountName: Text("User Name"), 
+                  accountEmail: Text("User Email"),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundColor: mainColor,
+                    child: Text("A"),
+                  ),
+                  decoration: BoxDecoration(
+                    color: firstColor,
+                  ),
+                ),
+
+                ListTile(
+                  title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.exit_to_app,color: blackcolor,), 
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Profile",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.person,color: blackcolor,),
+                  onTap: (){},
+                ),
+                
+                ListTile(
+                  title: Text("Contacts",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.contacts,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Settings",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.settings,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Help and feedback",style: TextStyle(fontSize: 20.0),),
+                  leading: Icon(Icons.help,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+              ],
+            ),
           ), 
           body:
               TabBarView(
@@ -225,13 +256,13 @@ Future<String> createAlertDialog(BuildContext context) async{
   }
   Widget _tab1()
   {
-    return Container(
+    return SingleChildScrollView(
       child: _buildUserVehicle(),
     );
   } 
   Widget _tab2()
   {
-    return Container(
+    return SingleChildScrollView(
       child: _buildUserWalk(),
     );
   }

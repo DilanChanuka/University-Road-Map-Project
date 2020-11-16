@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+//import 'package:uor_road_map/Screens/Map/main_map.dart';
 import 'package:uor_road_map/Screens/SignUp/signup_page.dart';
 import 'package:uor_road_map/constanents.dart';
 import 'package:uor_road_map/Screens/FPassword/forg_pass_page.dart';
@@ -33,7 +34,7 @@ class _LoginPageState extends State<LBody>
         Text(
           "UOR NAVIGATION",
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height/15,
+              fontSize: MediaQuery.of(context).size.height/20,
               fontWeight: FontWeight.bold,
               color: blackcolor,
             ),
@@ -108,7 +109,7 @@ class _LoginPageState extends State<LBody>
   Widget buildForgetPasswordButton()
   {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         FlatButton(onPressed: (){
@@ -147,10 +148,10 @@ class _LoginPageState extends State<LBody>
             onPressed: () => {
               if(_formKey.currentState.validate())
               {
-                _formKey.currentState.save()
+                _formKey.currentState.save(),
               }
             },
-            child: Text(
+            child: Text( 
               "Log in",
                 style: TextStyle(
                   color: Colors.white,
@@ -169,7 +170,7 @@ class _LoginPageState extends State<LBody>
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 40),
+          padding: EdgeInsets.only(top: 2),
           child: FlatButton(
             onPressed: () => {
               Navigator.push(context, 
@@ -230,7 +231,7 @@ class _LoginPageState extends State<LBody>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                SizedBox(height: 50.0,),
+                SizedBox(height: 40.0,),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -249,6 +250,7 @@ class _LoginPageState extends State<LBody>
                 buildForgetPasswordButton(),
                 buildLoginButton(),
                 buildSignUpButton(),
+                buildLogInGuest(),
               ],
             ),
           ),
@@ -292,6 +294,25 @@ class _LoginPageState extends State<LBody>
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildLogInGuest()
+  {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        FlatButton(
+          onPressed: (){}, 
+          child: Text("Log in as a guest",
+            style: TextStyle(
+              fontSize: 20.0,
+              color: tridColor,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

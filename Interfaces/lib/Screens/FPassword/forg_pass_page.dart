@@ -68,9 +68,9 @@ class _ForgPassPageState extends State<FBody>
         Text(
           "UOR NAVIGATION",
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height/15,
+              fontSize: MediaQuery.of(context).size.height/20,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: blackcolor,
             ),
           ),
       ],
@@ -104,7 +104,7 @@ class _ForgPassPageState extends State<FBody>
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: 50.0,),
+                    SizedBox(height: 150.0,),
                     Container(
                       width: 270,
                       child: Text("To reset your password,submit your email address below.If we can find yor in the database,an email will be send to your email address,with instruction how to get access again.",
@@ -122,7 +122,7 @@ class _ForgPassPageState extends State<FBody>
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: 130.0,),
+                    SizedBox(height: 50.0,),
                     Container(
                       width: 250,
                       child: Text("Search by email",
