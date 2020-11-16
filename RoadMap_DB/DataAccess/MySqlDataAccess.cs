@@ -32,95 +32,7 @@ namespace RoadMap_DB.DataAccess
         //}
 
 
-        public static JsonResult AccesData(string sql,object T)
-        {
-            using (MySqlConnection con =new MySqlConnection(ConnectionString))
-            {
-                con.Open();
-                MySqlCommand cmd = new MySqlCommand(sql, con);
-                
-                if(T is User_location)
-                {
-                    List<User_location> _Locations = new List<User_location>();
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        reader.Read();
-                        _Locations.Add(new User_location()
-                        {
-                            u_user_id=reader.GetInt32("u_user_id"),
-                            d_floor_id=reader.GetInt32("d_floor_id"),
-                            lat_value=reader.GetDouble("lat"),
-                            lng_value=reader.GetDouble("lng"),
-                            d_dept_it=reader.GetInt32("d_dept_it"),
-                            place_id=reader.GetInt32("place_id")
-                        });
-                        reader.Close();                      
-                    }
-
-                    return new JsonResult(_Locations);
-                }
-                else if (T is Floor)
-                {
-                    List<Floor> floor = new List<Floor>();
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while(reader.Read())
-                        {
-                            floor.Add(new Floor()
-                            {
-                               
-                                floor_name = reader.GetString("name"),
-                                lat_value = reader.GetDouble("lat"),
-                                lng_value = reader.GetDouble("lng")
-                            });
-                        }
-                       
-                       
-                        reader.Close();
-                    }
-
-                    return new JsonResult(floor);
-                }
-                else if (T is Deparment_Places)
-                {
-                    List<Deparment_Places> place = new List<Deparment_Places>();
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        reader.Read();
-                        place.Add(new Deparment_Places()
-                        {
-                            place_name=reader.GetString("place_name"),
-                            lat=reader.GetDouble("lat"),
-                            lng=reader.GetDouble("lng")
-                        });
-                        reader.Close();
-                    }
-
-                    return new JsonResult(place);
-                }
-
-                else
-                {
-                    List<Department_list> deptlist = new List<Department_list>();
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        reader.Read();
-                        deptlist.Add(new Department_list()
-                        {
-                            dept_id=reader.GetInt32("id"),
-                            name=reader.GetString("name")
-                        });
-                        reader.Close();
-                    }
-
-                    return new JsonResult(deptlist);
-                }
-
-                //con.Close();
-                
-            }
-                      
-        }
+     
 
         private static string Encryption(string password)
         {
@@ -504,8 +416,8 @@ namespace RoadMap_DB.DataAccess
                     double[,] data = new double[numRows, 2];
                     for (int i = 0; i < numRows; i++)
                     {
-                        data[i, 0] = double.Parse(dt.Rows[i]["lat"].ToString());
-                        data[i, 1] = double.Parse(dt.Rows[i]["lng"].ToString());
+                        data[i, 0] = double.Parse(dt.Rows[i]["lat_value"].ToString());
+                        data[i, 1] = double.Parse(dt.Rows[i]["lng_value"].ToString());
                     }
                     return data;
                 }
