@@ -12,20 +12,8 @@ namespace RoadMap_DB.Models
     {
         [Key,Column(Order =0)]
         public  int u_user_id { get; set; }
+        public int u_location_id { get; set; }
 
-        [Column(Order =1)]
-        public  int d_floor_id { get; set; }
 
-        [Column("lat",Order =2)]
-        public double lat_value { get; set; }
-
-        [Column("lng",Order =3)]
-        public double lng_value{ get; set; }
-
-        [Column(Order = 4)]
-        public int d_dept_it { get; set; }
-
-        [Column(Order = 5)]
-        public int place_id { get; set; }
     }
 }

@@ -9,16 +9,17 @@ namespace RoadMap_DB.Models
 {
     public class Inner_route
     {
-        [Key, Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
-        public int in_r_id { get; set; }
-        public int graph_No { get; set; }
+        [ Column(Order = 0)]
+        public int in_route_id { get; set; }
+        public int i_location_id { get; set; }
+        public int i_dept_id { get; set; }
+        public int i_floor_id { get; set; }
 
-        [Column(Order = 2)]
-        public double lat { get; set; }
+        public Location location { get; set; }
+        public Department department { get; set; }
+       // public Floor floor { get; set; }
 
-        [Column(Order = 3)]
-        public double lng { get; set; }
     }
+
+   
 }

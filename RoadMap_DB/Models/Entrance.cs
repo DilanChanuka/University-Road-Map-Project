@@ -9,18 +9,15 @@ namespace RoadMap_DB.Models
 {
     public class Entrance
     {
-        [Key,Column(Order =0)]
-        public int id { get; set; }
+        [Column(Order =0)]
+        public int entrance_id { get; set; }
 
-        [Column(Order =1)]
-        public int dept_id { get; set; }
+        public int e_location_id { get; set; }
 
-        public int floor_ID { get; set; }
+        [Column(Order =2)]
+        public int e_dept_id { get; set; }
 
-        [Column(Order = 3)]
-        public double lat { get; set; }
-
-        [Column(Order = 4)]
-        public double lng { get; set; }
+        public Location Location { get; set; }
+        public Department department { get; set; }
     }
 }

@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace RoadMap_DB.Models
 {
-    public class Vertext_Location
+    public class Department
     {
         [Key,Column(Order =0)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
-        public int graph_No { get; set; }
-        public int vertex_No { get; set; }
-        public int location_id { get; set; }
-        public Location location { get; set; }
+        public int dept_id { get; set; }
+        public string  dept_name{ get; set; }
+
+        public List<Entrance> dentrance { get; set; }
+        public List<Place> dplace { get; set; }
+        public List<Floor> dfloor { get; set; }
+        public List<Inner_route> dinner_routes { get; set; }
     }
 }
