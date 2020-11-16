@@ -44,17 +44,6 @@ namespace RoadMap_DB.Controllers
 
         }
 
-        [Route("GetData/DepartmentList")]
-        public JsonResult DepartmentList()
-        {
-
-            string sql = "SELECT  * FROM department_lists ";
-            JsonResult result = MySqlDataAccess.AccesData(sql, new Department_list());
-
-            Console.Write(result);
-            return new JsonResult(result);
-
-        }
 
         [Route("GetData/VertextLocation")]
         public string VertextLocation(int id)
@@ -70,9 +59,11 @@ namespace RoadMap_DB.Controllers
         public IActionResult VRoute()
         {
             
-           // int[] data = LocationData.GetDepartmentAndFloor(1); // this is a sample
+             
+           //double[,] data = LocationData.GetEntranceLocations(1,1); // this is a sample
 
-            Dictionary<string, double[]> data = LocationData.GetFloorPlaces(10,20);
+            
+           // Dictionary<string, double[]> data = LocationData.GetFloorPlaces(1,1);
 
             return View();
         }
