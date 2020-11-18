@@ -26,9 +26,8 @@ class Hpage extends StatefulWidget
 
 class _MHPage extends State<Hpage>
 {
-
+String vlu = "";
 int itm=0;
-
 //GlobalKey<FormState> _fromkey = GlobalKey<FormState>();
 
 Future<String> createAlertDialog(BuildContext context) async{
@@ -106,9 +105,10 @@ Future<String> createAlertDialog(BuildContext context) async{
                         return DropdownMenuItem(
                           value: floorvlue,
                           child: Text(floorvlue),
+                          //onTap: (){return floorvalue;},
                         );
                       }).toList(),
-                      onChanged: (String fl){setState((){floorvalue = fl;});}
+                      onChanged: (String fl){setState((){floorvalue = fl;});},
                     ),
                   ],
                 ),
@@ -124,7 +124,7 @@ Future<String> createAlertDialog(BuildContext context) async{
           actions: <Widget>[
             MaterialButton(
               onPressed: (){
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(vlu = floorvalue);
               },
                 child: Text("OK", 
                   style: TextStyle(
@@ -141,6 +141,7 @@ Future<String> createAlertDialog(BuildContext context) async{
 }
 
   String location,destination;
+  bool con = true;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -256,20 +257,40 @@ Future<String> createAlertDialog(BuildContext context) async{
   }
   Widget _tab1()
   {
-    return SingleChildScrollView(
-      child: _buildUserVehicle(),
-    );
+    if(itm == 0)
+    {
+      return SingleChildScrollView(
+        child: _buildUserVehicleOutSide(),
+      );
+    }
+    else
+    {
+      return IgnorePointer(
+        child: SingleChildScrollView(
+          child: _buildUserVehicleInSide(),
+        ),
+      );
+    } 
   } 
   Widget _tab2()
   {
-    return SingleChildScrollView(
-      child: _buildUserWalk(),
-    );
+    if(itm == 0)
+    {
+      return SingleChildScrollView(
+        child: _buildUserWalkOutSide(),
+      );
+    }
+    else
+    {
+      return SingleChildScrollView(
+        child: _buildUserWalkInSide(),
+      );
+    } 
   }
 
-  Widget _buildUserLocationVehicle()
+  Widget _buildUserLocationVehicleInSide()
   {
-    return Padding(padding: EdgeInsets.all(8),
+    return Padding(padding: EdgeInsets.zero,  
       child: DropDownField(
         controller: listSelect,
         hintText: "Enter your location",
@@ -282,30 +303,103 @@ Future<String> createAlertDialog(BuildContext context) async{
            });
         },
       ),
-    );
+    );  
   }
 
-  Widget _buildUserLocationWalk()
+  Widget _buildUserLocationWalkInSide()
   {
-    return Padding(padding: EdgeInsets.all(8),
+
+    if(vlu == "Ground floor")
+    {
+      return _ground();
+    }
+    if(vlu == "First floor")
+    {
+      return _firstw();
+    }
+    if(vlu == "Second floor")
+    {
+      return _secondw();
+    }
+    else
+    {
+      return _thirdw();
+    }
+  }
+  Widget _ground()
+  {
+    return Padding(padding: EdgeInsets.zero,
       child: DropDownField(
-        controller: listSelect,
+            //itemsVisibleInDropdown: 2,
+            controller: groundf,
+            hintText: "Enter your location",
+            enabled: true,
+            items: ground,
+            onValueChanged: (value)
+            {
+              setState(() {
+              groundselected = value;
+              });
+            },
+          ),
+    );
+  }
+  Widget _firstw()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+          controller: firstf,
+          hintText: "Enter your location",
+          enabled: true,
+          items: first,
+          onValueChanged: (value)
+          {
+            setState(() {
+            firstselected = value;
+          });
+        },
+      ),
+    );
+  }
+  Widget _secondw()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+        controller: secoundf,
         hintText: "Enter your location",
         enabled: true,
-        items: list,
-        onValueChanged: (value)
+        items: secound,
+          onValueChanged: (value)
         {
-           setState(() {
-             selected = value;
-           });
+          setState(() {
+          secoundselected = value;
+          });
+        },
+      ),
+    );
+  }
+  Widget _thirdw()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+        //itemsVisibleInDropdown: 2,
+        controller: thirdf,
+        hintText: "Enter your location",
+        enabled: true,
+        items: third,
+          onValueChanged: (value)
+        {
+          setState(() {
+          thirdselected = value;
+          });
         },
       ),
     );
   }
 
-  Widget _buildDestinationVehicle()
+  Widget _buildDestinationVehicleInSide()
   {
-    return Padding(padding: EdgeInsets.all(8),
+    return Padding(padding: EdgeInsets.zero,
       child: DropDownField(
         controller: listSelecta,
         hintText: "Choose destination",
@@ -321,9 +415,9 @@ Future<String> createAlertDialog(BuildContext context) async{
     );
   }
 
-  Widget _buildDestinationWalk()
+  Widget _buildDestinationWalkInSide()
   {
-    return Padding(padding: EdgeInsets.all(8),
+    return Padding(padding: EdgeInsets.zero,
       child: DropDownField(
         controller: listSelecta,
         hintText: "Choose destination",
@@ -339,7 +433,7 @@ Future<String> createAlertDialog(BuildContext context) async{
     );
   }
 
-  Widget buildEnterButtonVehicle()
+  Widget buildEnterButtonVehicleInSide()
   {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -347,7 +441,7 @@ Future<String> createAlertDialog(BuildContext context) async{
         Container(
           height: (MediaQuery.of(context).size.height / 10),
           width: 6 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 10,top: 60),
+          margin: EdgeInsets.only(bottom: 10,top: 35),
           child: RaisedButton(
             elevation: 5.0,
             color: firstColor,
@@ -369,7 +463,7 @@ Future<String> createAlertDialog(BuildContext context) async{
     );
   }
 
-  Widget buildEnterButtonWalk()
+  Widget buildEnterButtonWalkInSide()
   {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -377,7 +471,7 @@ Future<String> createAlertDialog(BuildContext context) async{
         Container(
           height: (MediaQuery.of(context).size.height / 10),
           width: 6 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 10,top: 60),
+          margin: EdgeInsets.only(bottom: 10,top: 35),
           child: RaisedButton(
             elevation: 5.0,
             color: firstColor,
@@ -399,16 +493,14 @@ Future<String> createAlertDialog(BuildContext context) async{
     );
   }
 
-  Widget _buildUserVehicle()
+  Widget _buildUserVehicleInSide()
   {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
 
          ClipRRect(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
+          borderRadius: BorderRadius.zero,
           child: Container(
             height:MediaQuery.of(context).size.height * 0.75,
             width: MediaQuery.of(context).size.width,
@@ -416,12 +508,13 @@ Future<String> createAlertDialog(BuildContext context) async{
               color: Colors.white,
             ),
             child: SingleChildScrollView(
-            padding: EdgeInsets.only(top: 15.0),
+            //padding: EdgeInsets.only(top: 15.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-              
+
+                SizedBox(height: 15.0,),
                 ClipRRect(
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
@@ -437,13 +530,14 @@ Future<String> createAlertDialog(BuildContext context) async{
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              _buildUserLocationVehicle(),
+                              _buildUserLocationVehicleInSide(),
                             ],
                         ),
                       ),
                   ),
                 ),
 
+                SizedBox(height: 15.0,),
                 ClipRRect(
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
@@ -459,19 +553,20 @@ Future<String> createAlertDialog(BuildContext context) async{
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            _buildDestinationVehicle(),
+                            _buildDestinationVehicleInSide(),
                           ],
                       ),
                     ),
                   ),
                 ),
 
+                SizedBox(height: 15.0,),
                 ClipRRect(
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
                   ),
                   child: Container(
-                    height: MediaQuery.of(context).size.height*0.3,
+                    height: MediaQuery.of(context).size.height*0.2,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: mainColor,
@@ -481,7 +576,7 @@ Future<String> createAlertDialog(BuildContext context) async{
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                         buildEnterButtonVehicle(),
+                         buildEnterButtonVehicleInSide(),
                       ],
                     ),
                   ),
@@ -497,16 +592,14 @@ Future<String> createAlertDialog(BuildContext context) async{
     );
   }
 
-  Widget _buildUserWalk()
+  Widget _buildUserWalkInSide()
   {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
 
          ClipRRect(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
+          borderRadius: BorderRadius.zero,
           child: Container(
             height:MediaQuery.of(context).size.height * 0.75,
             width: MediaQuery.of(context).size.width,
@@ -514,12 +607,13 @@ Future<String> createAlertDialog(BuildContext context) async{
               color: Colors.white,
             ),
             child: SingleChildScrollView(
-            padding: EdgeInsets.only(top: 15.0),
+            //padding: EdgeInsets.only(top: 15.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
               
+                SizedBox(height: 15.0,),
                 ClipRRect(
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
@@ -535,13 +629,14 @@ Future<String> createAlertDialog(BuildContext context) async{
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              _buildUserLocationWalk(),
+                              _buildUserLocationWalkInSide(),
                             ],
                         ),
                       ),
                   ),
                 ),
 
+                SizedBox(height: 15.0,),
                 ClipRRect(
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
@@ -557,13 +652,193 @@ Future<String> createAlertDialog(BuildContext context) async{
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            _buildDestinationWalk(),
+                            _buildDestinationWalkInSide(),
                           ],
                       ),
                     ),
                   ),
                 ),
 
+                SizedBox(height: 15.0,),
+                ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height*0.2,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                         buildEnterButtonWalkInSide(),
+                      ],
+                    ),
+                  ),
+                  ),
+                ),
+
+              ],
+            ),
+          ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildUserLocationVehicleOutSide()
+  {
+    return Padding(padding: EdgeInsets.zero,  
+      child: DropDownField(
+        controller: listSelect,
+        hintText: "Enter your location",
+        enabled: true,
+        items: list,
+        onValueChanged: (value)
+        {
+           setState(() {
+             selected = value;
+           });
+        },
+      ),
+    );  
+  }
+  Widget _buildUserLocationWalkOutSide()
+  {
+    return Padding(padding: EdgeInsets.zero,  
+      child: DropDownField(
+        controller: listSelect,
+        hintText: "Enter your location",
+        enabled: true,
+        items: list,
+        onValueChanged: (value)
+        {
+           setState(() {
+             selected = value;
+           });
+        },
+      ),
+    );  
+  }
+  Widget _buildDestinationVehicleOutSide()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+        controller: listSelecta,
+        hintText: "Choose destination",
+        enabled: true,
+        items: lista,
+        onValueChanged: (value)
+        {
+           setState(() {
+             selecteda = value;
+           });
+        },
+      ),
+    );
+  }
+  Widget _buildDestinationWalkOutSide()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+        controller: listSelecta,
+        hintText: "Choose destination",
+        enabled: true,
+        items: lista,
+        onValueChanged: (value)
+        {
+           setState(() {
+             selecteda = value;
+           });
+        },
+      ),
+    );
+  }
+  Widget buildEnterButtonVehicleOutSide()
+  {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          height: (MediaQuery.of(context).size.height / 10),
+          width: 6 * (MediaQuery.of(context).size.width /10),
+          margin: EdgeInsets.only(bottom: 10,top: 35),
+          child: RaisedButton(
+            elevation: 5.0,
+            color: firstColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            onPressed: () => {},
+            child: Text(
+              "Enter",
+              style: TextStyle(
+                color: Colors.white,
+                letterSpacing: 1.5,
+                fontSize: MediaQuery.of(context).size.height / 20,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+  Widget buildEnterButtonWalkOutSide()
+  {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          height: (MediaQuery.of(context).size.height / 10),
+          width: 6 * (MediaQuery.of(context).size.width /10),
+          margin: EdgeInsets.only(bottom: 10,top: 35),
+          child: RaisedButton(
+            elevation: 5.0,
+            color: firstColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            onPressed: () => {},
+            child: Text(
+              "Enter",
+              style: TextStyle(
+                color: Colors.white,
+                letterSpacing: 1.5,
+                fontSize: MediaQuery.of(context).size.height / 40,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+  Widget _buildUserVehicleOutSide()
+  {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+
+         ClipRRect(
+          borderRadius: BorderRadius.zero,
+          child: Container(
+            height:MediaQuery.of(context).size.height * 0.75,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: SingleChildScrollView(
+            //padding: EdgeInsets.only(top: 15.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+
+                SizedBox(height: 15.0,),
                 ClipRRect(
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
@@ -574,12 +849,156 @@ Future<String> createAlertDialog(BuildContext context) async{
                     decoration: BoxDecoration(
                       color: mainColor,
                     ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              _buildUserLocationVehicleOutSide(),
+                            ],
+                        ),
+                      ),
+                  ),
+                ),
+
+                SizedBox(height: 15.0,),
+                ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height*0.3,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            _buildDestinationVehicleOutSide(),
+                          ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 15.0,),
+                ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height*0.2,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                         buildEnterButtonWalk(),
+                         buildEnterButtonVehicleOutSide(),
+                      ],
+                    ),
+                  ),
+                  ),
+                ),
+
+              ],
+            ),
+          ),
+          ),
+        ),
+      ],
+    );
+  }
+  Widget _buildUserWalkOutSide()
+  {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+
+         ClipRRect(
+          borderRadius: BorderRadius.zero,
+          child: Container(
+            height:MediaQuery.of(context).size.height * 0.75,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: SingleChildScrollView(
+            //padding: EdgeInsets.only(top: 15.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+              
+                SizedBox(height: 15.0,),
+                ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height*0.3,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              _buildUserLocationWalkOutSide(),
+                            ],
+                        ),
+                      ),
+                  ),
+                ),
+
+                SizedBox(height: 15.0,),
+                ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height*0.3,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            _buildDestinationWalkOutSide(),
+                          ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 15.0,),
+                ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height*0.2,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                         buildEnterButtonWalkOutSide(),
                       ],
                     ),
                   ),
@@ -595,16 +1014,3 @@ Future<String> createAlertDialog(BuildContext context) async{
     );
   }
 }
- 
-//for text
-List<String> list = ["Main Gate","Library","Scenes Library","Scenes Auditorium","Scenes Cantin","Art Cantin"];
-
-final listSelect = TextEditingController();
-
-String selected = "";
-
-List<String> lista = ["Auditorium" ,"E-Learning","Lab 1","Lab 2","Mini Auditorium"];
-
-final listSelecta = TextEditingController();
-
-String selecteda = "";
