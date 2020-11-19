@@ -1,6 +1,8 @@
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
 import 'package:uor_road_map/constanents.dart';
+import 'package:uor_road_map/Screens/Common/data.dart';
+import 'package:uor_road_map/Screens/Disition/disistionFunc.dart';
 
 class AddSSPage extends StatelessWidget
 {
@@ -8,10 +10,6 @@ class AddSSPage extends StatelessWidget
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "University of Ruhuna",
-      theme: ThemeData(
-        primaryColor: Colors.white,
-      ),
       home: Spage(),
     );
   }
@@ -31,70 +29,85 @@ class _MHPage extends State<Spage>
       home: Scaffold(
           resizeToAvoidBottomPadding: false,
           appBar: AppBar(
+            backgroundColor: firstColor,
             title: Text("University of Ruhuna"),
-            leading: IconButton(icon: Icon(Icons.menu),
-             onPressed: () {}
-             ),
           ),
-          body: Center(
+          body: SingleChildScrollView(
              child: _buildUser(),
+          ),
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                UserAccountsDrawerHeader(
+                  accountName: Text("User Name"), 
+                  accountEmail: Text("User Email"),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundColor: mainColor,
+                    child: Text("A"),
+                  ),
+                  decoration: BoxDecoration(
+                    color: firstColor,
+                  ),
+                ),
+
+                ListTile(
+                  title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.exit_to_app,color: blackcolor,), 
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Profile",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.person,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Contacts",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.contacts,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Settings",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.settings,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Help and feedback",style: TextStyle(fontSize: 20.0),),
+                  leading: Icon(Icons.help,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+              ],
+            ),
           ),
       ),
     );
   }
-  Widget _buildUserLocation()
-  {
-    return Padding(
-      padding: EdgeInsets.all(8),
-        child: TextFormField(
-          keyboardType: TextInputType.name,
-          onChanged: (value){
-            setState(() {
-              location = value;
-            });
-          },
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-                Icons.my_location,
-                color: firstColor,
-              ),
-              labelText: "Enter your location"
-          ),
-        ),
-      );
-    /*return Padding(padding: EdgeInsets.all(8),
-      child: DropDownField(
-        controller: listSelect,
-        hintText: "Enter your location",
-        enabled: true,
-        items: list,
-        onValueChanged: (value)
-        {
-           setState(() {
-             selected = value;
-           });
-        },
-      ),
-    );*/
-  }
+ 
   Widget _buildDestination()
   {
     return Padding(padding: EdgeInsets.all(8),
       child: DropDownField(
-        controller: listSelecta,
+        itemsVisibleInDropdown: 7,
+        controller: placeNameSelect,
         hintText: "Choose destination",
         enabled: true,
-        items: lista,
+        items: searchPlaces,
         onValueChanged: (value)
         {
            setState(() {
-             selecteda = value;
+             placeNameselected = value;
            });
         },
       ),
     );
   }
-  Widget buildEnterButton()
+
+  Widget buildEnterButton()                                             //Enter Button 
   {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -109,13 +122,17 @@ class _MHPage extends State<Spage>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
-            onPressed: () => {},
+            onPressed: () => 
+            {
+                seachDisition(context,placeNameselected)
+            },
+
             child: Text(
               "Enter",
               style: TextStyle(
                 color: Colors.white,
                 letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 40,
+                fontSize: MediaQuery.of(context).size.height / 30,
               ),
             ),
           ),
@@ -125,55 +142,58 @@ class _MHPage extends State<Spage>
   }
   Widget _buildUser()
   {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
+      //mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         ClipRRect(
           borderRadius: BorderRadius.all(
             Radius.circular(20),
           ),
           child: Container(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height * 0.64,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                _buildUserLocation(),
-                _buildDestination(),
-                 buildEnterButton(),
-                /* Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Text(
-                      "Texting!!! \n Texting!!!",
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height / 30,
-                      ),
-                    ),
-                  ],
-                ),*/
-              ],
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(top: 30.0),
+              child: Column(
+                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  _buildDestination(),
+                ],
+              ),
+            ),
+          ),
+        ),
+
+        ClipRRect(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.22 ,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(top: 30.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                   buildEnterButton(),
+                ],
+              ),
             ),
           ),
         ),
       ],
     );
   }
+
 }
-//String selected = "";
 
-/*List<String> list = ["Main Gate","Library","Scenes Library","Scenes Auditorium","Scenes Cantin","Art Cantin"];*/
-
-//List<String> list = ["Matara","Dicwalla","Tangalle","Galle","Colombo","Kaluthara"];
-
-//final listSelect = TextEditingController();
-
-String selecteda = "";
-
-List<String> lista = ["Auditorium" ,"E-Learning","Lab 1","Lab 2","Mini Auditorium"];
-
-final listSelecta = TextEditingController();
+String placeNameselected = "";

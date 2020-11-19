@@ -1,6 +1,8 @@
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
 import 'package:uor_road_map/constanents.dart';
+import 'package:uor_road_map/Screens/Common/data.dart';
+import 'package:uor_road_map/Screens/Disition/disistionFunc.dart';
 
 class AddSPage extends StatelessWidget
 {
@@ -11,6 +13,7 @@ class AddSPage extends StatelessWidget
       title: "University of Ruhuna",
       theme: ThemeData(
         primaryColor: Colors.white,
+        backgroundColor: firstColor,
       ),
       home: Hpage(),
     );
@@ -22,52 +25,136 @@ class Hpage extends StatefulWidget
   _MHPage createState() => _MHPage();
 }
 
-class Side{
-  int id;
-  String name;
-
-  Side(this.id,this.name);
-
-  static List<Side> getSide(){
-    return <Side>[
-      Side(1, 'Out Side'),
-      Side(2, 'In Side'),
-    ];
-  }
-}
-
 class _MHPage extends State<Hpage>
 {
 
-List<Side> _side = Side.getSide();
-List<DropdownMenuItem<Side>> _dropdownMenuitem;
-Side _selectedSide;
+int itm=0;
 
-@override
-void initState()
-{
-  _dropdownMenuitem = buildDropdownMenuItems(_side).cast<DropdownMenuItem<Side>>();
-  _selectedSide = _dropdownMenuitem[0].value;
-  super.initState();
-} 
+//GlobalKey<FormState> _fromkey = GlobalKey<FormState>();
 
-List<DropdownMenuItem<Side>> buildDropdownMenuItems(List sides){
-  List<DropdownMenuItem<Side>> items = List();
-  for(Side side in sides){
-    items.add(
-      DropdownMenuItem(
-        value: side,
-        child: Text(side.name),
+Future<String> createAlertDialog(BuildContext context) async{
+  return await showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(builder: (context,setState){
+
+        return AlertDialog(
+        title: Text("Select Department and Floor",
+        style: TextStyle(
+          fontSize: 15.0,
+          color: Colors.red,
+        ),
+        textAlign: TextAlign.center,
+        ),
+        content: Form(
+         // key: _fromkey,
+
+          
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize:MainAxisSize.min,
+              children:<Widget>[
+              Text("Select Department"), 
+              Container(
+                height:MediaQuery.of(context).size.height * 0.076,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.lightGreen,
+                ),
+                child:SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      DropdownButton(
+                        isExpanded: true,
+                        //hint: Text("Select Department"),
+                        value: departmentvalue,
+                        underline: Container(
+                          height: 3,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                        items: department.map((departmentvalue){
+                        return DropdownMenuItem(
+                          value: departmentvalue,
+                          child: Text(departmentvalue),
+                        );
+                      }).toList(),
+                      onChanged: (selectedDepartment)
+                      {
+                        setState(()
+                        {
+                          departmentvalue  = selectedDepartment;        //Get Department value
+                        });
+                      }
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+              Text("Select Floor"),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.lightBlue,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      //Padding(padding: EdgeInsets.all(12.0)),
+                      DropdownButton(
+                        isExpanded: true,
+                        //hint: Text("Select Floor"),
+                        value: floorvalue,
+                        underline: Container(
+                          height: 3,
+                          color: Colors.deepPurpleAccent,
+                         ),
+                        items: floor.map((floorvlue){
+                        return DropdownMenuItem(
+                          value: floorvlue,
+                          child: Text(floorvlue),
+                        );
+                      }).toList(),
+                      onChanged: 
+                      (selectedFloorID)
+                      {
+                        setState((){
+                          floorvalue = selectedFloorID;          //Get Floor value
+                          });
+                      }
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            
+            
+          ],
+        ),
+        ),
       ),
-    );
-  }
-  return items;
-}
 
-onChangeDropdwonItem(Side selectedSide){
-  setState(() {
-    _selectedSide = selectedSide;
-  });
+          actions: <Widget>[
+            MaterialButton(
+              onPressed: (){
+                 setState((){
+                   selectedDepartment=departmentvalue;
+                   selectedFloorName=floorvalue;
+                 });
+                  Navigator.of(context).pop();
+              },
+                child: Text("OK", 
+                  style: TextStyle(
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
 }
 
   String location,destination;
@@ -79,23 +166,40 @@ onChangeDropdwonItem(Side selectedSide){
         length: 2,
         child: Scaffold(
           resizeToAvoidBottomPadding: false,
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
-           // title: Text("University of Ruhuna"),
+            backgroundColor: firstColor,
+            title: Text("Find out"),
             actions: <Widget>[
-               SizedBox(width: 40.0,),
-               DropdownButton(
-                   value: _selectedSide,
-                   items: _dropdownMenuitem, 
-                   onChanged: onChangeDropdwonItem,
-                   ),
-              IconButton(
-                icon: Icon(Icons.more_vert), 
-                onPressed: () {},
-                ),
+
+               DropdownButton<int>(
+                iconSize: 30.0,
+                iconEnabledColor: mainColor,
+                value: itm,
+                items: [
+                   DropdownMenuItem(
+                     child: Text("Out Side",
+                      style: TextStyle(fontSize: 25.0),
+                     ),
+                      value: 0,
+                     ),
+                     DropdownMenuItem(
+                      child: Text("In Side",
+                        style: TextStyle(fontSize: 25.0),
+                      ),
+                      value: 1,
+                      onTap: () async { 
+                       await createAlertDialog(context);
+                      }
+                    ),
+                ], 
+                onChanged: (int value){
+                    setState(() {
+                    itm = value;
+                    });
+                   },
+                 ),
             ],
-            leading: IconButton(icon: Icon(Icons.menu),
-             onPressed: () {}
-             ),
              bottom: TabBar(
                tabs:[
                  Tab(icon: Icon(Icons.directions_car),
@@ -106,6 +210,55 @@ onChangeDropdwonItem(Side selectedSide){
                  ),
                ], 
                ),
+          ),
+           drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                UserAccountsDrawerHeader(
+                  accountName: Text("User Name"), 
+                  accountEmail: Text("User Email"),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundColor: mainColor,
+                    child: Text("A"),
+                  ),
+                  decoration: BoxDecoration(
+                    color: firstColor,
+                  ),
+                ),
+
+                ListTile(
+                  title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.exit_to_app,color: blackcolor,), 
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Profile",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.person,color: blackcolor,),
+                  onTap: (){},
+                ),
+                
+                ListTile(
+                  title: Text("Contacts",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.contacts,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Settings",style: TextStyle(fontSize: 18.0),),
+                  leading: Icon(Icons.settings,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+                ListTile(
+                  title: Text("Help and feedback",style: TextStyle(fontSize: 20.0),),
+                  leading: Icon(Icons.help,color: blackcolor,),
+                  onTap: (){},
+                ),
+
+              ],
+            ),
           ), 
           body:
               TabBarView(
@@ -120,29 +273,30 @@ onChangeDropdwonItem(Side selectedSide){
   }
   Widget _tab1()
   {
-    return Container(
+    return SingleChildScrollView(
       child: _buildUserVehicle(),
     );
-  }
+  } 
   Widget _tab2()
   {
-    return Container(
+    return SingleChildScrollView(
       child: _buildUserWalk(),
     );
   }
 
   Widget _buildUserLocationVehicle()
   {
+    vOr="v";
     return Padding(padding: EdgeInsets.all(8),
       child: DropDownField(
         controller: listSelect,
         hintText: "Enter your location",
         enabled: true,
-        items: list,
+        items: placesList,
         onValueChanged: (value)
         {
            setState(() {
-             selected = value;
+             selectedStart = value;
            });
         },
       ),
@@ -151,16 +305,17 @@ onChangeDropdwonItem(Side selectedSide){
 
   Widget _buildUserLocationWalk()
   {
+    vOr="f";
     return Padding(padding: EdgeInsets.all(8),
       child: DropDownField(
         controller: listSelect,
         hintText: "Enter your location",
         enabled: true,
-        items: list,
+        items: placesList,
         onValueChanged: (value)
         {
            setState(() {
-             selected = value;
+             selectedStart = value;
            });
         },
       ),
@@ -169,16 +324,17 @@ onChangeDropdwonItem(Side selectedSide){
 
   Widget _buildDestinationVehicle()
   {
+    vOr="v";
     return Padding(padding: EdgeInsets.all(8),
       child: DropDownField(
         controller: listSelecta,
         hintText: "Choose destination",
         enabled: true,
-        items: lista,
+        items: placesList,
         onValueChanged: (value)
         {
            setState(() {
-             selecteda = value;
+             selectedDestination = value;
            });
         },
       ),
@@ -187,16 +343,17 @@ onChangeDropdwonItem(Side selectedSide){
 
   Widget _buildDestinationWalk()
   {
+    vOr="f";
     return Padding(padding: EdgeInsets.all(8),
       child: DropDownField(
         controller: listSelecta,
         hintText: "Choose destination",
         enabled: true,
-        items: lista,
+        items: placesList,
         onValueChanged: (value)
         {
            setState(() {
-             selecteda = value;
+             selectedDestination = value;
            });
         },
       ),
@@ -209,22 +366,26 @@ onChangeDropdwonItem(Side selectedSide){
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-          height: (MediaQuery.of(context).size.height / 20),
-          width: 4 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20),
+          height: (MediaQuery.of(context).size.height / 10),
+          width: 6 * (MediaQuery.of(context).size.width /10),
+          margin: EdgeInsets.only(bottom: 10,top: 60),
           child: RaisedButton(
             elevation: 5.0,
             color: firstColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
-            onPressed: () => {},
-            child: Text(
+            onPressed: () => 
+            {
+                disitionFunct(context,arr)
+            },
+
+            child:  Text(
               "Enter",
               style: TextStyle(
                 color: Colors.white,
                 letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 40,
+                fontSize: MediaQuery.of(context).size.height / 20,
               ),
             ),
           ),
@@ -239,16 +400,24 @@ onChangeDropdwonItem(Side selectedSide){
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-          height: (MediaQuery.of(context).size.height / 20),
-          width: 4 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20),
+          height: (MediaQuery.of(context).size.height / 10),
+          width: 6 * (MediaQuery.of(context).size.width /10),
+          margin: EdgeInsets.only(bottom: 10,top: 60),
           child: RaisedButton(
             elevation: 5.0,
             color: firstColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
-            onPressed: () => {},
+            onPressed: () => 
+            {
+                print(selectedDepartment),
+                print(selectedDestination),
+              // print(selectedFloorName),
+                print(selectedStart),
+                print(vOr)
+            },
+
             child: Text(
               "Enter",
               style: TextStyle(
@@ -265,39 +434,96 @@ onChangeDropdwonItem(Side selectedSide){
 
   Widget _buildUserVehicle()
   {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        ClipRRect(
+
+         ClipRRect(
           borderRadius: BorderRadius.all(
-            Radius.circular(20),
+            Radius.circular(10),
           ),
           child: Container(
-            height: 2*(MediaQuery.of(context).size.height),
+            height:MediaQuery.of(context).size.height * 0.75,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,
             ),
+            child: SingleChildScrollView(
+            padding: EdgeInsets.only(top: 15.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                _buildUserLocationVehicle(),
-                _buildDestinationVehicle(),
-                 buildEnterButtonVehicle(),
-                /*Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Texting!!! \n Texting!!!",
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height / 10,
+              
+                ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height*0.3,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              _buildUserLocationVehicle(),
+                            ],
+                        ),
+                      ),
+                  ),
+                ),
+
+                ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height*0.3,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            _buildDestinationVehicle(),
+                          ],
                       ),
                     ),
-                  ],
-                ),*/
+                  ),
+                ),
+
+                ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height*0.3,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                         buildEnterButtonVehicle(),
+                      ],
+                    ),
+                  ),
+                  ),
+                ),
+
               ],
             ),
+          ),
           ),
         ),
       ],
@@ -306,58 +532,115 @@ onChangeDropdwonItem(Side selectedSide){
 
   Widget _buildUserWalk()
   {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        ClipRRect(
+
+         ClipRRect(
           borderRadius: BorderRadius.all(
-            Radius.circular(20),
+            Radius.circular(10),
           ),
           child: Container(
-            height: MediaQuery.of(context).size.height,
+            height:MediaQuery.of(context).size.height * 0.75,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,
             ),
+            child: SingleChildScrollView(
+            padding: EdgeInsets.only(top: 15.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                _buildUserLocationWalk(),
-                _buildDestinationWalk(),
-                 buildEnterButtonWalk(),
-                /* Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Texting!!! \nTexting!!!",
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height / 10,
+              
+                ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height*0.3,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              _buildUserLocationWalk(),
+                            ],
+                        ),
+                      ),
+                  ),
+                ),
+
+                ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height*0.3,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            _buildDestinationWalk(),
+                          ],
                       ),
                     ),
-                  ],
-                ),*/
+                  ),
+                ),
+
+                ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height*0.3,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                         buildEnterButtonWalk(),
+                      ],
+                    ),
+                  ),
+                  ),
+                ),
+
               ],
             ),
+          ),
           ),
         ),
       ],
     );
   }
 }
-
-class initState {
-}
-
+ 
 //for text
-List<String> list = ["Main Gate","Library","Scenes Library","Scenes Auditorium","Scenes Cantin","Art Cantin"];
 
 final listSelect = TextEditingController();
-
-String selected = "";
-
-List<String> lista = ["Auditorium" ,"E-Learning","Lab 1","Lab 2","Mini Auditorium"];
-
 final listSelecta = TextEditingController();
 
-String selecteda = "";
+String selectedStart = "";
+String selectedDestination = "";
+String vOr="";
+String selectedFloorName= "";
+String selectedDepartment="";
+
+List<String> arr=[selectedStart,selectedDestination,selectedDepartment,selectedFloorName,vOr];
+
+
+

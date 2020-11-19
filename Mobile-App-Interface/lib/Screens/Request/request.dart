@@ -46,7 +46,7 @@ import 'package:uor_road_map/Screens/Common/data.dart';
           
   }
 
-  String getplaceRequest(List<double> array,int placeID,String vORf,int selectedfloorID)  //done
+  String getplaceRequest(List<double> array,int placeID,String vORf)  //done
   {
           String sourcelat=array[0].toString();
           String sourcelng=array[1].toString();
