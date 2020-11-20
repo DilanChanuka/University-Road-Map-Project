@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uor_road_map/Screens/Common/data.dart';
+import 'package:uor_road_map/Screens/Map/Display/display_DirectionMap.dart';
 
 const String KEY=GOOGL_KEY;
 const double CAMERA_ZOOM = 18;
@@ -258,6 +259,8 @@ class _DrawState  extends State<DrawPlaceinout>
       @override
     Widget build(BuildContext context) {
 
+        List<dynamic> mapdetails=new List<dynamic>();
+
         CameraPosition initialLocation=CameraPosition(
           zoom: CAMERA_ZOOM,
           bearing: CAMERA_BEARING,
@@ -265,23 +268,12 @@ class _DrawState  extends State<DrawPlaceinout>
           target:LatLng(allCordinates[1][0][0].latitude,allCordinates[1][0][0].longitude)
           );
       
-          return MaterialApp(
-            home: Scaffold(
-              appBar: AppBar(
-                title: Text("UOR RoadMap"),
-                backgroundColor: Colors.green[700],
-              ),
-              body: GoogleMap(
-                myLocationEnabled: true,
-                compassEnabled: true,
-                markers: _marker,
-                polylines: _polyline,
-                mapType: MapType.normal,
-                initialCameraPosition: initialLocation,
-                onMapCreated: _onMapCreated,
-                ),
-            ),
-          );      
+          mapdetails.add(_onMapCreated);
+          mapdetails.add(initialLocation);
+          mapdetails.add(_polyline);
+          mapdetails.add(_marker);
+
+          return DisplayPage(mapdetails);
     }
 
 }

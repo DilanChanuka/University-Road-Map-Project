@@ -20,12 +20,18 @@ class Floor
 
   Floor(this.id,this.name);
 
+  
+
   static List<Floor> getFloor(){
     return <Floor>[
+    
       Floor(1, 'Ground Floor'),
       Floor(2, 'First Floor'),
       Floor(3, 'Second Floor'),
     ];
+  
+    
+
   }
 }
 class AddSearchState extends State<AddSearch>
@@ -58,6 +64,7 @@ List<DropdownMenuItem<Floor>> buildDropdownMenuItems(List floors){
 onChangeDropdwonItem(Floor selectedFloor){
   setState(() {
     _selectedFloor = selectedFloor;
+    
   });
 }
 

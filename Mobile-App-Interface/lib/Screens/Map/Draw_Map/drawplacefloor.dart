@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:uor_road_map/Screens/Common/data.dart';
+import 'package:uor_road_map/Screens/Map/Display/display_DirectionMap.dart';
 
 
 const String KEY="AIzaSyD27-xwm_C9mv9V2mb2hki_XfzKTD5TYRg";
@@ -166,6 +167,8 @@ class _DrawState  extends State<DrawplaceFloor>
       @override
     Widget build(BuildContext context) {
 
+        List<dynamic> mapdetails=new List<dynamic>();
+
         CameraPosition initialLocation=CameraPosition(
           zoom: CAMERA_ZOOM,
           bearing: CAMERA_BEARING,
@@ -173,23 +176,12 @@ class _DrawState  extends State<DrawplaceFloor>
           target:LatLng(location[0][0], location[0][1])
           );
       
-          return MaterialApp(
-            home: Scaffold(
-              appBar: AppBar(
-                title: Text("UOR RoadMap"),
-                backgroundColor: Colors.green[700],
-              ),
-              body: GoogleMap(
-                myLocationEnabled: true,
-                compassEnabled: true,
-                markers: _marker,
-                polylines: _polyline,
-                mapType: MapType.normal,
-                initialCameraPosition: initialLocation,
-                onMapCreated: _onMapCreated,
-                ),
-            ),
-          );      
+          mapdetails.add(_onMapCreated);
+          mapdetails.add(initialLocation);
+          mapdetails.add(_polyline);
+          mapdetails.add(_marker);
+
+          return DisplayPage(mapdetails);
     }
 
 }

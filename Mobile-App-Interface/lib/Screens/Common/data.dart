@@ -4,13 +4,21 @@ import 'package:flutter/material.dart';
 List<String> placesList=["Your Location","Lecture's Room","Instructor's Room","Computer Lab 01","Mini-auditorium",
 "CS Head's room","Conference Room","Record Room","Special Lab","Computer lab 02","E-Learning Center",
 "Special Room","Demostrator's Room","Main-auditorium","Car park","Wash Rooms (CS)","Computer Lab 03",
-"Lecture Hall 01","Server Room" ,"Main Gate","Library","Scenes Library","Scenes Auditorium",
-"Scenes Cantin","Art Cantin","Auditorium" ];
+"Lecture Hall 01","Server Room" ,"Main Gate","Y Junction","Library Junction","Library","Scenes Auditorium",
+"Art Cantin","Auditorium","Student's Well fair branch","Maths Department",
+"Computer Science Department" ,"Scenes faculty Cantin","Science Dean office","Botany Department",
+"Zoology Department","Faculty of fisharies","Maths Lecture hall 1","Maths Lecture hall 2","Physics Department",
+"Chemistry Department","Medical Center","Student Common room","Student reading place"];
 
 List<String> searchPlaces=["Lecture's Room","Instructor's Room","Computer Lab 01","Mini-auditorium",
 "CS Head's room","Conference Room","Record Room","Special Lab","Computer lab 02","E-Learning Center",
 "Special Room","Demostrator's Room","Main-auditorium","Car park","Wash Rooms (CS)","Computer Lab 03",
-"Lecture Hall 01","Server Room"];
+"Lecture Hall 01","Server Room" ,"Main Gate","Y Junction","Library Junction","Library","Scenes Auditorium",
+"Art Cantin","Auditorium","Student's Well fair branch","Maths Department",
+"Computer Science Department" ,"Scenes faculty Cantin","Science Dean office","Botany Department",
+"Zoology Department","Faculty of fisharies","Maths Lecture hall 1","Maths Lecture hall 2","Physics Department",
+"Chemistry Department","Medical Center","Student Common room","Student reading place"];
+
 
 const String GOOGL_KEY="AIzaSyD27-xwm_C9mv9V2mb2hki_XfzKTD5TYRg";
 final placeNameSelect = TextEditingController();
@@ -22,8 +30,11 @@ String floorvalue  = "Ground floor"; //default floor value
 String departmentvalue ="Computer Science";  //default department value
  
 
-List<String> outSideplaces=["Main Gate","Library","Scenes Library","Scenes Auditorium",
-"Scenes Cantin","Art Cantin","Auditorium" ];
+List<String> outSideplaces=["Main Gate","Y Junction","Library Junction","Library","Scenes Auditorium",
+"Art Cantin","Auditorium","Student's Well fair branch","Maths Department",
+"Computer Science Department" ,"Scenes faculty Cantin","Science Dean office","Botany Department",
+"Zoology Department","Faculty of fisharies","Maths Lecture hall 1","Maths Lecture hall 2","Physics Department",
+"Chemistry Department","Medical Center","Student Common room","Student reading place"];
 
 List<String> inSidePlces=["Lecture's Room","Instructor's Room","Computer Lab 01","Mini-auditorium",
 "CS Head's room","Conference Room","Record Room","Special Lab","Computer lab 02","E-Learning Center",
