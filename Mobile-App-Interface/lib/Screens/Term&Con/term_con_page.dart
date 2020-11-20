@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:uor_road_map/Screens/SignUp/signup_page.dart';
+import 'package:uor_road_map/constanents.dart';
 
 class TCPage extends StatelessWidget
 {
@@ -8,8 +10,9 @@ class TCPage extends StatelessWidget
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        backgroundColor: blackcolor,
         primaryColor: Colors.white,
-      ),
+      ), 
       home: TCBody(),
     );
   }
@@ -28,16 +31,41 @@ class _TermConPageState extends State<TCBody>
       home: Scaffold(
           resizeToAvoidBottomPadding: false,
           appBar: AppBar(
-            title: Text("University of Ruhuna"),
-            leading: IconButton(icon: Icon(Icons.close),
+            backgroundColor: firstColor,
+            title: Text("Term and Condition",
+            style: TextStyle(
+              fontSize: 25.0
+              ),
+            ),
+            leading: IconButton(icon: Icon(
+              Icons.arrow_back,
+              size: 30.0,
+              color: mainColor,
+            ),
              onPressed: () {
-              Navigator.pop(context);
+             Navigator.push(context, 
+                PageTransition(
+                  type: PageTransitionType.topToBottom, 
+                  child: SignUp(),
+                  duration: Duration(microseconds: 400),
+                 ),
+                );
              }
              ),
           ),
           body: Container(
-             child: Text("texting !!!! \n texting !!!! \n texting !!!!"),
+            child: SingleChildScrollView(
+            //margin: EdgeInsets.all(10.0),
+            //width: 370,
+              child: Text("Texting!!!!!!!!!!!!!!!!!!!!!!!!",
+              overflow: TextOverflow.ellipsis,
+              maxLines: 200,
+                style: TextStyle(
+                  fontSize: 16.0,
+                ),
+              ),
           ),
+        ),
       ),
     );
   }

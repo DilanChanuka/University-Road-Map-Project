@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+//import 'package:uor_road_map/Screens/Map/main_map.dart';
 import 'package:uor_road_map/Screens/SignUp/signup_page.dart';
 import 'package:uor_road_map/constanents.dart';
 import 'package:uor_road_map/Screens/FPassword/forg_pass_page.dart';
@@ -8,6 +10,7 @@ class Login extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: blackcolor,
       resizeToAvoidBottomPadding: false,
       body: LBody(),
     );
@@ -18,19 +21,22 @@ class LBody extends StatefulWidget
     @override
   _LoginPageState createState() => _LoginPageState();
 }
-class _LoginPageState extends State<LBody> 
+class _LoginPageState extends State<LBody>
 {
-   String username,password;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String username,password;
   Widget _buildLogo(){
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          "UOR NAVIGATION MAP",
+          "UOR NAVIGATION",
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height/25,
+              fontSize: MediaQuery.of(context).size.height/20,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: blackcolor,
             ),
           ),
       ],
@@ -42,11 +48,12 @@ class _LoginPageState extends State<LBody>
       padding: EdgeInsets.all(8),
         child: TextFormField(
           keyboardType: TextInputType.name,
-          onChanged: (value){
+          textCapitalization: TextCapitalization.words,
+          /*onChanged: (value){
             setState(() {
               username = value;
             });
-          },
+          },*/
           decoration: InputDecoration(
             prefixIcon: Icon(
                 Icons.perm_identity,
@@ -54,6 +61,16 @@ class _LoginPageState extends State<LBody>
               ),
               labelText: "Username"
           ),
+          textInputAction: TextInputAction.next,
+          validator: (String name){
+            Pattern pattern  =  r'^[A-Za-z0-9] + (? :[ _-][A-Za-z0-9]+)*$';
+            RegExp regex = new RegExp(pattern);
+              if(!regex.hasMatch(name))
+                return "Inavalid username";
+              else 
+                return null;
+          },
+          onSaved: (name) => username = name,
         ),
       );
   }
@@ -64,11 +81,11 @@ class _LoginPageState extends State<LBody>
         child: TextFormField(
           keyboardType: TextInputType.text,
           obscureText: true,
-          onChanged: (value){
+          /*onChanged: (value){
             setState(() {
               password = value;
             });
-          },
+          },*/
           decoration: InputDecoration(
             prefixIcon: Icon(
                 Icons.lock,
@@ -76,17 +93,33 @@ class _LoginPageState extends State<LBody>
               ),
               labelText: "Password"
           ),
+          validator: (String pwd){
+            Pattern pattern = r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
+            RegExp regex  = new RegExp(pattern);
+            if(!regex.hasMatch(pwd))
+              return "Invalid password";
+            else
+              return null;
+          },
+          onSaved: (pwd) => password = pwd,
+          textInputAction: TextInputAction.done,
         ),
       );
   }
   Widget buildForgetPasswordButton()
   {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         FlatButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ForgPass()));
+          Navigator.push(context, 
+                PageTransition(
+                  type: PageTransitionType.topToBottom, 
+                  child: ForgPass(),
+                  duration: Duration(microseconds: 400),
+                 ),
+                );
         }, 
         child: Text("Forgotten your password?",
           style: TextStyle(
@@ -112,8 +145,13 @@ class _LoginPageState extends State<LBody>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
-            onPressed: () => {},
-            child: Text(
+            onPressed: () => {
+              if(_formKey.currentState.validate())
+              {
+                _formKey.currentState.save(),
+              }
+            },
+            child: Text( 
               "Log in",
                 style: TextStyle(
                   color: Colors.white,
@@ -132,9 +170,17 @@ class _LoginPageState extends State<LBody>
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 40),
+          padding: EdgeInsets.only(top: 2),
           child: FlatButton(
-            onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp())), },
+            onPressed: () => {
+              Navigator.push(context, 
+                PageTransition(
+                  type: PageTransitionType.topToBottom, 
+                  child: SignUp(),
+                  duration: Duration(microseconds: 400),
+                 ),
+                ), 
+              },
             child: RichText(
               text: TextSpan(
                 children: [
@@ -177,11 +223,17 @@ class _LoginPageState extends State<LBody>
             decoration: BoxDecoration(
               color: Colors.white,
             ),
+            child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                SizedBox(height: 40.0,),
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
@@ -198,8 +250,11 @@ class _LoginPageState extends State<LBody>
                 buildForgetPasswordButton(),
                 buildLoginButton(),
                 buildSignUpButton(),
+                buildLogInGuest(),
               ],
             ),
+          ),
+          ),
           ),
         ),
       ],
@@ -227,16 +282,37 @@ class _LoginPageState extends State<LBody>
                 ),
               ),  
             ),
-            Column(
+            SingleChildScrollView(
+            child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   _buildLogo(),
                   _buildContainer(),
                 ],
-            )
+              ),
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildLogInGuest()
+  {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        FlatButton(
+          onPressed: (){}, 
+          child: Text("Log in as a guest",
+            style: TextStyle(
+              fontSize: 20.0,
+              color: tridColor,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:uor_road_map/Screens/FPassword/reset_pwd_page.dart';
 import 'package:uor_road_map/constanents.dart';
+import 'package:email_validator/email_validator.dart';
 
 class ForgPass extends StatelessWidget 
 {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: blackcolor,
       resizeToAvoidBottomPadding: false,
       body: FBody(),
     );
@@ -18,6 +22,7 @@ class FBody extends StatefulWidget
 }
 class _ForgPassPageState extends State<FBody>
 {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String email;
   @override
   Widget build(BuildContext context)
@@ -41,13 +46,15 @@ class _ForgPassPageState extends State<FBody>
                 ),
               ),  
             ),
-            Column(
+            SingleChildScrollView(
+            child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   _buildLogo(),
                   _buildContainer(),
                 ],
-            )
+              ),
+            ),
           ],
         ),
       ),
@@ -59,11 +66,11 @@ class _ForgPassPageState extends State<FBody>
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          "UOR NAVIGATION MAP",
+          "UOR NAVIGATION",
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height/25,
+              fontSize: MediaQuery.of(context).size.height/20,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: blackcolor,
             ),
           ),
       ],
@@ -85,18 +92,25 @@ class _ForgPassPageState extends State<FBody>
             decoration: BoxDecoration(
               color: Colors.white,
             ),
+            child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    SizedBox(height: 150.0,),
                     Container(
-                      width: 260,
+                      width: 270,
                       child: Text("To reset your password,submit your email address below.If we can find yor in the database,an email will be send to your email address,with instruction how to get access again.",
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 5,
+                      maxLines: 6,
+                      //textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 15.0,
                       ),
@@ -105,8 +119,10 @@ class _ForgPassPageState extends State<FBody>
                   ],
                 ),
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    SizedBox(height: 50.0,),
                     Container(
                       width: 250,
                       child: Text("Search by email",
@@ -121,6 +137,8 @@ class _ForgPassPageState extends State<FBody>
                 buildSearchButton(),
               ],
             ),
+            ),
+            ),
           ),
         ),
       ],
@@ -133,18 +151,22 @@ class _ForgPassPageState extends State<FBody>
       padding: EdgeInsets.all(8),
         child: TextFormField(
           keyboardType: TextInputType.name,
-          onChanged: (value){
+          /*onChanged: (value){
             setState(() {
               email = value;
             });
-          },
+          },*/
           decoration: InputDecoration(
             prefixIcon: Icon(
                 Icons.email,
                 color: firstColor,
               ),
-              labelText: "Email"
+              labelText: "Email",
+              hintText: "abc@gmail.com",
           ),
+          textInputAction: TextInputAction.next,
+          validator: (String eml) => EmailValidator.validate(eml)? null:"Invalid email address",
+          onSaved: (eml) => email = eml,
         ),
       );
   }
@@ -164,7 +186,20 @@ class _ForgPassPageState extends State<FBody>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
-            onPressed: () => {},
+            onPressed: () => {
+              if(_formKey.currentState.validate())
+              {
+                _formKey.currentState.save(),
+
+                Navigator.push(context, 
+                PageTransition(
+                  type: PageTransitionType.topToBottom, 
+                  child: ResetPwd(),
+                  duration: Duration(microseconds: 400),
+                 ),
+                ), 
+              }
+            },
             child: Text(
               "Search",
                 style: TextStyle(

@@ -1,4 +1,6 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:uor_road_map/Screens/Login/login_page.dart';
 import 'package:uor_road_map/constanents.dart';
 import 'package:uor_road_map/Screens/Term&Con/term_con_page.dart';
@@ -8,6 +10,7 @@ class SignUp  extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: blackcolor,
       resizeToAvoidBottomPadding: false,
       body: SBody(),
     );
@@ -20,18 +23,21 @@ class SBody extends StatefulWidget
 }
 class _SignUpPageState extends State<SBody> 
 {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String username,password,email,id;
   bool checkB = false;
+  bool first = true;
+
   Widget _buildLogo(){
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          "UOR NAVIGATION MAP",
+          "UOR NAVIGATION",
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height/25,
+              fontSize: MediaQuery.of(context).size.height/20,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: blackcolor,
             ),
           ),
       ],
@@ -43,11 +49,12 @@ class _SignUpPageState extends State<SBody>
       padding: EdgeInsets.all(8),
         child: TextFormField(
           keyboardType: TextInputType.name,
-          onChanged: (value){
+          textCapitalization: TextCapitalization.words,
+          /*onChanged: (value){
             setState(() {
               username = value;
             });
-          },
+          },*/
           decoration: InputDecoration(
             prefixIcon: Icon(
                 Icons.perm_identity,
@@ -55,6 +62,16 @@ class _SignUpPageState extends State<SBody>
               ),
               labelText: "Username"
           ),
+          textInputAction: TextInputAction.next,
+          validator: (String name){
+            Pattern pattern  =  r'^[A-Za-z0-9] + (? :[ _-][A-Za-z0-9]+)*$';
+            RegExp regex = new RegExp(pattern);
+              if(!regex.hasMatch(name))
+                return "Inavalid username";
+              else 
+                return null;
+          },
+          onSaved: (name) => username = name,
         ),
       );
   }
@@ -64,18 +81,22 @@ class _SignUpPageState extends State<SBody>
       padding: EdgeInsets.all(8),
         child: TextFormField(
           keyboardType: TextInputType.name,
-          onChanged: (value){
+         /* onChanged: (value){
             setState(() {
               email = value;
             });
-          },
+          },*/
           decoration: InputDecoration(
             prefixIcon: Icon(
                 Icons.email,
                 color: firstColor,
               ),
-              labelText: "Email"
+              labelText: "Email",
+              hintText: "abc@gmail.com",
           ),
+          textInputAction: TextInputAction.next,
+          validator: (String eml) => EmailValidator.validate(eml)? null:"Invalid email address",
+          onSaved: (eml) => email = eml,
         ),
       );
   }
@@ -86,11 +107,11 @@ class _SignUpPageState extends State<SBody>
         child: TextFormField(
           keyboardType: TextInputType.text,
           obscureText: true,
-          onChanged: (value){
+          /*onChanged: (value){
             setState(() {
               password = value;
             });
-          },
+          },*/
           decoration: InputDecoration(
             prefixIcon: Icon(
                 Icons.lock,
@@ -98,32 +119,61 @@ class _SignUpPageState extends State<SBody>
               ),
               labelText: "Password"
           ),
+          validator: (String pwd){
+            Pattern pattern = r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
+            RegExp regex  = new RegExp(pattern);
+            if(!regex.hasMatch(pwd))
+              return "Invalid password";
+            else
+              return null;
+          },
+          onSaved: (pwd) => password = pwd,
+          textInputAction: TextInputAction.done,
         ),
       );
   }
   Widget buildAgreeButton() // Terms and Conditions
   {
+    
     return Row(
      // mainAxisAlignment: MainAxisAlignment.start,
      // crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Radio(value: 1, groupValue: 1, onChanged: null),
-        RichText(text: 
-          TextSpan(
-           // text: "I",
-            children: [
-              TextSpan(
-                text: "Term & Condition",
-              ),
-            ],
+        Checkbox(
+          checkColor: Colors.red,
+          activeColor: Colors.black12,
+          value: this.first, 
+          onChanged: (bool value){
+            setState(() {
+              this.first = value;
+            });
+          }
           ),
-        ),
+          Text("I Agree with "),
+          InkWell(
+            child: Text("Term and Condition",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
+            ),
+            onTap: (){
+              Navigator.push(context, 
+                PageTransition(
+                  type: PageTransitionType.topToBottom, 
+                  child: TCPage(),
+                  duration: Duration(microseconds: 400),
+                 ),
+                );
+            },
+          ),
       ],
     );
   }
   Widget buildSignUpButton()
   {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
@@ -136,12 +186,17 @@ class _SignUpPageState extends State<SBody>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
-            onPressed: () => {},
+            onPressed: () => {
+              if(_formKey.currentState.validate())
+              {
+                _formKey.currentState.save()
+              }
+            },
             child: Text(
               "Sign Up",
                 style: TextStyle(
                   color: Colors.white,
-                  letterSpacing: 1.5,
+                  letterSpacing: 1.5, 
                   fontSize: MediaQuery.of(context).size.height / 40,
                 ),
               ),
@@ -153,12 +208,21 @@ class _SignUpPageState extends State<SBody>
   Widget buildLoginButton()
   {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 40),
+          padding: EdgeInsets.only(bottom: 100.0,top: 5.0),
           child: FlatButton(
-            onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => Login())),},
+            onPressed: () => {
+              Navigator.push(context, 
+                PageTransition(
+                  type: PageTransitionType.topToBottom, 
+                  child: Login(),
+                  duration: Duration(microseconds: 400),
+                 ),
+                ),
+              },
             child: RichText(
               text: TextSpan(
                 children: [
@@ -181,6 +245,7 @@ class _SignUpPageState extends State<SBody>
   Widget _buildContainer()
   {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         ClipRRect(
@@ -193,10 +258,15 @@ class _SignUpPageState extends State<SBody>
             decoration: BoxDecoration(
               color: Colors.white,
             ),
+            child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                SizedBox(height: 50.0,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -209,14 +279,22 @@ class _SignUpPageState extends State<SBody>
                     ),
                   ],
                 ),
-                _buildUsernameRow(),
-                _buidemailRow(),
-                _buildPasswordRow(),
-                buildAgreeButton(),
-                buildSignUpButton(),
-                buildLoginButton(),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildUsernameRow(),
+                    _buidemailRow(),
+                    _buildPasswordRow(),
+                    buildAgreeButton(),
+                    buildSignUpButton(),
+                    buildLoginButton(),
+                  ],
+                ),
+                
               ],
             ),
+          ),
+          ),
           ),
         ),
       ],
@@ -244,13 +322,15 @@ class _SignUpPageState extends State<SBody>
                 ),
               ),  
             ),
-            Column(
+            SingleChildScrollView(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   _buildLogo(),
-                  _buildContainer(),
+                  _buildContainer(), 
                 ],
-            )
+              ),
+            ),
           ],
         ),
       ),
