@@ -211,20 +211,17 @@ namespace RoadMap_DB.DataAccess
 
         }
 
-        public static double[,] GetEntranceLocations(int departmentID, int floorID)
+        public static double[,] GetEntranceLocations(int departmentID)
         {
-            /*
+            
             var entranceLocation = new List<Location>();
             int n = 0;
 
-            entranceLocation = GetDataController._db.floors
-                                    .Join(GetDataController._db.entrances,
-                                    f=>f.f_location_id,
-                                    e=>e.e_location_id,
-                                    (f,e)=> new { f.floor_id , e.e_dept_id})
-
-                                    .Join(GetDataController._db.location,
-                                    )
+            entranceLocation = (from e in GetDataController._db.entrances
+                                join l in GetDataController._db.location
+                                on e.e_location_id equals l.location_id
+                                where e.e_dept_id == departmentID
+                                select l).ToList();
                                     
 
             n = entranceLocation.Count;
@@ -238,20 +235,20 @@ namespace RoadMap_DB.DataAccess
                     arr[i, 1] = entranceLocation[i].lng_value;
                 }
             }
-            */
 
-            string sql = "select lat_value,lng_value " +
+            return arr;
+
+          /*  string sql = "select lat_value,lng_value " +
                 "from roadmap_db.location " +
                 "where location_id in " +
                 "(select e_location_id " +
                 "from roadmap_db.entrances " +
                 "left join roadmap_db.floors " +
                 "on entrances.e_location_id = floors.f_location_id " +
-                "where e_dept_id = "+departmentID+" " +
-                "and floor_id = "+floorID+"); ";
+                "where e_dept_id = "+departmentID+"); ";
 
             return MySqlDataAccess.GetEntryLocation(sql);
-            
+            */
         }
 
         public static double[,] GetInnerRoute(int departmentID, int routeID)
