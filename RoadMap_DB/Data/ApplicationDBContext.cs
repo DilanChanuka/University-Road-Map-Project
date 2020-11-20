@@ -80,7 +80,7 @@ namespace RoadMap_DB.Data
 
 
             modelBuilder.Entity<Floor>()
-                .HasKey(f => new { f.floor_id, f.f_location_id }); //Create com: PK  for Floor
+                .HasKey(f => new {f.id }); //Create  PK  for Floor
 
             #endregion
 
