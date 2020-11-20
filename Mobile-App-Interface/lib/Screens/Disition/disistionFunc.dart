@@ -56,8 +56,8 @@ void disitionFunct(BuildContext context,List<String> arr)
           List<double> startarr=getStartLatLg(arr[0]);
           
           String url=getplaceInInRequest(departmentID, floorId, destinationID, startarr, floorId);
-          String a="https://my.api.mockaroo.com/my_saved_schema.json?key=8699f700";
-          Future<String> myfuture=getjsonvalue(a);
+         // String a="https://my.api.mockaroo.com/my_saved_schema.json?key=8699f700";
+          Future<String> myfuture=getjsonvalue(url);
           myfuture.then((response) =>{
               Navigator.push(
                 context,
@@ -74,8 +74,8 @@ void disitionFunct(BuildContext context,List<String> arr)
           selectedFloorID=getsAdfloorID(arr[1]); //default selected floor will be  destination place floor
           List<List<double>> startAdestLatLng=getStartADest(arr[0],arr[1]);
           String url=getplaceinOutRequest(departmentID, floorId, startAdestLatLng, selectedFloorID);
-          String a="https://my.api.mockaroo.com/my_saved_schema.json?key=8699f700";
-          Future<String> myfuture=getjsonvalue(a);
+         // String a="https://my.api.mockaroo.com/my_saved_schema.json?key=8699f700";
+          Future<String> myfuture=getjsonvalue(url);
           myfuture.then((response) => {
             Navigator.push(
               context, 
