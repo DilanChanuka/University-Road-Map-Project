@@ -1,19 +1,21 @@
 
 import 'package:flutter/material.dart';
 
-List<String> placesList=["Your Location","Lecture's Room","Instructor's Room","Computer Lab 01","Mini-auditorium",
-"CS Head's room","Conference Room","Record Room","Special Lab","Computer lab 02","E-Learning Center",
-"Special Room","Demostrator's Room","Main-auditorium","Car park","Wash Rooms (CS)","Computer Lab 03",
-"Lecture Hall 01","Server Room" ,"Main Gate","Y Junction","Library Junction","Library","Scenes Auditorium",
+List<String> placesList=["Your Location", "CS Lecture's Room","CS Instructor's Room","CS Computer Lab 01",
+"CS Mini-auditorium","CS Head's room","CS Conference Room","CS Record Room",
+"CS Special Lab","CS Computer lab 02","CS E-Learning Center","CS Special Room","CS Demostrator's Room",
+"CS Main-auditorium","CS Car park","CS Wash Rooms",
+"CS Computer Lab 03","Lecture Hall 01","Main Gate","Y Junction","Library Junction","Library","Scenes Auditorium",
 "Art Cantin","Auditorium","Student's Well fair branch","Maths Department",
 "Computer Science Department" ,"Scenes faculty Cantin","Science Dean office","Botany Department",
 "Zoology Department","Faculty of fisharies","Maths Lecture hall 1","Maths Lecture hall 2","Physics Department",
 "Chemistry Department","Medical Center","Student Common room","Student reading place"];
 
-List<String> searchPlaces=["Lecture's Room","Instructor's Room","Computer Lab 01","Mini-auditorium",
-"CS Head's room","Conference Room","Record Room","Special Lab","Computer lab 02","E-Learning Center",
-"Special Room","Demostrator's Room","Main-auditorium","Car park","Wash Rooms (CS)","Computer Lab 03",
-"Lecture Hall 01","Server Room" ,"Main Gate","Y Junction","Library Junction","Library","Scenes Auditorium",
+List<String> searchPlaces=[ "CS Lecture's Room","CS Instructor's Room","CS Computer Lab 01",
+"CS Mini-auditorium","CS Head's room","CS Conference Room","CS Record Room",
+"CS Special Lab","CS Computer lab 02","CS E-Learning Center","CS Special Room","CS Demostrator's Room",
+"CS Main-auditorium","CS Car park","CS Wash Rooms",
+"CS Computer Lab 03","Lecture Hall 01","Main Gate","Y Junction","Library Junction","Library","Scenes Auditorium",
 "Art Cantin","Auditorium","Student's Well fair branch","Maths Department",
 "Computer Science Department" ,"Scenes faculty Cantin","Science Dean office","Botany Department",
 "Zoology Department","Faculty of fisharies","Maths Lecture hall 1","Maths Lecture hall 2","Physics Department",
@@ -30,31 +32,34 @@ String floorvalue  = "Ground floor"; //default floor value
 String departmentvalue ="Computer Science";  //default department value
  
 
-List<String> outSideplaces=["Main Gate","Y Junction","Library Junction","Library","Scenes Auditorium",
-"Art Cantin","Auditorium","Student's Well fair branch","Maths Department",
-"Computer Science Department" ,"Scenes faculty Cantin","Science Dean office","Botany Department",
-"Zoology Department","Faculty of fisharies","Maths Lecture hall 1","Maths Lecture hall 2","Physics Department",
-"Chemistry Department","Medical Center","Student Common room","Student reading place"];
+List<String> outSideplaces=["Main Gate","Y Junction","Library Junction",
+    "Library","Student's Well fair branch","Maths Department","Computer Science Department",
+    "Scenes Auditorium","Scenes faculty Cantin","Science Dean office",
+    "Botany Department","Zoology Department","Faculty of fisharies",
+    "Maths Lecture hall 1","Maths Lecture hall 2","Physics Department",
+    "Chemistry Department","Medical Center","Student Common room","Student reading place"];
 
-List<String> inSidePlces=["Lecture's Room","Instructor's Room","Computer Lab 01","Mini-auditorium",
-"CS Head's room","Conference Room","Record Room","Special Lab","Computer lab 02","E-Learning Center",
-"Special Room","Demostrator's Room","Main-auditorium","Car park","Wash Rooms (CS)","Computer Lab 03","Server Room"];
+List<String> inSidePlces=[ "CS Lecture's Room","CS Instructor's Room","CS Computer Lab 01",
+    "CS Mini-auditorium","CS Head's room","CS Conference Room",
+    "CS Record Room","CS Special Lab","CS Computer lab 02",
+    "CS E-Learning Center","CS Special Room","CS Demostrator's Room",
+    "CS Main-auditorium","CS Car park","CS Wash Rooms","CS Computer Lab 03","Lecture Hall 01"];
 
-List<String> ground_floor=["Car park","Wash Rooms (CS)","Computer Lab 01","Main Gate","Library","Scenes Library","Scenes Auditorium",
-"Scenes Cantin","Art Cantin","Auditorium"];
+List<String> ground_floor=["CS Car park","CS Wash Rooms","CS Computer Lab 01"];
 
-List<String> first_floor=["Lecture's Room","Instructor's Room","Computer Lab 02",
-"CS Head's room","Conference Room","Record Room","Special Lab","E-Learning Center",
-"Special Room","Demostrator's Room","Main-auditorium","Lecture Hall 01"];
+List<String> first_floor=["CS Lecture's Room","CS Instructor's Room","CS Head's room",
+    "CS Conference Room","CS Record Room","CS Special Lab","CS Computer lab 02",
+    "CS E-Learning Center","CS Special Room","CS Demostrator's Room",
+    "CS Main-auditorium"];
 
-List<String> second_floor=["Mini-auditorium","Computer Lab 03","Server Room"];
+List<String> second_floor=["CS Mini-auditorium","CS Computer Lab 03"];
 
 
 
 String port=" https://localhost:44342/API";
-List<int> groundFloor=[14,16,15,16,19,20,22,23,24,27,28];
-List<int> firstFloor=[1,2,9,7,8,10,13,6,5,11,12,17];
-List<int> secondFloor=[18,16,4];
+List<int> groundFloor=[3,14,15,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37];
+List<int> firstFloor=[1,2,5,6,7,8,9,10,11,12,13,17];
+List<int> secondFloor=[4,16];
 
 
 //Color
