@@ -31,7 +31,7 @@ class _WelcomePageState extends State<WBody>
         Text(
           "WELCOME",
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height/20,
+              fontSize: MediaQuery.of(context).size.height/15,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
