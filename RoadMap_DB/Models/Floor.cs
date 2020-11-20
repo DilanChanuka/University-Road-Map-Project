@@ -11,6 +11,7 @@ namespace RoadMap_DB.Models
     {
         [Column(Order =0)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int id { get; set; }
         public int floor_id { get; set; }
         public int f_location_id { get; set; } 
 
