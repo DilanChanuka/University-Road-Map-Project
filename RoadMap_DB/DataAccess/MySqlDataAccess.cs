@@ -17,22 +17,8 @@ namespace RoadMap_DB.DataAccess
     
     public static class MySqlDataAccess
     {
-       
-        public static string GetConnectionString()
-        {
-            return ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        }
 
-        //public static T LoadData<T>(string sql)
-        //{
-        //    using (MySqlConnection con = new MySqlConnection(GetConnectionString("DefaultConnection")))
-        //    {
-        //        con.Open();
-        //    }
-        //}
-
-
-     
+        #region SQL QUERY
 
         private static string Encryption(string password)
         {
@@ -469,6 +455,10 @@ namespace RoadMap_DB.DataAccess
 
             }
         }
+
+        #endregion
+
+
     }
 
 }
