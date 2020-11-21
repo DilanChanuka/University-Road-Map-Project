@@ -265,7 +265,8 @@ Future<String> createAlertDialog(BuildContext context) async{
     }
     else
     {
-      return IgnorePointer(
+      return AbsorbPointer(
+        absorbing: true,
         child: SingleChildScrollView(
           child: _buildUserVehicleInSide(),
         ),
@@ -292,14 +293,14 @@ Future<String> createAlertDialog(BuildContext context) async{
   {
     return Padding(padding: EdgeInsets.zero,  
       child: DropDownField(
-        controller: listSelect,
+        controller: placeNameSelect,
         hintText: "Enter your location",
         enabled: true,
-        items: list,
+        items: placeName,
         onValueChanged: (value)
         {
            setState(() {
-             selected = value;
+             placeNameselected = value;
            });
         },
       ),
@@ -308,7 +309,6 @@ Future<String> createAlertDialog(BuildContext context) async{
 
   Widget _buildUserLocationWalkInSide()
   {
-
     if(vlu == "Ground floor")
     {
       return _ground();
@@ -317,13 +317,9 @@ Future<String> createAlertDialog(BuildContext context) async{
     {
       return _firstw();
     }
-    if(vlu == "Second floor")
-    {
-      return _secondw();
-    }
     else
     {
-      return _thirdw();
+      return _secondw();
     }
   }
   Widget _ground()
@@ -378,7 +374,7 @@ Future<String> createAlertDialog(BuildContext context) async{
       ),
     );
   }
-  Widget _thirdw()
+  /*Widget _thirdw()
   {
     return Padding(padding: EdgeInsets.zero,
       child: DropDownField(
@@ -395,20 +391,20 @@ Future<String> createAlertDialog(BuildContext context) async{
         },
       ),
     );
-  }
+  }*/
 
   Widget _buildDestinationVehicleInSide()
   {
     return Padding(padding: EdgeInsets.zero,
       child: DropDownField(
-        controller: listSelecta,
+        controller: placeNameSelect,
         hintText: "Choose destination",
         enabled: true,
-        items: lista,
+        items: placeName,
         onValueChanged: (value)
         {
            setState(() {
-             selecteda = value;
+             placeNameselected = value;
            });
         },
       ),
@@ -417,22 +413,71 @@ Future<String> createAlertDialog(BuildContext context) async{
 
   Widget _buildDestinationWalkInSide()
   {
+    if(vlu == "Ground floor")
+    {
+      return _ifground();
+    }
+    if(vlu == "First floor")
+    {
+      return _iffirstw();
+    }
+    else
+    {
+      return _ifsecondw();
+    }
+  }
+  Widget _ifground()
+  {
     return Padding(padding: EdgeInsets.zero,
       child: DropDownField(
-        controller: listSelecta,
-        hintText: "Choose destination",
-        enabled: true,
-        items: lista,
-        onValueChanged: (value)
-        {
-           setState(() {
-             selecteda = value;
-           });
+            //itemsVisibleInDropdown: 2,
+            controller: ifgroundf,
+            hintText: "Enter your location",
+            enabled: true,
+            items: ifground,
+            onValueChanged: (value)
+            {
+              setState(() {
+              ifgroundselected = value;
+              });
+            },
+          ),
+    );
+  }
+  Widget _iffirstw()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+          controller: iffirstf,
+          hintText: "Enter your location",
+          enabled: true,
+          items: iffirst,
+          onValueChanged: (value)
+          {
+            setState(() {
+            iffirstselected = value;
+          });
         },
       ),
     );
   }
-
+  Widget _ifsecondw()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+        controller: ifsecoundf,
+        hintText: "Enter your location",
+        enabled: true,
+        items: ifsecound,
+          onValueChanged: (value)
+        {
+          setState(() {
+          ifsecoundselected = value;
+          });
+        },
+      ),
+    );
+  }
   Widget buildEnterButtonVehicleInSide()
   {
     return Row(
@@ -484,7 +529,7 @@ Future<String> createAlertDialog(BuildContext context) async{
               style: TextStyle(
                 color: Colors.white,
                 letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 40,
+                fontSize: MediaQuery.of(context).size.height / 20,
               ),
             ),
           ),
@@ -695,14 +740,14 @@ Future<String> createAlertDialog(BuildContext context) async{
   {
     return Padding(padding: EdgeInsets.zero,  
       child: DropDownField(
-        controller: listSelect,
+        controller: walkoutDestiLocselect,
         hintText: "Enter your location",
         enabled: true,
-        items: list,
+        items: walkoutDestiLoc,
         onValueChanged: (value)
         {
            setState(() {
-             selected = value;
+             walkoutDestiLocselected = value;
            });
         },
       ),
@@ -712,14 +757,14 @@ Future<String> createAlertDialog(BuildContext context) async{
   {
     return Padding(padding: EdgeInsets.zero,  
       child: DropDownField(
-        controller: listSelect,
+        controller: walkoutUserLocselect,
         hintText: "Enter your location",
         enabled: true,
-        items: list,
+        items: walkoutUserLoc,
         onValueChanged: (value)
         {
            setState(() {
-             selected = value;
+             walkoutUserLocselected = value;
            });
         },
       ),
@@ -729,14 +774,14 @@ Future<String> createAlertDialog(BuildContext context) async{
   {
     return Padding(padding: EdgeInsets.zero,
       child: DropDownField(
-        controller: listSelecta,
+        controller: vehicleoutDestiLocselect,
         hintText: "Choose destination",
         enabled: true,
-        items: lista,
+        items: vehicleoutDestiLoc,
         onValueChanged: (value)
         {
            setState(() {
-             selecteda = value;
+             vehicleoutDestiLocselected = value;
            });
         },
       ),
@@ -746,14 +791,14 @@ Future<String> createAlertDialog(BuildContext context) async{
   {
     return Padding(padding: EdgeInsets.zero,
       child: DropDownField(
-        controller: listSelecta,
+        controller: walkoutDestiLocselect,
         hintText: "Choose destination",
         enabled: true,
-        items: lista,
+        items: walkoutDestiLoc,
         onValueChanged: (value)
         {
            setState(() {
-             selecteda = value;
+             walkoutDestiLocselected = value;
            });
         },
       ),
@@ -809,7 +854,7 @@ Future<String> createAlertDialog(BuildContext context) async{
               style: TextStyle(
                 color: Colors.white,
                 letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 40,
+                fontSize: MediaQuery.of(context).size.height / 20,
               ),
             ),
           ),
