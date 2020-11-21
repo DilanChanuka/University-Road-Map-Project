@@ -20,7 +20,7 @@ namespace RoadMap_DB.Controllers
 
 
         [Route("User/setuser")]
-        public string setuser(string name, string email, string pwd)//Register user
+        public string setuser(string name,string email,string pwd)//Register user
         {
             if (SetUser(name, email, pwd))
                 return "Done";
