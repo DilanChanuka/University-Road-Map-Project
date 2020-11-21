@@ -23,7 +23,7 @@ class RPWDBody extends StatefulWidget
 }
 class _ResetPageState extends State<RPWDBody>
 {
-  int pin;
+
   String password,conpassword = "";
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -71,7 +71,7 @@ class _ResetPageState extends State<RPWDBody>
         Text(
           "UOR NAVIGATION",
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height/20,
+              fontSize: MediaQuery.of(context).size.height/15,
               fontWeight: FontWeight.bold,
               color: blackcolor,
             ),
@@ -100,7 +100,6 @@ class _ResetPageState extends State<RPWDBody>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                _buildPin(),
                 _buildPassword(),
                 _buildConPassword(),
                 _buildEnter(),
@@ -110,29 +109,6 @@ class _ResetPageState extends State<RPWDBody>
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildPin()
-  {
-    return Padding(
-      padding: EdgeInsets.all(8),
-      child: TextFormField(
-        keyboardType: TextInputType.number,
-        obscureText: true,
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.format_list_numbered_rtl,
-            color: firstColor,
-          ),
-          labelText: "Verification Number"
-        ),
-        onChanged: (value){
-            setState(() {
-              pin = value as int;
-            });
-          }
-      ),
     );
   }
 

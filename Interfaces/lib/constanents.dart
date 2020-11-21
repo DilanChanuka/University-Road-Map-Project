@@ -6,4 +6,3 @@ const secColor = Colors.red;
 const tridColor = Colors.green;
 const forthColor = Colors.lightBlue;
 const blackcolor = Colors.black;
-const colorBlue = Colors.blue;
