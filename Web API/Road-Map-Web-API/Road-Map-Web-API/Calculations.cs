@@ -47,7 +47,7 @@ namespace Road_Map_Web_API
         {
             int[] ids = LocationData.GetDepartmentAndFloor(placeID);
             double[] loc = LocationData.GetPlace(placeID);//locations of place
-            double[,] entrance = LocationData.GetEntranceLocations(ids[0], ids[1]);
+            double[,] entrance = LocationData.GetEntranceLocations(ids[0]);
             double[] distance = new double[entrance.GetLength(0)];
             for (int i = 0; i < entrance.GetLength(0); i++)
             {
@@ -60,7 +60,7 @@ namespace Road_Map_Web_API
 
         public int[] FindEnterenceVertexNo(int dept_ID,int floorID,double startlat, double startlon, double endlat, double endlon)
         {
-            double[,] entrance = LocationData.GetEntranceLocations(dept_ID,floorID);
+            double[,] entrance = LocationData.GetEntranceLocations(dept_ID);
             double[] distance = new double[entrance.GetLength(0)];
             int entranceNumber;
             List<int> entranceAndInnerVertex = new List<int>();

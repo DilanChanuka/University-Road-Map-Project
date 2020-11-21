@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "H:\\API\\Web API\\RoadMap_DB\\RoadMap_DB.csproj": {}
+    "G:\\Web API\\RoadMap_DB\\RoadMap_DB.csproj": {}
   },
   "projects": {
-    "H:\\API\\Web API\\RoadMap_DB\\RoadMap_DB.csproj": {
+    "G:\\Web API\\RoadMap_DB\\RoadMap_DB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\API\\Web API\\RoadMap_DB\\RoadMap_DB.csproj",
+        "projectUniqueName": "G:\\Web API\\RoadMap_DB\\RoadMap_DB.csproj",
         "projectName": "RoadMap_DB",
-        "projectPath": "H:\\API\\Web API\\RoadMap_DB\\RoadMap_DB.csproj",
+        "projectPath": "G:\\Web API\\RoadMap_DB\\RoadMap_DB.csproj",
         "packagesPath": "C:\\Users\\DILANCHANUKALASANTHA\\.nuget\\packages\\",
-        "outputPath": "H:\\API\\Web API\\RoadMap_DB\\obj\\",
+        "outputPath": "G:\\Web API\\RoadMap_DB\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"

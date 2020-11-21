@@ -9,20 +9,21 @@ namespace RoadMap_DB.Models
 {
     public class Floor
     {
-        [Key,Column(Order =0)]
+        [Column(Order =0)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         public int floor_id { get; set; }
+        public int f_location_id { get; set; } 
 
         [Column(Order =2)]
         public int f_dept_id { get; set; }
 
-        [Column("name",Order =3)]
-        public string floor_name { get; set; }
+       // public List<Place> fplace { get; set; }
+       // public List<Inner_route> finner_Routes { get; set; }
 
-        [Column("lat",Order =4)]
-        public double lat_value { get; set; }
 
-        [Column("lng", Order = 5)]
-        public double lng_value { get; set; }
+        public Location location { get; set; }
+        public Department department { get; set; }
+ 
     }
 }

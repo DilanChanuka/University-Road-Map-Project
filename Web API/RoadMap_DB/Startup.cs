@@ -55,7 +55,7 @@ namespace RoadMap_DB
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=GetData}/{action=Index}/{id?}");
+                    pattern: "{controller=GetData}/{action=User}/{id?}");
             });
         }
     }

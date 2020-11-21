@@ -22,10 +22,9 @@ namespace Road_Map_Web_API.Controllers
     [Route("[controller]")]
     public class APIController : Controller
     {
-        public static ApplicationDBContext _db;
         public APIController(ApplicationDBContext db)
         {
-            _db = db;
+            LocationData._db = db;
         }
 
         [HttpGet]
@@ -169,18 +168,13 @@ namespace Road_Map_Web_API.Controllers
         public IActionResult GetPlace(double startLAT, double startLON, int placeID, string method)
         {
             List<double[]> lst = new List<double[]>();            
+
             var final = new Hashtable();
             double[,] routeLocations;
             double[] temp = new double[2];
             Calculations cal = new Calculations();
             int V_No, graphNo;
             double[,] floorLocations;
-            List<double[]> zeroFloorRouteSet = new List<double[]>();
-            List<double[]> stair_0_1_RouteSet = new List<double[]>();
-            List<double[]> stair_1_2_RouteSet = new List<double[]>();
-            List<double[]> firstFloorRouteSet = new List<double[]>();
-            List<double[]> secondFloorRouteSet = new List<double[]>();
-
             switch (method)
             {
                 case "f":
@@ -227,34 +221,39 @@ namespace Road_Map_Web_API.Controllers
             graphNo = 2;
             int[] ids = LocationData.GetDepartmentAndFloor(placeID);
 
-            int[] routes = cal.GetRouteNumbers(graphNo, innerStart, innerEnd);            
+            int[] routes = cal.GetRouteNumbers(graphNo, innerStart, innerEnd);
+            List<double[]> zeroFloorRouteSet = new List<double[]>();
+            List<double[]> stair_0_1_RouteSet = new List<double[]>();
+            List<double[]> stair_1_2_RouteSet = new List<double[]>();
+            List<double[]> firstFloorRouteSet = new List<double[]>();
+            List<double[]> secondFloorRouteSet = new List<double[]>();
 
             //according to the department,no of arrays should change
             foreach (int rt in routes)
             {
                 if (Data.CSFloor_0_RouteNumbers.Contains(rt))
                 {
-                    routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                    routeLocations = LocationData.GetInnerRoute(ids[0], rt);
                     zeroFloorRouteSet.AddRange(new List<double[]>(cal.ValidateRoute(innerStart, innerEnd, graphNo, rt, routeLocations)));
                 }
                 else if (Data.CSFloor_1_RouteNumbers.Contains(rt))
                 {
-                    routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                    routeLocations = LocationData.GetInnerRoute(ids[0], rt);
                     firstFloorRouteSet.AddRange(new List<double[]>(cal.ValidateRoute(innerStart, innerEnd, graphNo, rt, routeLocations)));
                 }
                 else if (Data.CSFloor_2_RouteNumbers.Contains(rt))
                 {
-                    routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                    routeLocations = LocationData.GetInnerRoute(ids[0], rt);
                     secondFloorRouteSet.AddRange(new List<double[]>(cal.ValidateRoute(innerStart, innerEnd, graphNo, rt, routeLocations)));
                 }
                 else if (Data.CSStairBetwenn_0_1.Contains(rt))
                 {
-                    routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                    routeLocations = LocationData.GetInnerRoute(ids[0], rt);
                     stair_0_1_RouteSet.AddRange(new List<double[]>(cal.ValidateRoute(innerStart, innerEnd, graphNo, rt, routeLocations)));
                 }
                 else if (Data.CSStairBetwenn_1_2.Contains(rt))
                 {
-                    routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                    routeLocations = LocationData.GetInnerRoute(ids[0], rt);
                     stair_1_2_RouteSet.AddRange(new List<double[]>(cal.ValidateRoute(innerStart, innerEnd, graphNo, rt, routeLocations)));
                 }
             }
@@ -343,27 +342,27 @@ namespace Road_Map_Web_API.Controllers
                 {
                     if (Data.CSFloor_0_RouteNumbers.Contains(rt))
                     {
-                        routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                        routeLocations = LocationData.GetInnerRoute(department, rt);
                         zeroFloorRouteSet.AddRange(new List<double[]>(cal.ValidateRoute(start, innerEnd, graphNo, rt, routeLocations)));
                     }
                     else if (Data.CSFloor_1_RouteNumbers.Contains(rt))
                     {
-                        routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                        routeLocations = LocationData.GetInnerRoute(department, rt);
                         firstFloorRouteSet.AddRange(new List<double[]>(cal.ValidateRoute(start, innerEnd, graphNo, rt, routeLocations)));
                     }
                     else if (Data.CSFloor_2_RouteNumbers.Contains(rt))
                     {
-                        routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                        routeLocations = LocationData.GetInnerRoute(department, rt);
                         secondFloorRouteSet.AddRange(new List<double[]>(cal.ValidateRoute(start, innerEnd, graphNo, rt, routeLocations)));
                     }
                     else if (Data.CSStairBetwenn_0_1.Contains(rt))
                     {
-                        routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                        routeLocations = LocationData.GetInnerRoute(department, rt);
                         stair_0_1_RouteSet.AddRange(new List<double[]>(cal.ValidateRoute(start, innerEnd, graphNo, rt, routeLocations)));
                     }
                     else if (Data.CSStairBetwenn_1_2.Contains(rt))
                     {
-                        routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                        routeLocations = LocationData.GetInnerRoute(department, rt);
                         stair_1_2_RouteSet.AddRange(new List<double[]>(cal.ValidateRoute(start, innerEnd, graphNo, rt, routeLocations)));
                     }
                 }
@@ -457,27 +456,27 @@ namespace Road_Map_Web_API.Controllers
                 {
                     if (Data.CSFloor_0_RouteNumbers.Contains(rt))
                     {
-                        routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                        routeLocations = LocationData.GetInnerRoute(department, rt);
                         zeroFloorRouteSet.AddRange(new List<double[]>(cal.ValidateRoute(start, end, graphNo, rt, routeLocations)));
                     }
                     else if (Data.CSFloor_1_RouteNumbers.Contains(rt))
                     {
-                        routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                        routeLocations = LocationData.GetInnerRoute(department, rt);
                         firstFloorRouteSet.AddRange(new List<double[]>(cal.ValidateRoute(start, end, graphNo, rt, routeLocations)));
                     }
                     else if (Data.CSFloor_2_RouteNumbers.Contains(rt))
                     {
-                        routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                        routeLocations = LocationData.GetInnerRoute(department, rt);
                         secondFloorRouteSet.AddRange(new List<double[]>(cal.ValidateRoute(start, end, graphNo, rt, routeLocations)));
                     }
                     else if (Data.CSStairBetwenn_0_1.Contains(rt))
                     {
-                        routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                        routeLocations = LocationData.GetInnerRoute(department, rt);
                         stair_0_1_RouteSet.AddRange(new List<double[]>(cal.ValidateRoute(start, end, graphNo, rt, routeLocations)));
                     }
                     else if (Data.CSStairBetwenn_1_2.Contains(rt))
                     {
-                        routeLocations = LocationData.GetInnerRoute(graphNo, rt);
+                        routeLocations = LocationData.GetInnerRoute(department, rt);
                         stair_1_2_RouteSet.AddRange(new List<double[]>(cal.ValidateRoute(start, end, graphNo, rt, routeLocations)));
                     }
                 }
@@ -572,7 +571,7 @@ namespace Road_Map_Web_API.Controllers
         [HttpPost]
         public IActionResult RegisterUser([FromBody]APIUser[] user)
         {
-            if (LocationData.SetUser(_db,user[0].username,user[0].email,user[0].password))
+            if (LocationData.SetUser(user[0].username,user[0].email,user[0].password))
                 return Created("http://localhost:52571/API", user[0].username+" Registered");
             else
                 return BadRequest();
