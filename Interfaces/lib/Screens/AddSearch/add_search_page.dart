@@ -374,10 +374,29 @@ class _MHPage extends State<Hpage> {
   }
   Widget _tab1()
   {
+<<<<<<< HEAD
+    if(itm == 0)
+    {
+      return SingleChildScrollView(
+        child: _buildUserVehicleOutSide(),
+      );
+    }
+    else
+    {
+      return AbsorbPointer(
+        absorbing: true,
+        child: SingleChildScrollView(
+          child: _buildUserVehicleInSide(),
+        ),
+      );
+    } 
+  } 
+=======
     return Container(
       child: _buildUserVehicle(),
     );
   }
+>>>>>>> 1b368c0aa523b3360afeaec8200540b87927eb16
   Widget _tab2()
   {
     return Container(
@@ -389,12 +408,83 @@ class _MHPage extends State<Hpage> {
   {
     return Padding(padding: EdgeInsets.all(8),
       child: DropDownField(
-        controller: listSelect,
+        controller: placeNameSelect,
         hintText: "Enter your location",
         enabled: true,
-        items: list,
+        items: placeName,
         onValueChanged: (value)
         {
+<<<<<<< HEAD
+           setState(() {
+             placeNameselected = value;
+           });
+        },
+      ),
+    );  
+  }
+
+  Widget _buildUserLocationWalkInSide()
+  {
+    if(vlu == "Ground floor")
+    {
+      return _ground();
+    }
+    if(vlu == "First floor")
+    {
+      return _firstw();
+    }
+    else
+    {
+      return _secondw();
+    }
+  }
+  Widget _ground()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+            //itemsVisibleInDropdown: 2,
+            controller: groundf,
+            hintText: "Enter your location",
+            enabled: true,
+            items: ground,
+            onValueChanged: (value)
+            {
+              setState(() {
+              groundselected = value;
+              });
+            },
+          ),
+    );
+  }
+  Widget _firstw()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+          controller: firstf,
+          hintText: "Enter your location",
+          enabled: true,
+          items: first,
+          onValueChanged: (value)
+          {
+            setState(() {
+            firstselected = value;
+          });
+        },
+      ),
+    );
+  }
+  Widget _secondw()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+        controller: secoundf,
+        hintText: "Enter your location",
+        enabled: true,
+        items: secound,
+          onValueChanged: (value)
+        {
+=======
+>>>>>>> 1b368c0aa523b3360afeaec8200540b87927eb16
           setState(() {
             selected = value;
           });
@@ -402,8 +492,12 @@ class _MHPage extends State<Hpage> {
       ),
     );
   }
+<<<<<<< HEAD
+  /*Widget _thirdw()
+=======
 
   Widget _buildUserLocationWalk()
+>>>>>>> 1b368c0aa523b3360afeaec8200540b87927eb16
   {
     return Padding(padding: EdgeInsets.all(8),
       child: DropDownField(
@@ -419,21 +513,27 @@ class _MHPage extends State<Hpage> {
         },
       ),
     );
-  }
+  }*/
 
   Widget _buildDestinationVehicle()
   {
     return Padding(padding: EdgeInsets.all(8),
       child: DropDownField(
-        controller: listSelecta,
+        controller: placeNameSelect,
         hintText: "Choose destination",
         enabled: true,
-        items: lista,
+        items: placeName,
         onValueChanged: (value)
         {
+<<<<<<< HEAD
+           setState(() {
+             placeNameselected = value;
+           });
+=======
           setState(() {
             selecteda = value;
           });
+>>>>>>> 1b368c0aa523b3360afeaec8200540b87927eb16
         },
       ),
     );
@@ -441,23 +541,85 @@ class _MHPage extends State<Hpage> {
 
   Widget _buildDestinationWalk()
   {
+<<<<<<< HEAD
+    if(vlu == "Ground floor")
+    {
+      return _ifground();
+    }
+    if(vlu == "First floor")
+    {
+      return _iffirstw();
+    }
+    else
+    {
+      return _ifsecondw();
+    }
+  }
+  Widget _ifground()
+  {
+    return Padding(padding: EdgeInsets.zero,
+=======
     return Padding(padding: EdgeInsets.all(8),
+>>>>>>> 1b368c0aa523b3360afeaec8200540b87927eb16
       child: DropDownField(
-        controller: listSelecta,
-        hintText: "Choose destination",
-        enabled: true,
-        items: lista,
-        onValueChanged: (value)
-        {
-          setState(() {
-            selecteda = value;
+            //itemsVisibleInDropdown: 2,
+            controller: ifgroundf,
+            hintText: "Enter your location",
+            enabled: true,
+            items: ifground,
+            onValueChanged: (value)
+            {
+              setState(() {
+              ifgroundselected = value;
+              });
+            },
+          ),
+    );
+  }
+  Widget _iffirstw()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+          controller: iffirstf,
+          hintText: "Enter your location",
+          enabled: true,
+          items: iffirst,
+          onValueChanged: (value)
+          {
+            setState(() {
+            iffirstselected = value;
           });
         },
       ),
     );
   }
+  Widget _ifsecondw()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+        controller: ifsecoundf,
+        hintText: "Enter your location",
+        enabled: true,
+        items: ifsecound,
+          onValueChanged: (value)
+        {
+          setState(() {
+<<<<<<< HEAD
+          ifsecoundselected = value;
+=======
+            selecteda = value;
+>>>>>>> 1b368c0aa523b3360afeaec8200540b87927eb16
+          });
+        },
+      ),
+    );
+  }
+<<<<<<< HEAD
+  Widget buildEnterButtonVehicleInSide()
+=======
 
   Widget buildEnterButtonVehicle()
+>>>>>>> 1b368c0aa523b3360afeaec8200540b87927eb16
   {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -583,7 +745,7 @@ class _MHPage extends State<Hpage> {
               style: TextStyle(
                 color: Colors.white,
                 letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 40,
+                fontSize: MediaQuery.of(context).size.height / 20,
               ),
             ),
           ),
@@ -681,7 +843,138 @@ class _MHPage extends State<Hpage> {
                     ),
                   ),
 
+<<<<<<< HEAD
+              ],
+            ),
+          ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildUserLocationVehicleOutSide()
+  {
+    return Padding(padding: EdgeInsets.zero,  
+      child: DropDownField(
+        controller: walkoutDestiLocselect,
+        hintText: "Enter your location",
+        enabled: true,
+        items: walkoutDestiLoc,
+        onValueChanged: (value)
+        {
+           setState(() {
+             walkoutDestiLocselected = value;
+           });
+        },
+      ),
+    );  
+  }
+  Widget _buildUserLocationWalkOutSide()
+  {
+    return Padding(padding: EdgeInsets.zero,  
+      child: DropDownField(
+        controller: walkoutUserLocselect,
+        hintText: "Enter your location",
+        enabled: true,
+        items: walkoutUserLoc,
+        onValueChanged: (value)
+        {
+           setState(() {
+             walkoutUserLocselected = value;
+           });
+        },
+      ),
+    );  
+  }
+  Widget _buildDestinationVehicleOutSide()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+        controller: vehicleoutDestiLocselect,
+        hintText: "Choose destination",
+        enabled: true,
+        items: vehicleoutDestiLoc,
+        onValueChanged: (value)
+        {
+           setState(() {
+             vehicleoutDestiLocselected = value;
+           });
+        },
+      ),
+    );
+  }
+  Widget _buildDestinationWalkOutSide()
+  {
+    return Padding(padding: EdgeInsets.zero,
+      child: DropDownField(
+        controller: walkoutDestiLocselect,
+        hintText: "Choose destination",
+        enabled: true,
+        items: walkoutDestiLoc,
+        onValueChanged: (value)
+        {
+           setState(() {
+             walkoutDestiLocselected = value;
+           });
+        },
+      ),
+    );
+  }
+  Widget buildEnterButtonVehicleOutSide()
+  {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          height: (MediaQuery.of(context).size.height / 10),
+          width: 6 * (MediaQuery.of(context).size.width /10),
+          margin: EdgeInsets.only(bottom: 10,top: 35),
+          child: RaisedButton(
+            elevation: 5.0,
+            color: firstColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            onPressed: () => {},
+            child: Text(
+              "Enter",
+              style: TextStyle(
+                color: Colors.white,
+                letterSpacing: 1.5,
+                fontSize: MediaQuery.of(context).size.height / 20,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+  Widget buildEnterButtonWalkOutSide()
+  {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          height: (MediaQuery.of(context).size.height / 10),
+          width: 6 * (MediaQuery.of(context).size.width /10),
+          margin: EdgeInsets.only(bottom: 10,top: 35),
+          child: RaisedButton(
+            elevation: 5.0,
+            color: firstColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            onPressed: () => {},
+            child: Text(
+              "Enter",
+              style: TextStyle(
+                color: Colors.white,
+                letterSpacing: 1.5,
+                fontSize: MediaQuery.of(context).size.height / 20,
+=======
                 ],
+>>>>>>> 1b368c0aa523b3360afeaec8200540b87927eb16
               ),
             ),
           ),

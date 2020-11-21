@@ -1,65 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+//import 'package:uor_road_map/Screens/Common/data.dart';
 import 'dart:async';
 import 'package:uor_road_map/constanents.dart';
 //import 'package:dropdownfield/dropdownfield.dart';
 
-class Search extends StatefulWidget
+class AddSearch extends StatefulWidget
 {
-  Search() : super();
+  AddSearch() : super();
 
   final String txt= "UOR";
   @override
-  SearchState createState() => SearchState();
+  AddSearchState createState() => AddSearchState();
 
 }
-class Floor
+class AddSearchState extends State<AddSearch>
 {
-  int id;
-  String name;
-
-  Floor(this.id,this.name);
-
-  static List<Floor> getFloor(){
-    return <Floor>[
-      Floor(1, 'Ground Floor'),
-      Floor(2, 'First Floor'),
-      Floor(3, 'Second Floor'),
-    ];
-  }
-}
-class SearchState extends State<Search>
-{
-  List<Floor> _floor = Floor.getFloor();
-  List<DropdownMenuItem<Floor>> _dropdownMenuitem;
-  Floor _selectedFloor; 
-
-@override
-void initState()
-{
-  _dropdownMenuitem = buildDropdownMenuItems(_floor).cast<DropdownMenuItem<Floor>>();
-  _selectedFloor = _dropdownMenuitem[0].value;
-  super.initState();
-}
-
-List<DropdownMenuItem<Floor>> buildDropdownMenuItems(List floors){
-  List<DropdownMenuItem<Floor>> items = List();
-  for(Floor floor in floors){
-    items.add(
-      DropdownMenuItem(
-        value: floor,
-        child: Text(floor.name,style: TextStyle(fontSize: 25.0),),
-      ),
-    );
-  }
-  return items;
-}
-
-onChangeDropdwonItem(Floor selectedFloor){
-  setState(() {
-    _selectedFloor = selectedFloor;
-  });
-}
+ 
+  int floor = 0;
 
   Completer<GoogleMapController> _controller = Completer();
   static const LatLng _center = const LatLng(37.42796133580664, -122.085749655962);
@@ -130,21 +88,39 @@ onChangeDropdwonItem(Floor selectedFloor){
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text(widget.txt,
-          style: TextStyle(
-            color: Colors.white,
-          ),
-          ),
           backgroundColor: firstColor,
           actions: <Widget>[
-             SizedBox(width: 60.0,),
-               DropdownButton(
-                  iconSize: 25.0,
-                  iconEnabledColor: mainColor,
-                  value: _selectedFloor,
-                  items: _dropdownMenuitem, 
-                  onChanged: onChangeDropdwonItem,
-                  ),
+                SizedBox(width: 60.0,),
+                DropdownButton<int>(
+                iconSize: 30.0,
+                iconEnabledColor: mainColor,
+                value: floor,
+                items: [
+                   DropdownMenuItem(
+                     child: Text("Ground Floor",
+                      style: TextStyle(fontSize: 25.0),
+                     ),
+                      value: 0,
+                     ),
+                     DropdownMenuItem(
+                      child: Text("First Floor",
+                        style: TextStyle(fontSize: 25.0),
+                      ),
+                      value: 1,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Second Floor",
+                        style: TextStyle(fontSize: 25.0),
+                      ),
+                      value: 2,
+                    ),
+                ], 
+                onChanged: (int value){
+                    setState(() {
+                    floor = value;
+                    });
+                   },
+                 ),
           ],
         ),
         drawer: Drawer(
@@ -231,5 +207,4 @@ onChangeDropdwonItem(Floor selectedFloor){
       ),
     );
   }
-  
 }

@@ -89,17 +89,17 @@ class _MHPage extends State<Spage>
  
   Widget _buildDestination()
   {
-    return Padding(padding: EdgeInsets.all(8),
+    return Padding(padding: EdgeInsets.zero,
       child: DropDownField(
         itemsVisibleInDropdown: 7,
-        controller: placeNameSelect,
+        controller: walkoutDestiLocselect,
         hintText: "Choose destination",
         enabled: true,
-        items: placeName,
+        items: walkoutDestiLoc,
         onValueChanged: (value)
         {
            setState(() {
-             placeNameselected = value == null ? "required" : null;
+             walkoutDestiLocselected = value == null ? "required" : null;
            });
         },
       ),
