@@ -43,17 +43,20 @@ namespace Road_Map_Web_API
             return Array.IndexOf(distance, distance.Min());
         }
 
-        public int FindEnterenceVertexNo(int placeID, double lat, double lon)
+        public int FindEnterenceVertexNo(int noOfVertices, int graphNo, int start)
         {
-            int[] ids = LocationData.GetDepartmentAndFloor(placeID);
-            double[] loc = LocationData.GetPlace(placeID);//locations of place
-            double[,] entrance = LocationData.GetEntranceLocations(ids[0]);
-            double[] distance = new double[entrance.GetLength(0)];
-            for (int i = 0; i < entrance.GetLength(0); i++)
-            {
-                distance[i] = Math.Sqrt(Math.Pow(lat - entrance[i, 0], 2) + Math.Pow(lon - entrance[i, 1], 2)) +
-                        Math.Sqrt(Math.Pow(loc[0] - entrance[i, 0], 2) + Math.Pow(loc[1] - entrance[i, 1], 2));
-            }
+            int[,] graph;
+            if (graphNo == 0)
+                graph = Data.flootRoutesGraph;
+            else
+                graph = Data.vehicleRoutesGraph;
+            
+            FindShortestPath find = new FindShortestPath();
+            int[] dist= find.GetShortestDistanceList(graph, noOfVertices, start);
+            int[] distance = new int[Data.EntranceOuterMatch.Length];
+            for (int i = 0; i < Data.EntranceOuterMatch.Length; i++)
+                distance[i] = dist[Data.EntranceOuterMatch[i]];
+
             //according to the department,Entrance outer match should change
             return  Data.EntranceOuterMatch[Array.IndexOf(distance, distance.Min())];
         }
