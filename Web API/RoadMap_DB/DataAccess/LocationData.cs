@@ -62,10 +62,10 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                placeAlocation = (from f in _db.floors
+                placeAlocation = (from p in _db.Place
                                   join l in _db.location
-                                  on f.f_location_id equals l.location_id
-                                  where f.floor_id == floorID & f.f_dept_id == departmentID
+                                  on p.p_location_id equals l.location_id
+                                  where p.p_floor_id == floorID & p.p_dept_id == departmentID
                                   select l).ToList();
 
                 n = placeAlocation.Count;
@@ -218,8 +218,8 @@ namespace RoadMap_DB.DataAccess
             var entranceLocation = new List<Location>();
             int n = 0;
 
-            entranceLocation = (from e in GetDataController._db.entrances
-                                join l in GetDataController._db.location
+            entranceLocation = (from e in _db.entrances
+                                join l in _db.location
                                 on e.e_location_id equals l.location_id
                                 where e.e_dept_id == departmentID
                                 select l).ToList();

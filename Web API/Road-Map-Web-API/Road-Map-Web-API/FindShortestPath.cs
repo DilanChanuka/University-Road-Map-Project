@@ -9,6 +9,7 @@ namespace Road_Map_Web_API
     {
         int start;
         int V;
+        int[] dist;
         int[,,] shortestPath;
         List<int[]> path = new List<int[]>();
         List<int> preNodes = new List<int>();
@@ -21,6 +22,15 @@ namespace Road_Map_Web_API
             dijkstra(graph, start);
             CalPaths();
             return path;
+        }
+
+        public int[] GetShortestDistanceList(int[,] graph, int noOfVertex, int start)
+        {
+            V = noOfVertex;
+            this.start = start;
+            shortestPath = new int[noOfVertex, noOfVertex - 1, 2];
+            dijkstra(graph, start);
+            return dist;
         }
 
         int minDistance(int[] dist, bool[] sptSet)
@@ -36,7 +46,7 @@ namespace Road_Map_Web_API
         }
         void dijkstra(int[,] graph, int src)
         {
-            int[] dist = new int[V];
+            dist = new int[V];
             bool[] sptSet = new bool[V];
 
             for (int i = 0; i < V; i++)

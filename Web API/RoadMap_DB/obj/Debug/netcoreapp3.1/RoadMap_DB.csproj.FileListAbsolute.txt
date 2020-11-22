@@ -265,3 +265,4 @@ G:\Web API\RoadMap_DB\obj\Debug\netcoreapp3.1\RoadMap_DB.csproj.CopyComplete
 G:\Web API\RoadMap_DB\obj\Debug\netcoreapp3.1\staticwebassets\RoadMap_DB.StaticWebAssets.Manifest.cache
 G:\Web API\RoadMap_DB\obj\Debug\netcoreapp3.1\staticwebassets\RoadMap_DB.StaticWebAssets.xml
 G:\Web API\RoadMap_DB\obj\Debug\netcoreapp3.1\RoadMap_DB.genruntimeconfig.cache
+G:\Web API\RoadMap_DB\obj\Debug\netcoreapp3.1\RoadMap_DB.csprojAssemblyReference.cache

@@ -191,7 +191,7 @@ namespace Road_Map_Web_API.Controllers
                     break;
             }
             int start = cal.GetNearestVertexNo(V_No, graphNo, startLAT, startLON);
-            int localEnd = cal.FindEnterenceVertexNo(placeID, startLAT, startLON);
+            int localEnd = cal.FindEnterenceVertexNo(V_No, graphNo,start);
                        
             if (start != localEnd)
             {
