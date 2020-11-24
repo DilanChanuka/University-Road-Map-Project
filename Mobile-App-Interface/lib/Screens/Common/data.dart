@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 List<String> placesList=["Your Location", "CS Lecture's Room","CS Instructor's Room","CS Computer Lab 01",
@@ -76,6 +78,7 @@ const MAX_FLOOR=3;
 const GROUND_FLOOR=0;
 const FIRST_FLOOR=1;
 const SECOND_FLOOOR=2;
+const double ZOOM=20.0;
 
 /*
   01-Lecture's Room               

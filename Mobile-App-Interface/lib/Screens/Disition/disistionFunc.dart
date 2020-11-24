@@ -1,18 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uor_road_map/Screens/Common/data.dart';
-import 'package:uor_road_map/Screens/Map/Draw_Map/drawRouteLine.dart';
-import 'package:uor_road_map/Screens/Map/Draw_Map/drawfloor.dart';
-import 'package:uor_road_map/Screens/Map/Draw_Map/drawplaceinout.dart';
-import 'package:uor_road_map/Screens/Map/Draw_Map/drawplacewithfloor.dart';
-import 'package:uor_road_map/Screens/Map/Draw_Map/drwaplace.dart';
 import 'package:uor_road_map/Screens/Request/JsonBody.dart';
 import 'package:uor_road_map/Screens/Request/request.dart';
 import 'package:uor_road_map/Screens/Common/placeLatLng.dart';
 import 'dart:async';
-import 'package:uor_road_map/Screens/Map/Draw_Map/drawplaceInIn.dart';
 import 'package:uor_road_map/Screens/Request/ConvertData.dart';
-import 'package:http/http.dart' as http;
+import 'package:uor_road_map/Screens/Map/Display/Display_PlaceInIn.dart';
+import 'package:uor_road_map/Screens/Map/Display/Display_placeInout.dart';
+import 'package:uor_road_map/Screens/Map/Display/Display_getPlace.dart';
+import 'package:uor_road_map/Screens/Map/Display/Display_Route.dart';
+import 'package:uor_road_map/Screens/Map/Display/Display_getfloor.dart';
+
 
 void disitionFunct(BuildContext context,List<String> arr)
 {
@@ -50,19 +49,21 @@ void disitionFunct(BuildContext context,List<String> arr)
       if(startInside==true && endInside==true)
       {
           
-          floorId=getfloorID(arr[3]); //get selected floor ID
+          int selectedfloorId=getfloorID(arr[3]); //get selected floor ID
           int startFloorID=getsAdfloorID(arr[0]);
           int destinationID=allplaceID[arr[1]];
+          int destfloorID=getsAdfloorID(arr[1]);//get destination floorID
           List<double> startarr=getStartLatLg(arr[0]);
           
-          String url=getplaceInInRequest(departmentID, floorId, destinationID, startarr, floorId);
-          String a="https://my.api.mockaroo.com/my_saved_schema.json?key=8699f700";
-          Future<String> myfuture=getjsonvalue(a);
+          String url=getplaceInInRequest(departmentID, selectedfloorId, destinationID, startarr);
+          
+          Future<String> myfuture=getjsonvalue(url);
           myfuture.then((response) =>{
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context)=>DrawPlaceInIn(drawplaceinin(response,destinationID,floorId,startFloorID))
+                  builder: (context)=>
+                  DrawPlaceInIn(drawplaceinin(response),destinationID,startFloorID,selectedfloorId,destfloorID)
                 ))
           });
       }
@@ -71,16 +72,16 @@ void disitionFunct(BuildContext context,List<String> arr)
       else if(startInside==true && endOutside==true)
       {
           floorId=getfloorID(arr[3]);//get selected floor id
-          selectedFloorID=getsAdfloorID(arr[1]); //default selected floor will be  destination place floor
+          //selectedFloorID=getsAdfloorID(arr[3]); //default selected floor will be  destination place floor
           List<List<double>> startAdestLatLng=getStartADest(arr[0],arr[1]);
-          String url=getplaceinOutRequest(departmentID, floorId, startAdestLatLng, selectedFloorID);
-          String a="https://my.api.mockaroo.com/my_saved_schema.json?key=8699f700";
-          Future<String> myfuture=getjsonvalue(a);
+          String url=getplaceinOutRequest(departmentID, floorId, startAdestLatLng);
+          
+          Future<String> myfuture=getjsonvalue(url);
           myfuture.then((response) => {
             Navigator.push(
               context, 
               MaterialPageRoute(
-                builder:(context)=>DrawPlaceinout(drawplaceinout(response, selectedFloorID))))
+                builder:(context)=>DrawPlaceInOut(drawplaceinout(response),floorId)))
           });
       }
 
@@ -89,7 +90,8 @@ void disitionFunct(BuildContext context,List<String> arr)
       {
           List<double> startLatLng=getStartLatLg(arr[0]);
           int placeID=allplaceID[arr[1]]; //get destination place ID
-          int selectedfloorID=getfloorID(arr[1]);
+          int destFloorID=getsAdfloorID(arr[1]);//get destination floorID (0 /1 / 2)
+          int selectedfloorID=getfloorID(arr[3]);//get selected floor ID  (0 /1 / 2)
           String url=getplaceRequest(startLatLng, placeID, arr[4]);
 
           Future<String> myfuture=getjsonvalue(url);
@@ -97,7 +99,7 @@ void disitionFunct(BuildContext context,List<String> arr)
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder:(context)=>DrawPlace(drawplace(response, selectedfloorID)) ))
+                builder:(context)=>DrawPlace(drawplace(response),selectedfloorID,destFloorID)))
           });
       }
 
@@ -150,7 +152,7 @@ void seachDisition(BuildContext context,String placeNameselected)
      Navigator.push(
        context,
        MaterialPageRoute(
-         builder:(context)=>Drawfloor(drawfloor(response,floorID))))
+         builder:(context)=>DrawFloor(drawfloor(response))))
    });
 
 }

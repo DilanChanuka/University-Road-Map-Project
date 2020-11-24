@@ -3,7 +3,7 @@ import 'package:uor_road_map/Screens/Common/data.dart';
 
 
   //2d array is lat and lng
-  String getplaceinOutRequest(int deptId,int floorId,List<List<double>> array,int selectedfloorId)//Request a outside Place from inside
+  String getplaceinOutRequest(int deptId,int floorId,List<List<double>> array)//Request a outside Place from inside
   {
           //start and destinationa location come from array 
         String deptID=deptId.toString();
@@ -21,7 +21,7 @@ import 'package:uor_road_map/Screens/Common/data.dart';
 
   } 
 
-  String getplaceInInRequest(int deptID,int floorID,int destinationID,List<double> array,int selectedfloorId) //Request a inside Place from inside
+  String getplaceInInRequest(int deptID,int floorID,int destinationID,List<double> array) //Request a inside Place from inside
   {
         String sourcelat=array[0].toString();
         String sourcelng=array[1].toString();

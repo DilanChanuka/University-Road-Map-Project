@@ -4,7 +4,7 @@ import 'package:uor_road_map/constanents.dart';
 import 'package:uor_road_map/Screens/Common/data.dart';
 import 'package:uor_road_map/Screens/Disition/disistionFunc.dart';
 
-class AddSPage extends StatelessWidget
+class DirectionPage extends StatelessWidget
 {
   @override
   Widget build(BuildContext context) {

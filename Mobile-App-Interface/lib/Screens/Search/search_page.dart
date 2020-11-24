@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:uor_road_map/constanents.dart';
 import 'package:uor_road_map/Screens/Common/data.dart';
 import 'package:uor_road_map/Screens/Disition/disistionFunc.dart';
+import 'package:uor_road_map/Screens/Map/Display/Display_getfloor.dart';
+import 'package:uor_road_map/Screens/Request/ConvertData.dart';
 
-class AddSSPage extends StatelessWidget
+class SearchPage extends StatelessWidget
 {
   @override
   Widget build(BuildContext context) {
@@ -109,6 +111,17 @@ class _MHPage extends State<Spage>
 
   Widget buildEnterButton()                                             //Enter Button 
   {
+    String b='{"places":[{"name":"CS Lecturers room","lat":5.939586,"lon":80.576387},{"name":"CS Instructors room","lat":5.939646,"lon":80.576274},{"name":"CS Computer lab 1","lat":5.939725,"lon":80.576067},{"name":"CS Mini auditorium","lat":5.939878,"lon":80.576038}],"floor_2_locations":[[5.940012,80.576011],[5.93991,80.576026],[5.939904,80.575928],[5.939807,80.575936],[5.939803,80.575962],[5.939809,80.57605],[5.939601,80.576067],[5.939599,80.575982],[5.939803,80.575962],[5.939809,80.57605],[5.939601,80.576067],[5.939605,80.576197],[5.939647,80.576225],[5.939609,80.576296],[5.939564,80.57627],[5.939605,80.576197],[5.939564,80.57627],[5.939529,80.576251],[5.939438,80.57642],[5.939617,80.576519],[5.939706,80.576344],[5.939663,80.576322],[5.9396,80.576438],[5.939503,80.576384],[5.939564,80.57627],[5.939503,80.576384],[5.9396,80.576438],[5.939663,80.576322],[5.939726,80.576216],[5.939721,80.576123],[5.939816,80.576124],[5.939813,80.576134],[5.939957,80.576361],[5.940127,80.576241],[5.94002,80.576063],[5.940012,80.576011],[5.940004,80.575923],[5.939904,80.575928]]}';
+      
+        
+       /* FloatingActionButton(
+        heroTag: null,
+        onPressed:()=>{
+           
+            //seachDisition(context,placeNameselected)
+        })
+
+       */
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -122,10 +135,13 @@ class _MHPage extends State<Spage>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
+            
             onPressed: () => 
             {
+                          
                 seachDisition(context,placeNameselected)
             },
+            
 
             child: Text(
               "Enter",
@@ -139,6 +155,7 @@ class _MHPage extends State<Spage>
         ),
       ],
     );
+    
   }
   Widget _buildUser()
   {
