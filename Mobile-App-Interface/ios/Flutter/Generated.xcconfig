@@ -1,6 +1,6 @@
 // This is a generated file; do not edit or check into version control.
 FLUTTER_ROOT=E:\Softwares\Android\Flutter\flutter
-FLUTTER_APPLICATION_PATH=F:\Final Eyer Project\App Interface\University-Road-Map-Project-mobile-app-interface
+FLUTTER_APPLICATION_PATH=F:\Final Eyer Project\Map_Interface\University-Road-Map-Project-master\Interfaces
 FLUTTER_TARGET=lib\main.dart
 FLUTTER_BUILD_DIR=build
 SYMROOT=${SOURCE_ROOT}/../build\ios
