@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:uor_road_map/constanents.dart';
 import 'package:uor_road_map/Screens/Common/data.dart';
 import 'package:uor_road_map/Screens/Disition/disistionFunc.dart';
+import 'package:uor_road_map/Screens/Disition/Testing.dart';
+import 'package:uor_road_map/Screens/Request/JsonBody.dart';
+import 'package:uor_road_map/Screens/Map/Display/Display_PlaceInIn.dart';
+import 'package:uor_road_map/Screens/Request/ConvertData.dart';
 
 class DirectionPage extends StatelessWidget
 {
@@ -15,6 +19,7 @@ class DirectionPage extends StatelessWidget
         primaryColor: Colors.white,
         backgroundColor: firstColor,
       ),
+     
       home: Hpage(),
     );
   }
@@ -369,18 +374,19 @@ Future<String> createAlertDialog(BuildContext context) async{
           height: (MediaQuery.of(context).size.height / 10),
           width: 6 * (MediaQuery.of(context).size.width /10),
           margin: EdgeInsets.only(bottom: 10,top: 60),
-          child: RaisedButton(
+          child: RaisedButton(            
+            //heroTag: null,
             elevation: 5.0,
             color: firstColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
             onPressed: () => 
-            {
-                disitionFunct(context,arr)
+            {              
+                 disitionFunc(context,arr)
             },
 
-            child:  Text(
+            child: Text(
               "Enter",
               style: TextStyle(
                 color: Colors.white,
@@ -397,13 +403,14 @@ Future<String> createAlertDialog(BuildContext context) async{
   Widget buildEnterButtonWalk()
   {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,    
       children: <Widget>[
-        Container(
+        Container(  
           height: (MediaQuery.of(context).size.height / 10),
           width: 6 * (MediaQuery.of(context).size.width /10),
           margin: EdgeInsets.only(bottom: 10,top: 60),
           child: RaisedButton(
+            //heroTag: null,
             elevation: 5.0,
             color: firstColor,
             shape: RoundedRectangleBorder(
@@ -411,7 +418,7 @@ Future<String> createAlertDialog(BuildContext context) async{
             ),
             onPressed: () => 
             {
-              disitionFunct(context,arr)
+              disitionFunc(context,arr)
             },
 
             child: Text(

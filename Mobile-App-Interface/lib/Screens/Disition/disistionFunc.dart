@@ -11,9 +11,10 @@ import 'package:uor_road_map/Screens/Map/Display/Display_placeInout.dart';
 import 'package:uor_road_map/Screens/Map/Display/Display_getPlace.dart';
 import 'package:uor_road_map/Screens/Map/Display/Display_Route.dart';
 import 'package:uor_road_map/Screens/Map/Display/Display_getfloor.dart';
+import 'package:uor_road_map/Screens/Map/Display/Display_OuterRiutes.dart';
 
 
-void disitionFunct(BuildContext context,List<String> arr)
+void disitionFunc(BuildContext context,List<String> arr)
 {
     //0=>start place name
     //1=>destination place name
@@ -61,10 +62,13 @@ void disitionFunct(BuildContext context,List<String> arr)
           myfuture.then((response) =>{
               Navigator.push(
                 context,
+                
                 MaterialPageRoute(
                   builder: (context)=>
                   DrawPlaceInIn(drawplaceinin(response),destinationID,startFloorID,selectedfloorId,destfloorID)
-                ))
+                )),
+                
+                
           });
       }
 

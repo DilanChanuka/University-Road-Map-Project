@@ -175,6 +175,7 @@ static CameraPosition initialLocation = CameraPosition(
   Widget button(Function function,IconData icon)
   {
     return FloatingActionButton(
+      heroTag: null,
       onPressed: function,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       backgroundColor: Colors.blue,
@@ -208,6 +209,7 @@ static CameraPosition initialLocation = CameraPosition(
                   ),
           ],
         ),
+       
         drawer: Drawer(
             child: ListView(
               padding: EdgeInsets.zero,
@@ -249,14 +251,18 @@ static CameraPosition initialLocation = CameraPosition(
                 ),
 
                 ListTile(
+                  
                   title: Text("Help and feedback",style: TextStyle(fontSize: 20.0),),
                   leading: Icon(Icons.help,color: blackcolor,),
-                  onTap: (){},
+                  onTap: (){},           
                 ),
+                
 
               ],
             ),
           ),
+
+
         body: Stack(
           children: <Widget>[
 

@@ -176,6 +176,21 @@ List<dynamic> drawplaceinout(String response) //getplaceinout
          {
            if(jsonresponse[stairRL[i]]!=null)
            {
+
+              /*
+              //check if there are floor routes
+              if(floorRC[i+1].length>0)
+              {
+                  //add last location as stair one location (join stair and floor)
+                  stairC.add(floorRC[i+1]);
+              }
+              else if(jsonresponse[stairRL[0]].length>0 && jsonresponse[stairRL[1]].length>0)
+              {
+                  //join stair12 last value  as stair01  first value
+                  int last=jsonresponse[stairRL[1]].length;
+                  stairC[0].add(jsonresponse[stairRL[1]][last]);
+              }
+              */
               int n=jsonresponse[stairRL[i]].length;
               for(int j=0;j<n;j++)
               {
@@ -452,6 +467,18 @@ List<dynamic> drawplace(String jsonplaceholder)  //getplace
       {
          if(jsonresponse[stairRL[i]]!=null)
          {
+
+            /*
+            //join outer route and stair01
+            if(outerR.length>0)
+            {
+                //if there are outer route join outer route and stair01
+                int last=outerR.length-1;
+                stair[0].add(LatLng(outerR[last][0],outerR[last][1]));
+            }
+           // if(floor1R.length>0 && )
+            */
+
             int n=jsonresponse[stairRL[i]].length;
             for(int j=0;j<n;j++)
             {

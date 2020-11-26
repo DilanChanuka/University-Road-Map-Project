@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:uor_road_map/Screens/Map/Display/Display_PlaceInIn.dart';
 import 'dart:async';
 import 'package:uor_road_map/constanents.dart';
+import 'package:uor_road_map/Screens/Direction/direction_Page.dart';
+import 'package:uor_road_map/Screens/Search/search_page.dart';
+import 'package:uor_road_map/Screens/Request/ConvertData.dart';
 //import 'package:dropdownfield/dropdownfield.dart';
 
 class MainMap extends StatefulWidget
@@ -53,7 +57,24 @@ class MainMapState extends State<MainMap>
     });
   }
 
-  _onAddMarkerButtonPressed()
+  _onSerachButtonPress()
+  {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder:(context)=>SearchPage() ));
+  }
+
+  _onDirectionButtonPress()
+  {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder:(context)=>DirectionPage() ));
+  }
+
+
+ _onAddMarkerButtonPressed()
   {
     setState(() {
       _markers.add(Marker(
@@ -70,6 +91,7 @@ class MainMapState extends State<MainMap>
   Widget button(Function function,IconData icon)
   {
     return FloatingActionButton(
+      heroTag: null,
       onPressed: function,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       backgroundColor: colorBlue,
@@ -170,11 +192,21 @@ class MainMapState extends State<MainMap>
                       SizedBox(
                         height: 16.0,
                       ),
-                      addsearch(),
+                      button(_onSerachButtonPress,Icons.search),
                       SizedBox(
                         height: 16.0,
                       ),
-                      search(),
+                      button(_onDirectionButtonPress,Icons.directions),
+                      SizedBox(
+                        height: 16.0,
+                      ),
+                 
+
+                     // addsearch(),
+                      //SizedBox(
+                      //  height: 16.0,
+                     // ),
+                      //search(),
                     ],
                   ),
                 ),
@@ -200,14 +232,14 @@ class MainMapState extends State<MainMap>
               borderRadius: BorderRadius.circular(20.0),
             ),
             onPressed: () => {},
-            child: Text( 
+           /* child: Text( 
               "On Campus",
                 style: TextStyle(
                   color: Colors.white,
                   letterSpacing: 1.5,
                   fontSize: MediaQuery.of(context).size.height / 50,
                 ),
-              ),
+              ),*/
           ),
         ),
       ],

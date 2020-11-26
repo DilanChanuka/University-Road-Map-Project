@@ -13,10 +13,10 @@ const double CAMERA_BEARING = 30;
 
 List<LatLng> location;
 
-class DrawRouteLine extends StatefulWidget   //this class call for draw only route  <getroute>
+class DrawRouteLine1 extends StatefulWidget   //this class call for draw only route  <getroute>
 {
 
-  DrawRouteLine(List<LatLng> data)
+  DrawRouteLine1(List<LatLng> data)
   {
       location=data;  
   }
@@ -29,7 +29,7 @@ class DrawRouteLine extends StatefulWidget   //this class call for draw only rou
   } 
 }
 
-class _DrawState  extends State<DrawRouteLine> 
+class _DrawState  extends State<DrawRouteLine1> 
 {
  
   GoogleMapController mapcontroller;

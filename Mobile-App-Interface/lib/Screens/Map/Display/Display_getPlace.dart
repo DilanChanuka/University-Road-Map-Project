@@ -15,7 +15,7 @@ const double CAMERA_ZOOM = ZOOM;
 const double CAMERA_TILT = 0;
 const double CAMERA_BEARING = 30;
 
-List<dynamic> geolocation=new List<dynamic>();
+List<dynamic> geolocation;
 //0=> polyline
 //1=.marker
 List<dynamic> alldata;
@@ -31,7 +31,7 @@ class DrawPlace extends StatefulWidget
   DrawPlace(List<dynamic> data,int selectedfloorID,int destFloorID)
   {
       //in here selected floorID can be empty.then will have to select destination floorID
-       geolocation=getplace(data,destFloorID);
+       //geolocation=getplace(data,destFloorID);
       if(selectedfloorID==0)
       {
           floorID=destFloorID;
@@ -182,6 +182,7 @@ static CameraPosition initialLocation = CameraPosition(
   Widget button(Function function,IconData icon)
   {
     return FloatingActionButton(
+      heroTag: null,
       onPressed: function,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       backgroundColor: Colors.blue,

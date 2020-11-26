@@ -58,7 +58,7 @@ List<String> second_floor=["CS Mini-auditorium","CS Computer Lab 03"];
 
 
 
-String port=" https://localhost:44342/API";
+String port="http://104.197.251.167";
 List<int> groundFloor=[3,14,15,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37];
 List<int> firstFloor=[1,2,5,6,7,8,9,10,11,12,13,17];
 List<int> secondFloor=[4,16];

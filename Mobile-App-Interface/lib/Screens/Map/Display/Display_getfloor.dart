@@ -167,6 +167,7 @@ static CameraPosition initialLocation = CameraPosition(
   Widget button(Function function,IconData icon)
   {
     return FloatingActionButton(
+      heroTag: null,
       onPressed: function,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       backgroundColor: Colors.blue,

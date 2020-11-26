@@ -12,34 +12,17 @@ const double CAMERA_ZOOM = ZOOM;
 const double CAMERA_TILT = 0;
 const double CAMERA_BEARING = 30;
 
-List<dynamic> geolocation;
-//0=> polyline
-//1=.marker
-List<dynamic> alldata;
-      //0=>outer routes
-      //1=>floor routes
-      //      0=>ground floor
-      //      0=>first floor
-      //      0=>second floor
-      //2=>stair routes
-      //      0=>stair 01
-      //      0=>stair 12
-      //3=>floor cordinates
-      //      0=>ground floor
-      //      1=>first floor
-      //      2=>second floor
+List<LatLng> location;
 int floorID=0;
 
-class DrawPlaceInOut extends StatefulWidget
+class DrawRouteLine extends StatefulWidget
 {
 
-  DrawPlaceInOut(List<dynamic> data,int selectedfloorID)
+  DrawRouteLine(List<dynamic> data)
   {   
-      floorID=selectedfloorID;
-      geolocation=placeInout(data,selectedfloorID);
-      alldata=data;
-      
+      location=data;  
   }
+
 
   final String txt= "UOR";
   @override
@@ -68,7 +51,7 @@ class Floor
 
   }
 }
-class _DrawState extends State<DrawPlaceInOut>
+class _DrawState extends State<DrawRouteLine>
 {
   List<Floor> _floor = Floor.getFloor();
   List<DropdownMenuItem<Floor>> _dropdownMenuitem;
@@ -81,6 +64,18 @@ class _DrawState extends State<DrawPlaceInOut>
     BitmapDescriptor sourceIcon;
     BitmapDescriptor destinationIcon;
 
+     //this will hold marker
+    Set<Marker> _marker={};
+
+    //this will hold polyline
+    Set<Polyline> _polyline={}; 
+
+    //this will hold each polyline cordinates as Lat and Lng pairs
+    List<LatLng> _polylinecordinates=[];
+  
+    String key=KEY;
+
+
     void setSourceandDestinationIcons() async{
 
       sourceIcon=await BitmapDescriptor.fromAssetImage(
@@ -92,12 +87,55 @@ class _DrawState extends State<DrawPlaceInOut>
         'images/destination.png');
     }
 
+    
     void _onMapCreated(GoogleMapController controller)
     {
-        _controller.complete(controller);  
+        _controller.complete(controller); 
+       // putData();
+        setMapPing();
+        setPolyLine();
     }
 
 
+    void setMapPing()
+    {
+        setState(() {
+          //source ping
+          _marker.add(Marker(
+            markerId:MarkerId('source'),
+            position: LatLng(location[0].latitude, location[0].longitude),
+            icon: sourceIcon
+            ));
+
+          //destination pin
+          _marker.add(Marker(
+            markerId:MarkerId('destination'),
+            position: LatLng(location[location.length-1].latitude, location[location.length-1].longitude),
+            icon: destinationIcon
+             ));
+        });
+    }
+
+    void setPolyLine() 
+    {       
+
+              _polylinecordinates=location;
+
+             setState(() {
+               //create a polyline instence
+               // with an id, an RGB color and the list of LatLng pairs
+              Polyline routes=Polyline(
+                 polylineId:PolylineId("route"),
+                 color:routeColor,
+                 points: _polylinecordinates 
+                );
+                        
+                _polyline.add(routes);
+              
+            });
+          
+    }
+   
    
 
 @override
@@ -127,19 +165,18 @@ onChangeDropdwonItem(Floor selectedFloor){
   setState(() 
   {
     _selectedFloor = selectedFloor;
-    geolocation.clear();
-    geolocation=placeInout(alldata,_selectedFloor.id);
+
   });
 }
 
-  static LatLng _center =LatLng(alldata[0][0].latitude,alldata[0][1].longitude);
+  static LatLng _center =LatLng(location[0].latitude,location[0].longitude);
   final Set<Marker> _markers = {};
   LatLng _lastMapPosition = _center;
   MapType _currentMapType = MapType.normal;
 
 static CameraPosition initialLocation = CameraPosition(
     bearing: CAMERA_BEARING,
-    target:LatLng(alldata[0][0].latitude,alldata[0][1].longitude),
+    target:LatLng(location[0].latitude,location[0].longitude),
     tilt: CAMERA_TILT,
     zoom: CAMERA_ZOOM,
   );
@@ -181,7 +218,6 @@ static CameraPosition initialLocation = CameraPosition(
   Widget button(Function function,IconData icon)
   {
     return FloatingActionButton(
-      heroTag: null,
       onPressed: function,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       backgroundColor: Colors.blue,
@@ -195,8 +231,10 @@ static CameraPosition initialLocation = CameraPosition(
   Widget build(BuildContext context) {
 
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
+      home: Scaffold(    
+          
         appBar: AppBar(
           title: Text(widget.txt,
           style: TextStyle(
@@ -266,13 +304,13 @@ static CameraPosition initialLocation = CameraPosition(
           ),
         body: Stack(
           children: <Widget>[
-
+            
             GoogleMap(
                 
                 onMapCreated: _onMapCreated,
                 initialCameraPosition:initialLocation,
-                polylines: geolocation[0],
-                //markers:geolocation[1],             
+                polylines: _polyline,
+                markers:_marker,             
                 mapType: _currentMapType,
                 onCameraMove: _onCamMove,
                 myLocationButtonEnabled: true,
