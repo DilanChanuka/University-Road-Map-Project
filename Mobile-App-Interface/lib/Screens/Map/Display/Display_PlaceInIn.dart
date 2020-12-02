@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uor_road_map/Screens/Common/data.dart';
+import 'package:uor_road_map/Screens/Disition/disistionFunc.dart';
 import 'dart:async';
 import 'package:uor_road_map/constanents.dart';
 import 'package:uor_road_map/Screens/Map/Logic/placeInIn.dart';
@@ -18,21 +19,27 @@ List<dynamic> alldata;
 int floorID=0;
 int destinationID;
 int start;
+String startFloorName;
+
+BitmapDescriptor pinLocation;
+BitmapDescriptor userLocation;
 
 class DrawPlaceInIn extends StatefulWidget
 {
 
-  DrawPlaceInIn(List<dynamic> data,int destID,int startfloor,int selectedFloorID,int destfloorID)
+  DrawPlaceInIn(List<dynamic> data,int destID,int startfloor,int selectedFloorID,int destfloorID,String startFName)
   {
       if(selectedFloorID==0)//if user not select floorID  ,then get destination floorID
       {
           floorID=destfloorID;
-          geolocation=placeInIn(data, destID,startfloor,destfloorID);
+          startFloorName=startFName;
+          geolocation=placeInIn(data, destID,startfloor,destfloorID,startFName);
       }     
       else
       {
         floorID=selectedFloorID;
-        geolocation=placeInIn(data, destID,startfloor,selectedFloorID);
+        startFloorName=startFName;
+        geolocation=placeInIn(data, destID,startfloor,selectedFloorID,startFName);
       }   
 
       if(selectedFloorID!=destfloorID)
@@ -81,6 +88,7 @@ class _DrawState extends State<DrawPlaceInIn>
 
   GoogleMapController mapcontroller;
   Completer<GoogleMapController> _controller=Completer();
+  
     
 
     void _onMapCreated(GoogleMapController controller)
@@ -88,16 +96,25 @@ class _DrawState extends State<DrawPlaceInIn>
         _controller.complete(controller);  
     }
 
+    void customMapPing() async{
+      pinLocation =await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5),
+        'assets/destination_PIn.png');
 
-   
+      userLocation=await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5,size: Size(0.5, 0.5)),
+        'assets/userPin.png');
+    }
+  
 
-@override
-void initState()
-{
-  _dropdownMenuitem = buildDropdownMenuItems(_floor).cast<DropdownMenuItem<Floor>>();
-  _selectedFloor = _dropdownMenuitem[floorID].value;
-  super.initState();
-}
+    @override
+    void initState()
+    {
+      _dropdownMenuitem = buildDropdownMenuItems(_floor).cast<DropdownMenuItem<Floor>>();
+      _selectedFloor = _dropdownMenuitem[floorID].value;
+      customMapPing();
+      super.initState();
+    }
 
 List<DropdownMenuItem<Floor>> buildDropdownMenuItems(List floors){
   List<DropdownMenuItem<Floor>> items = List();
@@ -119,7 +136,7 @@ onChangeDropdwonItem(Floor selectedFloor){
   {
     _selectedFloor = selectedFloor;
     geolocation.clear();
-    geolocation=placeInIn(alldata,destinationID, start,_selectedFloor.id);
+    geolocation=placeInIn(alldata,destinationID, start,_selectedFloor.id,startFloorName);
 
     if(destinationID!=_selectedFloor.id)
           showMessage(destinationID);
@@ -172,6 +189,18 @@ static CameraPosition initialLocation = CameraPosition(
       ));
     });
   }
+
+  _onSearchButtonPress()
+  {
+
+  }
+
+  _onDirectionButtonPress()
+  {
+      
+      Navigator.pop(context);
+  }
+
   Widget button(Function function,IconData icon)
   {
     return FloatingActionButton(
@@ -292,6 +321,14 @@ static CameraPosition initialLocation = CameraPosition(
                         height: 16.0,
                       ),
                       button(_goToPosition, Icons.location_searching),
+                      SizedBox(
+                        height: 16.0,
+                      ),
+                      button(_onSearchButtonPress, Icons.search),
+                      SizedBox(height: 16.0),
+                      button(_onDirectionButtonPress,Icons.directions),
+                      SizedBox(height: 16.0)
+                    
                     ],
                   ),
                 ),

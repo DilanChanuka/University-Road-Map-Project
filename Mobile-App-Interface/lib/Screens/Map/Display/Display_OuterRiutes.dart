@@ -14,6 +14,8 @@ const double CAMERA_BEARING = 30;
 
 List<LatLng> location;
 int floorID=0;
+BitmapDescriptor pinLocation;
+BitmapDescriptor userLocation;
 
 class DrawRouteLine extends StatefulWidget
 {
@@ -75,17 +77,16 @@ class _DrawState extends State<DrawRouteLine>
   
     String key=KEY;
 
-
-    void setSourceandDestinationIcons() async{
-
-      sourceIcon=await BitmapDescriptor.fromAssetImage(
+   void customMapPing() async{
+      pinLocation =await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(devicePixelRatio: 2.5),
-        'images/destination.png');
+        'assets/destination_PIn.png');
 
-      destinationIcon=await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 2.5),
-        'images/destination.png');
+      userLocation=await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5,size: Size(0.5, 0.5)),
+        'assets/userPin.png');
     }
+   
 
     
     void _onMapCreated(GoogleMapController controller)
@@ -143,6 +144,7 @@ void initState()
 {
   _dropdownMenuitem = buildDropdownMenuItems(_floor).cast<DropdownMenuItem<Floor>>();
   _selectedFloor = _dropdownMenuitem[floorID].value;
+  customMapPing();
   super.initState();
 }
 
@@ -215,6 +217,16 @@ static CameraPosition initialLocation = CameraPosition(
       ));
     });
   }
+   _onSearchButtonPress()
+  {
+
+  }
+
+  _onDirectionButtonPress()
+  {
+
+  }
+
   Widget button(Function function,IconData icon)
   {
     return FloatingActionButton(
@@ -331,6 +343,10 @@ static CameraPosition initialLocation = CameraPosition(
                         height: 16.0,
                       ),
                       button(_goToPosition, Icons.location_searching),
+                      button(_onSearchButtonPress, Icons.search),
+                      SizedBox(height: 16.0),
+                      button(_onDirectionButtonPress,Icons.directions),
+                      SizedBox(height: 16.0)
                     ],
                   ),
                 ),

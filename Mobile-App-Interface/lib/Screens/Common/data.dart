@@ -59,19 +59,23 @@ List<String> second_floor=["CS Mini-auditorium","CS Computer Lab 03"];
 
 
 String port="http://104.197.251.167";
-List<int> groundFloor=[3,14,15,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37];
-List<int> firstFloor=[1,2,5,6,7,8,9,10,11,12,13,17];
-List<int> secondFloor=[4,16];
+List<int> groundFloor=[14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37];
+List<int> firstFloor=[5,6,7,8,9,10,11,12,13];
+List<int> secondFloor=[1,2,3,4];
 
 
 //Color
 const routeColor=Color.fromARGB(255,40,122,198);
-const floorColor=Color.fromARGB(255,100,12,198);
+const floorColor=Color.fromARGB(150,25,162,150);
 const stairColor=Colors.red;
 
+//dotted line Colors
+const routesDColor=Color.fromARGB(150, 40,122,198);
+const floorDColor=Color.fromARGB(150,25,162,150);
+const stairDColor=Colors.red;
 //width
 const int routeWidth=8;
-const int floorWidth=5;
+const int floorWidth=3;
 const int stairWidth=8;
 
 const MAX_FLOOR=3;

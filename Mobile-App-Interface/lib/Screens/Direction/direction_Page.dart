@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:uor_road_map/constanents.dart';
 import 'package:uor_road_map/Screens/Common/data.dart';
 import 'package:uor_road_map/Screens/Disition/disistionFunc.dart';
-import 'package:uor_road_map/Screens/Request/JsonBody.dart';
-import 'package:uor_road_map/Screens/Map/Display/Display_PlaceInIn.dart';
-import 'package:uor_road_map/Screens/Request/ConvertData.dart';
+
 
 class DirectionPage extends StatelessWidget
 {
@@ -142,8 +140,8 @@ Future<String> createAlertDialog(BuildContext context) async{
             MaterialButton(
               onPressed: (){
                  setState((){
-                   selectedDepartment=departmentvalue;
-                   selectedFloorName=floorvalue;
+                   dselectedDepartment=departmentvalue;
+                   dselectedFloorName=floorvalue;
                  });
                   Navigator.of(context).pop();
               },
@@ -290,7 +288,7 @@ Future<String> createAlertDialog(BuildContext context) async{
 
   Widget _buildUserLocationVehicle()
   {
-    vOr="v";
+    dvOr="v";
     return Padding(padding: EdgeInsets.all(8),
       child: DropDownField(
         controller: listSelect,
@@ -300,7 +298,7 @@ Future<String> createAlertDialog(BuildContext context) async{
         onValueChanged: (value)
         {
            setState(() {
-             selectedStart = value;
+             dselectedStart = value;
            });
         },
       ),
@@ -309,7 +307,7 @@ Future<String> createAlertDialog(BuildContext context) async{
 
   Widget _buildUserLocationWalk()
   {
-    vOr="f";
+    dvOr="f";
     return Padding(padding: EdgeInsets.all(8),
       child: DropDownField(
         controller: listSelect,
@@ -319,7 +317,7 @@ Future<String> createAlertDialog(BuildContext context) async{
         onValueChanged: (value)
         {
            setState(() {
-             selectedStart = value;
+             dselectedStart = value;
            });
         },
       ),
@@ -328,7 +326,7 @@ Future<String> createAlertDialog(BuildContext context) async{
 
   Widget _buildDestinationVehicle()
   {
-    vOr="v";
+    dvOr="v";
     return Padding(padding: EdgeInsets.all(8),
       child: DropDownField(
         controller: listSelecta,
@@ -338,7 +336,7 @@ Future<String> createAlertDialog(BuildContext context) async{
         onValueChanged: (value)
         {
            setState(() {
-             selectedDestination = value;
+             dselectedDestination = value;
            });
         },
       ),
@@ -347,7 +345,7 @@ Future<String> createAlertDialog(BuildContext context) async{
 
   Widget _buildDestinationWalk()
   {
-    vOr="f";
+    dvOr="f";
     return Padding(padding: EdgeInsets.all(8),
       child: DropDownField(
         controller: listSelecta,
@@ -357,7 +355,7 @@ Future<String> createAlertDialog(BuildContext context) async{
         onValueChanged: (value)
         {
            setState(() {
-             selectedDestination = value;
+             dselectedDestination = value;
            });
         },
       ),
@@ -382,7 +380,12 @@ Future<String> createAlertDialog(BuildContext context) async{
             ),
             onPressed: () => 
             {              
-                 disitionFunc(context,arr)
+                 disitionFunc(context,arr),
+                 dselectedDepartment="",
+                 dselectedDestination="",
+                 dvOr="",
+                 dselectedFloorName="",
+                 dselectedStart=""
             },
 
             child: Text(
@@ -636,13 +639,13 @@ Future<String> createAlertDialog(BuildContext context) async{
 final listSelect = TextEditingController();
 final listSelecta = TextEditingController();
 
-String selectedStart = "";
-String selectedDestination = "";
-String vOr="";
-String selectedFloorName= "";
-String selectedDepartment="";
+String dselectedStart = "";
+String dselectedDestination = "";
+String dvOr="";
+String dselectedFloorName= "";
+String dselectedDepartment="";
 
-List<String> arr=[selectedStart,selectedDestination,selectedDepartment,selectedFloorName,vOr];
+List<String> arr=[dselectedStart,dselectedDestination,dselectedDepartment,dselectedFloorName,dvOr];
 
 
 

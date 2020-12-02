@@ -1,11 +1,22 @@
 import 'package:uor_road_map/Screens/Common/data.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:uor_road_map/Screens/Common/placeLatLng.dart';
+import 'package:uor_road_map/Screens/Map/Display/Display_PlaceInIn.dart';
+import 'package:uor_road_map/Screens/Disition/disistionFunc.dart';
 
-List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selectedFloorID)
+List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selectedFloorID,String startFName)
 {
 // 0=> 0=>floor Route
+//          0=>ground floor
+//          1=>first floor
+//          2=>second floor
 //     1=>stair route
-//     2=.floor location
+//          0=>stair01
+//          1=>stair12
+//     2=>floor location
+//          0=>ground floor
+//          1=>first floor
+//          2=>second floor
 // 1=.place LatLng
 // 2=>place Name
 
@@ -15,10 +26,14 @@ List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selec
 
     //this will hold polyline
     Set<Polyline> _polyline={}; 
-  
+    List<int> flageFR=[1,1,1];
+    List<int> flagestair=[1,1];
+    
     int destFloor=getdestionationFloor(destinationID);  //get destination floor number(0/1/2)
     String derection=getderection(start,destFloor);  //get dierection (UP /DOWN)
-   
+    List<double> startLocation=placeLatLng[startFName]; //get start LatLng
+    //int startfloorID=getfloorIdWithName(startFName);   //get start floorID using place Name
+
   if(data[0][2][selectedFloorID].length>0)
   {
       if(derection=="UP") 
@@ -28,6 +43,7 @@ List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selec
           //add floor route polyline
           if(data[0][0][selectedFloorID].length>0)
           {
+              flageFR[selectedFloorID]=0;
               Polyline routes=Polyline(
                 polylineId:PolylineId("routes"),
                 color: routeColor,
@@ -55,6 +71,7 @@ List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selec
               //get stair01
               if(data[0][1][0].length>0)
               {
+                  flagestair[0]=0;
                   Polyline stair01=Polyline(
                     polylineId:PolylineId("stair01"),
                     color: stairColor,
@@ -70,7 +87,8 @@ List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selec
           {
               //get stair12
               if(data[0][1][1].length>0)
-              {
+              {   
+                  flagestair[1]=0;
                   Polyline stair12=Polyline(
                     polylineId:PolylineId("stair12"),
                     color: stairColor,
@@ -89,6 +107,7 @@ List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selec
           //add floor route polyline
           if(data[0][0][selectedFloorID].length>0)
           {
+              flageFR[selectedFloorID]=0;
               Polyline routes=Polyline(
                 polylineId:PolylineId("routes"),
                 color: routeColor,
@@ -115,6 +134,7 @@ List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selec
               //get stair01
               if(data[0][1][0].length>0)
               {
+                  flagestair[0]=0;
                   Polyline stair01=Polyline(
                     polylineId:PolylineId("stair01"),
                     color: stairColor,
@@ -127,9 +147,10 @@ List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selec
           }
           if(selectedFloorID==2)
           {
-              //get stair01
+              //get stair12
               if(data[0][1][1].length>0)
               {
+                  flagestair[1]=0;
                   Polyline stair12=Polyline(
                     polylineId:PolylineId("stair12"),
                     color: stairColor,
@@ -149,6 +170,7 @@ List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selec
           //add floor routes polyline
           if(data[0][0][selectedFloorID].length>0)
           {
+            flageFR[selectedFloorID]=0;
             Polyline  routes=Polyline(
               polylineId:PolylineId("routes"),
               color: routeColor,
@@ -172,11 +194,76 @@ List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selec
         
       }
 
-      //set map Marker
-      _marker.add(Marker(
-        markerId:MarkerId("destination"),
-        position: LatLng(data[1][0], data[1][1])));
+      if(data[1].length>0)
+      {
+          //set map Marker
+          _marker.add(Marker(
+            markerId:MarkerId("destination"),
+            position: LatLng(data[1][0], data[1][1]),
+            icon:pinLocation,
+            ));
 
+      }
+      
+      if(startLocation!=null)
+      {
+            _marker.add(Marker(
+              markerId:MarkerId("userlocation"),
+              position: LatLng(startLocation[0], startLocation[1]),
+              icon: userLocation,
+              ));
+
+      }   
+  }
+
+  Polyline groundRPL; //ground route poly line
+  Polyline firstRPL;
+  Polyline secondRPL;
+
+  List<Polyline> floorname=[groundRPL,firstRPL,secondRPL];
+  List<String> floorRID=["groundR","firstR","secondR"];
+  //add Dotted Line
+  for(int i=0;i<3;i++)
+  {
+      if(flageFR[i]>0)
+      {
+          if(data[0][0][i].length>0)
+          {
+              floorname[i]=Polyline(
+                polylineId:PolylineId(floorRID[i]),
+                color: routesDColor,
+                width: routeWidth,
+                points:data[0][0][i],
+                patterns: [PatternItem.dot,PatternItem.gap(10)]);
+
+              _polyline.add(floorname[i]);
+          }
+      }
+  }
+
+  Polyline stair01RPL; //stair Route Poly line
+  Polyline stair12RPL;
+
+  List<Polyline> stairRName=[stair01RPL,stair12RPL];
+  List<String> stairID=["stair01","stair12"];
+
+  //dotted line for Stair
+  for(int i=0;i<2;i++)
+  {
+      if(flagestair[i]>0)
+      {
+            if(data[0][1][i].length>0)
+            {
+                stairRName[i]=Polyline(
+                  polylineId:PolylineId(stairID[i]),
+                  color: stairColor,
+                  width: stairWidth,
+                  points: data[0][1][i],
+                  patterns: [PatternItem.dot,PatternItem.gap(10)]);
+
+                _polyline.add(stairRName[i]);
+            }
+      }
   }
     finaldata.add(_polyline);
     finaldata.add(_marker);

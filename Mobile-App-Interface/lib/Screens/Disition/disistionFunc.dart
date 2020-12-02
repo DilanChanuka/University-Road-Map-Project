@@ -9,10 +9,10 @@ import 'package:uor_road_map/Screens/Request/ConvertData.dart';
 import 'package:uor_road_map/Screens/Map/Display/Display_PlaceInIn.dart';
 import 'package:uor_road_map/Screens/Map/Display/Display_placeInout.dart';
 import 'package:uor_road_map/Screens/Map/Display/Display_getPlace.dart';
-import 'package:uor_road_map/Screens/Map/Display/Display_Route.dart';
 import 'package:uor_road_map/Screens/Map/Display/Display_getfloor.dart';
 import 'package:uor_road_map/Screens/Map/Display/Display_OuterRiutes.dart';
 
+Future<String> myfuture;
 
 void disitionFunc(BuildContext context,List<String> arr)
 {
@@ -56,16 +56,16 @@ void disitionFunc(BuildContext context,List<String> arr)
           int destfloorID=getsAdfloorID(arr[1]);//get destination floorID
           List<double> startarr=getStartLatLg(arr[0]);
           
-          String url=getplaceInInRequest(departmentID, selectedfloorId, destinationID, startarr);
+          String url=getplaceInInRequest(departmentID,startFloorID , destinationID, startarr);
           
-          Future<String> myfuture=getjsonvalue(url);
+          myfuture=getjsonvalue(url);
           myfuture.then((response) =>{
               Navigator.push(
                 context,
                 
                 MaterialPageRoute(
                   builder: (context)=>
-                  DrawPlaceInIn(drawplaceinin(response),destinationID,startFloorID,selectedfloorId,destfloorID)
+                  DrawPlaceInIn(drawplaceinin(response),destinationID,startFloorID,selectedfloorId,destfloorID,arr[0])
                 )),
                 
                 
@@ -75,8 +75,8 @@ void disitionFunc(BuildContext context,List<String> arr)
       //drwa place inside to outside (drawplaceinout)
       else if(startInside==true && endOutside==true)
       {
-          floorId=getfloorID(arr[3]);//get selected floor id
-          //selectedFloorID=getsAdfloorID(arr[3]); //default selected floor will be  destination place floor
+          floorId=getsAdfloorID(arr[0]);//get Start floor id
+          selectedFloorID=getsAdfloorID(arr[3]); //default selected floor will be  destination place floor
           List<List<double>> startAdestLatLng=getStartADest(arr[0],arr[1]);
           String url=getplaceinOutRequest(departmentID, floorId, startAdestLatLng);
           
@@ -85,7 +85,7 @@ void disitionFunc(BuildContext context,List<String> arr)
             Navigator.push(
               context, 
               MaterialPageRoute(
-                builder:(context)=>DrawPlaceInOut(drawplaceinout(response),floorId)))
+                builder:(context)=>DrawPlaceInOut(drawplaceinout(response),selectedFloorID,arr[0])))
           });
       }
 
@@ -206,12 +206,12 @@ int getfloorID(String floorName)
     return id;
 }
 
-int getsAdfloorID(String floorName)
+int getsAdfloorID(String placeName)
 {
   int id=0; //default floor is  first floor
-  if(first_floor.contains(floorName))
+  if(first_floor.contains(placeName))
       id=1;
-  if(second_floor.contains(floorName))
+  if(second_floor.contains(placeName))
     id=2;
 
   return id;

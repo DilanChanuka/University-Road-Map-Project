@@ -21,6 +21,9 @@ List<dynamic> alldata;
     //2=>relevent places
     //3=>relevent floor (0 / 1 / 2)
 int floorID=0;
+BitmapDescriptor pinLocation;
+BitmapDescriptor userLocation;
+
 class DisplayPlaceWFloor extends StatefulWidget
 {
 
@@ -75,30 +78,39 @@ class _DrawState extends State<DisplayPlaceWFloor>
         _controller.complete(controller);  
     }
 
+    void customMapPing() async{
+      pinLocation =await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5),
+        'assets/destination_PIn.png');
+
+      userLocation=await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5,size: Size(0.5, 0.5)),
+        'assets/userPin.png');
+    }
 
    
+    @override
+    void initState()
+    {
+      _dropdownMenuitem = buildDropdownMenuItems(_floor).cast<DropdownMenuItem<Floor>>();
+      _selectedFloor = _dropdownMenuitem[floorID].value;
+      customMapPing();
+      super.initState();
+    }
 
-@override
-void initState()
-{
-  _dropdownMenuitem = buildDropdownMenuItems(_floor).cast<DropdownMenuItem<Floor>>();
-  _selectedFloor = _dropdownMenuitem[floorID].value;
-  super.initState();
-}
+    List<DropdownMenuItem<Floor>> buildDropdownMenuItems(List floors){
+      List<DropdownMenuItem<Floor>> items = List();
+      for(Floor floor in floors){
+        items.add(
+          DropdownMenuItem(
+            value: floor, // have to change default selected floor value acoding to relevent floor
+            child: Text(floor.name,style: TextStyle(fontSize: 25.0),),
+            
+          ),
+        );
+      }
 
-List<DropdownMenuItem<Floor>> buildDropdownMenuItems(List floors){
-  List<DropdownMenuItem<Floor>> items = List();
-  for(Floor floor in floors){
-    items.add(
-      DropdownMenuItem(
-        value: floor, // have to change default selected floor value acoding to relevent floor
-        child: Text(floor.name,style: TextStyle(fontSize: 25.0),),
-        
-      ),
-    );
-  }
-
-  return items;
+      return items;
 }
 
 onChangeDropdwonItem(Floor selectedFloor){
@@ -156,6 +168,16 @@ static CameraPosition initialLocation = CameraPosition(
       ));
     });
   }
+      _onSearchButtonPress()
+  {
+
+  }
+
+  _onDirectionButtonPress()
+  {
+
+  }
+  
   Widget button(Function function,IconData icon)
   {
     return FloatingActionButton(
@@ -271,6 +293,11 @@ static CameraPosition initialLocation = CameraPosition(
                         height: 16.0,
                       ),
                       button(_goToPosition, Icons.location_searching),
+                      SizedBox(height: 16.0),
+                       button(_onSearchButtonPress, Icons.search),
+                      SizedBox(height: 16.0),
+                      button(_onDirectionButtonPress,Icons.directions),
+                      SizedBox(height: 16.0)
                     ],
                   ),
                 ),

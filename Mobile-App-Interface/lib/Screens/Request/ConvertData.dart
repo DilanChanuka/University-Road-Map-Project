@@ -165,7 +165,7 @@ List<dynamic> drawplaceinout(String response) //getplaceinout
                 int n=jsonresponse[floorRL[i]].length;
                 for(int j=0;j<n;j++)
                 {
-                    floorRC[i].add(LatLng(jsonresponse[floorRL[i]][j][0],jsonresponse[floorRL[i]][j][0]));
+                    floorRC[i].add(LatLng(jsonresponse[floorRL[i]][j][0],jsonresponse[floorRL[i]][j][1]));
                 }
             }
          }
@@ -209,7 +209,7 @@ List<dynamic> drawplaceinout(String response) //getplaceinout
                 int n=jsonresponse[floorlocation[i]].length;
                 for(int j=0;j<n;j++)
                 {
-                    floorC[i].add(LatLng(jsonresponse[floorlocation[i]][j][0],jsonresponse[floorlocation[i]][j][0]));
+                    floorC[i].add(LatLng(jsonresponse[floorlocation[i]][j][0],jsonresponse[floorlocation[i]][j][1]));
                 }
             }
          }
@@ -387,7 +387,7 @@ List<dynamic> drawplace(String jsonplaceholder)  //getplace
       var stair12=jsonresponse['stair_1_2_locations'];
       var place=jsonresponse["place"];
 
-      List<String> floorlocation=["floor_0_locations","floor_0_locations","floor_2_locations"];
+      List<String> floorlocation=["floor_0_locations","floor_1_locations","floor_2_locations"];
       List<String> floorRL=["floor_0_routelocations","floor_1_routelocations","floor_2_routelocations"];
       List<String> stairRL=["stair_0_1_locations","stair_1_2_locations"];
     
@@ -467,17 +467,6 @@ List<dynamic> drawplace(String jsonplaceholder)  //getplace
       {
          if(jsonresponse[stairRL[i]]!=null)
          {
-
-            /*
-            //join outer route and stair01
-            if(outerR.length>0)
-            {
-                //if there are outer route join outer route and stair01
-                int last=outerR.length-1;
-                stair[0].add(LatLng(outerR[last][0],outerR[last][1]));
-            }
-           // if(floor1R.length>0 && )
-            */
 
             int n=jsonresponse[stairRL[i]].length;
             for(int j=0;j<n;j++)

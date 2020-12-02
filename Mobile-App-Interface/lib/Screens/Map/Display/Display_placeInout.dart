@@ -5,6 +5,7 @@ import 'package:uor_road_map/Screens/Map/Logic/PlaceInOut.dart';
 import 'dart:async';
 import 'package:uor_road_map/constanents.dart';
 import 'package:uor_road_map/Screens/Map/Display/Notification.dart';
+import 'package:uor_road_map/Screens/Request/JsonBody.dart';
 
 
 const String KEY=GOOGL_KEY;
@@ -29,15 +30,22 @@ List<dynamic> alldata;
       //      1=>first floor
       //      2=>second floor
 int floorID=0;
+String startFName;
+BitmapDescriptor userDestination;
+BitmapDescriptor userLocation;
 
 class DrawPlaceInOut extends StatefulWidget
 {
 
-  DrawPlaceInOut(List<dynamic> data,int selectedfloorID)
+  DrawPlaceInOut(List<dynamic> data,int selectedfloorID,String startfloorName)
   {   
       floorID=selectedfloorID;
-      geolocation=placeInout(data,selectedfloorID);
+      startFName=startfloorName;
+      geolocation=placeInout(data,selectedfloorID,startfloorName);
       alldata=data;
+
+      if(selectedfloorID!=0)
+          message("Outer Place ...");
       
   }
 
@@ -97,14 +105,22 @@ class _DrawState extends State<DrawPlaceInOut>
         _controller.complete(controller);  
     }
 
+   void customMapPing() async{
+      userDestination =await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5),
+        'assets/destination_PIn.png');
 
-   
+      userLocation=await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5,size: Size(0.5, 0.5)),
+        'assets/userPin.png');
+    }
 
 @override
 void initState()
 {
   _dropdownMenuitem = buildDropdownMenuItems(_floor).cast<DropdownMenuItem<Floor>>();
   _selectedFloor = _dropdownMenuitem[floorID].value;
+  customMapPing();
   super.initState();
 }
 
@@ -128,7 +144,9 @@ onChangeDropdwonItem(Floor selectedFloor){
   {
     _selectedFloor = selectedFloor;
     geolocation.clear();
-    geolocation=placeInout(alldata,_selectedFloor.id);
+    geolocation=placeInout(alldata,_selectedFloor.id,startFName);
+    if(_selectedFloor.id!=0)
+        message("Outer Place ...");
   });
 }
 
@@ -177,6 +195,19 @@ static CameraPosition initialLocation = CameraPosition(
         icon: BitmapDescriptor.defaultMarker,
       ));
     });
+  }
+
+   _onSearchButtonPress()
+  {
+
+  }
+
+  _onDirectionButtonPress()
+  {
+      geolocation.clear();
+      alldata.clear();
+      josonArray="";
+      Navigator.pop(context);
   }
   Widget button(Function function,IconData icon)
   {
@@ -272,7 +303,7 @@ static CameraPosition initialLocation = CameraPosition(
                 onMapCreated: _onMapCreated,
                 initialCameraPosition:initialLocation,
                 polylines: geolocation[0],
-                //markers:geolocation[1],             
+                markers:geolocation[1],             
                 mapType: _currentMapType,
                 onCameraMove: _onCamMove,
                 myLocationButtonEnabled: true,
@@ -293,6 +324,11 @@ static CameraPosition initialLocation = CameraPosition(
                         height: 16.0,
                       ),
                       button(_goToPosition, Icons.location_searching),
+                      SizedBox(height: 16.0),
+                      button(_onSearchButtonPress, Icons.search),
+                      SizedBox(height: 16.0),
+                      button(_onDirectionButtonPress,Icons.directions),
+                      SizedBox(height: 16.0)
                     ],
                   ),
                 ),

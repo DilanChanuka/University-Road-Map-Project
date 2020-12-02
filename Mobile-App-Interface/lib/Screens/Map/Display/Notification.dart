@@ -14,9 +14,24 @@ void showMessage(int floorid)
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.TOP_LEFT,
           timeInSecForIosWeb: 5,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.amber,
           textColor: Colors.black );
     }
+
+}
+
+void  message(String message)
+{
+   
+   
+        Fluttertoast.showToast(
+          msg:" Your destination floor is \n "+message ,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP_LEFT,
+          timeInSecForIosWeb: 5,
+          backgroundColor: Colors.amber,
+          textColor: Colors.black );
+    
 
 }
 

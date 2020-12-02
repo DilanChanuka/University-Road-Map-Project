@@ -22,6 +22,8 @@ List<dynamic> alldata;
   //1=> floor all places
   //2=> floor ID ( 0 /1 /2)
 int floorID=0;
+BitmapDescriptor pinLocation;
+BitmapDescriptor userLocation;
 
 class DrawFloor extends StatefulWidget
 {
@@ -78,15 +80,22 @@ class _DrawState extends State<DrawFloor>
     {
         _controller.complete(controller);  
     }
+    void customMapPing() async{
+      pinLocation =await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5),
+        'assets/destination_PIn.png');
 
-
+      userLocation=await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5,size: Size(0.5, 0.5)),
+        'assets/userPin.png');
+    }
    
 
 @override
 void initState()
 {
   _dropdownMenuitem = buildDropdownMenuItems(_floor).cast<DropdownMenuItem<Floor>>();
-  
+   customMapPing();
   _selectedFloor = _dropdownMenuitem[floorID].value;
   super.initState();
 }
@@ -164,6 +173,17 @@ static CameraPosition initialLocation = CameraPosition(
       ));
     });
   }
+
+     _onSearchButtonPress()
+  {
+
+  }
+
+  _onDirectionButtonPress()
+  {
+
+  }
+
   Widget button(Function function,IconData icon)
   {
     return FloatingActionButton(
@@ -279,6 +299,11 @@ static CameraPosition initialLocation = CameraPosition(
                         height: 16.0,
                       ),
                       button(_goToPosition, Icons.location_searching),
+                      SizedBox(height: 16.0),
+                      button(_onSearchButtonPress, Icons.search),
+                      SizedBox(height: 16.0),
+                      button(_onDirectionButtonPress,Icons.directions),
+                      SizedBox(height: 16.0)
                     ],
                   ),
                 ),

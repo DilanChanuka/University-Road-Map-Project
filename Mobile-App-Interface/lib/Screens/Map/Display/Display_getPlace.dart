@@ -1,56 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uor_road_map/Screens/Common/data.dart';
-import 'package:uor_road_map/Screens/Map/Display/Display_PlaceInIn.dart';
-import 'package:uor_road_map/Screens/Map/Logic/PlaceInOut.dart';
 import 'dart:async';
 import 'package:uor_road_map/constanents.dart';
-import 'package:uor_road_map/Screens/Map/Logic/placeInIn.dart';
-import 'package:uor_road_map/Screens/Map/Logic/PlaceWFloor.dart';
 import 'package:uor_road_map/Screens/Map/Logic/getplace.dart';
 import 'package:uor_road_map/Screens/Map/Display/Notification.dart';
+import 'package:uor_road_map/Screens/Direction/direction_Page.dart';
 
 const String KEY=GOOGL_KEY;
 const double CAMERA_ZOOM = ZOOM;
 const double CAMERA_TILT = 0;
 const double CAMERA_BEARING = 30;
 
-List<dynamic> geolocation;
+List<dynamic> geolocationPlace;
 //0=> polyline
 //1=.marker
-List<dynamic> alldata;
+List<dynamic> alldata1;
     //0=>floor location
     //1=> required place
     //2=>relevent places
     //3=>relevent floor
 int floorID=0;
+int destinationFID;
+BitmapDescriptor destLocation;
+BitmapDescriptor userLocation;
 
 class DrawPlace extends StatefulWidget
 {
 
   DrawPlace(List<dynamic> data,int selectedfloorID,int destFloorID)
   {
+      alldata1=data;
+      destinationFID=destFloorID;
       //in here selected floorID can be empty.then will have to select destination floorID
        //geolocation=getplace(data,destFloorID);
       if(selectedfloorID==0)
       {
           floorID=destFloorID;
-          geolocation=getplace(data,destFloorID);
+          geolocationPlace=getplace(data,destFloorID,destFloorID);
 
-          print(geolocation);
       }      
       else
       {
           floorID=selectedfloorID;
-          geolocation=getplace(data,selectedfloorID);
+          geolocationPlace=getplace(data,selectedfloorID,destFloorID);
 
-          print(geolocation);
       }  
 
       if(selectedfloorID!=destFloorID)
                 showMessage(destFloorID);
          
-      alldata=data;
+      
   }
 
 
@@ -97,14 +97,23 @@ class _DrawState extends State<DrawPlace>
         _controller.complete(controller);  
     }
 
+    void customMapPing() async{
+          destLocation =await BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(devicePixelRatio: 2.5),
+            'assets/destination_PIn.png');
 
-   
+          userLocation=await BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(devicePixelRatio: 2.5,size: Size(0.5, 0.5)),
+            'assets/userPin.png');
+        }
+      
 
 @override
 void initState()
 {
   _dropdownMenuitem = buildDropdownMenuItems(_floor).cast<DropdownMenuItem<Floor>>();
   _selectedFloor = _dropdownMenuitem[floorID].value;
+  customMapPing();
   super.initState();
 }
 
@@ -127,20 +136,20 @@ onChangeDropdwonItem(Floor selectedFloor){
   setState(() 
   {
     _selectedFloor = selectedFloor;
-    geolocation.clear();
-    geolocation=getplace(alldata,_selectedFloor.id);
+    geolocationPlace.clear();
+    geolocationPlace=getplace(alldata1,_selectedFloor.id,destinationFID);
 
   });
 }
 
-  static LatLng _center =LatLng(alldata[1][1],alldata[1][2]);
+  static LatLng _center =LatLng(alldata1[4][1],alldata1[4][2]);
   final Set<Marker> _markers = {};
   LatLng _lastMapPosition = _center;
   MapType _currentMapType = MapType.normal;
 
 static CameraPosition initialLocation = CameraPosition(
     bearing: CAMERA_BEARING,
-    target:LatLng(alldata[1][1],alldata[1][2]),
+    target:LatLng(alldata1[4][1],alldata1[4][2]),
     tilt: CAMERA_TILT,
     zoom: CAMERA_ZOOM,
   );
@@ -179,6 +188,24 @@ static CameraPosition initialLocation = CameraPosition(
       ));
     });
   }
+     _onSearchButtonPress()
+  {
+
+  }
+
+  _onDirectionButtonPress() async
+  {
+      
+        dselectedDepartment="";
+        dvOr="";
+        dselectedFloorName="";
+        dselectedStart="";
+        dselectedDestination="";
+        arr=[dselectedStart,dselectedDestination,dselectedDepartment,dselectedFloorName,dvOr];
+        Navigator.pop(context);
+  }
+
+
   Widget button(Function function,IconData icon)
   {
     return FloatingActionButton(
@@ -216,6 +243,7 @@ static CameraPosition initialLocation = CameraPosition(
                   ),
           ],
         ),
+        
         drawer: Drawer(
             child: ListView(
               padding: EdgeInsets.zero,
@@ -265,27 +293,29 @@ static CameraPosition initialLocation = CameraPosition(
               ],
             ),
           ),
-        body: Stack(
-          children: <Widget>[
-
+        body: Stack(  
+                 
+          children: <Widget>[ 
+           
             GoogleMap(
                 
                 onMapCreated: _onMapCreated,
                 initialCameraPosition:initialLocation,
-                polylines: geolocation[0],
-                //markers:geolocation[1],             
+                polylines: geolocationPlace[0],
+                markers:geolocationPlace[1],             
                 mapType: _currentMapType,
                 onCameraMove: _onCamMove,
                 myLocationButtonEnabled: true,
 
               ),
-
-              Padding(
-                padding: EdgeInsets.all(16.0),
+            Padding(
+                padding: EdgeInsets.all(6.0),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: Column(
                     children: <Widget>[
+
+
                       button(_onMapTypeButtonPressed, Icons.map),
                       SizedBox(height: 16.0, 
                       ),
@@ -294,6 +324,11 @@ static CameraPosition initialLocation = CameraPosition(
                         height: 16.0,
                       ),
                       button(_goToPosition, Icons.location_searching),
+                      SizedBox(height: 16.0),
+                      button(_onSearchButtonPress, Icons.search),
+                      SizedBox(height: 16.0),
+                      button(_onDirectionButtonPress,Icons.directions),
+                      SizedBox(height: 16.0)
                     ],
                   ),
                 ),
