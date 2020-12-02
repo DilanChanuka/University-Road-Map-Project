@@ -29,47 +29,58 @@ class AddSearchState extends State<AddSearch>
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
           backgroundColor: firstColor,
-          title: Text("Find Out"),
+          title: Text("Find Out",
+            style: TextStyle(
+              fontSize: MediaQuery.of(context).size.width / 15,
+            ),
+          ),
           bottom: TabBar(
             indicator: ShapeDecoration(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
+                      topLeft: Radius.circular(MediaQuery.of(context).size.width / 15),
+                      topRight: Radius.circular(MediaQuery.of(context).size.width / 15),
+                      bottomLeft: Radius.circular(MediaQuery.of(context).size.width / 15),
+                      bottomRight: Radius.circular(MediaQuery.of(context).size.width / 15),
                     ),
                 ),
               color: mainColor,
               ),
             tabs: [
               Tab(
-                child: Text("Ground \nFloor",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    color: blackcolor,
+                child: SingleChildScrollView(
+                  child: Text("Ground \nFloor",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.width / 20,
+                      color: blackcolor,
+                    ),
+                  ),
+                ),
+
+              ),
+              Tab(
+                child: SingleChildScrollView(
+                  child: Text("First \nFloor",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.width / 20,
+                      color: blackcolor,
+                    ),
                   ),
                 ),
               ),
               Tab(
-                child: Text("First \nFloor",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    color: blackcolor,
-                  ),
-                ),
-              ),
-              Tab(
-                child: Text("Secound \nFloor",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    color: blackcolor,
+                child: SingleChildScrollView(
+                  child: Text("Second \nFloor",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.width / 20,
+                      color: blackcolor,
+                    ),
                   ),
                 ),
               ),
@@ -78,14 +89,20 @@ class AddSearchState extends State<AddSearch>
         ), 
         body: TabBarView(
             children: <Widget>[
-              new Container(
-                child: Ground(),
+              SingleChildScrollView(
+                child: Container(
+                  child: Ground(),
+                ),
               ),
-              new Container(
-                child: First(),
+              SingleChildScrollView(
+                child: Container(
+                  child: First(),
+                ),
               ),
-              new Container(
-                child: Second(),
+              SingleChildScrollView(
+                child: Container(
+                  child: Second(),
+                ),
               ),
             ],
           ),
@@ -107,31 +124,31 @@ class AddSearchState extends State<AddSearch>
                 ),
 
                 ListTile(
-                  title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Sign Out",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.exit_to_app,color: blackcolor,), 
                   onTap: () => _handleSubmitwelcome(context),
                 ),
 
                 ListTile(
-                  title: Text("Profile",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.person,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Contacts",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Contacts",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.contacts,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Settings",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Settings",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.settings,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Help and feedback",style: TextStyle(fontSize: 20.0),),
+                  title: Text("Help and feedback",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.help,color: blackcolor,),
                   onTap: (){},
                 ),

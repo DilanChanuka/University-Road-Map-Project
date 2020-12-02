@@ -9,7 +9,7 @@ class LogGuest extends StatefulWidget
 {
   LogGuest() : super();
 
-  final String txt= "You are guest access(sign in)";
+  final String txt= "Guest Access";
   @override
   LogGuestState createState() => LogGuestState();
 
@@ -40,6 +40,7 @@ class LogGuestState extends State<LogGuest>
         appBar: AppBar(
           title: Text(widget.txt,
           style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width / 20,
             color: Colors.white,
           ),
           ),
@@ -62,26 +63,26 @@ class LogGuestState extends State<LogGuest>
                 ),
 
                 ListTile(
-                  title: Text("Sign In",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Sign In",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.exit_to_app,color: blackcolor,), 
                   onTap: () =>
                     _handleSubmitlogin(context),
                 ),
 
                 ListTile(
-                  title: Text("Contacts",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Contacts",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.contacts,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Settings",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Settings",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.settings,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Help and feedback",style: TextStyle(fontSize: 20.0),),
+                  title: Text("Help and feedback",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.help,color: blackcolor,),
                   onTap: (){},
                 ),

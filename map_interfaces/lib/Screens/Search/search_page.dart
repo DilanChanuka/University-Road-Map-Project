@@ -35,7 +35,11 @@ class _MHPage extends State<Spage>
           resizeToAvoidBottomPadding: false,
           appBar: AppBar(
             backgroundColor: firstColor,
-            title: Text("Not on University"),
+            title: Text("Outside University",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.width / 20,
+              ),
+            ),
           ),
           body: SingleChildScrollView(
              child: _buildUser(),
@@ -58,7 +62,7 @@ class _MHPage extends State<Spage>
                 ),
 
                 ListTile(
-                  title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Sign Out",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.exit_to_app,color: blackcolor,), 
                   onTap: () =>
                     _handleSubmitwelcome(context),
@@ -66,25 +70,25 @@ class _MHPage extends State<Spage>
                 ),
 
                 ListTile(
-                  title: Text("Profile",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.person,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Contacts",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Contacts",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.contacts,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Settings",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Settings",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.settings,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Help and feedback",style: TextStyle(fontSize: 20.0),),
+                  title: Text("Help and feedback",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.help,color: blackcolor,),
                   onTap: (){},
                 ),
@@ -98,61 +102,60 @@ class _MHPage extends State<Spage>
  
   Widget _buildDestination()
   {
-    return Container(
-      margin: const EdgeInsets.all(40.0),
-      padding: const EdgeInsets.all(10.0),
-      height: 70.0,
-      width: 260.0,
-      decoration: BoxDecoration(
-        //borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        boxShadow: [
+    return SingleChildScrollView(        
+      child: Container(
+        height: 70.0,
+        width: MediaQuery.of(context).size.width / 1.5,
+        decoration: BoxDecoration(
+          boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.6),
             spreadRadius: 2,
             blurRadius: 5,
             offset: Offset(0, 3),
           ),
-        ],
-        color: colorwhite,
-        border: Border.all(),
-      ),
-      child: TextFormField(
-        readOnly: true,
-        decoration: InputDecoration(
-          labelText: 'Enter Destination',
+          ],
+            color: colorwhite,
+            border: Border.all(),
         ),
-          onTap: (){
-            return showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) {
-                  return StatefulBuilder(builder: (context, setState) {
-                    return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(  
-                                child: DropDownField(
-                                  controller: placeNameSelect,
-                                  hintText: "Choose destination",
-                                  hintStyle: TextStyle(fontSize: 12.8),
-                                  enabled: true,
-                                  items: placeName,
-                                  onValueChanged: (value)
-                                  {  
-                                    setState(() {
-                                      placeNameselected = value;
-                                    });
-                                  },
-                                ), 
-                              ),
-                            ],  
-                          ),   
-                        ),      
-                      ), 
-                      actions: [
-                        FlatButton(
+          child: SingleChildScrollView(
+            child: TextFormField(
+              readOnly: true,
+              decoration: InputDecoration(
+                labelText: 'Enter Destination',
+              ),
+                onTap: (){
+                  return showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      return StatefulBuilder(builder: (context, setState) {
+                          return AlertDialog(
+                            content: Form(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(  
+                                      child: DropDownField(
+                                        controller: placeNameSelect,
+                                        hintText: "Choose destination",
+                                        hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
+                                        enabled: true,
+                                        items: placeName,
+                                        onValueChanged: (value)
+                                        {  
+                                        setState(() {
+                                        placeNameselected = value;
+                                      });
+                                    },
+                                  ), 
+                                ),
+                              ],  
+                            ),   
+                          ),      
+                        ), 
+                        actions: [
+                          FlatButton(
                           onPressed: (){Navigator.of(context).pop(placeNameselected);},
                           child: Text("OK"),
                         ),
@@ -165,141 +168,150 @@ class _MHPage extends State<Spage>
           },
         controller: TextEditingController(text: placeNameselected),
       ),
+    ),
+    ),
     );
   }
   Widget buildEnterButton()
   {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          height: (MediaQuery.of(context).size.height / 12),
-          width: 5 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20),
-          child: RaisedButton(
-            elevation: 5.0,
-            color: firstColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
+    return SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
             ),
-            onPressed: () => {
-              _handleSubmitsearch(context),
-            },
-            child: Text(
-              "Enter",
-              style: TextStyle(
-                color: mainColor,
-                letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 30,
+            height: (MediaQuery.of(context).size.height / 12),
+            width: 5 * (MediaQuery.of(context).size.width /10),
+            child: RaisedButton(
+              elevation: 5.0,
+              color: firstColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
+              ),
+              onPressed: () => {
+                _handleSubmitsearch(context),
+              },
+              child: SingleChildScrollView(
+                child: Text(
+                  "Enter",
+                  style: TextStyle(
+                    color: mainColor,
+                    letterSpacing: 1.5,
+                    fontSize: MediaQuery.of(context).size.height / 30,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ],
     );
   }
   Widget _buildUser()
   {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+    return SingleChildScrollView(
+        child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
 
-        ClipRRect(
-          borderRadius: BorderRadius.zero,
-          child: Container(
-            height:MediaQuery.of(context).size.height * 0.87,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: SingleChildScrollView(
-              //padding: EdgeInsets.only(top: 15.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                      height: MediaQuery.of(context).size.height * 0.56,
-                      width: MediaQuery.of(context).size.width * 0.96,
-                      decoration: BoxDecoration(
-                        color: mainColor,
-                      ),
-                        child: SingleChildScrollView(
-                          padding: EdgeInsets.only(top: 90.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              _buildDestination(),
+                    SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.6),
+                                spreadRadius: 2,
+                                blurRadius: 3,
+                                offset: Offset(0, 2),
+                              ),
                             ],
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
+                          child: SingleChildScrollView(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(MediaQuery.of(context).size.height / 30),
+                            ),
+                            child: Container(
+                            height: MediaQuery.of(context).size.height * 0.56,
+                            width: MediaQuery.of(context).size.width * 0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                              child: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    _buildDestination(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          ),
                         ),
                       ],
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.22 ,
-                        width: MediaQuery.of(context).size.width * 0.96,
-                        decoration: BoxDecoration(
-                          color: mainColor,
-                        ),
+
+                    SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.6),
+                                spreadRadius: 2,
+                                blurRadius: 3,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
                           child: SingleChildScrollView(
-                            padding: EdgeInsets.only(top: 40.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                buildEnterButton(),
-                              ],
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(MediaQuery.of(context).size.height / 30),
+                              ),
+                              child: Container(
+                                height: MediaQuery.of(context).size.height * 0.22 ,
+                                width: MediaQuery.of(context).size.width * 0.96,
+                                decoration: BoxDecoration(
+                                  color: mainColor,
+                                ),
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        buildEnterButton(),
+                                      ],
+                                    ),
+                                  ),
+                              ),
                             ),
                           ),
-                      ),
+                        ),
+                      ],
                     ),
-                  ),
 
-
-              ],
-            ),
-          ),
-          ),
+                ],
+              ),
         ),
-      ],
     );
   }
 

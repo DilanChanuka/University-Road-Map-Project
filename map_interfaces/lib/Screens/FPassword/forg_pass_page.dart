@@ -66,14 +66,16 @@ class _ForgPassPageState extends State<FBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          "UOR NAVIGATION",
-            style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height/20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+        SingleChildScrollView(
+          child: Text(
+            "UOR NAVIGATION",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
-          ),
+        ),
       ],
     );
   }
@@ -82,74 +84,89 @@ class _ForgPassPageState extends State<FBody>
   {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        ClipRRect(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-          child: Container(
-            height: MediaQuery.of(context).size.height*0.8,
-            width: MediaQuery.of(context).size.width*0.8,
-            decoration: BoxDecoration(
-              color: Colors.white,
+        children: <Widget>[
+          SingleChildScrollView(
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(
+              Radius.circular(MediaQuery.of(context).size.height / 30),
             ),
-            child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(height: 25.0,),
-                Row(
+            child: Container(
+              height: MediaQuery.of(context).size.height*0.8,
+              width: MediaQuery.of(context).size.width*0.8,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                   
-                    Container(
-                      width: 250,
-                      padding: EdgeInsets.all(3.0),
-                      margin: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                      ),           
-                      child: Text("To reset your password,submit your email address below.If we can find yor in the database,an email will be send to your email address,with instruction how to get access again.",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 6,
-                      //textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                      ),
+
+                    SizedBox(height: MediaQuery.of(context).size.height / 30),
+                    SingleChildScrollView(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                        
+                          Container(
+                            width: MediaQuery.of(context).size.height * 0.4,
+                            padding: EdgeInsets.all(MediaQuery.of(context).size.height / 150),
+                            margin: EdgeInsets.all(MediaQuery.of(context).size.height / 40),
+                            decoration: BoxDecoration(
+                              border: Border.all(),
+                            ),
+                            child: SingleChildScrollView(           
+                              child: Text("To reset your password,submit your email address below.If we can find yor,an email will be send to your email address,with instruction how to get access again.",
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 6,
+                              //textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 70.0,),
-                    Container(
-                      width: 250,
-                      child: Text("Search by email",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        fontSize: 30.0,
-                      ),
+
+                    SingleChildScrollView(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(height: MediaQuery.of(context).size.height / 10),
+                          Container(
+                            //width: MediaQuery.of(context).size.height / 3,
+                            child: SingleChildScrollView(
+                              child: Text("Search by email",
+                              textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: tridColor,
+                                  decoration: TextDecoration.underline,
+                                  fontSize: MediaQuery.of(context).size.height / 30,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    _buidemailRow(),
+                    buildSearchButton(),
                   ],
                 ),
-                _buidemailRow(),
-                buildSearchButton(),
-              ],
-            ),
-            ),
+              ),
+              ),
+              ),
             ),
           ),
-        ),
+          ),
       ],
     );
   }
@@ -157,25 +174,27 @@ class _ForgPassPageState extends State<FBody>
   Widget _buidemailRow() // user email
   {
     return Padding(
-      padding: EdgeInsets.all(8),
-        child: TextFormField(
-          keyboardType: TextInputType.name,
-          /*onChanged: (value){
-            setState(() {
-              email = value;
-            });
-          },*/
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-                Icons.email,
-                color: firstColor,
-              ),
-              labelText: "Email",
-              hintText: "abc@gmail.com",
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 60),
+        child: SingleChildScrollView(
+          child: TextFormField(
+            keyboardType: TextInputType.name,
+            /*onChanged: (value){
+              setState(() {
+                email = value;
+              });
+            },*/
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                  Icons.email,
+                  color: firstColor,
+                ),
+                labelText: "Email",
+                hintText: "abc@gmail.com",
+            ),
+            textInputAction: TextInputAction.next,
+            validator: (String eml) => EmailValidator.validate(eml)? null:"Invalid email address",
+            onSaved: (eml) => email = eml,
           ),
-          textInputAction: TextInputAction.next,
-          validator: (String eml) => EmailValidator.validate(eml)? null:"Invalid email address",
-          onSaved: (eml) => email = eml,
         ),
       );
   }
@@ -185,32 +204,47 @@ class _ForgPassPageState extends State<FBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
-          height: 1.4 * (MediaQuery.of(context).size.height / 20),
-          width: 5 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.all(40.0),
-          child: RaisedButton(
-            elevation: 5.0,
-            color: firstColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            onPressed: () => {
-              if(_formKey.currentState.validate())
-              {
-                _formKey.currentState.save(),
-
-                _handleSubmitsearch(context), 
-              }
-            },
-            child: Text(
-              "Search",
-                style: TextStyle(
-                  color: Colors.white,
-                  letterSpacing: 1.5,
-                  fontSize: MediaQuery.of(context).size.height / 30,
+        SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
                 ),
+              ],
+            ),
+            height: 1.4 * (MediaQuery.of(context).size.height / 20),
+            width: 5 * (MediaQuery.of(context).size.width /10),
+            margin: EdgeInsets.all(MediaQuery.of(context).size.height / 30),
+            child: RaisedButton(
+              elevation: 5.0,
+              color: firstColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
               ),
+              onPressed: () => {
+                if(_formKey.currentState.validate())
+                {
+                  _formKey.currentState.save(),
+
+                  _handleSubmitsearch(context), 
+                }
+              },
+              child: SingleChildScrollView(
+                child: Text(
+                  "Search",
+                    style: TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 1.5,
+                      fontSize: MediaQuery.of(context).size.height / 30,
+                    ),
+                  ),
+              ),
+            ),
           ),
         ),
       ],

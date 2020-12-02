@@ -35,21 +35,24 @@ class _LoginPageState extends State<LBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          "UOR NAVIGATION",
-            style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height/20,
-              fontWeight: FontWeight.bold,
-              color: blackcolor,
-            ),
+        SingleChildScrollView(
+          child: Text(
+            "UOR NAVIGATION",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/20,
+                fontWeight: FontWeight.bold,
+                color: blackcolor,
+              ),
           ),
+        ),
       ],
     );
   }
   Widget _buildUsernameRow() 
   {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height /60),
+      child: SingleChildScrollView(
         child: TextFormField(
           keyboardType: TextInputType.name,
           textCapitalization: TextCapitalization.words,
@@ -76,12 +79,14 @@ class _LoginPageState extends State<LBody>
           },
           onSaved: (name) => username = name,
         ),
-      );
+      ),
+    );
   }
   Widget _buildPasswordRow() 
   {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 60),
+      child: SingleChildScrollView(
         child: TextFormField(
           keyboardType: TextInputType.text,
           obscureText: true,
@@ -108,7 +113,8 @@ class _LoginPageState extends State<LBody>
           onSaved: (pwd) => password = pwd,
           textInputAction: TextInputAction.done,
         ),
-      );
+      ),
+    );
   }
   Widget buildForgetPasswordButton()
   {
@@ -116,29 +122,32 @@ class _LoginPageState extends State<LBody>
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Container(
-          height: 42.0,
-          padding: EdgeInsets.zero,
-          margin: EdgeInsets.all(25.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.6),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(0, 3),
-              ),
-            ],
-            color: mainColor,
-            border: Border.all(),
-          ),
-          child: FlatButton(onPressed: () => _handleSubmitforgotten(context), 
-            child: Text("Forgotten your password?",
-              style: TextStyle(
-                //decoration: TextDecoration.underline,
-                fontSize: MediaQuery.of(context).size.height / 40,
-                color: secColor,
+        SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height / 15,
+            margin: EdgeInsets.all(MediaQuery.of(context).size.height / 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              color: mainColor,
+              border: Border.all(),
+            ),
+            child: FlatButton(onPressed: () => _handleSubmitforgotten(context),
+              child: SingleChildScrollView(
+                child: Text("Forgotten your password?",
+                  style: TextStyle(
+                    //decoration: TextDecoration.underline,
+                    fontSize: MediaQuery.of(context).size.height / 40,
+                    color: tridColor,
+                  ),
+                ),
               ),
             ),
           ),
@@ -151,31 +160,46 @@ class _LoginPageState extends State<LBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
-          height: 1.4 * (MediaQuery.of(context).size.height / 20),
-          width: 5 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20),
-          child: RaisedButton(
-            elevation: 5.0,
-            color: firstColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            onPressed: () => {
-              //if(_formKey.currentState.validate())
-              //{
-                //_formKey.currentState.save(),
-                _handleSubmitloginMainmap(context),
-             // }
-            },
-            child: Text(
-              "Log in",
-                style: TextStyle(
-                  color: Colors.white,
-                  letterSpacing: 1.5,
-                  fontSize: MediaQuery.of(context).size.height / 30,
+        SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
                 ),
+              ],
+            ),
+            height: 1.4 * (MediaQuery.of(context).size.height / 20),
+            width: 5 * (MediaQuery.of(context).size.width /10),
+            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30),
+            child: RaisedButton(
+              elevation: 5.0,
+              color: firstColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
               ),
+              onPressed: () => {
+                //if(_formKey.currentState.validate())
+                //{
+                  //_formKey.currentState.save(),
+                  _handleSubmitloginMainmap(context),
+              // }
+              },
+              child: SingleChildScrollView(
+                child: Text(
+                  "LOGIN",
+                    style: TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 1.5,
+                      fontSize: MediaQuery.of(context).size.height / 40,
+                    ),
+                  ),
+              ),
+            ),
           ),
         ),
       ],
@@ -186,49 +210,53 @@ class _LoginPageState extends State<LBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
-        height: 42.0,
-          padding: EdgeInsets.zero,
-          margin: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.6),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(0, 3),
+        SingleChildScrollView(
+          child: Container(
+          height: MediaQuery.of(context).size.height / 15,
+            padding: EdgeInsets.zero,
+            margin: EdgeInsets.all(MediaQuery.of(context).size.height / 60),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              color: mainColor,
+              border: Border.all(),
+            ),
+            child: FlatButton(
+              onPressed: () => _handleSubmitsignupdonotacc(context),
+              child: SingleChildScrollView(
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Don't have an account? ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: MediaQuery.of(context).size.height / 40,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "Sign Up",
+                        style: TextStyle(
+                          color: firstColor,
+                          fontSize: MediaQuery.of(context).size.height / 40,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ],
-            color: mainColor,
-            border: Border.all(),
+            ),
           ),
-          child: FlatButton(
-            onPressed: () => _handleSubmitsignupdonotacc(context),
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: "Don't have an account? ",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: MediaQuery.of(context).size.height / 40,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  TextSpan(
-                    text: "Sign Up",
-                    style: TextStyle(
-                      color: firstColor,
-                      fontSize: MediaQuery.of(context).size.height / 40,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ),
-        ), 
+        ),
       ],
     );
   }
@@ -237,47 +265,52 @@ class _LoginPageState extends State<LBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        ClipRRect(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-          child: Container(
-            height: MediaQuery.of(context).size.height*0.8,
-            width: MediaQuery.of(context).size.width*0.8,
-            decoration: BoxDecoration(
-              color: Colors.white,
+        SingleChildScrollView(
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(
+              Radius.circular(MediaQuery.of(context).size.height / 30),
             ),
-            child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(height: 50.0,),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Login",
-                      style: TextStyle(
-                        color: secColor,
-                        fontSize: MediaQuery.of(context).size.height / 25,
+            child: Container(
+              height: MediaQuery.of(context).size.height*0.8,
+              width: MediaQuery.of(context).size.width*0.8,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: MediaQuery.of(context).size.height / 20,),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SingleChildScrollView(
+                        child: Text(
+                          "LOGIN",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: tridColor,
+                            fontSize: MediaQuery.of(context).size.height / 20,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                _buildUsernameRow(),
-                _buildPasswordRow(),
-                buildForgetPasswordButton(),
-                buildLoginButton(),
-                buildSignUpButton(),
-              ],
+                    ],
+                  ),
+                  _buildUsernameRow(),
+                  _buildPasswordRow(),
+                  buildForgetPasswordButton(),
+                  buildLoginButton(),
+                  buildSignUpButton(),
+                ],
+              ),
             ),
-          ),
-          ),
+            ),
+            ),
           ),
         ),
       ],

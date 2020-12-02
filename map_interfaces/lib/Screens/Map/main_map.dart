@@ -50,6 +50,7 @@ class MainMapState extends State<MainMap>
         appBar: AppBar(
           title: Text(widget.txt,
           style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width / 20,
             color: Colors.white,
           ),
           ),
@@ -72,31 +73,31 @@ class MainMapState extends State<MainMap>
                 ),
 
                 ListTile(
-                  title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Sign Out",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.exit_to_app,color: blackcolor,), 
                   onTap: () => _handleSubmitwelcome(context),
                 ),
 
                 ListTile(
-                  title: Text("Profile",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.person,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Contacts",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Contacts",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.contacts,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Settings",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Settings",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.settings,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Help and feedback",style: TextStyle(fontSize: 20.0),),
+                  title: Text("Help and feedback",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.help,color: blackcolor,),
                   onTap: (){},
                 ),
@@ -119,24 +120,28 @@ class MainMapState extends State<MainMap>
                 ),
             ),
               Padding(
-                padding: EdgeInsets.only(top: 15.0,left: 25.0,right: 20.0),
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 16.0,
-                      ),
-                      addsearch(),
-                      SizedBox(
-                        height: 16.0,
-                        width: 5.0,
-                      ),
-                      search(),
-                    ],
+                padding: EdgeInsets.all(MediaQuery.of(context).size.height / 60),
+                child: SingleChildScrollView(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 35,
+                        ),
+                        addsearch(),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 35,
+                          width: MediaQuery.of(context).size.width / 80,
+                        ),
+                        search(),
+                      ],
+                    ),
                   ),
                 ),
-                ),
+              ),
           ],
         ),
       ),
@@ -147,27 +152,44 @@ class MainMapState extends State<MainMap>
   {
     return Column(
       children: <Widget>[
-        Container(
-          height: 1.4 * (MediaQuery.of(context).size.height / 20),
-          width: 4.1 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20),
-          child: RaisedButton(
-            elevation: 3.0,
-            color: firstColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            onPressed: () => {
-              _handleSubmitaddsearch(context),
-            },
-            child: Text( 
-              "On Campus",
-                style: TextStyle(
-                  color: Colors.white,
-                  letterSpacing: 1.5,
-                  fontSize: MediaQuery.of(context).size.height / 45,
+        SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 35)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
                 ),
+              ],
+              border: Border.all(),
+            ),
+            height: 1.4 * (MediaQuery.of(context).size.height / 20),
+            width: 3 * (MediaQuery.of(context).size.width /9),
+            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 35),
+            child: RaisedButton(
+              elevation: 3.0,
+              color: tridColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 35),
               ),
+              onPressed: () => {
+                _handleSubmitaddsearch(context),
+              },
+              child: SingleChildScrollView(
+                child: Text( 
+                  "Inside Campus",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 1.5,
+                      fontSize: MediaQuery.of(context).size.width / 20,
+                    ),
+                  ),
+              ),
+            ),
           ),
         ),
       ],
@@ -178,27 +200,44 @@ class MainMapState extends State<MainMap>
   {
     return Column(
       children: <Widget>[
-        Container(
-          height: 1.4 * (MediaQuery.of(context).size.height / 20),
-          width: 4.3 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20),
-          child: RaisedButton(
-            elevation: 5.0,
-            color: firstColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
+        SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 35)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              border: Border.all(),
             ),
-            onPressed: () => {
-              _handleSubmitsearch(context),
-            },
-            child: Text( 
-              "Not On Campus",
-                style: TextStyle(
-                  color: Colors.white,
-                  letterSpacing: 1.5,
-                  fontSize: MediaQuery.of(context).size.height / 45,
+            height: 1.4 * (MediaQuery.of(context).size.height / 20),
+            width: 3 * (MediaQuery.of(context).size.width /9),
+            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 35),
+            child: RaisedButton(
+              elevation: 5.0,
+              color: tridColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 35),
+              ),
+              onPressed: () => {
+                _handleSubmitsearch(context),
+              },
+              child: SingleChildScrollView(
+                child: Text( 
+                  "Outside Campus",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 1.5,
+                      fontSize: MediaQuery.of(context).size.width / 20,
+                    ),
                 ),
               ),
+            ),
           ),
         ),
       ],

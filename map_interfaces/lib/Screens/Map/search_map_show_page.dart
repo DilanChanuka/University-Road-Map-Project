@@ -28,6 +28,7 @@ class SearchState extends State<Search>
         appBar: AppBar(
           title: Text(widget.txt,
           style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width / 20,
             color: Colors.white,
           ),
           ),
@@ -50,31 +51,31 @@ class SearchState extends State<Search>
                 ),
 
                 ListTile(
-                  title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Sign Out",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.exit_to_app,color: blackcolor,), 
                   onTap: () => _handleSubmitwelcome(context),
                 ),
 
                 ListTile(
-                  title: Text("Profile",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.person,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Contacts",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Contacts",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.contacts,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Settings",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Settings",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.settings,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Help and feedback",style: TextStyle(fontSize: 20.0),),
+                  title: Text("Help and feedback",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.help,color: blackcolor,),
                   onTap: (){},
                 ),
@@ -96,7 +97,7 @@ class SearchState extends State<Search>
                 ),
             ),
             Container(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(MediaQuery.of(context).size.height / 80),
              child: buildDistanceUpButton(),
             ),
           ],
@@ -118,25 +119,40 @@ class SearchState extends State<Search>
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
-          height: 1.4 * (MediaQuery.of(context).size.height / 20),
-          width: 4 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20),
-          child: RaisedButton(
-            elevation: 5.0,
-            color: firstColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            onPressed: () => {},
-            child: Text(
-              "Distance",
-                style: TextStyle(
-                  color: Colors.white,
-                  letterSpacing: 1.5, 
-                  fontSize: MediaQuery.of(context).size.height / 40,
+        SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 35)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
                 ),
+              ],
+            ),
+            height: 1.4 * (MediaQuery.of(context).size.height / 20),
+            width: 4 * (MediaQuery.of(context).size.width /10),
+            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 35),
+            child: RaisedButton(
+              elevation: 5.0,
+              color: firstColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
               ),
+              onPressed: () => {},
+              child: SingleChildScrollView(
+                child: Text(
+                  "Distance",
+                    style: TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 1.5, 
+                      fontSize: MediaQuery.of(context).size.width / 20,
+                    ),
+                  ),
+              ),
+            ),
           ),
         ),
       ],

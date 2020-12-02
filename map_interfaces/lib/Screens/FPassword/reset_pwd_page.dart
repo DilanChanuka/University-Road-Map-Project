@@ -69,14 +69,16 @@ class _ResetPageState extends State<RPWDBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          "UOR NAVIGATION",
-            style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height/20,
-              fontWeight: FontWeight.bold,
-              color: blackcolor,
+        SingleChildScrollView(
+          child: Text(
+            "UOR NAVIGATION",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/20,
+                fontWeight: FontWeight.bold,
+                color: blackcolor,
+              ),
             ),
-          ),
+        ),
       ],
     );
   }
@@ -86,27 +88,32 @@ class _ResetPageState extends State<RPWDBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        ClipRRect(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            width: MediaQuery.of(context).size.width * 0.8,
-            decoration: BoxDecoration(
-              color: Colors.white
+        SingleChildScrollView(
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(
+              Radius.circular(MediaQuery.of(context).size.height / 30),
             ),
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                _buildValidationCode(),
-                _buildPassword(),
-                _buildConPassword(),
-                _buildEnter(),
-                _buildCancel(),
-              ],
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.8,
+              width: MediaQuery.of(context).size.width * 0.8,
+              decoration: BoxDecoration(
+                color: Colors.white
+              ),
+              key: _formKey,
+              child: SingleChildScrollView(  
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                    _buildValidationCode(),
+                    _buildPassword(),
+                    _buildConPassword(),
+                    _buildEnter(),
+                    _buildCancel(),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -117,26 +124,28 @@ class _ResetPageState extends State<RPWDBody>
   Widget _buildValidationCode()
   {
      return Padding(
-      padding: EdgeInsets.all(8),
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-                Icons.confirmation_number, 
-                color: firstColor,
-              ),
-              labelText: "Validation Code"
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 60),
+        child: SingleChildScrollView(
+          child: TextFormField(
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                  Icons.confirmation_number, 
+                  color: firstColor,
+                ),
+                labelText: "Validation Code"
+            ),
+            validator: (String code){
+              Pattern pattern = r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
+              RegExp regex  = new RegExp(pattern);
+              if(!regex.hasMatch(code))
+                return "Invalid password";
+              else
+                return null;
+            },
+            onSaved: (code) => validationCode = code,
+            textInputAction: TextInputAction.next,
           ),
-          validator: (String code){
-            Pattern pattern = r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
-            RegExp regex  = new RegExp(pattern);
-            if(!regex.hasMatch(code))
-              return "Invalid password";
-            else
-              return null;
-          },
-          onSaved: (code) => validationCode = code,
-          textInputAction: TextInputAction.next,
         ),
     );
   }
@@ -144,27 +153,29 @@ class _ResetPageState extends State<RPWDBody>
   Widget _buildPassword()
   {
      return Padding(
-      padding: EdgeInsets.all(8),
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          obscureText: true,
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-                Icons.lock,
-                color: firstColor,
-              ),
-              labelText: "Password"
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 60),
+        child: SingleChildScrollView(
+          child: TextFormField(
+            keyboardType: TextInputType.text,
+            obscureText: true,
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                  Icons.lock,
+                  color: firstColor,
+                ),
+                labelText: "Password"
+            ),
+            validator: (String pwd){
+              Pattern pattern = r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
+              RegExp regex  = new RegExp(pattern);
+              if(!regex.hasMatch(pwd))
+                return "Invalid password";
+              else
+                return null;
+            },
+            onSaved: (pwd) => password = pwd,
+            textInputAction: TextInputAction.done,
           ),
-          validator: (String pwd){
-            Pattern pattern = r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
-            RegExp regex  = new RegExp(pattern);
-            if(!regex.hasMatch(pwd))
-              return "Invalid password";
-            else
-              return null;
-          },
-          onSaved: (pwd) => password = pwd,
-          textInputAction: TextInputAction.done,
         ),
     );
   }
@@ -172,27 +183,29 @@ class _ResetPageState extends State<RPWDBody>
   Widget _buildConPassword()
   {
     return Padding(
-      padding: EdgeInsets.all(8),
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          obscureText: true,
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-                Icons.lock,
-                color: firstColor,
-              ),
-              labelText: "Confirm Password"
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 60),
+        child: SingleChildScrollView(
+          child: TextFormField(
+            keyboardType: TextInputType.text,
+            obscureText: true,
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                  Icons.lock,
+                  color: firstColor,
+                ),
+                labelText: "Confirm Password"
+            ),
+            validator: (String copwd){
+              Pattern pattern = r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
+              RegExp regex  = new RegExp(pattern);
+              if(!regex.hasMatch(copwd))
+                return "Invalid password";
+              else
+                return null;
+            },
+            onSaved: (copwd) => conpassword = copwd,
+            textInputAction: TextInputAction.done,
           ),
-          validator: (String copwd){
-            Pattern pattern = r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
-            RegExp regex  = new RegExp(pattern);
-            if(!regex.hasMatch(copwd))
-              return "Invalid password";
-            else
-              return null;
-          },
-          onSaved: (copwd) => conpassword = copwd,
-          textInputAction: TextInputAction.done,
         ),
     );
   }
@@ -202,32 +215,47 @@ class _ResetPageState extends State<RPWDBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
-          height: 1.4 * (MediaQuery.of(context).size.height / 20),
-          width: 5 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20,top: 40.0),
-          child: RaisedButton(
-            elevation: 5.0,
-            color: firstColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            onPressed: () => {
-              ///if(_formKey.currentState.validate())
-              ////{
-                //_formKey.currentState.save(),
-
-                 _handleSubmitenter(context),
-              //}
-            },
-            child: Text(
-              "Enter",
-                style: TextStyle(
-                  color: Colors.white,
-                  letterSpacing: 1.5,
-                  fontSize: MediaQuery.of(context).size.height / 30,
+        SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
                 ),
+              ],
+            ),
+            height: 1.4 * (MediaQuery.of(context).size.height / 20),
+            width: 5 * (MediaQuery.of(context).size.width /10),
+            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30,top: MediaQuery.of(context).size.height / 30),
+            child: RaisedButton(
+              elevation: 5.0,
+              color: firstColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
               ),
+              onPressed: () => {
+                ///if(_formKey.currentState.validate())
+                ////{
+                  //_formKey.currentState.save(),
+
+                  _handleSubmitenter(context),
+                //}
+              },
+              child: SingleChildScrollView(
+                child: Text(
+                  "Enter",
+                    style: TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 1.5,
+                      fontSize: MediaQuery.of(context).size.height / 30,
+                    ),
+                  ),
+              ),
+            ),
           ),
         ),
       ],
@@ -239,27 +267,42 @@ class _ResetPageState extends State<RPWDBody>
      return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
-          height: 1.4 * (MediaQuery.of(context).size.height / 20),
-          width: 5 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20),
-          child: RaisedButton(
-            elevation: 5.0,
-            color: firstColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            onPressed: () => {
-               _handleSubmitcancel(context),
-            },
-            child: Text(
-              "Cancel",
-                style: TextStyle(
-                  color: Colors.white,
-                  letterSpacing: 1.5,
-                  fontSize: MediaQuery.of(context).size.height / 30,
+        SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
                 ),
+              ],
+            ),
+            height: 1.4 * (MediaQuery.of(context).size.height / 20),
+            width: 5 * (MediaQuery.of(context).size.width /10),
+            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30),
+            child: RaisedButton(
+              elevation: 5.0,
+              color: firstColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
               ),
+              onPressed: () => {
+                _handleSubmitcancel(context),
+              },
+              child: SingleChildScrollView(
+                child: Text(
+                  "Cancel",
+                    style: TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 1.5,
+                      fontSize: MediaQuery.of(context).size.height / 30,
+                    ),
+                  ),
+              ),
+            ),
           ),
         ),
       ],

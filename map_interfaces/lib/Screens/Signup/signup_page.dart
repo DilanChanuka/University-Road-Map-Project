@@ -34,103 +34,111 @@ class _SignUpPageState extends State<SBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          "UOR NAVIGATION",
-            style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height/20,
-              fontWeight: FontWeight.bold,
-              color: blackcolor,
+        SingleChildScrollView(
+          child: Text(
+            "UOR NAVIGATION",
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height/20,
+                fontWeight: FontWeight.bold,
+                color: blackcolor,
+              ),
             ),
-          ),
+        ),
       ],
     );
   }
   Widget _buildUsernameRow() // user name 
   {
     return Padding(
-      padding: EdgeInsets.all(8),
-        child: TextFormField(
-          keyboardType: TextInputType.name,
-          textCapitalization: TextCapitalization.words,
-          /*onChanged: (value){
-            setState(() {
-              username = value;
-            });
-          },*/
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-                Icons.perm_identity,
-                color: firstColor,
-              ),
-              labelText: "Username"
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 80),
+        child: SingleChildScrollView(
+          child: TextFormField(
+            keyboardType: TextInputType.name,
+            textCapitalization: TextCapitalization.words,
+            /*onChanged: (value){
+              setState(() {
+                username = value;
+              });
+            },*/
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                  Icons.perm_identity,
+                  color: firstColor,
+                ),
+                labelText: "Username"
+            ),
+            textInputAction: TextInputAction.next,
+            validator: (String name){
+              Pattern pattern  =  r'^[A-Za-z0-9] + (? :[ _-][A-Za-z0-9]+)*$';
+              RegExp regex = new RegExp(pattern);
+                if(!regex.hasMatch(name))
+                  return "Inavalid username";
+                else 
+                  return null;
+            },
+            onSaved: (name) => username = name,
           ),
-          textInputAction: TextInputAction.next,
-          validator: (String name){
-            Pattern pattern  =  r'^[A-Za-z0-9] + (? :[ _-][A-Za-z0-9]+)*$';
-            RegExp regex = new RegExp(pattern);
-              if(!regex.hasMatch(name))
-                return "Inavalid username";
-              else 
-                return null;
-          },
-          onSaved: (name) => username = name,
         ),
       );
   }
   Widget _buidemailRow() // user email
   {
     return Padding(
-      padding: EdgeInsets.all(8),
-        child: TextFormField(
-          keyboardType: TextInputType.name,
-         /* onChanged: (value){
-            setState(() {
-              email = value;
-            });
-          },*/
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-                Icons.email,
-                color: firstColor,
-              ),
-              labelText: "Email",
-              hintText: "abc@gmail.com",
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 80),
+        child: SingleChildScrollView(
+          child: TextFormField(
+            keyboardType: TextInputType.name,
+          /* onChanged: (value){
+              setState(() {
+                email = value;
+              });
+            },*/
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                  Icons.email,
+                  color: firstColor,
+                ),
+                labelText: "Email",
+                hintText: "abc@gmail.com",
+            ),
+            textInputAction: TextInputAction.next,
+            validator: (String eml) => EmailValidator.validate(eml)? null:"Invalid email address",
+            onSaved: (eml) => email = eml,
           ),
-          textInputAction: TextInputAction.next,
-          validator: (String eml) => EmailValidator.validate(eml)? null:"Invalid email address",
-          onSaved: (eml) => email = eml,
         ),
       );
   }
   Widget _buildPasswordRow() // user password 
   {
     return Padding(
-      padding: EdgeInsets.all(8),
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          obscureText: true,
-          /*onChanged: (value){
-            setState(() {
-              password = value;
-            });
-          },*/
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-                Icons.lock,
-                color: firstColor,
-              ),
-              labelText: "Password"
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 80),
+        child: SingleChildScrollView(
+          child: TextFormField(
+            keyboardType: TextInputType.text,
+            obscureText: true,
+            /*onChanged: (value){
+              setState(() {
+                password = value;
+              });
+            },*/
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                  Icons.lock,
+                  color: firstColor,
+                ),
+                labelText: "Password"
+            ),
+            validator: (String pwd){
+              Pattern pattern = r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
+              RegExp regex  = new RegExp(pattern);
+              if(!regex.hasMatch(pwd))
+                return "Invalid password";
+              else
+                return null;
+            },
+            onSaved: (pwd) => password = pwd,
+            textInputAction: TextInputAction.done,
           ),
-          validator: (String pwd){
-            Pattern pattern = r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
-            RegExp regex  = new RegExp(pattern);
-            if(!regex.hasMatch(pwd))
-              return "Invalid password";
-            else
-              return null;
-          },
-          onSaved: (pwd) => password = pwd,
-          textInputAction: TextInputAction.done,
         ),
       );
   }
@@ -141,18 +149,23 @@ class _SignUpPageState extends State<SBody>
      // mainAxisAlignment: MainAxisAlignment.start,
      // crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Checkbox(
-          checkColor: Colors.red,
-          activeColor: Colors.black12,
-          value: this.first, 
-          onChanged: (bool value){
-            setState(() {
-              this.first = value;
-            });
-          }
-          ),
-          Text("I Agree with "),
-          InkWell(
+        SingleChildScrollView(
+          child: Checkbox(
+            checkColor: Colors.red,
+            activeColor: Colors.black12,
+            value: this.first, 
+            onChanged: (bool value){
+              setState(() {
+                this.first = value;
+              });
+            }
+            ),
+        ),
+        SingleChildScrollView(
+          child: Text("I agree with "),
+        ),
+        SingleChildScrollView(
+          child: InkWell(
             child: Text("Terms and Conditions",
             style: TextStyle(
               decoration: TextDecoration.underline,
@@ -163,6 +176,7 @@ class _SignUpPageState extends State<SBody>
             onTap: () =>
               _handleSubmittcpage(context),
           ),
+        ),
       ],
     );
   }
@@ -172,33 +186,49 @@ class _SignUpPageState extends State<SBody>
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
-          height: 1.4 * (MediaQuery.of(context).size.height / 20),
-          width: 5 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20),
-          child: RaisedButton(
-            elevation: 5.0,
-            color: firstColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            onPressed: () => {
-              //if(_formKey.currentState.validate())
-              //{
-               // _formKey.currentState.save(),
-                _handleSubmitmmap(context),
-            //}
-            },
-            child: Text(
-              "Sign Up",
-                style: TextStyle(
-                  color: Colors.white,
-                  letterSpacing: 1.5, 
-                  fontSize: MediaQuery.of(context).size.height / 30,
+        SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
                 ),
+              ],
+            ),
+            height: 1.4 * (MediaQuery.of(context).size.height / 20),
+            width: 5 * (MediaQuery.of(context).size.width /10),
+            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 60),
+            child: RaisedButton(
+              elevation: 5.0,
+              color: firstColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
               ),
+              onPressed: () => {
+                //if(_formKey.currentState.validate())
+                //{
+                // _formKey.currentState.save(),
+                  _handleSubmitmmap(context),
+              //}
+              },
+              child: SingleChildScrollView(
+                child: Text(
+                  "SIGNUP",
+                    style: TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 1.5, 
+                      fontSize: MediaQuery.of(context).size.height / 40,
+                    ),
+                  ),
+              ),
+            ),
           ),
         ),
+
       ],
     );
   }
@@ -208,42 +238,47 @@ class _SignUpPageState extends State<SBody>
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
-          height: 42.0,
-          padding: EdgeInsets.zero,
-          margin: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.6),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(0, 3),
-              ),
-            ],
-            color: mainColor,
-            border: Border.all(),
-          ),
-          child: FlatButton(
-            onPressed: () => 
-                _handleSubmitlogall(context),
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: "I'm already a member",
-                    style: TextStyle(
-                      color: secColor,
-                      fontSize: MediaQuery.of(context).size.height / 40,
-                      fontWeight: FontWeight.w400,
-                    ),
+        SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height / 15,
+            padding: EdgeInsets.zero,
+            margin: EdgeInsets.all(MediaQuery.of(context).size.height / 60),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              color: mainColor,
+              border: Border.all(),
+            ),
+            child: FlatButton(
+              onPressed: () => 
+                  _handleSubmitlogall(context),
+              child: SingleChildScrollView(
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "I'm already a member",
+                        style: TextStyle(
+                          color: blackcolor,
+                          fontSize: MediaQuery.of(context).size.height / 40,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
+              ),
+
               ),
             ),
-            ),
-          ),
+        ),
       ],
     );
   }
@@ -253,53 +288,58 @@ class _SignUpPageState extends State<SBody>
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        ClipRRect(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-          child: Container(
-            height: MediaQuery.of(context).size.height*0.8,
-            width: MediaQuery.of(context).size.width*0.8,
-            decoration: BoxDecoration(
-              color: Colors.white,
+        SingleChildScrollView(
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(
+              Radius.circular(MediaQuery.of(context).size.height / 30),
             ),
-            child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(height: 50.0,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height / 25,
-                        color: secColor,
+            child: Container(
+              height: MediaQuery.of(context).size.height*0.8,
+              width: MediaQuery.of(context).size.width*0.8,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SingleChildScrollView(
+                        child: Text(
+                          "SIGNUP",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.height / 20,
+                            color: tridColor,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildUsernameRow(),
-                    _buidemailRow(),
-                    _buildPasswordRow(),
-                    buildAgreeButton(),
-                    buildSignUpButton(),
-                    buildLoginButton(),
-                  ],
-                ),
-                
-              ],
+                    ],
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildUsernameRow(),
+                      _buidemailRow(),
+                      _buildPasswordRow(),
+                      buildAgreeButton(),
+                      buildSignUpButton(),
+                      buildLoginButton(),
+                    ],
+                  ),
+                  
+                ],
+              ),
             ),
-          ),
-          ),
+            ),
+            ),
           ),
         ),
       ],

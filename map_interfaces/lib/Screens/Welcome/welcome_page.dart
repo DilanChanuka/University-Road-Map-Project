@@ -29,14 +29,16 @@ class _WelcomePageState extends State<WBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          "WELCOME",
+        SingleChildScrollView(
+          child: Text(
+            "WELCOME",
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.height/20,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
+        ),
       ],
     );
   }
@@ -82,86 +84,100 @@ class _WelcomePageState extends State<WBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        //Image.asset('assets/images/0.png'),
-        ClipRRect(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-          child: Container(
-            height: MediaQuery.of(context).size.height*0.8,
-            width: MediaQuery.of(context).size.width*0.8,
-            decoration: BoxDecoration(
-              //image: DecorationImage(image: AssetImage('assets/images/0.png'),fit: BoxFit.cover),
-              color: Colors.white,
+        SingleChildScrollView(
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(
+              Radius.circular(MediaQuery.of(context).size.height / 30),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(25.0),
-                  padding: EdgeInsets.all(20.0),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.6),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
+            child: Container(
+              height: MediaQuery.of(context).size.height*0.8,
+              width: MediaQuery.of(context).size.width*0.8,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.all(MediaQuery.of(context).size.height / 30),
+                      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 30),
+                      decoration: BoxDecoration(
+                        /*boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],*/
+                        //color: mainColor,
+                        border: Border.all(),
                       ),
-                    ],
-                    color: mainColor,
-                    border: Border.all(),
+                      child: Column(
+                        children: <Widget>[ 
+
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SingleChildScrollView(
+                                child: Text(
+                                  "UOR",
+                                  style: TextStyle(
+                                    //backgroundColor: Colors.lightBlue,
+                                    fontSize: MediaQuery.of(context).size.height / 20,
+                                    color: tridColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SingleChildScrollView(
+                                child: Text(
+                                  "NAVIGATION",
+                                  style: TextStyle(
+                                    //backgroundColor: Colors.lightBlue,
+                                    fontSize: MediaQuery.of(context).size.height / 20,
+                                    color: tridColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SingleChildScrollView(
+                                child: Text(
+                                  "SYSTEM",
+                                  style: TextStyle(
+                                    //backgroundColor: Colors.lightBlue,
+                                    fontSize: MediaQuery.of(context).size.height / 20,
+                                    color: tridColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                        ],
+                      ),
+                    ),
                   ),
-                  child: Column(
-                    children: <Widget>[  
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "UOR",
-                            style: TextStyle(
-                              //backgroundColor: Colors.lightBlue,
-                              fontSize: MediaQuery.of(context).size.height / 20,
-                              color: Colors.red,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "NAVIGATION",
-                            style: TextStyle(
-                              //backgroundColor: Colors.lightBlue,
-                              fontSize: MediaQuery.of(context).size.height / 20,
-                              color: Colors.red,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "SYSTEM",
-                            style: TextStyle(
-                              //backgroundColor: Colors.lightBlue,
-                              fontSize: MediaQuery.of(context).size.height / 20,
-                              color: Colors.red,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                buildLoginButton(),
-                buildSignUpButton(),
-                buildGuestButton(),
-                //SpinKitDualRing(color: Colors.green,size: 40.0,),
-              ],
+                  buildLoginButton(),
+                  buildSignUpButton(),
+                  buildGuestButton(),
+                ],
+              ),
             ),
           ),
         ),
@@ -173,52 +189,42 @@ class _WelcomePageState extends State<WBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
-          height: 1.4 * (MediaQuery.of(context).size.height / 20),
-          width: 5 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20),
-          child: RaisedButton(
-            elevation: 5.0,
-            color: firstColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            onPressed: () =>
-                /*_scafflodKey.currentState.showSnackBar(
-                  SnackBar(duration: Duration(seconds: 4),
-                  backgroundColor: firstColor,
-                  content: Row(
-                    children: <Widget>[
-                      CircularProgressIndicator(),
-                      Text(" Sign-In...")
-                    ],
-                  ),
-                  ));
-                  Login().whenComplete(() => Navigator.of(context).pushNamed("/login_page"),);*/
-                  /*final snackBar = SnackBar( 
-                    duration: Duration(seconds: 4),
-                  content: Row(
-                    children: <Widget>[
-                      CircularProgressIndicator(),
-                      Text(" Sign-In...")
-                    ],
-                  ),
-                  action: SnackBarAction(label: 'shh', onPressed: (){
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => Login()));
-                  }),
-                );
-                Scaffold.of(context).showSnackBar(snackBar);*/
-                _handleSubmitlogin(context),
-              
-            child: Text(
-              "LOGIN",
-                style: TextStyle(
-                  color: Colors.white,
-                  letterSpacing: 1.5,
-                  fontSize: MediaQuery.of(context).size.height / 40,
+        SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
                 ),
+              ],
+            ),
+            height: 1.4 * (MediaQuery.of(context).size.height / 20),
+            width: 5 * (MediaQuery.of(context).size.width /10),
+            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30),
+            child: RaisedButton(
+              elevation: 5.0,
+              color: firstColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
               ),
-        ),
+              onPressed: () =>
+                  _handleSubmitlogin(context),
+              child: SingleChildScrollView(
+                child: Text(
+                  "LOGIN",
+                    style: TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 1.5,
+                      fontSize: MediaQuery.of(context).size.height / 40,
+                    ),
+                  ),
+              ),
+          ),
+          ),
         ),
       ],
     );
@@ -228,35 +234,42 @@ class _WelcomePageState extends State<WBody>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
-          height: 1.4 * (MediaQuery.of(context).size.height / 20),
-          width: 5 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20),
-          child: RaisedButton(
-            elevation: 5.0,
-            color: firstColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-           onPressed: () => 
-              /*Navigator.push(context, 
-                PageTransition(
-                  type: PageTransitionType.topToBottom, 
-                  child: SignUp(),
-                  duration: Duration(microseconds: 400),
-                 ),
-                ),*/
-                _handleSubmitsignup(context),
-              
-            child: Text(
-              "SIGNUP",
-                style: TextStyle(
-                  color: Colors.white,
-                  letterSpacing: 1.5,
-                  fontSize: MediaQuery.of(context).size.height / 40,
+        SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
                 ),
+              ],
+            ),
+            height: 1.4 * (MediaQuery.of(context).size.height / 20),
+            width: 5 * (MediaQuery.of(context).size.width /10),
+            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30),
+            child: RaisedButton(
+              elevation: 5.0,
+              color: firstColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
               ),
-        ),
+            onPressed: () => 
+                  _handleSubmitsignup(context),
+              child: SingleChildScrollView(
+                child: Text(
+                  "SIGNUP",
+                    style: TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 1.5,
+                      fontSize: MediaQuery.of(context).size.height / 40,
+                    ),
+                  ),
+              ),
+          ),
+          ),
         ),
       ],
     );
@@ -268,35 +281,39 @@ class _WelcomePageState extends State<WBody>
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Container(
-          height: 44.0,
-          padding: EdgeInsets.zero,
-          margin: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.6),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(0, 3),
-              ),
-            ],
-            color: mainColor,
-            border: Border.all(),
-          ),
-          child:  FlatButton(
-            onPressed: ()=> _handleSubmitguest(context),
-            child: Text("Log in as a guest",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                //decoration: TextDecoration.underline,
-                fontSize: 18.0,
-                color: tridColor,
+        SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height / 15,
+            padding: EdgeInsets.zero,
+            margin: EdgeInsets.all(MediaQuery.of(context).size.height / 30),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              color: mainColor,
+              border: Border.all(),
+            ),
+            child:  FlatButton(
+              onPressed: ()=> _handleSubmitguest(context),
+              child: SingleChildScrollView(
+                child: Text("Log in as a guest",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    //decoration: TextDecoration.underline,
+                    fontSize: MediaQuery.of(context).size.height / 40,
+                    color: blackcolor,
+                  ),
+                ),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }

@@ -12,7 +12,6 @@ class AddSPage extends StatelessWidget
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "On University",
       theme: ThemeData(
         primaryColor: Colors.white,
         backgroundColor: firstColor,
@@ -41,7 +40,7 @@ class _MHPage extends State<Hpage> {
           return AlertDialog(
             title: Text("Select Department and Floor",
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: MediaQuery.of(context).size.width / 20,
                 fontWeight: FontWeight.bold,
                 color: firstColor,
               ),
@@ -56,14 +55,14 @@ class _MHPage extends State<Hpage> {
                     Text("Select Department",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20.0
+                        fontSize: MediaQuery.of(context).size.width / 20,
                         ),
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.076,
+                      //height: MediaQuery.of(context).size.height * 0.076,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                        color: grycolor,
+                        color: mainColor,
                       ),
                       child: SingleChildScrollView(
                         child: Column(
@@ -74,14 +73,14 @@ class _MHPage extends State<Hpage> {
                                 value: departmentvalue,
                                 underline: Container(
                                   height: 3,
-                                  color: Colors.deepPurpleAccent,
+                                  color: firstColor,
                                 ),
                                 items: department.map((departmentvalue) {
                                   return DropdownMenuItem(
                                     value: departmentvalue,
                                     child: Text(departmentvalue,
                                       style: TextStyle(
-                                        fontSize: 15.0
+                                        fontSize: MediaQuery.of(context).size.width / 25,
                                       ),
                                     ),
                                   );
@@ -96,16 +95,16 @@ class _MHPage extends State<Hpage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 40.0,),
+                    SizedBox(height: MediaQuery.of(context).size.height / 30,),
                     Text("Select Floor",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20.0
+                        fontSize: MediaQuery.of(context).size.width / 20,
                         ),
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: grycolor,
+                        color: mainColor,
                       ),
                       child: SingleChildScrollView(
                         child: Column(
@@ -118,14 +117,14 @@ class _MHPage extends State<Hpage> {
                                 value: floorvalue,
                                 underline: Container(
                                   height: 3,
-                                  color: Colors.deepPurpleAccent,
+                                  color: firstColor,
                                 ),
                                 items: floor.map((floorvlue) {
                                   return DropdownMenuItem(
                                     value: floorvlue,
                                     child: Text(floorvlue,
                                       style: TextStyle(
-                                        fontSize: 15.0
+                                        fontSize: MediaQuery.of(context).size.width / 25,
                                       ),
                                     ),
                                   );
@@ -153,7 +152,7 @@ class _MHPage extends State<Hpage> {
                 },
                 child: Text("OK",
                   style: TextStyle(
-                    fontSize: 20.0,
+                    fontSize: MediaQuery.of(context).size.width / 20,
                     fontWeight: FontWeight.bold,
                     color: firstColor,
                   ),
@@ -179,41 +178,74 @@ class _MHPage extends State<Hpage> {
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             backgroundColor: firstColor,
-            title: Text("On University",
+            title: Text("Inside University",
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height / 30,
+                fontSize: MediaQuery.of(context).size.width / 20,
               ),
             ),
             actions: <Widget>[
 
-              DropdownButton<int>(
-                iconSize: 40.0,
+             DropdownButton<int>(
+               isDense: true,
+                iconSize: MediaQuery.of(context).size.width / 10,
                 iconEnabledColor: mainColor,
-                dropdownColor: mainColor,
+                dropdownColor: Colors.transparent,
                 value: itm,
                 items: [
                   DropdownMenuItem(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 4,
+                      padding: EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.6),
+                            spreadRadius: 2,
+                            blurRadius: 2,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                        color: tridColor,
+                        border: Border.all(),
+                      ),
                     child: Text("Out Side",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        backgroundColor: grycolor,
-                        fontSize: 20.0,
-                        color: blackcolor,
+                        fontSize: MediaQuery.of(context).size.width / 20,
+                        color: mainColor,
                         fontWeight: FontWeight.bold
                         ),
+                    ),
                     ),
                     value: 0,
                   ),
                   DropdownMenuItem(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 4,
+                      padding: EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.6),
+                            spreadRadius: 2,
+                            blurRadius: 2,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                        color: tridColor,
+                        border: Border.all(),
+                      ),
                       child: Text("In Side",
                         textAlign: TextAlign.center,
                       style: TextStyle(
-                        backgroundColor: grycolor ,
-                        fontSize: 20.0,
-                        color: blackcolor,
+                        color: mainColor,
+                        fontSize: MediaQuery.of(context).size.width / 20,
                         fontWeight: FontWeight.bold
                         ),
                       ),
+                    ),
                       value: 1,
                       onTap: () async {
                         await createAlertDialog(context);
@@ -230,12 +262,28 @@ class _MHPage extends State<Hpage> {
             ],
           
             bottom: TabBar(
+              indicatorWeight: 3,
+              indicatorColor: mainColor,
               tabs:[
-                Tab(icon: Icon(Icons.directions_walk),
-                  text: "Walk",
+                Tab(
+                  icon: Icon(Icons.directions_walk,
+                  color: mainColor,
+                  ),
+                  child: Text("Walk",
+                    style: TextStyle(
+                      color: mainColor,
+                    ),
+                  ),
                 ),
-                Tab(icon: Icon(Icons.directions_car),
-                  text: "Vehicle",
+                Tab(
+                  icon: Icon(Icons.directions_car,
+                  color: mainColor,
+                ),
+                  child: Text("Vehicle",
+                    style: TextStyle(
+                      color: mainColor,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -265,32 +313,32 @@ class _MHPage extends State<Hpage> {
                 ),
 
                 ListTile(
-                  title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Sign Out",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),
                   leading: Icon(Icons.exit_to_app,color: blackcolor,), 
                   onTap: () =>
                     _handleSubmitwelcome(context),
                 ),
 
                 ListTile(
-                  title: Text("Profile",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),
                   leading: Icon(Icons.person,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Contacts",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Contacts",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),
                   leading: Icon(Icons.contacts,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Settings",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Settings",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),
                   leading: Icon(Icons.settings,color: blackcolor,),
                   onTap: (){},
                 ),
 
                 ListTile(
-                  title: Text("Help and feedback",style: TextStyle(fontSize: 20.0),),
+                  title: Text("Help and feedback",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),
                   leading: Icon(Icons.help,color: blackcolor,),
                   onTap: (){},
                 ),
@@ -337,11 +385,10 @@ class _MHPage extends State<Hpage> {
 
   Widget _buildUserLocationVehicleOutSide()
   {
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      height: 68.0,
-      width: 260.0,
+    return SingleChildScrollView(
+      child: Container(
+      height: 70.0,
+      width: MediaQuery.of(context).size.width / 1.5,
       decoration: BoxDecoration(
         //borderRadius: BorderRadius.all(Radius.circular(20.0)),
         boxShadow: [
@@ -375,7 +422,7 @@ class _MHPage extends State<Hpage> {
                                 child: DropDownField(
                                   controller: vehicleoutUserLocselect,
                                   hintText: "Your Location",
-                                  hintStyle: TextStyle(fontSize: 12.8),
+                                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28,),
                                   enabled: true,
                                   items: vehicleoutUserLoc,
                                   onValueChanged: (value)
@@ -404,15 +451,15 @@ class _MHPage extends State<Hpage> {
           },
         controller: TextEditingController(text: vehicleoutUserLocselected),
       ),
+      ),
     );
   }
   Widget _buildUserLocationVehicleInSide()
   {
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      height: 68.0,
-      width: 260.0,
+    return SingleChildScrollView(
+      child: Container(
+      height: 70.0,
+      width: MediaQuery.of(context).size.width / 1.5,
       decoration: BoxDecoration(
         //borderRadius: BorderRadius.all(Radius.circular(20.0)),
         boxShadow: [
@@ -446,7 +493,7 @@ class _MHPage extends State<Hpage> {
                                 child: DropDownField(
                                   controller: vehicleinUserLocselect,
                                   hintText: "Your Location",
-                                  hintStyle: TextStyle(fontSize: 12.8),
+                                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
                                   items: vehicleinUserLoc,
                                   onValueChanged: (value)
@@ -475,16 +522,17 @@ class _MHPage extends State<Hpage> {
           },
         controller: TextEditingController(text: vehicleinUserLocselected),
       ),
+      ),
     );
   }
 
   Widget _buildUserLocationWalkInSide()
   {
-    if(vlu == "Ground floor")
+    if(vlu == "Ground Floor")
     {
       return _groundw();
     }
-    if(vlu == "First floor")
+    if(vlu == "First Floor")
     {
       return _firstw();
     }
@@ -495,11 +543,10 @@ class _MHPage extends State<Hpage> {
   }
   Widget _groundw()
   {
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      height: 68.0,
-      width: 260.0,
+    return SingleChildScrollView(
+      child: Container(
+      height: 70.0,
+      width: MediaQuery.of(context).size.width / 1.5,
       decoration: BoxDecoration(
         //borderRadius: BorderRadius.all(Radius.circular(20.0)),
         boxShadow: [
@@ -533,7 +580,7 @@ class _MHPage extends State<Hpage> {
                                 child: DropDownField(
                                   controller: groundf,
                                   hintText: "Your Location",
-                                  hintStyle: TextStyle(fontSize: 12.8),
+                                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
                                   items: ground,
                                   onValueChanged: (value)
@@ -562,15 +609,15 @@ class _MHPage extends State<Hpage> {
           },
         controller: TextEditingController(text: groundselected),
       ),
+      ),
     );
   }
   Widget _firstw()
   {
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      height: 68.0,
-      width: 260.0,
+    return SingleChildScrollView(
+      child: Container(
+      height: 70.0,
+      width: MediaQuery.of(context).size.width / 1.5,
       decoration: BoxDecoration(
         //borderRadius: BorderRadius.all(Radius.circular(20.0)),
         boxShadow: [
@@ -604,7 +651,7 @@ class _MHPage extends State<Hpage> {
                                 child: DropDownField(
                                   controller: firstf,
                                   hintText: "Your Location",
-                                  hintStyle: TextStyle(fontSize: 12.8),
+                                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
                                   items: first,
                                   onValueChanged: (value)
@@ -633,15 +680,15 @@ class _MHPage extends State<Hpage> {
           },
         controller: TextEditingController(text: firstselected),
       ),
+      ),
     );
   }
   Widget _secondw()
   {
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      height: 68.0,
-      width: 260.0,
+    return SingleChildScrollView(
+      child: Container(
+      height: 70.0,
+      width: MediaQuery.of(context).size.width / 1.5,
       decoration: BoxDecoration(
         //borderRadius: BorderRadius.all(Radius.circular(20.0)),
         boxShadow: [
@@ -675,7 +722,7 @@ class _MHPage extends State<Hpage> {
                                 child: DropDownField(
                                   controller: secoundf,
                                   hintText: "Your Location",
-                                  hintStyle: TextStyle(fontSize: 12.8),
+                                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
                                   items: secound,
                                   onValueChanged: (value)
@@ -704,15 +751,15 @@ class _MHPage extends State<Hpage> {
           },
         controller: TextEditingController(text: secoundselected),
       ),
+      ),
     );
   }
   Widget _buildUserLocationWalkOutSide()
   {
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      height: 68.0,
-      width: 260.0,
+    return SingleChildScrollView(
+      child: Container(
+      height: 70.0,
+      width: MediaQuery.of(context).size.width / 1.5,
       decoration: BoxDecoration(
         //borderRadius: BorderRadius.all(Radius.circular(20.0)),
         boxShadow: [
@@ -746,7 +793,7 @@ class _MHPage extends State<Hpage> {
                                 child: DropDownField(
                                   controller: walkoutUserLocselect,
                                   hintText: "Your Location",
-                                  hintStyle: TextStyle(fontSize: 12.8),
+                                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
                                   items: walkoutUserLoc,
                                   onValueChanged: (value)
@@ -775,15 +822,15 @@ class _MHPage extends State<Hpage> {
           },
         controller: TextEditingController(text: walkoutUserLocselected),
       ),
+      ),
     );
   }
   Widget _buildDestinationVehicleInSide()
   {
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      height: 68.0,
-      width: 260.0,
+    return SingleChildScrollView(
+      child: Container(
+      height: 70.0,
+      width: MediaQuery.of(context).size.width / 1.5,
       decoration: BoxDecoration(
         //borderRadius: BorderRadius.all(Radius.circular(20.0)),
         boxShadow: [
@@ -817,7 +864,7 @@ class _MHPage extends State<Hpage> {
                                 child: DropDownField(
                                   controller: vehicleinDestiLocselect,
                                   hintText: "Choose destination",
-                                  hintStyle: TextStyle(fontSize: 12.8),
+                                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
                                   items: vehicleinDestiLoc,
                                   onValueChanged: (value)
@@ -846,16 +893,16 @@ class _MHPage extends State<Hpage> {
           },
         controller: TextEditingController(text: vehicleinDestiLocselected),
       ),
+      ),
     );
   }
   
   Widget _buildDestinationVehicleOutSide()
   {
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      height: 68.0,
-      width: 260.0,
+    return SingleChildScrollView(
+      child: Container(
+      height: 70.0,
+      width: MediaQuery.of(context).size.width / 1.5,
       decoration: BoxDecoration(
         //borderRadius: BorderRadius.all(Radius.circular(20.0)),
         boxShadow: [
@@ -889,7 +936,7 @@ class _MHPage extends State<Hpage> {
                                 child: DropDownField(
                                   controller: vehicleoutDestiLocselect,
                                   hintText: "Choose destination",
-                                  hintStyle: TextStyle(fontSize: 12.8),
+                                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
                                   items: vehicleoutDestiLoc,
                                   onValueChanged: (value)
@@ -918,16 +965,17 @@ class _MHPage extends State<Hpage> {
           },
         controller: TextEditingController(text: vehicleoutDestiLocselected),
       ),
+      ),
     );
   }
 
   Widget _buildDestinationWalkInSide()
   {
-    if(vlu == "Ground floor")
+    if(vlu == "Ground Floor")
     {
       return _ifgroundw();
     }
-    if(vlu == "First floor")
+    if(vlu == "First Floor")
     {
       return _iffirstw();
     }
@@ -938,11 +986,10 @@ class _MHPage extends State<Hpage> {
   }
   Widget _ifgroundw()
   {
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      height: 68.0,
-      width: 260.0,
+    return SingleChildScrollView(
+      child: Container(
+      height: 70.0,
+      width: MediaQuery.of(context).size.width / 1.5,
       decoration: BoxDecoration(
         //borderRadius: BorderRadius.all(Radius.circular(20.0)),
         boxShadow: [
@@ -976,7 +1023,7 @@ class _MHPage extends State<Hpage> {
                                 child: DropDownField(
                                   controller: ifgroundf,
                                   hintText: "Choose destination",
-                                  hintStyle: TextStyle(fontSize: 12.8),
+                                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
                                   items: ifground,
                                   onValueChanged: (value)
@@ -1005,15 +1052,15 @@ class _MHPage extends State<Hpage> {
           },
         controller: TextEditingController(text: ifgroundselected),
       ),
+      ),
     );
   }
   Widget _iffirstw()
   {
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      height: 68.0,
-      width: 260.0,
+    return SingleChildScrollView(
+      child: Container(
+      height: 70.0,
+      width: MediaQuery.of(context).size.width / 1.5,
       decoration: BoxDecoration(
         //borderRadius: BorderRadius.all(Radius.circular(20.0)),
         boxShadow: [
@@ -1047,7 +1094,7 @@ class _MHPage extends State<Hpage> {
                                 child: DropDownField(
                                   controller: iffirstf,
                                   hintText: "Choose destination",
-                                  hintStyle: TextStyle(fontSize: 12.8),
+                                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
                                   items: iffirst,
                                   onValueChanged: (value)
@@ -1076,15 +1123,15 @@ class _MHPage extends State<Hpage> {
           },
         controller: TextEditingController(text: iffirstselected),
       ),
+      ),
     );
   }
   Widget _ifsecondw()
   {
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      height: 68.0,
-      width: 260.0,
+    return SingleChildScrollView(
+      child: Container(
+      height: 70.0,
+      width: MediaQuery.of(context).size.width / 1.5,
       decoration: BoxDecoration(
         //borderRadius: BorderRadius.all(Radius.circular(20.0)),
         boxShadow: [
@@ -1118,7 +1165,7 @@ class _MHPage extends State<Hpage> {
                                 child: DropDownField(
                                   controller: ifsecoundf,
                                   hintText: "Choose destination",
-                                  hintStyle: TextStyle(fontSize: 12.8),
+                                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
                                   items: ifsecound,
                                   onValueChanged: (value)
@@ -1147,15 +1194,15 @@ class _MHPage extends State<Hpage> {
           },
         controller: TextEditingController(text: ifsecoundselected),
       ),
+      ),
     );
   }
   Widget _buildDestinationWalkOutSide()
   {
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      height: 68.0,
-      width: 260.0,
+    return SingleChildScrollView(
+      child: Container(
+      height: 70.0,
+      width: MediaQuery.of(context).size.width / 1.5,
       decoration: BoxDecoration(
         //borderRadius: BorderRadius.all(Radius.circular(20.0)),
         boxShadow: [
@@ -1189,7 +1236,7 @@ class _MHPage extends State<Hpage> {
                                 child: DropDownField(
                                   controller: walkoutDestiLocselect,
                                   hintText: "Choose destination",
-                                  hintStyle: TextStyle(fontSize: 12.8),
+                                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
                                   items: walkoutDestiLoc,
                                   onValueChanged: (value)
@@ -1218,675 +1265,748 @@ class _MHPage extends State<Hpage> {
           },
         controller: TextEditingController(text: walkoutDestiLocselected),
       ),
+      ),
     );
   } 
   
   Widget buildEnterButtonVehicleInSide()
   {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          height: (MediaQuery.of(context).size.height / 10),
-          width: 6 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 10,top: 40),
+    return SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.6),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          height: (MediaQuery.of(context).size.height / 12),
+          width: 5 * (MediaQuery.of(context).size.width /10),
           child: RaisedButton(
             elevation: 5.0,
             color: firstColor,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
             ),
-            onPressed: () =>
-              _handleSubmitaddsearch(context),
+            onPressed: () => _handleSubmitaddsearch(context),
+            child: SingleChildScrollView(
             child: Text(
               "Enter",
               style: TextStyle(
                 color: mainColor,
                 letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 25,
+                fontSize: MediaQuery.of(context).size.height / 30,
               ),
+            ),
             ),
           ),
         ),
-      ],
+  
     );
   }
   Widget buildEnterButtonVehicleOutSide()
   {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          height: (MediaQuery.of(context).size.height / 10),
-          width: 6 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 10,top: 40),
+    return SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.6),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          height: (MediaQuery.of(context).size.height / 12),
+          width: 5 * (MediaQuery.of(context).size.width /10),
           child: RaisedButton(
             elevation: 5.0,
             color: firstColor,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
             ),
             onPressed: () => _handleSubmitaddsearch(context),
+            child: SingleChildScrollView(
             child: Text(
               "Enter",
               style: TextStyle(
                 color: mainColor,
                 letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 25,
+                fontSize: MediaQuery.of(context).size.height / 30,
               ),
+            ),
             ),
           ),
         ),
-      ],
     );
   }
 
   Widget buildEnterButtonWalkInSide()
   {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          height: (MediaQuery.of(context).size.height / 10),
-          width: 6 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 10,top: 40),
+    return SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.6),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          height: (MediaQuery.of(context).size.height / 12),
+          width: 5 * (MediaQuery.of(context).size.width /10),
           child: RaisedButton(
             elevation: 5.0,
             color: firstColor,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
             ),
             onPressed: () => _handleSubmitaddsearch(context),
+            child: SingleChildScrollView(
             child: Text(
               "Enter",
               style: TextStyle(
                 color: mainColor,
                 letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 25,
+                fontSize: MediaQuery.of(context).size.height / 30,
               ),
+            ),
             ),
           ),
         ),
-      ],
     );
   }
   Widget buildEnterButtonWalkOutSide()
   {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          height: (MediaQuery.of(context).size.height / 10),
-          width: 6 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 10,top: 40),
+    return SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.6),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          height: (MediaQuery.of(context).size.height / 12),
+          width: 5 * (MediaQuery.of(context).size.width /10),
           child: RaisedButton(
             elevation: 5.0,
             color: firstColor,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
             ),
             onPressed: () => _handleSubmitaddsearch(context),
+            child: SingleChildScrollView(
             child: Text(
               "Enter",
               style: TextStyle(
                 color: mainColor,
                 letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 25,
+                fontSize: MediaQuery.of(context).size.height / 30,
               ),
+            ),
             ),
           ),
         ),
-      ],
     );
   }
 
   Widget _buildUserVehicleOutSide()
   {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-
-        ClipRRect(
-          borderRadius: BorderRadius.zero,
+    return SingleChildScrollView(
           child: Container(
-            height:MediaQuery.of(context).size.height * 0.75,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: SingleChildScrollView(
-              //padding: EdgeInsets.only(top: 15.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
 
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child:ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.2,//
-                        width: MediaQuery.of(context).size.width*0.96,
+                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
                         decoration: BoxDecoration(
-                          color: mainColor,
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              _buildUserLocationVehicleOutSide(),
-                            ],
+                        child:ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(MediaQuery.of(context).size.height / 30),
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.2,//
+                            width: MediaQuery.of(context).size.width*0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  _buildUserLocationVehicleOutSide(),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
 
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.2,//
-                        width: MediaQuery.of(context).size.width* 0.96,
+                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
                         decoration: BoxDecoration(
-                          color: mainColor,
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              _buildDestinationVehicleOutSide(),
-                            ],
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(MediaQuery.of(context).size.height / 30),
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.2,//
+                            width: MediaQuery.of(context).size.width* 0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  _buildDestinationVehicleOutSide(),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
 
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.23,//
-                        width: MediaQuery.of(context).size.width*0.96,
+                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
                         decoration: BoxDecoration(
-                          color: mainColor,
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              buildEnterButtonVehicleOutSide(),
-                            ],
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(MediaQuery.of(context).size.height / 30),
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.23,//
+                            width: MediaQuery.of(context).size.width*0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  buildEnterButtonVehicleOutSide(),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                   
               ],
             ),
           ),
-          ),
-        ),
-      ],
     );
   }
   Widget _buildUserVehicleInSide()
   {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-
-        ClipRRect(
-          borderRadius: BorderRadius.zero,
+    return SingleChildScrollView(
           child: Container(
-            height:MediaQuery.of(context).size.height * 0.75,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: SingleChildScrollView(
-              //padding: EdgeInsets.only(top: 15.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
 
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.2,
-                        width: MediaQuery.of(context).size.width * 0.96,
+                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
                         decoration: BoxDecoration(
-                          color: mainColor,
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              _buildUserLocationVehicleInSide(),
-                            ],
+                        child:ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(MediaQuery.of(context).size.height / 30),
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.2,//
+                            width: MediaQuery.of(context).size.width*0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  _buildUserLocationVehicleInSide(),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
 
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.2,
-                        width: MediaQuery.of(context).size.width *0.96,
+                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
                         decoration: BoxDecoration(
-                          color: mainColor,
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              _buildDestinationVehicleInSide(),
-                            ],
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(MediaQuery.of(context).size.height / 30),
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.2,//
+                            width: MediaQuery.of(context).size.width* 0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  _buildDestinationVehicleInSide(),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
 
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.23,
-                        width: MediaQuery.of(context).size.width * 0.96,
+                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
                         decoration: BoxDecoration(
-                          color: mainColor,
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              buildEnterButtonVehicleInSide(),
-                            ],
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(MediaQuery.of(context).size.height / 30),
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.23,//
+                            width: MediaQuery.of(context).size.width*0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  buildEnterButtonVehicleInSide(),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-
+                  
               ],
             ),
           ),
-          ),
-        ),
-      ],
     );
   }
 
   Widget _buildUserWalkOutSide()
   {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-
-        ClipRRect(
-          borderRadius: BorderRadius.zero,
+    return SingleChildScrollView(
           child: Container(
-            height:MediaQuery.of(context).size.height * 0.75,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: SingleChildScrollView(
-              //padding: EdgeInsets.only(top: 15.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
 
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.2,
-                        width: MediaQuery.of(context).size.width* 0.96,
+                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
                         decoration: BoxDecoration(
-                          color: mainColor,
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              _buildUserLocationWalkOutSide(),
-                            ],
+                        child:ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(MediaQuery.of(context).size.height / 30),
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.2,//
+                            width: MediaQuery.of(context).size.width*0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  _buildUserLocationWalkOutSide(),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
 
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.2,
-                        width: MediaQuery.of(context).size.width *0.96,
+                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
                         decoration: BoxDecoration(
-                          color: mainColor,
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              _buildDestinationWalkOutSide(),
-                            ],
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(MediaQuery.of(context).size.height / 30),
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.2,//
+                            width: MediaQuery.of(context).size.width* 0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  _buildDestinationWalkOutSide(),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
 
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.23,
-                        width: MediaQuery.of(context).size.width * 0.96,
+                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
                         decoration: BoxDecoration(
-                          color: mainColor,
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              buildEnterButtonWalkOutSide(),
-                            ],
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(MediaQuery.of(context).size.height / 30),
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.23,//
+                            width: MediaQuery.of(context).size.width*0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  buildEnterButtonWalkOutSide(),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-
-                ],
-              ),
+                  
+              ],
             ),
           ),
-        ),
-      ],
     );
   }
   Widget _buildUserWalkInSide()
   {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-
-        ClipRRect(
-          borderRadius: BorderRadius.zero,
+    return SingleChildScrollView(
           child: Container(
-            height:MediaQuery.of(context).size.height * 0.75,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: SingleChildScrollView(
-              //padding: EdgeInsets.only(top: 15.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
 
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.2,
-                        width: MediaQuery.of(context).size.width * 0.96,
+                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
                         decoration: BoxDecoration(
-                          color: mainColor,
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              _buildUserLocationWalkInSide(),
-                            ],
+                        child:ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(MediaQuery.of(context).size.height / 30),
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.2,//
+                            width: MediaQuery.of(context).size.width*0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  _buildUserLocationWalkInSide(),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
 
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.2,
-                        width: MediaQuery.of(context).size.width *0.96,
+                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
                         decoration: BoxDecoration(
-                          color: mainColor,
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              _buildDestinationWalkInSide(),
-                            ],
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(MediaQuery.of(context).size.height / 30),
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.2,//
+                            width: MediaQuery.of(context).size.width* 0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  _buildDestinationWalkInSide(),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
 
-                  SizedBox(height: 20.0,),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.23,
-                        width: MediaQuery.of(context).size.width * 0.96,
+                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
                         decoration: BoxDecoration(
-                          color: mainColor,
+                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              buildEnterButtonWalkInSide(),
-                            ],
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(MediaQuery.of(context).size.height / 30),
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.23,//
+                            width: MediaQuery.of(context).size.width*0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  buildEnterButtonWalkInSide(),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-
-                ],
-              ),
+                  
+              ],
             ),
           ),
-        ),
-      ],
     );
   }
 
