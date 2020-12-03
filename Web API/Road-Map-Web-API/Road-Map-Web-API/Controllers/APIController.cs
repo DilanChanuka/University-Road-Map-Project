@@ -158,6 +158,9 @@ namespace Road_Map_Web_API.Controllers
                     lst.AddRange(new List<double[]>(cal.ValidateRoute(start, end, grapgNo, r, routeLocations)));
                 }
                 final.Add("routelocations", lst);
+
+                final.Add("distance_time", cal.FindDistanceAndTime(grapgNo, start, end));
+
                 return Json(final);
             }
             return Json(final);
@@ -167,11 +170,11 @@ namespace Road_Map_Web_API.Controllers
         [Route("GetPlace/{startLAT:double}/{startLON:double}/{placeID:int}/{method}")]
         public IActionResult GetPlace(double startLAT, double startLON, int placeID, string method)
         {
-            List<double[]> lst = new List<double[]>();            
-
+            List<double[]> lst = new List<double[]>();
+            double distance=0, time=0;
             var final = new Hashtable();
             double[,] routeLocations;
-            double[] temp = new double[2];
+            double[] temp = new double[2], distanceAndTime;
             Calculations cal = new Calculations();
             int V_No, graphNo;
             double[,] floorLocations;
@@ -196,6 +199,10 @@ namespace Road_Map_Web_API.Controllers
             if (start != localEnd)
             {
                 int[] route = cal.GetRouteNumbers(graphNo, start, localEnd);
+                distanceAndTime = cal.FindDistanceAndTime(graphNo, start, localEnd);
+                distance += distanceAndTime[0];
+                time += distanceAndTime[1];
+
                 foreach (int r in route)
                 {
                     if (graphNo == 0)
@@ -206,6 +213,7 @@ namespace Road_Map_Web_API.Controllers
                     lst.AddRange(new List<double[]>(cal.ValidateRoute(start, localEnd, graphNo, r, routeLocations)));
                 }
                 final.Add("outerroutelocations",new List<double[]>(lst));
+
             }
             lst.Clear();
 
@@ -222,6 +230,10 @@ namespace Road_Map_Web_API.Controllers
             int[] ids = LocationData.GetDepartmentAndFloor(placeID);
 
             int[] routes = cal.GetRouteNumbers(graphNo, innerStart, innerEnd);
+            distanceAndTime = cal.FindDistanceAndTime(graphNo, innerStart, innerEnd);
+            distance += distanceAndTime[0];
+            time += distanceAndTime[1];
+
             List<double[]> zeroFloorRouteSet = new List<double[]>();
             List<double[]> stair_0_1_RouteSet = new List<double[]>();
             List<double[]> stair_1_2_RouteSet = new List<double[]>();
@@ -308,8 +320,8 @@ namespace Road_Map_Web_API.Controllers
                     lon = temp[1]
                 };
             }
-            final.Add("place", pl);           
-
+            final.Add("place", pl);
+            final.Add("distance_time", new double[] { distance, Math.Round(time, 1) });
             return Json(final);
         }
 
@@ -318,6 +330,8 @@ namespace Road_Map_Web_API.Controllers
         public IActionResult GetPlaceInOut(int department, int floor,double startLAT, double startLON, double endLAT, double endLON)
         {
             List<double[]> lst = new List<double[]>();
+            double distance = 0, time = 0;
+            double[] distanceAndTime;
             var final = new Hashtable();
             double[,] routeLocations;
             double[,] floorLocations;
@@ -331,6 +345,10 @@ namespace Road_Map_Web_API.Controllers
             if (start != innerEnd)
             {
                 int[] routes = cal.GetRouteNumbers(graphNo, start, innerEnd);
+                distanceAndTime = cal.FindDistanceAndTime(graphNo, start, innerEnd);
+                distance += distanceAndTime[0];
+                time += distanceAndTime[1];
+
                 List<double[]> zeroFloorRouteSet = new List<double[]>();
                 List<double[]> stair_0_1_RouteSet = new List<double[]>();
                 List<double[]> stair_1_2_RouteSet = new List<double[]>();
@@ -405,20 +423,27 @@ namespace Road_Map_Web_API.Controllers
                 if (stair_1_2_RouteSet.Count != 0)
                     final.Add("stair_1_2_locations", stair_1_2_RouteSet);
             }
-                       
+
+            graphNo = 0;
             int outerStrat = Data.EntranceOuterMatch[EntranceAndInnerEnd[0]];
-            int outerEnd= cal.GetNearestVertexNo(Data.footGrapheVertices, 0, endLAT, endLON);
+            int outerEnd= cal.GetNearestVertexNo(Data.footGrapheVertices, graphNo, endLAT, endLON);
             lst.Clear();
             if (outerStrat != outerEnd)
             {
-                int[] routes = cal.GetRouteNumbers(0, outerStrat, outerEnd);
+                int[] routes = cal.GetRouteNumbers(graphNo, outerStrat, outerEnd);
+
+                distanceAndTime = cal.FindDistanceAndTime(graphNo, outerStrat, outerEnd);
+                distance += distanceAndTime[0];
+                time += distanceAndTime[1];
+
                 foreach (int r in routes)
                 {
                     routeLocations = LocationData.GetFootRoute(r);
                     lst.AddRange(new List<double[]>(cal.ValidateRoute(outerStrat, outerEnd, 0, r, routeLocations)));
                 }
                 final.Add("outerroutelocations", new List<double[]>(lst));
-            }            
+            }  
+            final.Add("distance_time", new double[] { distance, Math.Round(time, 1) });
             return Json(final);
         }
 
@@ -445,6 +470,8 @@ namespace Road_Map_Web_API.Controllers
             if (start != end)
             {
                 int[] routes = cal.GetRouteNumbers(graphNo, start, end);
+                final.Add("distance_time", cal.FindDistanceAndTime(graphNo, start, end));
+
                 List<double[]> zeroFloorRouteSet = new List<double[]>();
                 List<double[]> stair_0_1_RouteSet = new List<double[]>();
                 List<double[]> stair_1_2_RouteSet = new List<double[]>();
@@ -549,14 +576,13 @@ namespace Road_Map_Web_API.Controllers
                 };
             }
             final.Add("place", pl);
-
             return Json(final);
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Json("Connected..!");
+            return Json("Connected with API..!");
         }
 
         [HttpPost("{username}/{password}")]

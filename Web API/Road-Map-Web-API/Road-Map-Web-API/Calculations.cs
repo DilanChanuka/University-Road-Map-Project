@@ -47,7 +47,7 @@ namespace Road_Map_Web_API
         {
             int[,] graph;
             if (graphNo == 0)
-                graph = Data.flootRoutesGraph;
+                graph = Data.footRoutesGraph;
             else
                 graph = Data.vehicleRoutesGraph;
             
@@ -88,7 +88,7 @@ namespace Road_Map_Web_API
             switch (graphNo)
             {
                 case 0:
-                    graph = Data.flootRoutesGraph;
+                    graph = Data.footRoutesGraph;
                     V_No = Data.footGrapheVertices;
                     endPoints = Data.foorRouteEndpoints;
                     break;
@@ -103,7 +103,7 @@ namespace Road_Map_Web_API
                     endPoints = Data.CSDepartmentRouteEndpoints;
                     break;
                 default:
-                    graph = Data.flootRoutesGraph;
+                    graph = Data.footRoutesGraph;
                     V_No = Data.footGrapheVertices;
                     endPoints = Data.foorRouteEndpoints;
                     break;
@@ -140,86 +140,122 @@ namespace Road_Map_Web_API
 
             List<double[]> lst = new List<double[]>();
             int size = route.GetLength(0);
-            double[] temp_1 = LocationData.GetVertexLoaction(graphNo, start);
-            double[] temp_2 = LocationData.GetVertexLoaction(graphNo, end);
 
-            if ((temp_1[0] == route[0, 0] && temp_1[1] == route[0, 1]) &&
-                (temp_2[0] == route[size - 1, 0] && temp_2[1] == route[size - 1, 1]))
+            try
             {
-                for (int i = 0; i < size; i++)
-                    lst.Add(new double[] { route[i, 0], route[i, 1] });
+                double[] temp_1 = LocationData.GetVertexLoaction(graphNo, start);
+                double[] temp_2 = LocationData.GetVertexLoaction(graphNo, end);
+
+                if ((temp_1[0] == route[0, 0] && temp_1[1] == route[0, 1]) &&
+                    (temp_2[0] == route[size - 1, 0] && temp_2[1] == route[size - 1, 1]))
+                {
+                    for (int i = 0; i < size; i++)
+                        lst.Add(new double[] { route[i, 0], route[i, 1] });
+                    return lst;
+                }
+                if ((temp_2[0] == route[0, 0] && temp_2[1] == route[0, 1]) &&
+                    (temp_1[0] == route[size - 1, 0] && temp_1[1] == route[size - 1, 1]))
+                {
+                    for (int i = size - 1; i >= 0; i--)
+                        lst.Add(new double[] { route[i, 0], route[i, 1] });
+                    return lst;
+                }
+
+                if (temp_1[0] == route[0, 0] && temp_1[1] == route[0, 1])
+                {
+                    for (int i = 0; i < size; i++)
+                        lst.Add(new double[] { route[i, 0], route[i, 1] });
+
+                    if (endPoints[routNo, 0] == start)
+                        Middle = endPoints[routNo, 1];
+                    else
+                        Middle = endPoints[routNo, 0];
+                    return lst;
+                }
+                if (temp_1[0] == route[size - 1, 0] && temp_1[1] == route[size - 1, 1])
+                {
+                    for (int i = size - 1; i >= 0; i--)
+                        lst.Add(new double[] { route[i, 0], route[i, 1] });
+
+                    if (endPoints[routNo, 0] == start)
+                        Middle = endPoints[routNo, 1];
+                    else
+                        Middle = endPoints[routNo, 0];
+                    return lst;
+                }
+                double[] mid = LocationData.GetVertexLoaction(graphNo, Middle);
+
+                if ((mid[0] == route[0, 0] && mid[1] == route[0, 1]) &&
+                    (temp_2[0] == route[size - 1, 0] && temp_2[1] == route[size - 1, 1]))
+                {
+                    for (int i = 0; i < size; i++)
+                        lst.Add(new double[] { route[i, 0], route[i, 1] });
+                    return lst;
+                }
+                if ((temp_2[0] == route[0, 0] && temp_2[1] == route[0, 1]) &&
+                    (mid[0] == route[size - 1, 0] && mid[1] == route[size - 1, 1]))
+                {
+                    for (int i = size - 1; i >= 0; i--)
+                        lst.Add(new double[] { route[i, 0], route[i, 1] });
+                    return lst;
+                }
+
+                if (mid[0] == route[0, 0] && mid[1] == route[0, 1])
+                {
+                    for (int i = 0; i < size; i++)
+                        lst.Add(new double[] { route[i, 0], route[i, 1] });
+
+                    if (endPoints[routNo, 0] == Middle)
+                        Middle = endPoints[routNo, 1];
+                    else
+                        Middle = endPoints[routNo, 0];
+                    return lst;
+                }
+                if (mid[0] == route[size - 1, 0] && mid[1] == route[size - 1, 1])
+                {
+                    for (int i = size - 1; i >= 0; i--)
+                        lst.Add(new double[] { route[i, 0], route[i, 1] });
+
+                    if (endPoints[routNo, 0] == Middle)
+                        Middle = endPoints[routNo, 1];
+                    else
+                        Middle = endPoints[routNo, 0];
+                    return lst;
+                }
                 return lst;
             }
-            if ((temp_2[0] == route[0, 0] && temp_2[1] == route[0, 1]) &&
-                (temp_1[0] == route[size - 1, 0] && temp_1[1] == route[size - 1, 1]))
+            catch (Exception e)
             {
-                for (int i = size - 1; i >= 0; i--)
-                    lst.Add(new double[] { route[i, 0], route[i, 1] });
                 return lst;
             }
+        }
 
-            if (temp_1[0] == route[0, 0] && temp_1[1] == route[0, 1])
+        public double[] FindDistanceAndTime(int graphNo, int start, int end)
+        {
+            int[,] graph;
+            int V_No;
+            switch (graphNo)
             {
-                for (int i = 0; i < size; i++)
-                    lst.Add(new double[] { route[i, 0], route[i, 1] });
-
-                if (endPoints[routNo, 0] == start)
-                    Middle = endPoints[routNo, 1];
-                else
-                    Middle = endPoints[routNo, 0];
-                return lst;
+                case 0:
+                    graph = Data.footRoutesGraph;
+                    V_No = Data.footGrapheVertices;
+                    break;
+                case 1:
+                    graph = Data.vehicleRoutesGraph;
+                    V_No = Data.vehicleGrapheVertices;
+                    break;
+                case 2:
+                    graph = Data.CSDepartmentGraph;
+                    V_No = Data.CSDepartmentGrapheVertices;
+                    break;
+                default:
+                    graph = Data.footRoutesGraph;
+                    V_No = Data.footGrapheVertices;
+                    break;
             }
-            if (temp_1[0] == route[size-1, 0] && temp_1[1] == route[size-1, 1])
-            {
-                for (int i = size - 1; i >= 0; i--)
-                    lst.Add(new double[] { route[i, 0], route[i, 1] });         
-
-                if (endPoints[routNo, 0] == start)
-                    Middle = endPoints[routNo, 1];
-                else
-                    Middle = endPoints[routNo, 0];
-                return lst;
-            }
-            double[] mid = LocationData.GetVertexLoaction(graphNo, Middle);
-
-            if ((mid[0] == route[0, 0] && mid[1] == route[0, 1]) &&
-                (temp_2[0] == route[size - 1, 0] && temp_2[1] == route[size - 1, 1]))
-            {
-                for (int i = 0; i < size; i++)
-                    lst.Add(new double[] { route[i, 0], route[i, 1] });
-                return lst;
-            }
-            if ((temp_2[0] == route[0, 0] && temp_2[1] == route[0, 1]) &&
-                (mid[0] == route[size - 1, 0] && mid[1] == route[size - 1, 1]))
-            {
-                for (int i = size - 1; i >= 0; i--)
-                    lst.Add(new double[] { route[i, 0], route[i, 1] });
-                return lst;
-            }
-
-            if (mid[0] == route[0, 0] && mid[1] == route[0, 1])
-            {
-                for (int i = 0; i < size; i++)
-                    lst.Add(new double[] { route[i, 0], route[i, 1] });
-
-                if (endPoints[routNo, 0] == Middle)
-                    Middle = endPoints[routNo, 1];
-                else
-                    Middle = endPoints[routNo, 0];
-                return lst;
-            }
-            if (mid[0] == route[size - 1, 0] && mid[1] == route[size - 1, 1])
-            {
-                for (int i = size - 1; i >= 0; i--)
-                    lst.Add(new double[] { route[i, 0], route[i, 1] });
-
-                if (endPoints[routNo, 0] == Middle)
-                    Middle = endPoints[routNo, 1];
-                else
-                    Middle = endPoints[routNo, 0];
-                return lst;
-            }
-            return lst;
+            FindShortestPath find = new FindShortestPath();
+            int[] distances = find.GetShortestDistanceList(graph, V_No, start);
+            return new double[] { distances[end], Math.Round((distances[end] * 5.1) / 60, 1) };
         }
 
         void Revers2D(ref double[,] array)

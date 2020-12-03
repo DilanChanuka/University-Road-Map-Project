@@ -28,7 +28,7 @@ namespace Road_Map_Web_API
         public static int[,] CSDepartmentRouteEndpoints = new int[noOfCSMainRoutes, 2];    
 
         //graphs of each map
-        public static int[,] flootRoutesGraph = new int[footGrapheVertices, footGrapheVertices];
+        public static int[,] footRoutesGraph = new int[footGrapheVertices, footGrapheVertices];
 
         public static int[,] vehicleRoutesGraph = new int[vehicleGrapheVertices, vehicleGrapheVertices];
 
@@ -36,12 +36,12 @@ namespace Road_Map_Web_API
 
         //CS Department floor route number set
         public static int[] CSStairRouteNumbers = new int[] { 19,53,18,65,64,27,66,15,17 };
-        public static int[] CSFloor_0_RouteNumbers = new int[] { 54,55,56,57,58,59,60,61,62,63,75,74,73,72,71,70,69,68,67 };
+        public static int[] CSFloor_0_RouteNumbers = new int[] { 54,55,56,57,58,59,60,61,62,63,75,74,73,72,71,70,69,68,67,27 };
         public static int[] CSFloor_1_RouteNumbers = new int[] { 16,20,21,22,23,24,25,26,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52};
         public static int[] CSFloor_2_RouteNumbers = new int[] { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14};
 
         //CS Department staire route numbers
-        public static int[] CSStairBetwenn_0_1 = new int[] { 66,27,64,65,53 };
+        public static int[] CSStairBetwenn_0_1 = new int[] { 66,64,65,53 };
         public static int[] CSStairBetwenn_1_2 = new int[] { 19,18,15,17 };
                
         //CS Department floor by floor vertices numbers set of CS Main graph
@@ -77,18 +77,18 @@ namespace Road_Map_Web_API
             try
             {
                 j = 0;
-                lines = System.IO.File.ReadAllLines(@".\DataSet\footGraph.txt");
+                lines = System.IO.File.ReadAllLines(@"./DataSet/footGraph.txt");
                 foreach (string line in lines)
                 {
                     split = line.Split(',');
                     for (int i = 0; i < footGrapheVertices; i++)
-                        flootRoutesGraph[j, i] = int.Parse(split[i]);
+                        footRoutesGraph[j, i] = int.Parse(split[i]);
 
                     j++;
                 }
 
                 j = 0;
-                lines = System.IO.File.ReadAllLines(@".\DataSet\CSMainGraph.txt");
+                lines = System.IO.File.ReadAllLines(@"./DataSet/CSMainGraph.txt");
                 foreach (string line in lines)
                 {
                     split = line.Split(',');
@@ -99,7 +99,7 @@ namespace Road_Map_Web_API
                 }
 
                 j = 0;
-                lines = System.IO.File.ReadAllLines(@".\DataSet\footGraphEndPoints.txt");
+                lines = System.IO.File.ReadAllLines(@"./DataSet/footGraphEndPoints.txt");
                 foreach (string line in lines)
                 {
                     split = line.Split(',');
@@ -110,7 +110,7 @@ namespace Road_Map_Web_API
                 }
 
                 j = 0;
-                lines = System.IO.File.ReadAllLines(@".\DataSet\CSMainEndPoints.txt");
+                lines = System.IO.File.ReadAllLines(@"./DataSet/CSMainEndPoints.txt");
                 foreach (string line in lines)
                 {
                     split = line.Split(',');

@@ -48,7 +48,7 @@ namespace RoadMap_DB.Controllers
         [Route("GetData/VertextLocation")]
         public string VertextLocation(int id)
         {
-            Vertext_Location[] vertexts = _db.vertext_Locations.Where((v) =>v.id==id).ToArray();
+            Vertext_Location[] vertexts = _db.vertext_locations.Where((v) =>v.id==id).ToArray();
             string json = System.Text.Json.JsonSerializer.Serialize(vertexts);
             Console.Write(json);
             return json;
