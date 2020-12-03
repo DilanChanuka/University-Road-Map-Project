@@ -62,7 +62,7 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                placeAlocation = (from p in _db.Place
+                placeAlocation = (from p in _db.place
                                   join l in _db.location
                                   on p.p_location_id equals l.location_id
                                   where p.p_floor_id == floorID & p.p_dept_id == departmentID
@@ -97,7 +97,7 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                location = (from v in _db.vehicle_Routes
+                location = (from v in _db.vehicle_routes
                             join l in _db.location
                             on v.v_location_id equals l.location_id
                             where v.v_route_id == routeID
@@ -132,7 +132,7 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                location = (from vtx in _db.vertext_Locations
+                location = (from vtx in _db.vertext_locations
                             join l in _db.location
                             on vtx.location_id equals l.location_id
                             where vtx.vertex_No == vertexNo & vtx.graph_No == graphNo
@@ -158,7 +158,7 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                 foot_location = (from fr in _db.foot_Routes
+                 foot_location = (from fr in _db.foot_routes
                                      join l in _db.location
                                      on fr.f_location_id equals l.location_id
                                      where fr.f_route_id == routeID
@@ -193,7 +193,7 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                deptAfloor = (from p in _db.Place
+                deptAfloor = (from p in _db.place
                               where p.place_id == placeID
                               select p).ToList();
 
@@ -248,7 +248,7 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                innrtLocation = (from i in _db.inner_Routes
+                innrtLocation = (from i in _db.inner_routes
                                  join l in _db.location
                                  on i.i_location_id equals l.location_id
                                  where i.in_route_id == routeID & i.i_dept_id == departmentID
@@ -293,7 +293,7 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                placeLocation = (from p in _db.Place
+                placeLocation = (from p in _db.place
                                  join l in _db.location
                                  on p.p_location_id equals l.location_id
                                  where p.place_id == placeID
@@ -321,7 +321,7 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                placeDetails = (from p in _db.Place
+                placeDetails = (from p in _db.place
                                 join l in _db.location
                                 on p.p_location_id equals l.location_id
                                 where p.place_id == placeID

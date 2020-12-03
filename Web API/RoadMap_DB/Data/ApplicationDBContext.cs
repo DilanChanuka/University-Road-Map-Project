@@ -150,16 +150,16 @@ namespace RoadMap_DB.Data
 
         #region DB SET
 
-        public DbSet<foot_route> foot_Routes { get; set; }
-        public DbSet<vehicle_route> vehicle_Routes { get; set; }
-        public DbSet<Inner_route> inner_Routes { get; set; }
-        public DbSet<Vertext_Location> vertext_Locations { get; set; }
-        public DbSet<Place> Place { get; set; }
+        public DbSet<foot_route> foot_routes { get; set; }
+        public DbSet<vehicle_route> vehicle_routes { get; set; }
+        public DbSet<Inner_route> inner_routes { get; set; }
+        public DbSet<Vertext_Location> vertext_locations { get; set; }
+        public DbSet<Place> place { get; set; }
         public DbSet<Location> location{ get; set; }
         public DbSet<Entrance> entrances { get; set; }
         public DbSet<User> users { get; set; }
         public DbSet<Floor> floors { get; set; }      
-        public DbSet<User_location> user_Locations { get; set; }
+        public DbSet<User_location> user_locations { get; set; }
         public DbSet<Department> department { get; set; }
 
         #endregion
