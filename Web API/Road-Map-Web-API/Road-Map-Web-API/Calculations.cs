@@ -22,11 +22,11 @@ namespace Road_Map_Web_API
 
         public int GetNearestVertexNo(int department,int floor,int noOfVertices, int graphNo, double lat, double lon)
         {
-            double[] distance = new double[noOfVertices];
+            double[] distance = new double[noOfVertices],temp;
+            int[] verticesSet;
+
             for (int i = 0; i < noOfVertices; i++)            
                 distance[i] = int.MaxValue;            
-            double[] temp;
-            int[] verticesSet;
             //according to the department,vertices set should change
             if (floor == 0)
                 verticesSet = Data.CSFloo_0_VerticesSet;
@@ -46,14 +46,15 @@ namespace Road_Map_Web_API
         public int FindEnterenceVertexNo(int noOfVertices, int graphNo, int start)
         {
             int[,] graph;
+            int[] dist, distance;
+
             if (graphNo == 0)
                 graph = Data.footRoutesGraph;
             else
                 graph = Data.vehicleRoutesGraph;
             
-            FindShortestPath find = new FindShortestPath();
-            int[] dist= find.GetShortestDistanceList(graph, noOfVertices, start);
-            int[] distance = new int[Data.EntranceOuterMatch.Length];
+            dist= find.GetShortestDistanceList(graph, noOfVertices, start);
+            distance = new int[Data.EntranceOuterMatch.Length];
             for (int i = 0; i < Data.EntranceOuterMatch.Length; i++)
                 distance[i] = dist[Data.EntranceOuterMatch[i]];
 
@@ -67,6 +68,7 @@ namespace Road_Map_Web_API
             double[] distance = new double[entrance.GetLength(0)];
             int entranceNumber;
             List<int> entranceAndInnerVertex = new List<int>();
+
             for (int i = 0; i < entrance.GetLength(0); i++)
             {
                 distance[i] = Math.Sqrt(Math.Pow(startlat - entrance[i, 0], 2) + Math.Pow(startlon - entrance[i, 1], 2)) +
@@ -82,9 +84,12 @@ namespace Road_Map_Web_API
 
         public int[] GetRouteNumbers(int graphNo,int start,int end)
         {
-            int[,] graph;
+            int[,] graph, endPoints;
             int V_No;
-            int[,] endPoints;
+            int[] path;
+            List<int> routeNumbers = new List<int>();
+            List<int[]> allPaths;
+
             switch (graphNo)
             {
                 case 0:
@@ -108,10 +113,8 @@ namespace Road_Map_Web_API
                     endPoints = Data.foorRouteEndpoints;
                     break;
             }
-            FindShortestPath find = new FindShortestPath();
-            List<int[]> allPaths= find.GetShortestPathList(graph, V_No, start);
-            int[] path = allPaths[end];
-            List<int> routeNumbers = new List<int>();
+            allPaths= find.GetShortestPathList(graph, V_No, start);
+            path = allPaths[end];
 
             for (int j = 0; j < path.Length-1; j++)
             {
@@ -131,16 +134,16 @@ namespace Road_Map_Web_API
         public List<double[]> ValidateRoute(int start,int end,int graphNo,int routNo,double[,] route)
         {
             int[,] endPoints;
+            List<double[]> lst = new List<double[]>();
+            int size = route.GetLength(0);
+
             if (graphNo == 0)
                 endPoints = Data.foorRouteEndpoints;
             else if (graphNo == 1)
                 endPoints = Data.vehicleRouteEndpoints;
             else 
                 endPoints = Data.CSDepartmentRouteEndpoints;
-
-            List<double[]> lst = new List<double[]>();
-            int size = route.GetLength(0);
-
+            
             try
             {
                 double[] temp_1 = LocationData.GetVertexLoaction(graphNo, start);
@@ -234,6 +237,8 @@ namespace Road_Map_Web_API
         {
             int[,] graph;
             int V_No;
+            int[] distances;
+
             switch (graphNo)
             {
                 case 0:
@@ -253,33 +258,11 @@ namespace Road_Map_Web_API
                     V_No = Data.footGrapheVertices;
                     break;
             }
-            FindShortestPath find = new FindShortestPath();
-            int[] distances = find.GetShortestDistanceList(graph, V_No, start);
+            distances = find.GetShortestDistanceList(graph, V_No, start);
             return new double[] { distances[end], Math.Round((distances[end] * 5.1) / 60, 1) };
         }
 
-        void Revers2D(ref double[,] array)
-        {
-            int size = array.GetLength(0);
-            double[] temp = new double[2];
-            for (int i = 0; i < size; i++)
-            {
-                if (i >= size - (1 + i))
-                    break;
-                else
-                {
-                    temp[0] = array[i, 0];
-                    temp[1] = array[i, 1];
-
-                    array[i, 0] = array[size - (1 + i), 0];
-                    array[i, 1] = array[size - (1 + i), 1];
-
-                    array[size - (1 + i), 0] = temp[0];
-                    array[size - (1 + i), 1] = temp[1];
-                }
-            }
-        }
-
-        public int Middle { get; set; }
+        readonly FindShortestPath find = new FindShortestPath();
+        int Middle { get; set; }
     }
 }

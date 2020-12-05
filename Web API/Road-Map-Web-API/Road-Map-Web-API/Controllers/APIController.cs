@@ -125,7 +125,7 @@ namespace Road_Map_Web_API.Controllers
             List<double[]> lst = new List<double[]>();
             var final = new Hashtable();
             Calculations cal = new Calculations();
-            int V_No,grapgNo;
+            int V_No,grapgNo,start,end;
             switch (method)
             {
                 case "f":
@@ -141,8 +141,8 @@ namespace Road_Map_Web_API.Controllers
                     grapgNo = 0;
                     break;
             }
-            int start = cal.GetNearestVertexNo(V_No, grapgNo, startLAT, startLON);
-            int end = cal.GetNearestVertexNo(V_No, grapgNo, endLAT, endLON);
+            start = cal.GetNearestVertexNo(V_No, grapgNo, startLAT, startLON);
+            end = cal.GetNearestVertexNo(V_No, grapgNo, endLAT, endLON);
             if (start != end)
             {
                 int[] routes = cal.GetRouteNumbers(grapgNo, start, end);
@@ -170,13 +170,22 @@ namespace Road_Map_Web_API.Controllers
         public IActionResult GetPlace(double startLAT, double startLON, int placeID, string method)
         {
             List<double[]> lst = new List<double[]>();
+            List<double[]> zeroFloorRouteSet = new List<double[]>();
+            List<double[]> stair_0_1_RouteSet = new List<double[]>();
+            List<double[]> stair_1_2_RouteSet = new List<double[]>();
+            List<double[]> firstFloorRouteSet = new List<double[]>();
+            List<double[]> secondFloorRouteSet = new List<double[]>();
             double distance=0, time=0;
             var final = new Hashtable();
             double[,] routeLocations;
             double[] temp = new double[2], distanceAndTime;
             Calculations cal = new Calculations();
-            int V_No, graphNo;
+            int V_No, graphNo, start, localEnd, innerStart = 0, innerEnd = 0;
+            int[] ids, routes;
             double[,] floorLocations;
+            Dictionary<string, double[]> place;
+            Place pl;
+
             switch (method)
             {
                 case "f":
@@ -192,8 +201,8 @@ namespace Road_Map_Web_API.Controllers
                     graphNo = 0;
                     break;
             }
-            int start = cal.GetNearestVertexNo(V_No, graphNo, startLAT, startLON);
-            int localEnd = cal.FindEnterenceVertexNo(V_No, graphNo,start);
+            start = cal.GetNearestVertexNo(V_No, graphNo, startLAT, startLON);
+            localEnd = cal.FindEnterenceVertexNo(V_No, graphNo,start);
                        
             if (start != localEnd)
             {
@@ -216,7 +225,6 @@ namespace Road_Map_Web_API.Controllers
             }
             lst.Clear();
 
-            int innerStart=0,innerEnd=0;
             for (int i = 0; i < Data.CSMainOuterInnerMatch.Length; i++)
                 if (Data.CSMainOuterInnerMatch[i] == localEnd)
                     innerStart = i;
@@ -226,19 +234,12 @@ namespace Road_Map_Web_API.Controllers
                     innerEnd = i;
 
             graphNo = 2;
-            int[] ids = LocationData.GetDepartmentAndFloor(placeID);
-
-            int[] routes = cal.GetRouteNumbers(graphNo, innerStart, innerEnd);
+            ids = LocationData.GetDepartmentAndFloor(placeID);
+            routes = cal.GetRouteNumbers(graphNo, innerStart, innerEnd);
             distanceAndTime = cal.FindDistanceAndTime(graphNo, innerStart, innerEnd);
             distance += distanceAndTime[0];
             time += distanceAndTime[1];
-
-            List<double[]> zeroFloorRouteSet = new List<double[]>();
-            List<double[]> stair_0_1_RouteSet = new List<double[]>();
-            List<double[]> stair_1_2_RouteSet = new List<double[]>();
-            List<double[]> firstFloorRouteSet = new List<double[]>();
-            List<double[]> secondFloorRouteSet = new List<double[]>();
-
+                      
             //according to the department,no of arrays should change
             foreach (int rt in routes)
             {
@@ -307,8 +308,8 @@ namespace Road_Map_Web_API.Controllers
             if (stair_1_2_RouteSet.Count != 0)
                 final.Add("stair_1_2_locations", stair_1_2_RouteSet);
 
-            Dictionary<string, double[]> place = LocationData.GetPlaceWithName(placeID);
-            Place pl = new Place();
+            place = LocationData.GetPlaceWithName(placeID);
+            pl = new Place();
             foreach (KeyValuePair<string, double[]> pair in place)//only once
             {
                 temp = pair.Value;
@@ -335,11 +336,12 @@ namespace Road_Map_Web_API.Controllers
             double[,] routeLocations;
             double[,] floorLocations;
             Calculations cal = new Calculations();
-            int graphNo=2,V_No=Data.CSDepartmentGrapheVertices;
+            int graphNo = 2, V_No = Data.CSDepartmentGrapheVertices, start, innerEnd, outerStrat, outerEnd;
+            int[] EntranceAndInnerEnd;
 
-            int start = cal.GetNearestVertexNo(department, floor, V_No, graphNo, startLAT, startLON);
-            int[] EntranceAndInnerEnd = cal.FindEnterenceVertexNo(department, floor, startLAT, startLON, endLAT, endLON);
-            int innerEnd = EntranceAndInnerEnd[1];
+            start = cal.GetNearestVertexNo(department, floor, V_No, graphNo, startLAT, startLON);
+            EntranceAndInnerEnd = cal.FindEnterenceVertexNo(department, floor, startLAT, startLON, endLAT, endLON);
+            innerEnd = EntranceAndInnerEnd[1];
 
             if (start != innerEnd)
             {
@@ -424,8 +426,8 @@ namespace Road_Map_Web_API.Controllers
             }
 
             graphNo = 0;
-            int outerStrat = Data.EntranceOuterMatch[EntranceAndInnerEnd[0]];
-            int outerEnd= cal.GetNearestVertexNo(Data.footGrapheVertices, graphNo, endLAT, endLON);
+            outerStrat = Data.EntranceOuterMatch[EntranceAndInnerEnd[0]];
+            outerEnd= cal.GetNearestVertexNo(Data.footGrapheVertices, graphNo, endLAT, endLON);
             lst.Clear();
             if (outerStrat != outerEnd)
             {
@@ -456,10 +458,11 @@ namespace Road_Map_Web_API.Controllers
             double[,] routeLocations;
             double[] temp = new double[2];
             Dictionary<string, double[]> place;
+            Place pl;
             Calculations cal = new Calculations();
-            int graphNo = 2;
-            int start= cal.GetNearestVertexNo(department,floor,Data.CSDepartmentGrapheVertices, graphNo, startLAT, startLON);                        
-            int end=0;
+            int graphNo = 2,start,end=0;
+
+            start= cal.GetNearestVertexNo(department,floor,Data.CSDepartmentGrapheVertices, graphNo, startLAT, startLON);                        
             for (int i = 0; i < Data.CSMainPlaceMatch.Length; i++)
                 if (Data.CSMainPlaceMatch[i] == placeID)
                 {
@@ -562,7 +565,7 @@ namespace Road_Map_Web_API.Controllers
             }
 
             place = LocationData.GetPlaceWithName(placeID);
-            Place pl = new Place();
+            pl = new Place();
 
             foreach (KeyValuePair<string, double[]> pair in place)//only once
             {
@@ -597,7 +600,7 @@ namespace Road_Map_Web_API.Controllers
         public IActionResult RegisterUser([FromBody]APIUser[] user)
         {
             if (LocationData.SetUser(user[0].username,user[0].email,user[0].password))
-                return Created("http://localhost:52571/API", user[0].username+" Registered");
+                return Created("http://127.0.0.1:5000/API", user[0].username+" Registered");
             else
                 return BadRequest();
         }
