@@ -82,10 +82,7 @@ namespace RoadMap_DB.DataAccess
                     places.Add(placeAlocation[i].location_name, new double[] { lat, lng });
                 }
             }
-
-
             return places;
-
         }
 
         public static double[,] GetVehicleRoute(int routeID)
@@ -297,7 +294,6 @@ namespace RoadMap_DB.DataAccess
                                  on p.p_location_id equals l.location_id
                                  where p.place_id == placeID
                                  select l).ToList();
-
                
                 if (placeLocation.Count > 0)
                 {
@@ -362,7 +358,6 @@ namespace RoadMap_DB.DataAccess
             catch { }
             return false;
         }
-
 
         #endregion
     }
