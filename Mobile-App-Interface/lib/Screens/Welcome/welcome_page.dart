@@ -1,10 +1,9 @@
-//import 'dart:async';
+import 'package:map_interfaces/Screens/Map/log_guest_map.dart';
+import 'package:map_interfaces/Screens/Signup/signup_page.dart';
+import 'package:map_interfaces/page_tran.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:uor_road_map/Screens/Login/login_page.dart';
-import 'package:uor_road_map/Screens/SignUp/signup_page.dart';
-import 'package:uor_road_map/constanents.dart';
+import 'package:map_interfaces/Screens/Login/login_page.dart';
+import 'package:map_interfaces/constanents.dart';
 
 class WelcomePage extends StatelessWidget
 {
@@ -24,6 +23,8 @@ class WBody extends StatefulWidget
 }
 class _WelcomePageState extends State<WBody>
 {
+  final GlobalKey<ScaffoldState> _scafflodKey = GlobalKey<ScaffoldState>();
+
    Widget _buildLogo(){
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -44,6 +45,7 @@ class _WelcomePageState extends State<WBody>
   {
     return SafeArea( 
       child: Scaffold(
+        key: _scafflodKey,
         resizeToAvoidBottomPadding: false,
         backgroundColor: mainColor,
         body: Stack(
@@ -96,47 +98,68 @@ class _WelcomePageState extends State<WBody>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "UOR",
-                      style: TextStyle(
-                        //backgroundColor: Colors.lightBlue,
-                        fontSize: MediaQuery.of(context).size.height / 20,
-                        color: Colors.red,
+                Container(
+                  margin: EdgeInsets.all(25.0),
+                  padding: EdgeInsets.all(20.0),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.6),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
                       ),
-                    ),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "NAVIGATION",
-                      style: TextStyle(
-                        //backgroundColor: Colors.lightBlue,
-                        fontSize: MediaQuery.of(context).size.height / 20,
-                        color: Colors.red,
+                    ],
+                    color: mainColor,
+                    border: Border.all(),
+                  ),
+                  child: Column(
+                    children: <Widget>[  
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "UOR",
+                            style: TextStyle(
+                              //backgroundColor: Colors.lightBlue,
+                              fontSize: MediaQuery.of(context).size.height / 20,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "SYSTEM",
-                      style: TextStyle(
-                        //backgroundColor: Colors.lightBlue,
-                        fontSize: MediaQuery.of(context).size.height / 20,
-                        color: Colors.red,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "NAVIGATION",
+                            style: TextStyle(
+                              //backgroundColor: Colors.lightBlue,
+                              fontSize: MediaQuery.of(context).size.height / 20,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "SYSTEM",
+                            style: TextStyle(
+                              //backgroundColor: Colors.lightBlue,
+                              fontSize: MediaQuery.of(context).size.height / 20,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 buildLoginButton(),
                 buildSignUpButton(),
+                buildGuestButton(),
                 //SpinKitDualRing(color: Colors.green,size: 40.0,),
               ],
             ),
@@ -160,15 +183,33 @@ class _WelcomePageState extends State<WBody>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
-            onPressed: () => {
-              Navigator.push(context, 
-                PageTransition(
-                  type: PageTransitionType.topToBottom, 
-                  child: Login(),
-                  duration: Duration(microseconds: 400),
-                 ),
-                ),
-              },
+            onPressed: () =>
+                /*_scafflodKey.currentState.showSnackBar(
+                  SnackBar(duration: Duration(seconds: 4),
+                  backgroundColor: firstColor,
+                  content: Row(
+                    children: <Widget>[
+                      CircularProgressIndicator(),
+                      Text(" Sign-In...")
+                    ],
+                  ),
+                  ));
+                  Login().whenComplete(() => Navigator.of(context).pushNamed("/login_page"),);*/
+                  /*final snackBar = SnackBar( 
+                    duration: Duration(seconds: 4),
+                  content: Row(
+                    children: <Widget>[
+                      CircularProgressIndicator(),
+                      Text(" Sign-In...")
+                    ],
+                  ),
+                  action: SnackBarAction(label: 'shh', onPressed: (){
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => Login()));
+                  }),
+                );
+                Scaffold.of(context).showSnackBar(snackBar);*/
+                _handleSubmitlogin(context),
+              
             child: Text(
               "LOGIN",
                 style: TextStyle(
@@ -197,15 +238,16 @@ class _WelcomePageState extends State<WBody>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
-           onPressed: () => {
-              Navigator.push(context, 
+           onPressed: () => 
+              /*Navigator.push(context, 
                 PageTransition(
                   type: PageTransitionType.topToBottom, 
                   child: SignUp(),
                   duration: Duration(microseconds: 400),
                  ),
-                ),
-              },
+                ),*/
+                _handleSubmitsignup(context),
+              
             child: Text(
               "SIGNUP",
                 style: TextStyle(
@@ -218,6 +260,88 @@ class _WelcomePageState extends State<WBody>
         ),
       ],
     );
+  }
+
+  Widget buildGuestButton()
+  {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          height: 44.0,
+          padding: EdgeInsets.zero,
+          margin: EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.6),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
+            color: mainColor,
+            border: Border.all(),
+          ),
+          child:  FlatButton(
+            onPressed: ()=> _handleSubmitguest(context),
+            child: Text("Log in as a guest",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                //decoration: TextDecoration.underline,
+                fontSize: 18.0,
+                color: tridColor,
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  
+  Future<void> _handleSubmitsignup(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      //await serivce.login(user.uid);
+      //Future.delayed(Duration(seconds: 3,));
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => SignUp()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+   Future<void> _handleSubmitlogin(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => Login()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleSubmitguest(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => LogGuest()));
+    }
+    catch(error){
+      print(error);
+    }
   }
 }
 

@@ -1,10 +1,12 @@
+import 'package:map_interfaces/Screens/Map/search_map_show_page.dart';
+import 'package:map_interfaces/Screens/Welcome/welcome_page.dart';
+import 'package:map_interfaces/page_tran.dart';
 import 'package:dropdownfield/dropdownfield.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:uor_road_map/constanents.dart';
-import 'package:uor_road_map/Screens/Common/data.dart';
-import 'package:uor_road_map/Screens/Disition/disistionFunc.dart';
-import 'package:uor_road_map/Screens/Map/Display/Display_getfloor.dart';
-import 'package:uor_road_map/Screens/Request/ConvertData.dart';
+import 'package:map_interfaces/constanents.dart';
+import 'package:map_interfaces/Screens/Common/data.dart';
+import 'package:map_interfaces/Screens/Disition/disistionFunc.dart';
 
 class SearchPage extends StatelessWidget
 {
@@ -23,6 +25,8 @@ class Spage extends StatefulWidget
 }
 class _MHPage extends State<Spage>
 {
+
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
   String location,destination;
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,7 @@ class _MHPage extends State<Spage>
           resizeToAvoidBottomPadding: false,
           appBar: AppBar(
             backgroundColor: firstColor,
-            title: Text("University of Ruhuna"),
+            title: Text("Not on University"),
           ),
           body: SingleChildScrollView(
              child: _buildUser(),
@@ -41,6 +45,7 @@ class _MHPage extends State<Spage>
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
+                
                 UserAccountsDrawerHeader(
                   accountName: Text("User Name"), 
                   accountEmail: Text("User Email"),
@@ -56,7 +61,9 @@ class _MHPage extends State<Spage>
                 ListTile(
                   title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
                   leading: Icon(Icons.exit_to_app,color: blackcolor,), 
-                  onTap: (){},
+                  onTap: () =>
+                    _handleSubmitwelcome(context),
+                  
                 ),
 
                 ListTile(
@@ -92,41 +99,82 @@ class _MHPage extends State<Spage>
  
   Widget _buildDestination()
   {
-    return Padding(padding: EdgeInsets.all(8),
-      child: DropDownField(
-        itemsVisibleInDropdown: 7,
-        controller: placeNameSelect,
-        hintText: "Choose destination",
-        enabled: true,
-        items: searchPlaces,
-        onValueChanged: (value)
-        {
-           setState(() {
-             placeNameselected = value;
-           });
-        },
+    return Container(
+      margin: const EdgeInsets.all(40.0),
+      padding: const EdgeInsets.all(10.0),
+      height: 70.0,
+      width: 260.0,
+      decoration: BoxDecoration(
+        //borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.6),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+        color: colorwhite,
+        border: Border.all(),
+      ),
+      child: TextFormField(
+        readOnly: true,
+        decoration: InputDecoration(
+          labelText: 'Enter Destination',
+        ),
+          onTap: (){
+            return showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (context) {
+                  return StatefulBuilder(builder: (context, setState) {
+                    return AlertDialog(
+                      content: Form(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: <Widget>[
+                              Container(  
+                                child: DropDownField(
+                                  controller: placeNameSelect,
+                                  hintText: "Choose destination",
+                                  hintStyle: TextStyle(fontSize: 12.8),
+                                  enabled: true,
+                                  items: placeName,
+                                  onValueChanged: (value)
+                                  {  
+                                    setState(() {
+                                      dselectedDestination = value;
+                                    });
+                                  },
+                                ), 
+                              ),
+                            ],  
+                          ),   
+                        ),      
+                      ), 
+                      actions: [
+                        FlatButton(
+                          onPressed: (){Navigator.of(context).pop(dselectedDestination);},
+                          child: Text("OK"),
+                        ),
+                      ],       
+                    );
+                  }
+                );
+              }
+            );
+          },
+        controller: TextEditingController(text: dselectedDestination),
       ),
     );
   }
-
-  Widget buildEnterButton()                                             //Enter Button 
+  Widget buildEnterButton()
   {
-    String b='{"places":[{"name":"CS Lecturers room","lat":5.939586,"lon":80.576387},{"name":"CS Instructors room","lat":5.939646,"lon":80.576274},{"name":"CS Computer lab 1","lat":5.939725,"lon":80.576067},{"name":"CS Mini auditorium","lat":5.939878,"lon":80.576038}],"floor_2_locations":[[5.940012,80.576011],[5.93991,80.576026],[5.939904,80.575928],[5.939807,80.575936],[5.939803,80.575962],[5.939809,80.57605],[5.939601,80.576067],[5.939599,80.575982],[5.939803,80.575962],[5.939809,80.57605],[5.939601,80.576067],[5.939605,80.576197],[5.939647,80.576225],[5.939609,80.576296],[5.939564,80.57627],[5.939605,80.576197],[5.939564,80.57627],[5.939529,80.576251],[5.939438,80.57642],[5.939617,80.576519],[5.939706,80.576344],[5.939663,80.576322],[5.9396,80.576438],[5.939503,80.576384],[5.939564,80.57627],[5.939503,80.576384],[5.9396,80.576438],[5.939663,80.576322],[5.939726,80.576216],[5.939721,80.576123],[5.939816,80.576124],[5.939813,80.576134],[5.939957,80.576361],[5.940127,80.576241],[5.94002,80.576063],[5.940012,80.576011],[5.940004,80.575923],[5.939904,80.575928]]}';
-      
-        
-       /* FloatingActionButton(
-        heroTag: null,
-        onPressed:()=>{
-           
-            //seachDisition(context,placeNameselected)
-        })
-
-       */
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-          height: 2.5 * (MediaQuery.of(context).size.height / 20),
+          height: (MediaQuery.of(context).size.height / 12),
           width: 5 * (MediaQuery.of(context).size.width /10),
           margin: EdgeInsets.only(bottom: 20),
           child: RaisedButton(
@@ -135,18 +183,14 @@ class _MHPage extends State<Spage>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
-            
-            onPressed: () => 
-            {
-                          
-                seachDisition(context,placeNameselected)
+            onPressed: () => {
+              //_handleSubmitsearch(context),
+              serachPlace(context,dselectedDestination)
             },
-            
-
             child: Text(
               "Enter",
               style: TextStyle(
-                color: Colors.white,
+                color: mainColor,
                 letterSpacing: 1.5,
                 fontSize: MediaQuery.of(context).size.height / 30,
               ),
@@ -155,62 +199,145 @@ class _MHPage extends State<Spage>
         ),
       ],
     );
-    
   }
   Widget _buildUser()
   {
     return Column(
-      //mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        ClipRRect(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.64,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: SingleChildScrollView(
-              padding: EdgeInsets.only(top: 30.0),
-              child: Column(
-                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  _buildDestination(),
-                ],
-              ),
-            ),
-          ),
-        ),
 
         ClipRRect(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
+          borderRadius: BorderRadius.zero,
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.22 ,
+            height:MediaQuery.of(context).size.height * 0.87,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,
             ),
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(top: 30.0),
+              //padding: EdgeInsets.only(top: 15.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                   buildEnterButton(),
-                ],
-              ),
+
+                  SizedBox(height: 20.0,),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.6),
+                          spreadRadius: 2,
+                          blurRadius: 3,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                      child: Container(
+                      height: MediaQuery.of(context).size.height * 0.56,
+                      width: MediaQuery.of(context).size.width * 0.96,
+                      decoration: BoxDecoration(
+                        color: mainColor,
+                      ),
+                        child: SingleChildScrollView(
+                          padding: EdgeInsets.only(top: 90.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              _buildDestination(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 20.0,),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.6),
+                          spreadRadius: 2,
+                          blurRadius: 3,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.22 ,
+                        width: MediaQuery.of(context).size.width * 0.96,
+                        decoration: BoxDecoration(
+                          color: mainColor,
+                        ),
+                          child: SingleChildScrollView(
+                            padding: EdgeInsets.only(top: 40.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                buildEnterButton(),
+                              ],
+                            ),
+                          ),
+                      ),
+                    ),
+                  ),
+
+
+              ],
             ),
+          ),
           ),
         ),
       ],
     );
   }
 
+  Future<void> _handleSubmitwelcome(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => WelcomePage()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleSubmitsearch(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => Search()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
 }
 
-String placeNameselected = "";
+
+
+String dselectedStart="";
+String dselectedDestination = "";
+String dvOr="";
+String dselectedFloorName= "Ground floor";
+String dselectedDepartment="";
+
+List<String> arr=[dselectedStart,dselectedDestination,dselectedDepartment,dselectedFloorName,dvOr];

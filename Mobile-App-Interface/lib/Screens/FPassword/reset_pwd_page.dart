@@ -1,8 +1,8 @@
+import 'package:map_interfaces/Screens/Login/login_page.dart';
+import 'package:map_interfaces/page_tran.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:uor_road_map/Screens/FPassword/forg_pass_page.dart';
-import 'package:uor_road_map/Screens/Login/login_page.dart';
-import 'package:uor_road_map/constanents.dart';
+import 'package:map_interfaces/Screens/FPassword/forg_pass_page.dart';
+import 'package:map_interfaces/constanents.dart';
 
 class ResetPwd extends StatelessWidget
 {
@@ -23,9 +23,10 @@ class RPWDBody extends StatefulWidget
 }
 class _ResetPageState extends State<RPWDBody>
 {
-  int pin;
-  String password,conpassword = "";
+
+  String password,conpassword,validationCode = "";
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
   @override
   Widget build(BuildContext context) 
@@ -100,7 +101,7 @@ class _ResetPageState extends State<RPWDBody>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                _buildPin(),
+                _buildValidationCode(),
                 _buildPassword(),
                 _buildConPassword(),
                 _buildEnter(),
@@ -112,27 +113,31 @@ class _ResetPageState extends State<RPWDBody>
       ],
     );
   }
-
-  Widget _buildPin()
+ 
+  Widget _buildValidationCode()
   {
-    return Padding(
+     return Padding(
       padding: EdgeInsets.all(8),
-      child: TextFormField(
-        keyboardType: TextInputType.number,
-        obscureText: true,
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.format_list_numbered_rtl,
-            color: firstColor,
+        child: TextFormField(
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+                Icons.confirmation_number, 
+                color: firstColor,
+              ),
+              labelText: "Validation Code"
           ),
-          labelText: "Verification Number"
+          validator: (String code){
+            Pattern pattern = r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
+            RegExp regex  = new RegExp(pattern);
+            if(!regex.hasMatch(code))
+              return "Invalid password";
+            else
+              return null;
+          },
+          onSaved: (code) => validationCode = code,
+          textInputAction: TextInputAction.next,
         ),
-        onChanged: (value){
-            setState(() {
-              pin = value as int;
-            });
-          }
-      ),
     );
   }
 
@@ -200,7 +205,7 @@ class _ResetPageState extends State<RPWDBody>
         Container(
           height: 1.4 * (MediaQuery.of(context).size.height / 20),
           width: 5 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20),
+          margin: EdgeInsets.only(bottom: 20,top: 40.0),
           child: RaisedButton(
             elevation: 5.0,
             color: firstColor,
@@ -208,25 +213,19 @@ class _ResetPageState extends State<RPWDBody>
               borderRadius: BorderRadius.circular(30.0),
             ),
             onPressed: () => {
-              if(_formKey.currentState.validate())
-              {
-                _formKey.currentState.save(),
+              ///if(_formKey.currentState.validate())
+              ////{
+                //_formKey.currentState.save(),
 
-                Navigator.push(context, 
-                PageTransition(
-                  type: PageTransitionType.topToBottom, 
-                  child: Login(),
-                  duration: Duration(microseconds: 400),
-                 ),
-                ), 
-              }
+                 _handleSubmitenter(context),
+              //}
             },
             child: Text(
               "Enter",
                 style: TextStyle(
                   color: Colors.white,
                   letterSpacing: 1.5,
-                  fontSize: MediaQuery.of(context).size.height / 40,
+                  fontSize: MediaQuery.of(context).size.height / 30,
                 ),
               ),
           ),
@@ -251,20 +250,14 @@ class _ResetPageState extends State<RPWDBody>
               borderRadius: BorderRadius.circular(30.0),
             ),
             onPressed: () => {
-              Navigator.push(context, 
-              PageTransition(
-                type: PageTransitionType.topToBottom, 
-                child: ForgPass(),
-                  duration: Duration(microseconds: 400),
-                ),
-              ), 
+               _handleSubmitcancel(context),
             },
             child: Text(
               "Cancel",
                 style: TextStyle(
                   color: Colors.white,
                   letterSpacing: 1.5,
-                  fontSize: MediaQuery.of(context).size.height / 40,
+                  fontSize: MediaQuery.of(context).size.height / 30,
                 ),
               ),
           ),
@@ -273,4 +266,29 @@ class _ResetPageState extends State<RPWDBody>
     );
   }
 
+  Future<void> _handleSubmitenter(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => Login()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleSubmitcancel(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => ForgPass()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
 }

@@ -1,7 +1,7 @@
+import 'package:map_interfaces/page_tran.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:uor_road_map/Screens/FPassword/reset_pwd_page.dart';
-import 'package:uor_road_map/constanents.dart';
+import 'package:map_interfaces/Screens/FPassword/reset_pwd_page.dart';
+import 'package:map_interfaces/constanents.dart';
 import 'package:email_validator/email_validator.dart';
 
 class ForgPass extends StatelessWidget 
@@ -23,6 +23,7 @@ class FBody extends StatefulWidget
 class _ForgPassPageState extends State<FBody>
 {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
   String email;
   @override
   Widget build(BuildContext context)
@@ -70,7 +71,7 @@ class _ForgPassPageState extends State<FBody>
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.height/20,
               fontWeight: FontWeight.bold,
-              color: blackcolor,
+              color: Colors.black,
             ),
           ),
       ],
@@ -100,13 +101,19 @@ class _ForgPassPageState extends State<FBody>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                SizedBox(height: 25.0,),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: 150.0,),
+                   
                     Container(
-                      width: 270,
+                      width: 250,
+                      padding: EdgeInsets.all(3.0),
+                      margin: EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                      ),           
                       child: Text("To reset your password,submit your email address below.If we can find yor in the database,an email will be send to your email address,with instruction how to get access again.",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 6,
@@ -122,11 +129,13 @@ class _ForgPassPageState extends State<FBody>
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: 50.0,),
+                    SizedBox(height: 70.0,),
                     Container(
                       width: 250,
                       child: Text("Search by email",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
+                        decoration: TextDecoration.underline,
                         fontSize: 30.0,
                       ),
                       ),
@@ -179,7 +188,7 @@ class _ForgPassPageState extends State<FBody>
         Container(
           height: 1.4 * (MediaQuery.of(context).size.height / 20),
           width: 5 * (MediaQuery.of(context).size.width /10),
-          margin: EdgeInsets.only(bottom: 20),
+          margin: EdgeInsets.all(40.0),
           child: RaisedButton(
             elevation: 5.0,
             color: firstColor,
@@ -191,13 +200,7 @@ class _ForgPassPageState extends State<FBody>
               {
                 _formKey.currentState.save(),
 
-                Navigator.push(context, 
-                PageTransition(
-                  type: PageTransitionType.topToBottom, 
-                  child: ResetPwd(),
-                  duration: Duration(microseconds: 400),
-                 ),
-                ), 
+                _handleSubmitsearch(context), 
               }
             },
             child: Text(
@@ -205,7 +208,7 @@ class _ForgPassPageState extends State<FBody>
                 style: TextStyle(
                   color: Colors.white,
                   letterSpacing: 1.5,
-                  fontSize: MediaQuery.of(context).size.height / 40,
+                  fontSize: MediaQuery.of(context).size.height / 30,
                 ),
               ),
           ),
@@ -213,4 +216,18 @@ class _ForgPassPageState extends State<FBody>
       ],
     );
   }
+
+  Future<void> _handleSubmitsearch(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => ResetPwd()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
 }

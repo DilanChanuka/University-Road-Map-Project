@@ -1,106 +1,47 @@
+
+import 'package:map_interfaces/Screens/Map/places.dart';
+import 'package:map_interfaces/Screens/Search/search_page.dart';
+import 'package:map_interfaces/Screens/Welcome/welcome_page.dart';
+import 'package:map_interfaces/page_tran.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:uor_road_map/Screens/Map/Display/Display_PlaceInIn.dart';
-import 'dart:async';
-import 'package:uor_road_map/constanents.dart';
-import 'package:uor_road_map/Screens/Direction/direction_Page.dart';
-import 'package:uor_road_map/Screens/Search/search_page.dart';
-import 'package:uor_road_map/Screens/Request/ConvertData.dart';
-//import 'package:dropdownfield/dropdownfield.dart';
+import 'package:map_interfaces/constanents.dart';
 
 class MainMap extends StatefulWidget
 {
   MainMap() : super();
 
-  final String txt= "University of Ruhuna";
+  final String txt= "University Road Map";
   @override
   MainMapState createState() => MainMapState();
 
 }
 class MainMapState extends State<MainMap>
 {
-  
-  Completer<GoogleMapController> _controller = Completer();
-  static const LatLng _center = const LatLng(37.42796133580664, -122.085749655962);
-  final Set<Marker> _markers = {};
-  LatLng _lastMapPosition = _center;
-  MapType _currentMapType = MapType.normal;
+  GoogleMapController controller;
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  List<Marker> allMarker = [];
 
-  static final CameraPosition _position = CameraPosition(
-    bearing: 192.833,
-    target: LatLng(37.43796133580664, -122.085749655962),
-    tilt: 59.440,
-    zoom: 11.0,
-  );
-
-  Future<void> _goToPosition() async{
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_position),);
-  }
-
-  _onMapCreated(GoogleMapController controller)
-  {
-    _controller.complete(controller);
-  }
-
-  _onCamMove(CameraPosition position)
-  {
-    _lastMapPosition = position.target;
-  }
-
-  _onMapTypeButtonPressed()
-  {
-    setState(() {
-      _currentMapType = _currentMapType == MapType.normal 
-      ? MapType.satellite 
-      : MapType.normal;
-    });
-  }
-
-  _onSerachButtonPress()
-  {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder:(context)=>SearchPage() ));
-  }
-
-  _onDirectionButtonPress()
-  {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder:(context)=>DirectionPage() ));
-  }
-
-
- _onAddMarkerButtonPressed()
-  {
-    setState(() {
-      _markers.add(Marker(
-        markerId: MarkerId(_lastMapPosition.toString()),
-        position: _lastMapPosition,
-        infoWindow: InfoWindow(
-          title: "Title",
-          snippet: "snippet",
-        ),
-        icon: BitmapDescriptor.defaultMarker,
+  @override
+  void initState(){
+    super.initState();
+    uorplaces.forEach((element){
+      allMarker.add(Marker(
+        markerId: MarkerId(element.name),
+        position: element.locationCoords,
+        infoWindow: InfoWindow(title: element.name),
       ));
     });
   }
-  Widget button(Function function,IconData icon)
+
+  
+  void mapCreated(controller)
   {
-    return FloatingActionButton(
-      heroTag: null,
-      onPressed: function,
-      materialTapTargetSize: MaterialTapTargetSize.padded,
-      backgroundColor: colorBlue,
-      child: Icon(
-        icon,
-        size: 36.0,
-      ),
-      );
+    setState(() {
+      controller = controller;
+    });
   }
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -133,7 +74,7 @@ class MainMapState extends State<MainMap>
                 ListTile(
                   title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
                   leading: Icon(Icons.exit_to_app,color: blackcolor,), 
-                  onTap: (){},
+                  onTap: () => _handleSubmitwelcome(context),
                 ),
 
                 ListTile(
@@ -165,48 +106,33 @@ class MainMapState extends State<MainMap>
           ),
         body: Stack(
           children: <Widget>[
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 11.0,
+            Container(
+              height: MediaQuery.of(context).size.height - 50.0,
+              width: MediaQuery.of(context).size.width,
+              child: GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(5.9382181, 80.576216),
+                  zoom: 17.0, 
+                  ), 
+                  markers: Set.from(allMarker),
+                  onMapCreated: mapCreated,
                 ),
-                mapType: _currentMapType,
-                markers: _markers,
-                onCameraMove: _onCamMove,
-              ),
+            ),
               Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: EdgeInsets.only(top: 15.0,left: 25.0,right: 20.0),
                 child: Align(
-                  alignment: Alignment.topRight,
-                  child: Column(
+                  alignment: Alignment.bottomRight,
+                  child: Row(
                     children: <Widget>[
-                      button(_onMapTypeButtonPressed, Icons.map),
-                      SizedBox(height: 16.0, 
-                      ),
-                      button(_onAddMarkerButtonPressed, Icons.add_location),
                       SizedBox(
                         height: 16.0,
                       ),
-                      button(_goToPosition, Icons.location_searching),
+                      addsearch(),
                       SizedBox(
                         height: 16.0,
+                        width: 5.0,
                       ),
-                      button(_onSerachButtonPress,Icons.search),
-                      SizedBox(
-                        height: 16.0,
-                      ),
-                      button(_onDirectionButtonPress,Icons.directions),
-                      SizedBox(
-                        height: 16.0,
-                      ),
-                 
-
-                     // addsearch(),
-                      //SizedBox(
-                      //  height: 16.0,
-                     // ),
-                      //search(),
+                      search(),
                     ],
                   ),
                 ),
@@ -223,23 +149,25 @@ class MainMapState extends State<MainMap>
       children: <Widget>[
         Container(
           height: 1.4 * (MediaQuery.of(context).size.height / 20),
-          width: 2.5 * (MediaQuery.of(context).size.width /10),
+          width: 4.1 * (MediaQuery.of(context).size.width /10),
           margin: EdgeInsets.only(bottom: 20),
           child: RaisedButton(
-            elevation: 5.0,
-            color: colorBlue,
+            elevation: 3.0,
+            color: firstColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             ),
-            onPressed: () => {},
-           /* child: Text( 
+            onPressed: () => {
+              _handleSubmitaddsearch(context),
+            },
+            child: Text( 
               "On Campus",
                 style: TextStyle(
                   color: Colors.white,
                   letterSpacing: 1.5,
-                  fontSize: MediaQuery.of(context).size.height / 50,
+                  fontSize: MediaQuery.of(context).size.height / 45,
                 ),
-              ),*/
+              ),
           ),
         ),
       ],
@@ -252,26 +180,67 @@ class MainMapState extends State<MainMap>
       children: <Widget>[
         Container(
           height: 1.4 * (MediaQuery.of(context).size.height / 20),
-          width: 2.5 * (MediaQuery.of(context).size.width /10),
+          width: 4.3 * (MediaQuery.of(context).size.width /10),
           margin: EdgeInsets.only(bottom: 20),
           child: RaisedButton(
             elevation: 5.0,
-            color: colorBlue,
+            color: firstColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             ),
-            onPressed: () => {},
+            onPressed: () => {
+              _handleSubmitsearch(context),
+            },
             child: Text( 
               "Not On Campus",
                 style: TextStyle(
                   color: Colors.white,
                   letterSpacing: 1.5,
-                  fontSize: MediaQuery.of(context).size.height / 50,
+                  fontSize: MediaQuery.of(context).size.height / 45,
                 ),
               ),
           ),
         ),
       ],
     );
+  }
+
+  Future<void> _handleSubmitsearch(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => SearchPage()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleSubmitaddsearch(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+     // Navigator.push(context,MaterialPageRoute(builder: (context) => Directionpage()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleSubmitwelcome(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => WelcomePage()));
+    }
+    catch(error){
+      print(error);
+    }
   }
 }

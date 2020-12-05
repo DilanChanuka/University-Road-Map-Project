@@ -13,7 +13,7 @@ Map<String,dynamic> placeLatLng={
     "CS Computer lab 02":[5.93973,80.576075],
     "CS E-Learning Center":[5.939786,80.57606],
     "CS Special Room":[5.939869,80.575962],
-    "CS Demostrator's Room":[5.939891,80.576079],
+    "CS Demonstrator's Room":[5.939891,80.576079],
     "CS Main-auditorium":[5.939948,80.576163],
     "CS Car park":[5.93962,80.576248],
     "CS Wash Rooms":[5.939678,80.576056],

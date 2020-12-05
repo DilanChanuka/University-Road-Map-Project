@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:uor_road_map/Screens/Common/data.dart';
-import 'package:uor_road_map/Screens/Map/Logic/PlaceInOut.dart';
+import 'package:map_interfaces/Screens/Common/data.dart';
+import 'package:map_interfaces/Screens/Map/Logic/PlaceInOut.dart';
 import 'dart:async';
-import 'package:uor_road_map/constanents.dart';
-import 'package:uor_road_map/Screens/Map/Display/Notification.dart';
+import 'package:map_interfaces/constanents.dart';
+import 'package:map_interfaces/Screens/Map/Display/Notification.dart';
 
 
 const String KEY=GOOGL_KEY;
@@ -12,7 +12,11 @@ const double CAMERA_ZOOM = ZOOM;
 const double CAMERA_TILT = 0;
 const double CAMERA_BEARING = 30;
 
-List<LatLng> location;
+List<dynamic> location;
+//0=>routetsLocation
+//1=> 0=>Distence
+//    1=>Time
+
 int floorID=0;
 BitmapDescriptor pinLocation;
 BitmapDescriptor userLocation;
@@ -104,14 +108,14 @@ class _DrawState extends State<DrawRouteLine>
           //source ping
           _marker.add(Marker(
             markerId:MarkerId('source'),
-            position: LatLng(location[0].latitude, location[0].longitude),
+            position: LatLng(location[0][0].latitude, location[0][0].longitude),
             icon: sourceIcon
             ));
 
           //destination pin
           _marker.add(Marker(
             markerId:MarkerId('destination'),
-            position: LatLng(location[location.length-1].latitude, location[location.length-1].longitude),
+            position: LatLng(location[0][location[0].length-1].latitude, location[0][location[0].length-1].longitude),
             icon: destinationIcon
              ));
         });
@@ -120,7 +124,7 @@ class _DrawState extends State<DrawRouteLine>
     void setPolyLine() 
     {       
 
-              _polylinecordinates=location;
+              _polylinecordinates=location[0];
 
              setState(() {
                //create a polyline instence
@@ -171,14 +175,14 @@ onChangeDropdwonItem(Floor selectedFloor){
   });
 }
 
-  static LatLng _center =LatLng(location[0].latitude,location[0].longitude);
+  static LatLng _center =LatLng(location[0][0].latitude,location[0][0].longitude);
   final Set<Marker> _markers = {};
   LatLng _lastMapPosition = _center;
   MapType _currentMapType = MapType.normal;
 
 static CameraPosition initialLocation = CameraPosition(
     bearing: CAMERA_BEARING,
-    target:LatLng(location[0].latitude,location[0].longitude),
+    target:LatLng(location[0][0].latitude,location[0][0].longitude),
     tilt: CAMERA_TILT,
     zoom: CAMERA_ZOOM,
   );
@@ -230,6 +234,7 @@ static CameraPosition initialLocation = CameraPosition(
   Widget button(Function function,IconData icon)
   {
     return FloatingActionButton(
+      heroTag: null,
       onPressed: function,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       backgroundColor: Colors.blue,
@@ -329,28 +334,48 @@ static CameraPosition initialLocation = CameraPosition(
 
               ),
 
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Align(
+             
+              Container(
+               padding: EdgeInsets.all(10.0),
+               child: Align(
+                 alignment: Alignment.topLeft,
+                 child: Column(
+                   children: [
+                     RaisedButton(
+                      
+                      onPressed:(){},
+                      child: Text(location[1][1].toString()+"min("+location[1][0]+"m)"),
+                      color: Colors.blue,)
+                   ],
+                 ),
+                 ),
+              ),
+
+            
+              
+              Container(
+                padding:EdgeInsets.all(16.0),
+                child:Align(
                   alignment: Alignment.topRight,
                   child: Column(
                     children: <Widget>[
-                      button(_onMapTypeButtonPressed, Icons.map),
-                      SizedBox(height: 16.0, 
-                      ),
-                      button(_onAddMarkerButtonPressed, Icons.add_location),
-                      SizedBox(
-                        height: 16.0,
-                      ),
-                      button(_goToPosition, Icons.location_searching),
-                      button(_onSearchButtonPress, Icons.search),
+                      button(_onMapTypeButtonPressed(), Icons.map),
                       SizedBox(height: 16.0),
+
+                      button(_goToPosition, Icons.location_searching),
+                      SizedBox(height: 16.0,),
+
+                      button(_onSearchButtonPress,Icons.search),
+                      SizedBox(height: 16.0),
+
                       button(_onDirectionButtonPress,Icons.directions),
                       SizedBox(height: 16.0)
                     ],
                   ),
                 ),
-                ),
+              )
+            
+            
           ],
         ),
       ),

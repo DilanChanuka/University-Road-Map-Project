@@ -1,36 +1,35 @@
 import 'package:map_interfaces/Screens/Map/main_map.dart';
 import 'package:map_interfaces/page_tran.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:map_interfaces/Screens/Signup/signup_page.dart';
+import 'package:map_interfaces/Screens/Login/login_page.dart';
 import 'package:map_interfaces/constanents.dart';
-import 'package:map_interfaces/Screens/FPassword/forg_pass_page.dart';
+import 'package:map_interfaces/Screens/Term&Con/term_con_page.dart';
 
-class Login extends StatelessWidget 
+class SignUp  extends StatelessWidget 
 {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: blackcolor,
       resizeToAvoidBottomPadding: false,
-      body: LBody(),
+      body: SBody(),
     );
   }
-
-  void whenComplete(Future<Object> Function() param0) {}
 }
-class LBody extends StatefulWidget
+class SBody extends StatefulWidget
 {
     @override
-  _LoginPageState createState() => _LoginPageState();
+  _SignUpPageState createState() => _SignUpPageState();
 }
-class _LoginPageState extends State<LBody>
+class _SignUpPageState extends State<SBody> 
 {
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String username,password,email,id;
+  bool checkB = false;
+  bool first = true;
 
-  String username,password;
   Widget _buildLogo(){
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +45,7 @@ class _LoginPageState extends State<LBody>
       ],
     );
   }
-  Widget _buildUsernameRow() 
+  Widget _buildUsernameRow() // user name 
   {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -78,7 +77,32 @@ class _LoginPageState extends State<LBody>
         ),
       );
   }
-  Widget _buildPasswordRow() 
+  Widget _buidemailRow() // user email
+  {
+    return Padding(
+      padding: EdgeInsets.all(8),
+        child: TextFormField(
+          keyboardType: TextInputType.name,
+         /* onChanged: (value){
+            setState(() {
+              email = value;
+            });
+          },*/
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+                Icons.email,
+                color: firstColor,
+              ),
+              labelText: "Email",
+              hintText: "abc@gmail.com",
+          ),
+          textInputAction: TextInputAction.next,
+          validator: (String eml) => EmailValidator.validate(eml)? null:"Invalid email address",
+          onSaved: (eml) => email = eml,
+        ),
+      );
+  }
+  Widget _buildPasswordRow() // user password 
   {
     return Padding(
       padding: EdgeInsets.all(8),
@@ -110,45 +134,42 @@ class _LoginPageState extends State<LBody>
         ),
       );
   }
-  Widget buildForgetPasswordButton()
+  Widget buildAgreeButton() // Terms and Conditions
   {
+    
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+     // mainAxisAlignment: MainAxisAlignment.start,
+     // crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Container(
-          height: 42.0,
-          padding: EdgeInsets.zero,
-          margin: EdgeInsets.all(25.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.6),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(0, 3),
-              ),
-            ],
-            color: mainColor,
-            border: Border.all(),
+        Checkbox(
+          checkColor: Colors.red,
+          activeColor: Colors.black12,
+          value: this.first, 
+          onChanged: (bool value){
+            setState(() {
+              this.first = value;
+            });
+          }
           ),
-          child: FlatButton(onPressed: () => _handleSubmitforgotten(context), 
-            child: Text("Forgotten your password?",
-              style: TextStyle(
-                //decoration: TextDecoration.underline,
-                fontSize: MediaQuery.of(context).size.height / 40,
-                color: secColor,
-              ),
+          Text("I Agree with "),
+          InkWell(
+            child: Text("Terms and Conditions",
+            style: TextStyle(
+              decoration: TextDecoration.underline,
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
             ),
+            ),
+            onTap: () =>
+              _handleSubmittcpage(context),
           ),
-        ),
       ],
     );
   }
-  Widget buildLoginButton()
+  Widget buildSignUpButton()
   {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
@@ -164,15 +185,15 @@ class _LoginPageState extends State<LBody>
             onPressed: () => {
               //if(_formKey.currentState.validate())
               //{
-                //_formKey.currentState.save(),
-                _handleSubmitloginMainmap(context),
-             // }
+               // _formKey.currentState.save(),
+                _handleSubmitmmap(context),
+            //}
             },
             child: Text(
-              "Log in",
+              "Sign Up",
                 style: TextStyle(
                   color: Colors.white,
-                  letterSpacing: 1.5,
+                  letterSpacing: 1.5, 
                   fontSize: MediaQuery.of(context).size.height / 30,
                 ),
               ),
@@ -181,13 +202,14 @@ class _LoginPageState extends State<LBody>
       ],
     );
   }
-  Widget buildSignUpButton()
+  Widget buildLoginButton()
   {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-        height: 42.0,
+          height: 42.0,
           padding: EdgeInsets.zero,
           margin: EdgeInsets.all(10.0),
           decoration: BoxDecoration(
@@ -204,37 +226,31 @@ class _LoginPageState extends State<LBody>
             border: Border.all(),
           ),
           child: FlatButton(
-            onPressed: () => _handleSubmitsignupdonotacc(context),
+            onPressed: () => 
+                _handleSubmitlogall(context),
             child: RichText(
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: "Don't have an account? ",
+                    text: "I'm already a member",
                     style: TextStyle(
-                      color: Colors.black,
+                      color: secColor,
                       fontSize: MediaQuery.of(context).size.height / 40,
                       fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  TextSpan(
-                    text: "Sign Up",
-                    style: TextStyle(
-                      color: firstColor,
-                      fontSize: MediaQuery.of(context).size.height / 40,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
               ),
             ),
             ),
-        ), 
+          ),
       ],
     );
   }
   Widget _buildContainer()
   {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         ClipRRect(
@@ -257,23 +273,29 @@ class _LoginPageState extends State<LBody>
               children: <Widget>[
                 SizedBox(height: 50.0,),
                 Row(
-                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      "Login",
+                      "Sign Up",
                       style: TextStyle(
-                        color: secColor,
                         fontSize: MediaQuery.of(context).size.height / 25,
+                        color: secColor,
                       ),
                     ),
                   ],
                 ),
-                _buildUsernameRow(),
-                _buildPasswordRow(),
-                buildForgetPasswordButton(),
-                buildLoginButton(),
-                buildSignUpButton(),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildUsernameRow(),
+                    _buidemailRow(),
+                    _buildPasswordRow(),
+                    buildAgreeButton(),
+                    buildSignUpButton(),
+                    buildLoginButton(),
+                  ],
+                ),
+                
               ],
             ),
           ),
@@ -288,7 +310,7 @@ class _LoginPageState extends State<LBody>
   {
     return SafeArea( 
       child: Scaffold(
-          resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomPadding: false,
           backgroundColor: mainColor,
         body: Stack(
           children: <Widget>[
@@ -306,11 +328,11 @@ class _LoginPageState extends State<LBody>
               ),  
             ),
             SingleChildScrollView(
-            child: Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   _buildLogo(),
-                  _buildContainer(),
+                  _buildContainer(), 
                 ],
               ),
             ),
@@ -320,39 +342,39 @@ class _LoginPageState extends State<LBody>
     );
   }
 
-  Future<void> _handleSubmitforgotten(BuildContext context) async{
+  Future<void> _handleSubmittcpage(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
       await Future.delayed(Duration(seconds: 3,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
-      Navigator.push(context,MaterialPageRoute(builder: (context) => ForgPass()));
+      Navigator.push(context,MaterialPageRoute(builder: (context) => TCPage()));
     }
     catch(error){
       print(error);
     }
   }
 
-  Future<void> _handleSubmitsignupdonotacc(BuildContext context) async{
-    try{
-      Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
-      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
-
-      Navigator.push(context,MaterialPageRoute(builder: (context) => SignUp()));
-    }
-    catch(error){
-      print(error);
-    }
-  }
-
-  Future<void> _handleSubmitloginMainmap(BuildContext context) async{
+  Future<void> _handleSubmitmmap(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
       await Future.delayed(Duration(seconds: 3,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => MainMap()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleSubmitlogall(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => Login()));
     }
     catch(error){
       print(error);

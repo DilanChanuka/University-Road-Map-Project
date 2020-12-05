@@ -1,129 +1,25 @@
+import 'package:map_interfaces/Screens/Welcome/welcome_page.dart';
+import 'package:map_interfaces/page_tran.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-import 'package:uor_road_map/constanents.dart';
-//import 'package:dropdownfield/dropdownfield.dart';
+import 'package:map_interfaces/constanents.dart';
 
 class Search extends StatefulWidget
 {
   Search() : super();
 
-  final String txt= "UOR";
+  final String txt= "Find Out";
   @override
   SearchState createState() => SearchState();
 
 }
-class Floor
-{
-  int id;
-  String name;
-
-  Floor(this.id,this.name);
-
-  static List<Floor> getFloor(){
-    return <Floor>[
-      Floor(1, 'Ground Floor'),
-      Floor(2, 'First Floor'),
-      Floor(3, 'Second Floor'),
-    ];
-  }
-}
 class SearchState extends State<Search>
 {
-  List<Floor> _floor = Floor.getFloor();
-  List<DropdownMenuItem<Floor>> _dropdownMenuitem;
-  Floor _selectedFloor; 
+  GoogleMapController controller;
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  int floor = 0;
 
-@override
-void initState()
-{
-  _dropdownMenuitem = buildDropdownMenuItems(_floor).cast<DropdownMenuItem<Floor>>();
-  _selectedFloor = _dropdownMenuitem[0].value;
-  super.initState();
-}
-
-List<DropdownMenuItem<Floor>> buildDropdownMenuItems(List floors){
-  List<DropdownMenuItem<Floor>> items = List();
-  for(Floor floor in floors){
-    items.add(
-      DropdownMenuItem(
-        value: floor,
-        child: Text(floor.name,style: TextStyle(fontSize: 25.0),),
-      ),
-    );
-  }
-  return items;
-}
-
-onChangeDropdwonItem(Floor selectedFloor){
-  setState(() {
-    _selectedFloor = selectedFloor;
-  });
-}
-
-  Completer<GoogleMapController> _controller = Completer();
-  static const LatLng _center = const LatLng(37.42796133580664, -122.085749655962);
-  final Set<Marker> _markers = {};
-  LatLng _lastMapPosition = _center;
-  MapType _currentMapType = MapType.normal;
-
-  static final CameraPosition _position = CameraPosition(
-    bearing: 192.833,
-    target: LatLng(37.43796133580664, -122.085749655962),
-    tilt: 59.440,
-    zoom: 11.0,
-  );
-
-  Future<void> _goToPosition() async{
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_position),);
-  }
-
-  _onMapCreated(GoogleMapController controller)
-  {
-    _controller.complete(controller);
-  }
-
-  _onCamMove(CameraPosition position)
-  {
-    _lastMapPosition = position.target;
-  }
-
-  _onMapTypeButtonPressed()
-  {
-    setState(() {
-      _currentMapType = _currentMapType == MapType.normal 
-      ? MapType.satellite 
-      : MapType.normal;
-    });
-  }
-
-  _onAddMarkerButtonPressed()
-  {
-    setState(() {
-      _markers.add(Marker(
-        markerId: MarkerId(_lastMapPosition.toString()),
-        position: _lastMapPosition,
-        infoWindow: InfoWindow(
-          title: "Title",
-          snippet: "snippet",
-        ),
-        icon: BitmapDescriptor.defaultMarker,
-      ));
-    });
-  }
-  Widget button(Function function,IconData icon)
-  {
-    return FloatingActionButton(
-      onPressed: function,
-      materialTapTargetSize: MaterialTapTargetSize.padded,
-      backgroundColor: Colors.blue,
-      child: Icon(
-        icon,
-        size: 36.0,
-      ),
-      );
-  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -136,16 +32,6 @@ onChangeDropdwonItem(Floor selectedFloor){
           ),
           ),
           backgroundColor: firstColor,
-          actions: <Widget>[
-             SizedBox(width: 60.0,),
-               DropdownButton(
-                  iconSize: 25.0,
-                  iconEnabledColor: mainColor,
-                  value: _selectedFloor,
-                  items: _dropdownMenuitem, 
-                  onChanged: onChangeDropdwonItem,
-                  ),
-          ],
         ),
         drawer: Drawer(
             child: ListView(
@@ -166,7 +52,7 @@ onChangeDropdwonItem(Floor selectedFloor){
                 ListTile(
                   title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
                   leading: Icon(Icons.exit_to_app,color: blackcolor,), 
-                  onTap: (){},
+                  onTap: () => _handleSubmitwelcome(context),
                 ),
 
                 ListTile(
@@ -198,38 +84,75 @@ onChangeDropdwonItem(Floor selectedFloor){
           ),
         body: Stack(
           children: <Widget>[
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 11.0,
+            Container(
+              height: MediaQuery.of(context).size.height - 50.0,
+              width: MediaQuery.of(context).size.width,
+              child: GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(5.9382181, 80.576216),
+                  zoom: 17.0, 
+                  ), 
+                  onMapCreated: mapCreated,
                 ),
-                mapType: _currentMapType,
-                markers: _markers,
-                onCameraMove: _onCamMove,
-              ),
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Column(
-                    children: <Widget>[
-                      button(_onMapTypeButtonPressed, Icons.map),
-                      SizedBox(height: 16.0, 
-                      ),
-                      button(_onAddMarkerButtonPressed, Icons.add_location),
-                      SizedBox(
-                        height: 16.0,
-                      ),
-                      button(_goToPosition, Icons.location_searching),
-                    ],
-                  ),
-                ),
-                ),
+            ),
+            Container(
+              padding: EdgeInsets.all(10.0),
+             child: buildDistanceUpButton(),
+            ),
           ],
         ),
       ),
     );
   }
-  
+
+  void mapCreated(controller)
+  {
+    setState(() {
+      controller = controller;
+    });
+  }
+
+  Widget buildDistanceUpButton()
+  {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          height: 1.4 * (MediaQuery.of(context).size.height / 20),
+          width: 4 * (MediaQuery.of(context).size.width /10),
+          margin: EdgeInsets.only(bottom: 20),
+          child: RaisedButton(
+            elevation: 5.0,
+            color: firstColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            onPressed: () => {},
+            child: Text(
+              "Distance",
+                style: TextStyle(
+                  color: Colors.white,
+                  letterSpacing: 1.5, 
+                  fontSize: MediaQuery.of(context).size.height / 40,
+                ),
+              ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _handleSubmitwelcome(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => WelcomePage()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
 }

@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
 export "FLUTTER_ROOT=E:\Softwares\Android\Flutter\flutter"
-export "FLUTTER_APPLICATION_PATH=F:\Final Eyer Project\Map_Interface\University-Road-Map-Project-master\Interfaces"
+export "FLUTTER_APPLICATION_PATH=F:\Final Eyer Project\Map_Interface\Final Map Interface_1\University-Road-Map\UOR_Map"
 export "FLUTTER_TARGET=lib\main.dart"
 export "FLUTTER_BUILD_DIR=build"
 export "SYMROOT=${SOURCE_ROOT}/../build\ios"

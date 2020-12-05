@@ -1,5 +1,5 @@
 
-import 'package:uor_road_map/Screens/Common/data.dart';
+import 'package:map_interfaces/Screens/Common/data.dart';
 
 
   //2d array is lat and lng

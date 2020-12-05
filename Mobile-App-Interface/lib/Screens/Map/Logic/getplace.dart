@@ -1,6 +1,6 @@
-import 'package:uor_road_map/Screens/Disition/disistionFunc.dart';
-import 'package:uor_road_map/Screens/Map/Display/Display_getPlace.dart';
-import 'package:uor_road_map/Screens/Common/data.dart';
+import 'package:map_interfaces/Screens/Disition/disistionFunc.dart';
+import 'package:map_interfaces/Screens/Map/Display/Display_getPlace.dart';
+import 'package:map_interfaces/Screens/Common/data.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 

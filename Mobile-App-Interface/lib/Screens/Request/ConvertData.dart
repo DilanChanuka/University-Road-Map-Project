@@ -2,31 +2,30 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:uor_road_map/Screens/Common/data.dart';
+import 'package:map_interfaces/Screens/Common/data.dart';
 
  
 
-List<LatLng> drawroute(String jsonplaceholder)   //getroute   ---
+List<dynamic> drawroute(String jsonplaceholder)   //getroute   ---
 {
 
   var jsonresponse=json.decode(jsonplaceholder)['routelocations'];
-
+  var distence_time=json.decode(jsonplaceholder)["distance_time"];
+  
+  List<dynamic> data=new List<dynamic>();
+  List<LatLng> routesLocation=new List<LatLng>();
   int n=jsonresponse.length;
-    //create 2d array
-    List<List<double>> data=List.generate(n,(_)=>List.generate(2, (_) => 0.0));
-    List<LatLng> routeL=[];
-    for(int i=0;i<n;i++)
-    {
-        data[i][0]=jsonresponse[i][0];
-        data[i][1]=jsonresponse[i][1];
-    }
+
 
     for(int i=0;i<n;i++)
     {
-        routeL.add(LatLng(data[i][0],data[i][1]));
+        routesLocation.add(LatLng(jsonresponse[i][0],jsonresponse[i][1]));
     }
 
-    return routeL;
+    data.add(routesLocation);
+    data.add(distence_time);
+
+    return data;
    
 }
 
@@ -38,6 +37,7 @@ List<dynamic> drawfloor(String jsonplaceholder)   //getfloor
     var floor1array = jsonresponse["floor_1_locations"];
     var floor2array = jsonresponse["floor_2_locations"];
     var places = jsonresponse["places"];  //this will come places array
+   
 
     List<dynamic> finalarray=new List<dynamic>();
 
@@ -118,6 +118,7 @@ List<dynamic> drawplaceinout(String response) //getplaceinout
           var stair01 = jsonresponse["stair_0_1_locations"];
           var stair12 = jsonresponse["stair_1_2_locations"];
           var outerR = jsonresponse["outerroutelocations"];
+          var distence_time=jsonresponse["distance_time"];
           
           
 
@@ -220,6 +221,7 @@ List<dynamic> drawplaceinout(String response) //getplaceinout
       allData.add(floorRC);
       allData.add(stairC);
       allData.add(floorC);
+      allData.add(distence_time);
 
       //0=>outer routes
       //1=>floor routes
@@ -250,6 +252,7 @@ List<dynamic> drawplaceinin(String url) //getplaceinin
     var stair12location = jsonresponse["stair_1_2_locations"];
     var stair01location = jsonresponse["stair_0_1_locations"];
     var place=jsonresponse["place"];
+    var distence_time=jsonresponse["distance_time"];
 
     String name;
     double lat,lng;
@@ -366,6 +369,7 @@ List<dynamic> drawplaceinin(String url) //getplaceinin
     List<double> placeLatLng=[lat,lng];
 
     List<dynamic> allDetails=[arr,placeLatLng,name];
+    allDetails.add(distence_time);
 
     return allDetails;
 }
@@ -386,6 +390,7 @@ List<dynamic> drawplace(String jsonplaceholder)  //getplace
       var stair01=jsonresponse['stair_0_1_locations'];
       var stair12=jsonresponse['stair_1_2_locations'];
       var place=jsonresponse["place"];
+      var distence_time=jsonresponse["distance_time"];
 
       List<String> floorlocation=["floor_0_locations","floor_1_locations","floor_2_locations"];
       List<String> floorRL=["floor_0_routelocations","floor_1_routelocations","floor_2_routelocations"];
@@ -482,6 +487,7 @@ List<dynamic> drawplace(String jsonplaceholder)  //getplace
       allData.add(stair);
       allData.add(floor);
       allData.add(placeDetails);
+      allData.add(distence_time);
       
       return allData;
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:uor_road_map/Screens/Common/data.dart';
-import 'package:uor_road_map/Screens/Map/Logic/PlaceInOut.dart';
+import 'package:map_interfaces/Screens/Common/data.dart';
+import 'package:map_interfaces/Screens/Map/Logic/PlaceInOut.dart';
 import 'dart:async';
-import 'package:uor_road_map/constanents.dart';
-import 'package:uor_road_map/Screens/Map/Logic/placeInIn.dart';
-import 'package:uor_road_map/Screens/Map/Logic/PlaceWFloor.dart';
+import 'package:map_interfaces/constanents.dart';
+import 'package:map_interfaces/Screens/Map/Logic/placeInIn.dart';
+import 'package:map_interfaces/Screens/Map/Logic/PlaceWFloor.dart';
 
 const String KEY=GOOGL_KEY;
 const double CAMERA_ZOOM = ZOOM;

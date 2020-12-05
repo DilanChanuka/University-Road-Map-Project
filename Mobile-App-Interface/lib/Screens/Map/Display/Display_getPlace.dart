@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:uor_road_map/Screens/Common/data.dart';
+import 'package:map_interfaces/Screens/Common/data.dart';
 import 'dart:async';
-import 'package:uor_road_map/constanents.dart';
-import 'package:uor_road_map/Screens/Map/Logic/getplace.dart';
-import 'package:uor_road_map/Screens/Map/Display/Notification.dart';
-import 'package:uor_road_map/Screens/Direction/direction_Page.dart';
+import 'package:map_interfaces/constanents.dart';
+import 'package:map_interfaces/Screens/Map/Logic/getplace.dart';
+import 'package:map_interfaces/Screens/Map/Display/Notification.dart';
 
 const String KEY=GOOGL_KEY;
 const double CAMERA_ZOOM = ZOOM;
@@ -48,7 +47,7 @@ class DrawPlace extends StatefulWidget
       }  
 
       if(selectedfloorID!=destFloorID)
-                showMessage(destFloorID);
+                showGetPlaceMessage(destFloorID);
          
       
   }
@@ -195,13 +194,7 @@ static CameraPosition initialLocation = CameraPosition(
 
   _onDirectionButtonPress() async
   {
-      
-        dselectedDepartment="";
-        dvOr="";
-        dselectedFloorName="";
-        dselectedStart="";
-        dselectedDestination="";
-        arr=[dselectedStart,dselectedDestination,dselectedDepartment,dselectedFloorName,dvOr];
+    
         Navigator.pop(context);
   }
 
@@ -303,36 +296,55 @@ static CameraPosition initialLocation = CameraPosition(
                 initialCameraPosition:initialLocation,
                 polylines: geolocationPlace[0],
                 markers:geolocationPlace[1],             
-                mapType: _currentMapType,
+                mapType: MapType.normal,
                 onCameraMove: _onCamMove,
                 myLocationButtonEnabled: true,
 
               ),
-            Padding(
-                padding: EdgeInsets.all(6.0),
-                child: Align(
+          
+             Container(
+               padding: EdgeInsets.all(10.0),
+               child: Align(
+                 alignment: Alignment.topLeft,
+                 child: Column(
+                   children: [
+                     RaisedButton(
+                      
+                      onPressed:(){},
+                      child: Text(alldata1[5][1].toString()+"min("+alldata1[5][0]+"m)"),
+                      color: Colors.blue,)
+                   ],
+                 ),
+                 ),
+              ),
+
+             
+              
+              
+              Container(
+                padding:EdgeInsets.all(16.0),
+                child:Align(
                   alignment: Alignment.topRight,
                   child: Column(
                     children: <Widget>[
+                      button(_onMapTypeButtonPressed(), Icons.map),
+                      SizedBox(height: 16.0),
 
-
-                      button(_onMapTypeButtonPressed, Icons.map),
-                      SizedBox(height: 16.0, 
-                      ),
-                      button(_onAddMarkerButtonPressed, Icons.add_location),
-                      SizedBox(
-                        height: 16.0,
-                      ),
                       button(_goToPosition, Icons.location_searching),
+                      SizedBox(height: 16.0,),
+
+                      button(_onSearchButtonPress,Icons.search),
                       SizedBox(height: 16.0),
-                      button(_onSearchButtonPress, Icons.search),
-                      SizedBox(height: 16.0),
+
                       button(_onDirectionButtonPress,Icons.directions),
                       SizedBox(height: 16.0)
                     ],
                   ),
                 ),
-                ),
+              )
+            
+
+
           ],
         ),
       ),

@@ -1,8 +1,8 @@
-import 'package:uor_road_map/Screens/Common/data.dart';
+import 'package:map_interfaces/Screens/Common/data.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:uor_road_map/Screens/Common/placeLatLng.dart';
-import 'package:uor_road_map/Screens/Map/Display/Display_PlaceInIn.dart';
-import 'package:uor_road_map/Screens/Disition/disistionFunc.dart';
+import 'package:map_interfaces/Screens/Common/placeLatLng.dart';
+import 'package:map_interfaces/Screens/Map/Display/Display_PlaceInIn.dart';
+import 'package:map_interfaces/Screens/Disition/disistionFunc.dart';
 
 List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selectedFloorID,String startFName)
 {
@@ -30,6 +30,7 @@ List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selec
     List<int> flagestair=[1,1];
     
     int destFloor=getdestionationFloor(destinationID);  //get destination floor number(0/1/2)
+  
     String derection=getderection(start,destFloor);  //get dierection (UP /DOWN)
     List<double> startLocation=placeLatLng[startFName]; //get start LatLng
     //int startfloorID=getfloorIdWithName(startFName);   //get start floorID using place Name
@@ -225,7 +226,7 @@ List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selec
   //add Dotted Line
   for(int i=0;i<3;i++)
   {
-      if(flageFR[i]>0)
+      if(flageFR[i]>0 && isSelect(start,destFloor,selectedFloorID))
       {
           if(data[0][0][i].length>0)
           {
@@ -250,7 +251,7 @@ List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selec
   //dotted line for Stair
   for(int i=0;i<2;i++)
   {
-      if(flagestair[i]>0)
+      if(flagestair[i]>0 && isSelect(start,destFloor,selectedFloorID))
       {
             if(data[0][1][i].length>0)
             {
@@ -273,7 +274,26 @@ List<dynamic> placeInIn(List<dynamic> data,int destinationID,int start,int selec
 }
 
 
+bool isSelect(int startFloorID,int destFloorID,selectedFloorID)
+{
+    bool result=false;
+    int deference=(startFloorID-destFloorID).abs();
 
+    if(deference==2)
+        result=true;
+    else if(deference==0)
+    {
+        if(selectedFloorID==startFloorID || selectedFloorID==destFloorID)
+              result=true;
+    }
+    else if(deference==1)
+    {
+        if(selectedFloorID==startFloorID || selectedFloorID==destFloorID)
+              result=true;
+    }
+
+    return result;
+}
 
 int getdestionationFloor(int id)
 {

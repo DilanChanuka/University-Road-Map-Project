@@ -1,40 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_interfaces/Screens/Common/data.dart';
-import 'package:map_interfaces/Screens/Map/Logic/PlaceInOut.dart';
+import 'package:map_interfaces/Screens/Common/placeLatLng.dart';
+import 'package:map_interfaces/Screens/Map/Display/Display_getfloor.dart';
 import 'dart:async';
 import 'package:map_interfaces/constanents.dart';
-import 'package:map_interfaces/Screens/Map/Logic/placeInIn.dart';
-import 'package:map_interfaces/Screens/Map/Logic/PlaceWFloor.dart';
-import 'package:map_interfaces/Screens/Map/Logic/getfloor.dart';
-import 'package:map_interfaces/Screens/Map/Display/Notification.dart';
+
 
 const String KEY=GOOGL_KEY;
 const double CAMERA_ZOOM = 18;
 const double CAMERA_TILT = 0;
 const double CAMERA_BEARING = 30;
 
-List<dynamic> geolocation;
-//0=> polyline
-//1=.marker
-List<dynamic> alldata;
-  //0=> floor location
-  //1=> floor all places
-  //2=> floor ID ( 0 /1 /2)
 int floorID=0;
 String placeNameselected;
 BitmapDescriptor destinationPIN;
-BitmapDescriptor startPIN;
+List<double> markerLocation=new List<double>();
+Set<Marker> _marker={};
 
-class DrawFloor extends StatefulWidget
+class DisplayOuterPlace extends StatefulWidget
 {
 
-  DrawFloor(List<dynamic> data,String placeNameSelected)
+  DisplayOuterPlace(String placeNameSelected)
   {
-      geolocation=getfloor(data,data[2],placeNameSelected);
-      alldata=data;
-      floorID=data[2];
+    
       placeNameselected=placeNameSelected;
+      markerLocation=placeLatLng[placeNameselected];
   }
 
   final String txt= "UOR";
@@ -64,7 +55,7 @@ class Floor
 
   }
 }
-class _DrawState extends State<DrawFloor>
+class _DrawState extends State<DisplayOuterPlace>
 {
   List<Floor> _floor = Floor.getFloor();
   List<DropdownMenuItem<Floor>> _dropdownMenuitem;
@@ -81,15 +72,21 @@ class _DrawState extends State<DrawFloor>
     void _onMapCreated(GoogleMapController controller)
     {
         _controller.complete(controller);  
+        setMapPin();
     }
+
+    void setMapPin(){
+
+        _marker.add(Marker(
+          markerId:MarkerId("place"),
+          position: LatLng(markerLocation[0],markerLocation[1]),
+          icon: destinationPIN));
+    }
+
     void customMapPing() async{
       destinationPIN =await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(devicePixelRatio: 2.5),
         'assets/destination_PIn.png');
-
-      startPIN=await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 2.5,size: Size(0.5, 0.5)),
-        'assets/userPin.png');
     }
    
 
@@ -121,20 +118,18 @@ onChangeDropdwonItem(Floor selectedFloor){
   setState(() 
   {
     _selectedFloor = selectedFloor;
-    geolocation.clear();
-    geolocation=getfloor(alldata,_selectedFloor.id,placeNameselected);
  
   });
 }
 
-  static LatLng _center =LatLng(alldata[1][0][1],alldata[1][0][2]);
+  static LatLng _center =LatLng(markerLocation[0],markerLocation[0]);
   final Set<Marker> _markers = {};
   LatLng _lastMapPosition = _center;
   MapType _currentMapType = MapType.normal;
 
 static CameraPosition initialLocation = CameraPosition(
     bearing: CAMERA_BEARING,
-    target:LatLng(alldata[1][0][1],alldata[1][0][2]),
+    target:LatLng(markerLocation[0],markerLocation[0]),
     tilt: CAMERA_TILT,
     zoom: CAMERA_ZOOM,
   );
@@ -276,9 +271,8 @@ static CameraPosition initialLocation = CameraPosition(
             GoogleMap(
                 
                 onMapCreated: _onMapCreated,
-                initialCameraPosition:initialLocation,
-                polylines: geolocation[0],
-                markers:geolocation[1],             
+                initialCameraPosition:initialLocation,  
+                          
                 mapType: MapType.normal,
                 onCameraMove: _onCamMove,
                 myLocationButtonEnabled: true,

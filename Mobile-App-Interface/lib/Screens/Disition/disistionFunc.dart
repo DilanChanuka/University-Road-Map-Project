@@ -1,16 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:uor_road_map/Screens/Common/data.dart';
-import 'package:uor_road_map/Screens/Request/JsonBody.dart';
-import 'package:uor_road_map/Screens/Request/request.dart';
-import 'package:uor_road_map/Screens/Common/placeLatLng.dart';
+import 'package:map_interfaces/Screens/Common/data.dart';
+import 'package:map_interfaces/Screens/Map/Display/Display_OuterPlace.dart';
+import 'package:map_interfaces/Screens/Request/JsonBody.dart';
+import 'package:map_interfaces/Screens/Request/request.dart';
+import 'package:map_interfaces/Screens/Common/placeLatLng.dart';
 import 'dart:async';
-import 'package:uor_road_map/Screens/Request/ConvertData.dart';
-import 'package:uor_road_map/Screens/Map/Display/Display_PlaceInIn.dart';
-import 'package:uor_road_map/Screens/Map/Display/Display_placeInout.dart';
-import 'package:uor_road_map/Screens/Map/Display/Display_getPlace.dart';
-import 'package:uor_road_map/Screens/Map/Display/Display_getfloor.dart';
-import 'package:uor_road_map/Screens/Map/Display/Display_OuterRiutes.dart';
+import 'package:map_interfaces/Screens/Request/ConvertData.dart';
+import 'package:map_interfaces/Screens/Map/Display/Display_PlaceInIn.dart';
+import 'package:map_interfaces/Screens/Map/Display/Display_getPlace.dart';
+import 'package:map_interfaces/Screens/Map/Display/Display_getfloor.dart';
+import 'package:map_interfaces/Screens/Map/Display/Display_OuterRiutes.dart';
+import 'package:map_interfaces/Screens/Map/Display/Display_placeInout.dart';
+import 'package:map_interfaces/page_tran.dart';
+import 'package:map_interfaces/Screens/Map/Display/Display_OuterRiutes.dart';
+
+
 
 Future<String> myfuture;
 
@@ -76,7 +81,7 @@ void disitionFunc(BuildContext context,List<String> arr)
       else if(startInside==true && endOutside==true)
       {
           floorId=getsAdfloorID(arr[0]);//get Start floor id
-          selectedFloorID=getsAdfloorID(arr[3]); //default selected floor will be  destination place floor
+          selectedFloorID=getfloorID(arr[3]); //default selected floor will be  destination place floor
           List<List<double>> startAdestLatLng=getStartADest(arr[0],arr[1]);
           String url=getplaceinOutRequest(departmentID, floorId, startAdestLatLng);
           
@@ -112,6 +117,7 @@ void disitionFunc(BuildContext context,List<String> arr)
       {
           List<List<double>> startAdestination=getStartADest(arr[0],arr[1]);
           String url=getrouteRequest(startAdestination,arr[4]);
+         // _handleSubmitaddsearch(context);
 
           Future<String> myfuture=getjsonvalue(url);
           myfuture.then((response) => {
@@ -126,9 +132,16 @@ void disitionFunc(BuildContext context,List<String> arr)
   }
 }
 
-void seachDisition(BuildContext context,String placeNameselected)
+void serachPlace(BuildContext context,String placeNameselected)
 {
 
+    bool inside=false;
+    bool outside=false;
+
+    if(inSidePlces.contains(placeNameselected))
+        inside=true;
+    else
+        outside=true;
     //draw relevent floor with all places in relevent floor and  required place (drawfloorwithplace)
     
     /*int placeID=allplaceID[placeNameselected];
@@ -145,20 +158,30 @@ void seachDisition(BuildContext context,String placeNameselected)
 
 */
     
-    //draw relevent floor and  all the places of relevent floor   (drawfloor)
-    // in this department is cd departmet (ID => 1)
-   int floorID= getfloorIdWithName(placeNameselected);
-   int deptID=1; //cs department
-   String url=getfloorRequest(deptID, floorID);
+    if(inside)
+    {
+           //draw relevent floor and  all the places of relevent floor   (drawfloor)
+          // in this department is cd departmet (ID => 1)
+        int floorID= getfloorIdWithName(placeNameselected);
+        int deptID=1; //cs department
+        String url=getfloorRequest(deptID, floorID);
 
-   Future<String> myfuture=getjsonvalue(url);
-   myfuture.then((response) => {
-     Navigator.push(
-       context,
-       MaterialPageRoute(
-         builder:(context)=>DrawFloor(drawfloor(response))))
-   });
+        Future<String> myfuture=getjsonvalue(url);
+        myfuture.then((response) => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder:(context)=>DrawFloor(drawfloor(response),placeNameselected)))
+        });
 
+    }
+    if(outside)
+    {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder:(context)=>DisplayOuterPlace(placeNameselected)));
+    }
+   
 }
 
 List<List<double>> getStartADest(String start,String dest)
@@ -242,3 +265,16 @@ int getfloorIdWithName(String placeName)
     return id;
 }
 
+ Future<void> _handleSubmitaddsearch(BuildContext context,GlobalKey<State> _keyloader) async
+  {
+    try{
+      Dialogs.showLoadingDialog(context,_keyloader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyloader.currentContext,rootNavigator: true).pop();
+
+     // Navigator.push(context,MaterialPageRoute(builder: (context) => AddSearch()));
+    }
+    catch(error){
+      print(error);
+    }
+  }

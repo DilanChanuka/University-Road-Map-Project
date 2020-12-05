@@ -1,7 +1,9 @@
-import 'package:uor_road_map/Screens/Common/data.dart';
+import 'package:map_interfaces/Screens/Common/data.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:map_interfaces/Screens/Common/placeLatLng.dart';
+import 'package:map_interfaces/Screens/Map/Display/Display_getfloor.dart';
 
-List<dynamic> getfloor(List<dynamic> data,int selectedFloorID)
+List<dynamic> getfloor(List<dynamic> data,int selectedFloorID,String placeName)
 {
 
   //0=> floor location
@@ -14,7 +16,7 @@ List<dynamic> getfloor(List<dynamic> data,int selectedFloorID)
 
     //this will hold polyline
     Set<Polyline> _polyline={}; 
-
+    List<double> requirdPlaceLatLng=placeLatLng[placeName];
     
     if(data[2]==selectedFloorID)
     {
@@ -30,10 +32,8 @@ List<dynamic> getfloor(List<dynamic> data,int selectedFloorID)
               _polyline.add(floor);
         }
 
-        
-    }  
 
-    //get all places marker
+         //get all places marker
     if(data[1].length>0)
     {
         int count=data[1].length;
@@ -48,7 +48,22 @@ List<dynamic> getfloor(List<dynamic> data,int selectedFloorID)
 
     }
 
+    //requird place marker
+    if(requirdPlaceLatLng!=null)
+    {
+        _marker.add(Marker(
+          markerId:MarkerId("requird"),
+          infoWindow:InfoWindow(title:placeName),
+          position:LatLng(requirdPlaceLatLng[0],requirdPlaceLatLng[1]),
+          icon:destinationPIN ));
 
+    }
+
+
+        
+    }  
+
+   
     finaldata.add(_polyline);
     finaldata.add(_marker);
     return finaldata;

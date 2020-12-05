@@ -1,84 +1,37 @@
+import 'package:map_interfaces/Screens/Login/login_page.dart';
+import 'package:map_interfaces/Screens/Map/places.dart';
+import 'package:map_interfaces/page_tran.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:async';
-import 'package:uor_road_map/constanents.dart';
-//import 'package:dropdownfield/dropdownfield.dart';
+import 'package:map_interfaces/constanents.dart';
 
 class LogGuest extends StatefulWidget
 {
   LogGuest() : super();
 
-  final String txt= "University of Ruhuna";
+  final String txt= "You are guest access(sign in)";
   @override
   LogGuestState createState() => LogGuestState();
 
 }
 class LogGuestState extends State<LogGuest>
 {
-  
-  Completer<GoogleMapController> _controller = Completer();
-  static const LatLng _center = const LatLng(37.42796133580664, -122.085749655962);
-  final Set<Marker> _markers = {};
-  LatLng _lastMapPosition = _center;
-  MapType _currentMapType = MapType.normal;
+  GoogleMapController controller;
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  List<Marker> allMarker = [];
 
-  static final CameraPosition _position = CameraPosition(
-    bearing: 192.833,
-    target: LatLng(37.43796133580664, -122.085749655962),
-    tilt: 59.440,
-    zoom: 11.0,
-  );
-
-  Future<void> _goToPosition() async{
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_position),);
-  }
-
-  _onMapCreated(GoogleMapController controller)
-  {
-    _controller.complete(controller);
-  }
-
-  _onCamMove(CameraPosition position)
-  {
-    _lastMapPosition = position.target;
-  }
-
-  _onMapTypeButtonPressed()
-  {
-    setState(() {
-      _currentMapType = _currentMapType == MapType.normal 
-      ? MapType.satellite 
-      : MapType.normal;
-    });
-  }
-
-  _onAddMarkerButtonPressed()
-  {
-    setState(() {
-      _markers.add(Marker(
-        markerId: MarkerId(_lastMapPosition.toString()),
-        position: _lastMapPosition,
-        infoWindow: InfoWindow(
-          title: "Title",
-          snippet: "snippet",
-        ),
-        icon: BitmapDescriptor.defaultMarker,
+  @override
+  void initState(){
+    super.initState();
+    uorplaces.forEach((element){
+      allMarker.add(Marker(
+        markerId: MarkerId(element.name),
+        position: element.locationCoords,
+        infoWindow: InfoWindow(title: element.name),
       ));
     });
   }
-  Widget button(Function function,IconData icon)
-  {
-    return FloatingActionButton(
-      onPressed: function,
-      materialTapTargetSize: MaterialTapTargetSize.padded,
-      backgroundColor: Colors.blue,
-      child: Icon(
-        icon,
-        size: 36.0,
-      ),
-      );
-  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -109,15 +62,10 @@ class LogGuestState extends State<LogGuest>
                 ),
 
                 ListTile(
-                  title: Text("Sign Out",style: TextStyle(fontSize: 18.0),),
+                  title: Text("Sign In",style: TextStyle(fontSize: 18.0),),
                   leading: Icon(Icons.exit_to_app,color: blackcolor,), 
-                  onTap: (){},
-                ),
-
-                ListTile(
-                  title: Text("Profile",style: TextStyle(fontSize: 18.0),),
-                  leading: Icon(Icons.person,color: blackcolor,),
-                  onTap: (){},
+                  onTap: () =>
+                    _handleSubmitlogin(context),
                 ),
 
                 ListTile(
@@ -143,38 +91,40 @@ class LogGuestState extends State<LogGuest>
           ),
         body: Stack(
           children: <Widget>[
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 11.0,
+            Container(
+              height: MediaQuery.of(context).size.height - 50.0,
+              width: MediaQuery.of(context).size.width,
+              child: GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(5.9382181, 80.576216),
+                  zoom: 17.0, 
+                  ), 
+                  markers: Set.from(allMarker),
+                  onMapCreated: mapCreated,
                 ),
-                mapType: _currentMapType,
-                markers: _markers,
-                onCameraMove: _onCamMove,
-              ),
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Column(
-                    children: <Widget>[
-                      button(_onMapTypeButtonPressed, Icons.map),
-                      SizedBox(height: 16.0, 
-                      ),
-                      button(_onAddMarkerButtonPressed, Icons.add_location),
-                      SizedBox(
-                        height: 16.0,
-                      ),
-                      button(_goToPosition, Icons.location_searching),
-                    ],
-                  ),
-                ),
-                ),
+            ),  
           ],
         ),
       ),
     );
   }
-  
+  void mapCreated(controller)
+  {
+    setState(() {
+      controller = controller;
+    });
+  }
+
+  Future<void> _handleSubmitlogin(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => Login()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
 }
