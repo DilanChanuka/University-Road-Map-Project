@@ -7263,11 +7263,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "H:\\API\\Web API\\RoadMap_DB\\RoadMap_DB.csproj",
+      "projectUniqueName": "E:\\Web API\\RoadMap_DB\\RoadMap_DB.csproj",
       "projectName": "RoadMap_DB",
-      "projectPath": "H:\\API\\Web API\\RoadMap_DB\\RoadMap_DB.csproj",
+      "projectPath": "E:\\Web API\\RoadMap_DB\\RoadMap_DB.csproj",
       "packagesPath": "C:\\Users\\DILANCHANUKALASANTHA\\.nuget\\packages\\",
-      "outputPath": "H:\\API\\Web API\\RoadMap_DB\\obj\\",
+      "outputPath": "E:\\Web API\\RoadMap_DB\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
