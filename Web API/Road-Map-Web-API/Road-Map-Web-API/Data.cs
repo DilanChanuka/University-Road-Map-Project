@@ -77,7 +77,7 @@ namespace Road_Map_Web_API
             try
             {
                 j = 0;
-                lines = System.IO.File.ReadAllLines(@"./DataSet/footGraph.txt");
+                lines = System.IO.File.ReadAllLines(@"wwwroot/DataSet/footGraph.txt");
                 foreach (string line in lines)
                 {
                     split = line.Split(',');
@@ -88,7 +88,7 @@ namespace Road_Map_Web_API
                 }
 
                 j = 0;
-                lines = System.IO.File.ReadAllLines(@"./DataSet/CSMainGraph.txt");
+                lines = System.IO.File.ReadAllLines(@"wwwroot/DataSet/CSMainGraph.txt");
                 foreach (string line in lines)
                 {
                     split = line.Split(',');
@@ -99,7 +99,7 @@ namespace Road_Map_Web_API
                 }
 
                 j = 0;
-                lines = System.IO.File.ReadAllLines(@"./DataSet/footGraphEndPoints.txt");
+                lines = System.IO.File.ReadAllLines(@"wwwroot/DataSet/footGraphEndPoints.txt");
                 foreach (string line in lines)
                 {
                     split = line.Split(',');
@@ -110,7 +110,7 @@ namespace Road_Map_Web_API
                 }
 
                 j = 0;
-                lines = System.IO.File.ReadAllLines(@"./DataSet/CSMainEndPoints.txt");
+                lines = System.IO.File.ReadAllLines(@"wwwroot/DataSet/CSMainEndPoints.txt");
                 foreach (string line in lines)
                 {
                     split = line.Split(',');
