@@ -58,7 +58,7 @@ class _TermConPageState extends State<TCBody>
               child: ClipRRect(
                 borderRadius: BorderRadius.zero,
                 child: Container(
-                  height:MediaQuery.of(context).size.height * 2,
+                  height:MediaQuery.of(context).size.height * 1.4,
                   width:MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     color: Colors.white,

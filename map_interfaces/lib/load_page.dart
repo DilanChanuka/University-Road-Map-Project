@@ -64,7 +64,10 @@ class _DBody extends State<Body>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Image.asset('assets/images/1.png'),
+                Image.asset('assets/images/1.png',
+                  width: 150.0,
+                  height: 400.0,
+                ),
                 //SpinKitFadingCircle(color: Colors.brown,),
               ],
             ),

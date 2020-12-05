@@ -9,7 +9,6 @@ class OutSidePlaces {
     this.locationCoords
   });
 }
-
 final List<OutSidePlaces> uorplaces = [
   OutSidePlaces(
     name: 'Main Gate',
@@ -23,72 +22,115 @@ final List<OutSidePlaces> uorplaces = [
     name: 'Library Junction',
     locationCoords: LatLng(5.938779, 80.575966),
   ),
-  OutSidePlaces(
-    name: 'Library',
-    locationCoords: LatLng(5.938399, 80.576378),
+];
+
+class Department{
+  String depname;
+  LatLng deplocationCoords;
+  Department({
+    this.depname,
+    this.deplocationCoords,
+  });
+}
+final List<Department> department=[
+  Department(
+    depname: 'Maths Department',
+    deplocationCoords: LatLng(5.93945, 80.576022),
   ),
-  OutSidePlaces(
-    name: 'Students Well Fair Branch',
-    locationCoords: LatLng(5.937734, 80.576161),
+  Department(
+    depname: 'Computer Science Department',
+    deplocationCoords: LatLng(5.939505, 80.576344),
   ),
-  OutSidePlaces(
-    name: 'Maths Department',
-    locationCoords: LatLng(5.93945, 80.576022),
+  Department(
+    depname: 'Chemistry Department',
+    deplocationCoords: LatLng(5.940944, 80.576713),
   ),
-  OutSidePlaces(
-    name: 'Computer Science Department',
-    locationCoords: LatLng(5.939505, 80.576344),
+  Department(
+    depname: 'Physics Department',
+    deplocationCoords: LatLng(5.940462, 80.576642),
   ),
-  OutSidePlaces(
-    name: 'Science Faculty Canteen',
-    locationCoords: LatLng(5.939885, 80.576923),
+  Department(
+    depname: 'Botany Department',
+    deplocationCoords: LatLng(5.940006, 80.577992),
   ),
-  OutSidePlaces(
-    name: 'Science Auditorium',
-    locationCoords: LatLng(5.93947, 80.577466),
+  Department(
+    depname: 'Zoology Department',
+    deplocationCoords: LatLng(5.940578, 80.578011),
   ),
-  OutSidePlaces(
-    name: 'Science Dean Office',
-    locationCoords: LatLng(5.93948, 80.577104),
+  Department(
+    depname: 'Faculty of Fisharies',
+    deplocationCoords: LatLng(5.941287, 80.577381),
   ),
-  OutSidePlaces(
-    name: 'Botany Department',
-    locationCoords: LatLng(5.940006, 80.577992),
+];
+
+class InSidePlaces{
+  String insidename;
+  LatLng insidedeplocationCoords;
+  InSidePlaces({
+    this.insidename,
+    this.insidedeplocationCoords,
+  });
+}
+final List<InSidePlaces> insideplaces = [
+  InSidePlaces(
+    insidename: 'Students Well Fair Branch',
+    insidedeplocationCoords: LatLng(5.937734, 80.576161),
   ),
-  OutSidePlaces(
-    name: 'Zoology Department',
-    locationCoords: LatLng(5.940578, 80.578011),
+  InSidePlaces(
+    insidename: 'Science Auditorium',
+    insidedeplocationCoords: LatLng(5.93947, 80.577466),
   ),
-  OutSidePlaces(
-    name: 'Faculty of Fisharies',
-    locationCoords: LatLng(5.941287, 80.577381),
+  InSidePlaces(
+    insidename: 'Science Dean Office',
+    insidedeplocationCoords: LatLng(5.93948, 80.577104),
   ),
-  OutSidePlaces(
-    name: 'Maths Lecture Hall 01',
-    locationCoords: LatLng(5.939213, 80.575706),
+];
+
+class ReadingPalces{
+  String readname;
+  LatLng readdeplocationCoords;
+  ReadingPalces({
+    this.readname,
+    this.readdeplocationCoords,
+  });
+}
+final List<ReadingPalces> readingplaces = [
+  ReadingPalces(
+    readname: 'Student Reading Place',
+    readdeplocationCoords: LatLng(5.93893, 80.577123),
   ),
-  OutSidePlaces(
-    name: 'Maths Lecture Hall 02',
-    locationCoords: LatLng(5.939121, 80.575812),
+  ReadingPalces(
+    readname: 'Library',
+    readdeplocationCoords: LatLng(5.938399, 80.576378),
   ),
-  OutSidePlaces(
-    name: 'Chemistry Department',
-    locationCoords: LatLng(5.940944, 80.576713),
+];
+
+class Canteen{
+  String canteenname;
+  LatLng canteendeplocationCoords;
+  Canteen({
+    this.canteenname,
+    this.canteendeplocationCoords,
+  });
+}
+final List<Canteen> canteenplaces = [
+  Canteen(
+    canteenname: 'Science Faculty Canteen',
+    canteendeplocationCoords: LatLng(5.939885, 80.576923),
   ),
-  OutSidePlaces(
-    name: 'Physics Department',
-    locationCoords: LatLng(5.940462, 80.576642),
-  ),
-  OutSidePlaces(
+];
+
+class Medical{
+  String name;
+  LatLng locationCoords;
+  Medical({
+    this.name,
+    this.locationCoords,
+  });
+}
+final List<Medical> medical = [
+  Medical(
     name: 'Medical Center',
     locationCoords: LatLng(5.940433, 80.576065),
-  ),
-  OutSidePlaces(
-    name: 'Student Common Room',
-    locationCoords: LatLng(5.939709, 80.577373),
-  ),
-  OutSidePlaces(
-    name: 'Student Reading Place',
-    locationCoords: LatLng(5.93893, 80.577123),
   ),
 ];

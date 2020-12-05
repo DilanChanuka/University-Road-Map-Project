@@ -6,22 +6,22 @@ List<String> walkoutUserLoc = [
   "Y Junction",
   "Library Junction",
   "Library",
-  "Student's Well Fair Branch",
+  "Student's Well fair branch",
   "Maths Department",
   "Computer Science Department",
-  "Science Faculty Canteen",
+  "Science faculty Canteen",
   "Science Auditorium",
   "Science Dean office",
   "Botany Department",
   "Zoology Department",
-  "Faculty of Fisharies",
-  "Maths Lecture Hall 01",
-  "Maths Lecture Hall 02",
+  "Faculty of fisharies",
+  "Maths Lecture hall 1",
+  "Maths Lecture hall 2",
   "Chemistry Department",
   "Physics Department",
   "Medical Center",
   "Student Common Room",
-  "Student Reading Place",
+  "Student reading place",
 ];
 final walkoutUserLocselect = TextEditingController();
 String walkoutUserLocselected = "";
@@ -31,22 +31,22 @@ List<String> walkoutDestiLoc = [
   "Y Junction",
   "Library Junction",
   "Library",
-  "Student's Well Fair Branch",
+  "Student's Well fair branch",
   "Maths Department",
   "Computer Science Department",
-  "Science Faculty Canteen",
+  "Science faculty Canteen",
   "Science Auditorium",
-  "Science Dean Office",
+  "Science Dean office",
   "Botany Department",
   "Zoology Department",
   "Faculty of fisharies",
-  "Maths Lecture Hall 01",
-  "Maths Lecture Hall 02",
+  "Maths Lecture hall 1",
+  "Maths Lecture hall 2",
   "Chemistry Department",
   "Physics Department",
   "Medical Center",
-  "Student Common Room",
-  "Student Reading Place",
+  "Student Common room",
+  "Student reading place",
   "CS Lecturer's Room",
   "CS Instructors's Room",
   "CS Computer Lab 01",
@@ -55,7 +55,7 @@ List<String> walkoutDestiLoc = [
   "CS Conference Room",
   "CS Record Room",
   "CS Special Lab",
-  "CS Computer Lab 02",
+  "CS Computer lab 02",
   "CS E-Learning Center",
   "CS Special Room",
   "CS Demonstrator's Room",
@@ -71,7 +71,7 @@ List<String> vehicleoutUserLoc = [
   "Main Gate",
   "Y Junction",
   "Library Junction",
-  "Science Faculty Canteen",
+  "Scienes faculty Canteen",
   "Botany Department Car Park",
   "Zoology Department Car Park",
   "Chemistry Department Car Park",
@@ -79,7 +79,7 @@ List<String> vehicleoutUserLoc = [
   "Medical Center Car Park",
   "Library Car Park",
   "Maths Department Car Park",
-  "Computer Science Department Car Park"
+  "CS Car park"
   
 ];
 final vehicleoutUserLocselect = TextEditingController();
@@ -89,7 +89,7 @@ List<String> vehicleoutDestiLoc = [
   "Main Gate",
   "Y Junction",
   "Library Junction",
-  "Science Faculty Canteen",
+  "Scenes faculty Canteen",
   "Botany Department Car Park",
   "Zoology Department Car Park",
   "Chemistry Department Car Park",
@@ -97,7 +97,7 @@ List<String> vehicleoutDestiLoc = [
   "Medical Center Car Park",
   "Library Car Park",
   "Maths Department Car Park",
-  "Computer Science Department Car Park",
+  "CS Car park",
 ];
 final vehicleoutDestiLocselect = TextEditingController();
 String vehicleoutDestiLocselected = "";
@@ -116,22 +116,22 @@ List<String> placeName=[
   "Y Junction",
   "Library Junction",
   "Library",
-  "Student's Well Fair Branch",
+  "Student's Well fair branch",
   "Maths Department",
   "Computer Science Department",
-  "Science Faculty Canteen",
+  "Scienes faculty Canteen",
   "Science Auditorium",
-  "Science Dean Office",
+  "Science Dean office",
   "Botany Department",
   "Zoology Department",
-  "Faculty of Fisharies",
-  "Maths Lecture Hall 01",
-  "Maths Lecture Hall 02",
+  "Faculty of fisharies",
+  "Maths Lecture hall 1",
+  "Maths Lecture hall 2",
   "Chemistry Department",
   "Physics Department",
   "Medical Center",
-  "Student Common Room",
-  "Student Reading Place",
+  "Student Common room",
+  "Student reading place",
   "CS Lecturer's Room",
   "CS Instructors's Room",
   "CS Computer Lab 01",
@@ -140,7 +140,7 @@ List<String> placeName=[
   "CS Conference Room",
   "CS Record Room",
   "CS Special Lab",
-  "CS Computer Lab 02",
+  "CS Computer lab 02",
   "CS E-Learning Center",
   "CS Special Room",
   "CS Demonstrator's Room",
@@ -153,11 +153,11 @@ final placeNameSelect = TextEditingController();
 String placeNameselected = "";
 
 List<String> floor=[
-  "Ground Floor",
-  "First Floor",
-  "Second Floor"
+  "Ground floor",
+  "First floor",
+  "Second floor"
   ];
-String floorvalue  = "Ground Floor";
+String floorvalue  = "Ground floor";
 
 List<String> department=[
   "Computer Science Department",
@@ -172,9 +172,9 @@ String departmentvalue ="Computer Science Department";
 List<String> ground = [
   "CS Wash Rooms",
   "CS Computer Lab 01",
-  "CS Car Park"
+  "CS Car park"
   ];
-final groundf = TextEditingController();
+final floorcontroller = TextEditingController();
 String groundselected = "";
 
 List<String> first = [
@@ -187,17 +187,17 @@ List<String> first = [
   "CS E-Learning Center",
   "CS Conference Room",
   "CS Head's Room",
-  "CS Computer Lab 02",
+  "CS Computer lab 02",
   "CS Record Room"
   ];
-final firstf = TextEditingController();
+//final firstf = TextEditingController();
 String firstselected = "";
 
 List<String> secound = [
   "CS Mini-auditorium",
   "CS Computer Lab 03"
   ];
-final secoundf = TextEditingController();
+//final secoundf = TextEditingController();
 String secoundselected = "";
 
 List<String> ifground = [
@@ -205,22 +205,22 @@ List<String> ifground = [
   "Y Junction",
   "Library Junction",
   "Library",
-  "Student's Well Fair Branch",
+  "Student's Well fair branch",
   "Maths Department",
   "Computer Science Department",
-  "Science Faculty Canteen",
+  "Scienes faculty Canteen",
   "Science Auditorium",
-  "Science Dean Office",
+  "Science Dean office",
   "Botany Department",
   "Zoology Department",
-  "Faculty of Fisharies",
-  "Maths Lecture Hall 01",
-  "Maths Lecture Hall 02",
+  "Faculty of fisharies",
+  "Maths Lecture hall 1",
+  "Maths Lecture hall 2",
   "Chemistry Department",
   "Physics Department",
   "Medical Center",
-  "Student Common Room",
-  "Student Reading Place",
+  "Student Common room",
+  "Student reading place",
   "CS Lecturer's Room",
   "CS Instructors's Room",
   "CS Computer Lab 03",
@@ -229,13 +229,13 @@ List<String> ifground = [
   "CS Conference Room",
   "CS Record Room",
   "CS Special Lab",
-  "CS Computer Lab 02",
+  "CS Computer lab 02",
   "CS E-Learning Center",
   "CS Special Room",
   "CS Demonstrator's Room",
   "CS Main-auditorium",
   ];
-final ifgroundf = TextEditingController();
+final iffloorcontroller = TextEditingController();
 String ifgroundselected = "";
 
 List<String> iffirst = [
@@ -243,22 +243,22 @@ List<String> iffirst = [
   "Y Junction",
   "Library Junction",
   "Library",
-  "Student's Well Fair Branch",
+  "Student's Well fair branch",
   "Maths Department",
   "Computer Science Department",
-  "Science Faculty Canteen",
+  "Scienes faculty Canteen",
   "Science Auditorium",
-  "Science Dean Office",
+  "Science Dean office",
   "Botany Department",
   "Zoology Department",
-  "Faculty of Fisharies",
-  "Maths Lecture Hall 01",
-  "Maths Lecture Hall 02",
+  "Faculty of fisharies",
+  "Maths Lecture hall 1",
+  "Maths Lecture hall 2",
   "Chemistry Department",
   "Physics Department",
   "Medical Center",
-  "Student Common Room",
-  "Student Reading Place",
+  "Student Common room",
+  "Student reading place",
   "CS Lecturer's Room",
   "CS Instructors's Room",
   "CS Mini-auditorium",
@@ -267,7 +267,7 @@ List<String> iffirst = [
   "CS Wash Rooms",
   "CS Computer Lab 03",
   ];
-final iffirstf = TextEditingController();
+//final iffirstf = TextEditingController();
 String iffirstselected = "";
 
 List<String> ifsecound = [
@@ -275,22 +275,22 @@ List<String> ifsecound = [
   "Y Junction",
   "Library Junction",
   "Library",
-  "Student's Well Fair Branch",
+  "Student's Well fair branch",
   "Maths Department",
   "Computer Science Department",
-  "Science Faculty Canteen",
+  "Scienes faculty Canteen",
   "Science Auditorium",
-  "Science Dean Office",
+  "Science Dean office",
   "Botany Department",
   "Zoology Department",
-  "Faculty of Fisharies",
-  "Maths Lecture Hall 01",
-  "Maths Lecture Hall 02",
+  "Faculty of fisharies",
+  "Maths Lecture hall 1",
+  "Maths Lecture hall 2",
   "Chemistry Department",
   "Physics Department",
   "Medical Center",
-  "Student Common Room",
-  "Student Reading Place",
+  "Student Common room",
+  "Student reading place",
   "CS Lecturer's Room",
   "CS Instructors's Room",
   "CS Computer Lab 01",
@@ -303,7 +303,7 @@ List<String> ifsecound = [
   "CS Demonstrator's Room",
   "CS Main-auditorium",
   "CS Wash Rooms",
-  "CS Computer Lab 02",
+  "CS Computer lab 02",
   ];
-final ifsecoundf = TextEditingController();
+//final ifsecoundf = TextEditingController();
 String ifsecoundselected = "";

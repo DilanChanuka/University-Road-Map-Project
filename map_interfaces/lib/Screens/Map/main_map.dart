@@ -25,11 +25,53 @@ class MainMapState extends State<MainMap>
   @override
   void initState(){
     super.initState();
-    uorplaces.forEach((element){
+  
+    canteenplaces.forEach((element) async {
       allMarker.add(Marker(
-        markerId: MarkerId(element.name),
+        markerId: MarkerId(element.canteenname),
+        position: element.canteendeplocationCoords,
+        infoWindow: InfoWindow(title: element.canteenname),
+        icon:await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(32.0,32.0)),'assets/images/3.png'),
+      ));
+    });
+    medical.forEach((element) async { 
+      allMarker.add(Marker(
+        markerId:MarkerId(element.name),
         position: element.locationCoords,
         infoWindow: InfoWindow(title: element.name),
+        icon:await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(32.0,32.0)),'assets/images/2.png'),
+      ));
+    });
+    insideplaces.forEach((element) async { 
+      allMarker.add(Marker(
+        markerId:MarkerId(element.insidename),
+        position: element.insidedeplocationCoords,
+        infoWindow: InfoWindow(title: element.insidename),
+        icon:await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(32.0,32.0)),'assets/images/4.png'),
+      ));
+    });
+    readingplaces.forEach((element) async { 
+      allMarker.add(Marker(
+        markerId:MarkerId(element.readname),
+        position: element.readdeplocationCoords,
+        infoWindow: InfoWindow(title: element.readname),
+        icon:await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(32.0,32.0)),'assets/images/5.png'),
+      ));
+    });
+    department.forEach((element) async { 
+      allMarker.add(Marker(
+        markerId:MarkerId(element.depname),
+        position: element.deplocationCoords,
+        infoWindow: InfoWindow(title: element.depname),
+        icon:await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(32.0,32.0)),'assets/images/6.png'),
+      ));
+    });
+    uorplaces.forEach((element) async { 
+      allMarker.add(Marker(
+        markerId:MarkerId(element.name),
+        position: element.locationCoords,
+        infoWindow: InfoWindow(title: element.name),
+        icon:await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(32.0,32.0)),'assets/images/7.png'),
       ));
     });
   }
@@ -113,7 +155,7 @@ class MainMapState extends State<MainMap>
               child: GoogleMap(
                 initialCameraPosition: CameraPosition(
                   target: LatLng(5.9382181, 80.576216),
-                  zoom: 17.0, 
+                  zoom: 19.0, 
                   ), 
                   markers: Set.from(allMarker),
                   onMapCreated: mapCreated,

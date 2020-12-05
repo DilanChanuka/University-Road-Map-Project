@@ -31,6 +31,13 @@ class _MHPage extends State<Hpage> {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   int itm = 0;
   String vlu = '';
+
+  void getFloor(){
+    setState(() {
+      vlu = floorvalue;
+    });
+  }
+
   Future<String> createAlertDialog(BuildContext context) async {
     return await showDialog(
       barrierDismissible: false,
@@ -109,27 +116,26 @@ class _MHPage extends State<Hpage> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            //Padding(padding: EdgeInsets.all(12.0)),
+          
                             DropdownButton(
                                 isExpanded: true,
-                                // 
-                                hint: Text("Select Floor"),
+                                //hint: Text("Select Floor"),
                                 value: floorvalue,
                                 underline: Container(
                                   height: 3,
                                   color: firstColor,
                                 ),
-                                items: floor.map((floorvlue) {
+                                items: floor.map((value) {
                                   return DropdownMenuItem(
-                                    value: floorvlue,
-                                    child: Text(floorvlue,
+                                    value: value,
+                                    child: Text(value,
                                       style: TextStyle(
                                         fontSize: MediaQuery.of(context).size.width / 25,
                                       ),
                                     ),
                                   );
                                 }).toList(),
-                                onChanged: (String fl) {
+                                onChanged: (fl) {
                                   setState(() {
                                     floorvalue = fl;
                                   });
@@ -148,7 +154,8 @@ class _MHPage extends State<Hpage> {
             actions: <Widget>[
               MaterialButton(
                 onPressed: () {
-                  Navigator.of(context).pop(vlu = floorvalue);
+                  Navigator.of(context).pop();
+                  getFloor();
                 },
                 child: Text("OK",
                   style: TextStyle(
@@ -248,6 +255,14 @@ class _MHPage extends State<Hpage> {
                     ),
                       value: 1,
                       onTap: () async {
+                        floorcontroller.clear();
+                        groundselected = null;
+                        firstselected = null;
+                        secoundselected = null;
+                        iffloorcontroller.clear();
+                        ifgroundselected = null;
+                        iffirstselected = null;
+                        ifsecoundselected = null;
                         await createAlertDialog(context);
                       }
                   ),
@@ -404,6 +419,7 @@ class _MHPage extends State<Hpage> {
       ),
       child: TextFormField(
         readOnly: true,
+        autofocus: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
         ),
@@ -414,12 +430,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(  
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),
+                            child: Container(  
                                 child: DropDownField(
+                                  required: true,
+                                  itemsVisibleInDropdown: 3,
                                   controller: vehicleoutUserLocselect,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28,),
@@ -432,11 +448,9 @@ class _MHPage extends State<Hpage> {
                                     });
                                   },
                                 ), 
-                              ),
-                            ],  
-                          ),   
+                            ), 
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(vehicleoutUserLocselected);},
@@ -475,6 +489,7 @@ class _MHPage extends State<Hpage> {
       ),
       child: TextFormField(
         readOnly: true,
+        autofocus: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
         ),
@@ -485,12 +500,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(  
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),
+                            child: Container(  
                                 child: DropDownField(
+                                  required: true,
+                                  itemsVisibleInDropdown: 3,
                                   controller: vehicleinUserLocselect,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -503,11 +518,9 @@ class _MHPage extends State<Hpage> {
                                     });
                                   },
                                 ), 
-                              ),
-                            ],  
-                          ),   
+                            ),  
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(vehicleinUserLocselected);},
@@ -528,11 +541,11 @@ class _MHPage extends State<Hpage> {
 
   Widget _buildUserLocationWalkInSide()
   {
-    if(vlu == "Ground Floor")
+    if(vlu == "Ground floor")
     {
       return _groundw();
     }
-    if(vlu == "First Floor")
+    if(vlu == "First floor")
     {
       return _firstw();
     }
@@ -562,6 +575,7 @@ class _MHPage extends State<Hpage> {
       ),
       child: TextFormField(
         readOnly: true,
+        autofocus: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
         ),
@@ -572,13 +586,13 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(  
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                      
+                            child: Container(  
                                 child: DropDownField(
-                                  controller: groundf,
+                                  required: true,
+                                  itemsVisibleInDropdown: 3,
+                                  controller: floorcontroller,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
@@ -590,11 +604,9 @@ class _MHPage extends State<Hpage> {
                                     });
                                   },
                                 ), 
-                              ),
-                            ],  
-                          ),   
+                            ),  
                         ),      
-                      ), 
+                       
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(groundselected);},
@@ -633,6 +645,7 @@ class _MHPage extends State<Hpage> {
       ),
       child: TextFormField(
         readOnly: true,
+        autofocus: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
         ),
@@ -643,13 +656,13 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(  
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
+                            child: Container(  
                                 child: DropDownField(
-                                  controller: firstf,
+                                  required: true,
+                                  itemsVisibleInDropdown: 3,
+                                  controller: floorcontroller,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
@@ -661,11 +674,9 @@ class _MHPage extends State<Hpage> {
                                     });
                                   },
                                 ), 
-                              ),
-                            ],  
-                          ),   
+                            ),   
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(firstselected);},
@@ -704,6 +715,7 @@ class _MHPage extends State<Hpage> {
       ),
       child: TextFormField(
         readOnly: true,
+        autofocus: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
         ),
@@ -714,13 +726,13 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(  
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
+                            child: Container(  
                                 child: DropDownField(
-                                  controller: secoundf,
+                                  required: true,
+                                  itemsVisibleInDropdown: 3,
+                                  controller: floorcontroller,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
@@ -732,11 +744,9 @@ class _MHPage extends State<Hpage> {
                                     });
                                   },
                                 ), 
-                              ),
-                            ],  
-                          ),   
+                            ),                           
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(secoundselected);},
@@ -775,6 +785,7 @@ class _MHPage extends State<Hpage> {
       ),
       child: TextFormField(
         readOnly: true,
+        autofocus: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
         ),
@@ -785,12 +796,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(  
+                     content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
+                            child: Container(  
                                 child: DropDownField(
+                                  required: true,
+                                  itemsVisibleInDropdown: 3,
                                   controller: walkoutUserLocselect,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -803,11 +814,9 @@ class _MHPage extends State<Hpage> {
                                     });
                                   },
                                 ), 
-                              ),
-                            ],  
-                          ),   
+                            ),                           
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(walkoutUserLocselected);},
@@ -846,6 +855,7 @@ class _MHPage extends State<Hpage> {
       ),
       child: TextFormField(
         readOnly: true,
+        autofocus: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
         ),
@@ -856,12 +866,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(  
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
+                            child: Container(  
                                 child: DropDownField(
+                                  required: true,
+                                  itemsVisibleInDropdown: 3,
                                   controller: vehicleinDestiLocselect,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -874,11 +884,9 @@ class _MHPage extends State<Hpage> {
                                     });
                                   },
                                 ), 
-                              ),
-                            ],  
-                          ),   
+                              ),                            
                         ),      
-                      ), 
+                       
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(vehicleinDestiLocselected);},
@@ -918,6 +926,7 @@ class _MHPage extends State<Hpage> {
       ),
       child: TextFormField(
         readOnly: true,
+        autofocus: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
         ),
@@ -928,12 +937,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(  
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
+                            child: Container(  
                                 child: DropDownField(
+                                  required: true,
+                                  itemsVisibleInDropdown: 3,
                                   controller: vehicleoutDestiLocselect,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -946,11 +955,9 @@ class _MHPage extends State<Hpage> {
                                     });
                                   },
                                 ), 
-                              ),
-                            ],  
-                          ),   
+                            ),                             
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(vehicleoutDestiLocselected);},
@@ -971,11 +978,11 @@ class _MHPage extends State<Hpage> {
 
   Widget _buildDestinationWalkInSide()
   {
-    if(vlu == "Ground Floor")
+    if(vlu == "Ground floor")
     {
       return _ifgroundw();
     }
-    if(vlu == "First Floor")
+    if(vlu == "First floor")
     {
       return _iffirstw();
     }
@@ -1005,6 +1012,7 @@ class _MHPage extends State<Hpage> {
       ),
       child: TextFormField(
         readOnly: true,
+        autofocus: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
         ),
@@ -1015,13 +1023,13 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(  
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
+                            child: Container(  
                                 child: DropDownField(
-                                  controller: ifgroundf,
+                                  required: true,
+                                  itemsVisibleInDropdown: 3,
+                                  controller: iffloorcontroller,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
@@ -1033,11 +1041,9 @@ class _MHPage extends State<Hpage> {
                                     });
                                   },
                                 ), 
-                              ),
-                            ],  
-                          ),   
+                            ),                           
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(ifgroundselected);},
@@ -1076,6 +1082,7 @@ class _MHPage extends State<Hpage> {
       ),
       child: TextFormField(
         readOnly: true,
+        autofocus: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
         ),
@@ -1086,13 +1093,13 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(  
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
+                            child: Container(  
                                 child: DropDownField(
-                                  controller: iffirstf,
+                                  required: true,
+                                  itemsVisibleInDropdown: 3,
+                                  controller: iffloorcontroller,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
@@ -1104,11 +1111,9 @@ class _MHPage extends State<Hpage> {
                                     });
                                   },
                                 ), 
-                              ),
-                            ],  
-                          ),   
+                            ),                             
                         ),      
-                      ), 
+                       
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(iffirstselected);},
@@ -1147,6 +1152,7 @@ class _MHPage extends State<Hpage> {
       ),
       child: TextFormField(
         readOnly: true,
+        autofocus: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
         ),
@@ -1157,13 +1163,13 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(  
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
+                            child: Container(  
                                 child: DropDownField(
-                                  controller: ifsecoundf,
+                                  required: true,
+                                  itemsVisibleInDropdown: 3,
+                                  controller: iffloorcontroller,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
                                   enabled: true,
@@ -1175,11 +1181,9 @@ class _MHPage extends State<Hpage> {
                                     });
                                   },
                                 ), 
-                              ),
-                            ],  
-                          ),   
+                            ),                           
                         ),      
-                      ), 
+                       
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(ifsecoundselected);},
@@ -1218,6 +1222,7 @@ class _MHPage extends State<Hpage> {
       ),
       child: TextFormField(
         readOnly: true,
+        autofocus: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
         ),
@@ -1228,12 +1233,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(  
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
+                            child: Container(  
                                 child: DropDownField(
+                                  required: true,
+                                  itemsVisibleInDropdown: 3,
                                   controller: walkoutDestiLocselect,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -1246,11 +1251,9 @@ class _MHPage extends State<Hpage> {
                                     });
                                   },
                                 ), 
-                              ),
-                            ],  
-                          ),   
+                            ),                           
                         ),      
-                      ), 
+                       
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(walkoutDestiLocselected);},
@@ -1331,7 +1334,13 @@ class _MHPage extends State<Hpage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
             ),
-            onPressed: () => _handleSubmitaddsearch(context),
+            onPressed: () => {
+              _handleSubmitaddsearch(context),
+              vehicleoutUserLocselect.clear(),
+              vehicleoutUserLocselected = null,
+              vehicleoutDestiLocselect.clear(),
+              vehicleoutDestiLocselected = null,
+            },
             child: SingleChildScrollView(
             child: Text(
               "Enter",
@@ -1370,7 +1379,17 @@ class _MHPage extends State<Hpage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
             ),
-            onPressed: () => _handleSubmitaddsearch(context),
+            onPressed: () => {
+              _handleSubmitaddsearch(context),
+              floorcontroller.clear(),
+              groundselected = null,
+              firstselected = null,
+              secoundselected = null,
+              iffloorcontroller.clear(),
+              ifgroundselected = null,
+              iffirstselected = null,
+              ifsecoundselected = null,
+            },
             child: SingleChildScrollView(
             child: Text(
               "Enter",
@@ -1408,7 +1427,13 @@ class _MHPage extends State<Hpage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
             ),
-            onPressed: () => _handleSubmitaddsearch(context),
+            onPressed: () => {
+              _handleSubmitaddsearch(context),
+              walkoutUserLocselect.clear(),
+              walkoutUserLocselected = null,
+              walkoutDestiLocselect.clear(),
+              walkoutDestiLocselected = null,
+              },
             child: SingleChildScrollView(
             child: Text(
               "Enter",

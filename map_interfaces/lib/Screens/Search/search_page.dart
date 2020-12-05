@@ -131,29 +131,27 @@ class _MHPage extends State<Spage>
                     builder: (context) {
                       return StatefulBuilder(builder: (context, setState) {
                           return AlertDialog(
-                            content: Form(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(  
-                                      child: DropDownField(
-                                        controller: placeNameSelect,
-                                        hintText: "Choose destination",
-                                        hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
-                                        enabled: true,
-                                        items: placeName,
-                                        onValueChanged: (value)
-                                        {  
+                            content: SingleChildScrollView(
+                              physics: ClampingScrollPhysics(),
+                                child: Container(  
+                                    child: DropDownField(
+                                      required: true,
+                                      itemsVisibleInDropdown: 3,
+                                      controller: placeNameSelect,
+                                      hintText: "Choose destination",
+                                      hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
+                                      enabled: true,
+                                      items: placeName,
+                                      onValueChanged: (value)
+                                      {  
                                         setState(() {
-                                        placeNameselected = value;
-                                      });
-                                    },
-                                  ), 
-                                ),
-                              ],  
-                            ),   
+                                      placeNameselected = value;
+                                  });
+                                },
+                              ), 
+                            ),
                           ),      
-                        ), 
+             
                         actions: [
                           FlatButton(
                           onPressed: (){Navigator.of(context).pop(placeNameselected);},
@@ -196,6 +194,8 @@ class _MHPage extends State<Spage>
                 borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
               ),
               onPressed: () => {
+                placeNameselected = null,
+                placeNameSelect.clear(),
                 _handleSubmitsearch(context),
               },
               child: SingleChildScrollView(

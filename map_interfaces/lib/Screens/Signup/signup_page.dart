@@ -151,8 +151,8 @@ class _SignUpPageState extends State<SBody>
       children: <Widget>[
         SingleChildScrollView(
           child: Checkbox(
-            checkColor: Colors.red,
-            activeColor: Colors.black12,
+            checkColor: mainColor,
+            activeColor: firstColor,
             value: this.first, 
             onChanged: (bool value){
               setState(() {
@@ -162,12 +162,17 @@ class _SignUpPageState extends State<SBody>
             ),
         ),
         SingleChildScrollView(
-          child: Text("I agree with "),
+          child: Text("I agree with ",
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.width / 25,
+          ),
+          ),
         ),
         SingleChildScrollView(
           child: InkWell(
-            child: Text("Terms and Conditions",
+            child: Text("Terms & Conditions",
             style: TextStyle(
+              fontSize: MediaQuery.of(context).size.width / 25,
               decoration: TextDecoration.underline,
               fontWeight: FontWeight.bold,
               color: Colors.green,
