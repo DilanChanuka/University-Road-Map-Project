@@ -7389,11 +7389,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "H:\\API\\Web API\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
+      "projectUniqueName": "E:\\Web API\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
       "projectName": "Road-Map-Web-API",
-      "projectPath": "H:\\API\\Web API\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
+      "projectPath": "E:\\Web API\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
       "packagesPath": "C:\\Users\\DILANCHANUKALASANTHA\\.nuget\\packages\\",
-      "outputPath": "H:\\API\\Web API\\Road-Map-Web-API\\Road-Map-Web-API\\obj\\",
+      "outputPath": "E:\\Web API\\Road-Map-Web-API\\Road-Map-Web-API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -7413,8 +7413,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "H:\\API\\Web API\\RoadMap_DB\\RoadMap_DB.csproj": {
-              "projectPath": "H:\\API\\Web API\\RoadMap_DB\\RoadMap_DB.csproj"
+            "E:\\Web API\\RoadMap_DB\\RoadMap_DB.csproj": {
+              "projectPath": "E:\\Web API\\RoadMap_DB\\RoadMap_DB.csproj"
             }
           }
         }
