@@ -27,7 +27,8 @@ namespace Road_Map_Web_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            //services.AddControllers();
+            services.AddControllersWithViews();
             services.AddDbContext<ApplicationDBContext>(option =>
             option.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             Data.LoadData();
@@ -51,6 +52,13 @@ namespace Road_Map_Web_API
             {
                 endpoints.MapControllers();
             });
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=API}/{action=Index}/{id?}");
+            //});
         }
     }
 }
