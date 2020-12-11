@@ -609,105 +609,169 @@ namespace Road_Map_Web_API.Controllers
 
         //Location Shearing system request handling methods
 
-        [HttpGet]
-        [Route("UserLocation/{userName}/{LAT:double}/{LON:double}")]
-        public async Task<IActionResult> UserLocation(string userName, double LAT, double LON)
-        {
-            Location loc = new Location()
-            {
-                Username = userName,
-                Lat = LAT,
-                Lon = LON
-            };
-            try
-            {
-                FirebaseClient client = new FirebaseClient("https://university-road-map-project-default-rtdb.firebaseio.com/");
-                ///////// use  GetUserId(string username) method
-               // await client.Child("UserLocation/" + GetUserId(userName)).PutAsync(loc);
-                return Ok("Successfully Updated..!");
-            }
-            catch
-            {
-                return BadRequest("There is an issue with realtime database connection..!");
-            }
-        }
+        //[HttpGet]
+        //[Route("UserLocation/{userName}/{LAT:double}/{LON:double}")]
+        //public async Task<IActionResult> UserLocation(string userName, double LAT, double LON)
+        //{
+        //    Location loc = new Location()
+        //    {
+        //        Username = userName,
+        //        Lat = LAT,
+        //        Lon = LON
+        //    };
+        //    try
+        //    {
+        //        FirebaseClient client = new FirebaseClient("https://university-road-map-project-default-rtdb.firebaseio.com/");
+        //        await client.Child("UserLocation/" + GetUserId(userName)).PutAsync(loc);
+        //        return Ok("Successfully Updated..!");
+        //    }
+        //    catch
+        //    {
+        //        return BadRequest("There is an issue with realtime database connection..!");
+        //    }
+        //}
 
-        private async Task<Location> FetchUserLocation(int userId)
-        {
-            //try
-            //{
-            //    FirebaseClient client = new FirebaseClient("https://university-road-map-project-default-rtdb.firebaseio.com/");
-            //    var read = await client.Child("UserLocation").Child(userId).OnceSingleAsync<Location>();
-            //    return new Location() { Username = read.Username, Lat = read.Lat, Lon = read.Lon };
-            //}
-            //catch
-            //{
-            //    return null;
-            //}
+        //private async Task<Location> FetchUserLocation(int userId)
+        //{
+        //    try
+        //    {
+        //        FirebaseClient client = new FirebaseClient("https://university-road-map-project-default-rtdb.firebaseio.com/");
+        //        var read = await client.Child("UserLocation").Child(userId).OnceSingleAsync<Location>();
+        //        return new Location() { Username = read.Username, Lat = read.Lat, Lon = read.Lon };
+        //    }
+        //    catch
+        //    {
+        //        return null;
+        //    }
+        //}
 
-            return null;
-        }
+        //[HttpGet]
+        //[Route("GetLocations/{userName}")]
+        //public async Task<IActionResult> GetLocations(string userName)
+        //{
+        //    var final = new Hashtable();
+        //    Location loc;
+        //    int n = 0;
+        //    int[] ConfUsers = GetConfirmedUsers(userName);
+        //    Location[] arr = new Location[ConfUsers.Length];
 
-        [HttpGet]
-        [Route("GetLocations/{userName}")]
-        public async Task<IActionResult> GetLocations(string userName)
-        {
-            //var final = new Hashtable();
-            //Location loc;
-            //int n = 0;
-            //int[] ConfUsers = GetConfirmUsers(userName);
-            //Location[] arr = new Location[ConfUsers.Length];
-
-            //foreach (int userId in ConfUsers)
-            //{
-            //    loc = await FetchUserLocation(userId);
-            //    if (loc != null)
-            //        arr[n++] = new Location() { Username = loc.Username, Lat = loc.Lat, Lon = loc.Lon };
-            //}
-            //final.Add("friends", arr);
-            //return Json(final);
-
-            Location loc1 = await FetchUserLocation(1);
-            return Json(loc1);
-        }
+        //    foreach (int userId in ConfUsers)
+        //    {
+        //        loc = await FetchUserLocation(userId);
+        //        if (loc != null)
+        //            arr[n++] = new Location() { Username = loc.Username, Lat = loc.Lat, Lon = loc.Lon };
+        //    }
+        //    final.Add("friends", arr);
+        //    return Json(final);
+        //}
         
-        [HttpGet]
-        [Route("GetPath/{user}/{req_user}")]
-        public IActionResult GetPath(string user,string req_user)
-        {
+        //[HttpGet]
+        //[Route("GetPath/{user}/{req_user}")]
+        //public async Task<IActionResult> GetPath(string user,string req_user)
+        //{
+        //    int user1_id, user2_id,start,end,graphNo=0,V_No=Data.footGrapheVertices;
+        //    Location loc_1, loc_2;
+        //    List<double[]> lst = new List<double[]>();
+        //    var final = new Hashtable();
+        //    Calculations cal = new Calculations();
 
+        //    user1_id = GetUserId(user);
+        //    user2_id = GetUserId(req_user);
 
-            return Json(user+req_user);
-        }
+        //    loc_1 = await FetchUserLocation(user1_id);
+        //    loc_2 = await FetchUserLocation(user2_id);
+
+        //    start = cal.GetNearestVertexNo(V_No, graphNo, loc_1.Lat, loc_1.Lon);
+        //    end = cal.GetNearestVertexNo(V_No, graphNo, loc_2.Lat, loc_2.Lon);
+
+        //    if (start != end)
+        //    {
+        //        int[] routes = cal.GetRouteNumbers(graphNo, start, end);
+        //        double[,] routeLocations;
+        //        foreach (int r in routes)
+        //        {                  
+        //            routeLocations = LocationData.GetFootRoute(r);
+        //            lst.AddRange(new List<double[]>(cal.ValidateRoute(start, end, graphNo, r, routeLocations)));
+        //        }
+        //        final.Add("routelocations", lst);
+        //        final.Add("distance_time", cal.FindDistanceAndTime(graphNo, start, end));
+        //        return Json(final);
+        //    }
+        //    return Json(final);
+        //}
         
-        [HttpGet]
-        [Route("GetAppUsers/{userName}")]
-        public IActionResult GetAppUsers(string userName)
-        {
-            return Json(userName);
-        }
+        //[HttpGet]
+        //[Route("GetAppUsers/{userName}")]
+        //public async Task<IActionResult> GetAppUsers(string userName)
+        //{
+        //    var final = new Hashtable();
+        //    Location loc;
+        //    int[] ConfUsers = GetConfirmedUsers(userName);
+        //    int[] ReqUsers = GetRequestedUsers(userName);
+        //    int[] AllUsers = GetAllUsers(userName);
+        //    int n = 0;
+        //    Location[] arr = new Location[ConfUsers.Length];
+        //    foreach (int userId in ConfUsers)
+        //    {
+        //        loc = await FetchUserLocation(userId);
+        //        if (loc != null)
+        //            arr[n++] = new Location() { Username = loc.Username, Lat = loc.Lat, Lon = loc.Lon };
+        //    }
+        //    final.Add("friends", arr);
+        //    n = 0;
+        //    arr = new Location[ReqUsers.Length];
+        //    foreach (int userId in ReqUsers)
+        //    {
+        //        loc = await FetchUserLocation(userId);
+        //        if (loc != null)
+        //            arr[n++] = new Location() { Username = loc.Username, Lat = loc.Lat, Lon = loc.Lon };
+        //    }
+        //    final.Add("friend_requests", arr);
+        //    n = 0;
+        //    arr = new Location[AllUsers.Length - (ConfUsers.Length + ReqUsers.Length)];
+        //    foreach (int id in AllUsers)
+        //    {
+        //        if (!ConfUsers.Contains(id) && !ReqUsers.Contains(id))
+        //        {
+        //            loc = await FetchUserLocation(id);
+        //            if (loc != null)
+        //                arr[n++] = new Location() { Username = loc.Username, Lat = loc.Lat, Lon = loc.Lon };
+        //        }
+        //    }
+        //    final.Add("other_users", arr);
+        //    return Json(final);
+        //}
 
-        [HttpGet]
-        [Route("AddFriend/{user}/{req_user}")]
-        public IActionResult AddFriend(string user, string req_user)
-        {
-            return Json(user + req_user);
-        }
+        //[HttpGet]
+        //[Route("AddFriend/{user}/{req_user}")]
+        //public IActionResult AddFriend(string user, string req_user)
+        //{
 
-        [HttpGet]
-        [Route("ConfirmFriend/{user}/{req_user}")]
-        public IActionResult ConfirmFriend(string user, string req_user)
-        {
-            return Json(user + req_user);
-        }
+        //    if (AddFriendRequest(user, req_user))
+        //        return Ok();
+        //    else
+        //        return BadRequest();
+        //}
 
-        [HttpGet]
-        [Route("RemoveFriend/{user}/{req_user}")]
-        public IActionResult RemoveFriend(string user, string req_user)
-        {
-            return Json(user + req_user);
-        }
+        //[HttpGet]
+        //[Route("ConfirmFriend/{user}/{req_user}")]
+        //public IActionResult ConfirmFriend(string user, string req_user)
+        //{
+        //    if (ConfirmFriendRequest(user, req_user))
+        //        return Ok();
+        //    else
+        //        return BadRequest();
+        //}
 
+        //[HttpGet]
+        //[Route("RemoveFriend/{user}/{req_user}")]
+        //public IActionResult RemoveFriend(string user, string req_user)
+        //{
+        //    if (RemoveFriendRequest(user, req_user))
+        //        return Ok();
+        //    else
+        //        return BadRequest();
+        //}
 
     }
 }
