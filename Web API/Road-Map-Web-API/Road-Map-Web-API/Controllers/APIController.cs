@@ -14,6 +14,8 @@ using System.Collections;
 using RoadMap_DB.DataAccess;
 using RoadMap_DB.Data;
 using RoadMap_DB.Models;
+using Firebase.Database;
+using Firebase.Database.Query;
 
 namespace Road_Map_Web_API.Controllers
 {
@@ -580,11 +582,11 @@ namespace Road_Map_Web_API.Controllers
             final.Add("place", pl);
             return Json(final);
         }
-
+                
         [HttpGet]
-        public IActionResult Get()
-        {
-            return Json("Connected with API..!");
+        public IActionResult Index()
+        {            
+            return View();
         }
 
         [HttpPost("{username}/{password}")]
@@ -604,5 +606,108 @@ namespace Road_Map_Web_API.Controllers
             else
                 return BadRequest();
         }
+
+        //Location Shearing system request handling methods
+
+        [HttpGet]
+        [Route("UserLocation/{userName}/{LAT:double}/{LON:double}")]
+        public async Task<IActionResult> UserLocation(string userName, double LAT, double LON)
+        {
+            Location loc = new Location()
+            {
+                Username = userName,
+                Lat = LAT,
+                Lon = LON
+            };
+            try
+            {
+                FirebaseClient client = new FirebaseClient("https://university-road-map-project-default-rtdb.firebaseio.com/");
+                ///////// use  GetUserId(string username) method
+               // await client.Child("UserLocation/" + GetUserId(userName)).PutAsync(loc);
+                return Ok("Successfully Updated..!");
+            }
+            catch
+            {
+                return BadRequest("There is an issue with realtime database connection..!");
+            }
+        }
+
+        private async Task<Location> FetchUserLocation(int userId)
+        {
+            //try
+            //{
+            //    FirebaseClient client = new FirebaseClient("https://university-road-map-project-default-rtdb.firebaseio.com/");
+            //    var read = await client.Child("UserLocation").Child(userId).OnceSingleAsync<Location>();
+            //    return new Location() { Username = read.Username, Lat = read.Lat, Lon = read.Lon };
+            //}
+            //catch
+            //{
+            //    return null;
+            //}
+
+            return null;
+        }
+
+        [HttpGet]
+        [Route("GetLocations/{userName}")]
+        public async Task<IActionResult> GetLocations(string userName)
+        {
+            //var final = new Hashtable();
+            //Location loc;
+            //int n = 0;
+            //int[] ConfUsers = GetConfirmUsers(userName);
+            //Location[] arr = new Location[ConfUsers.Length];
+
+            //foreach (int userId in ConfUsers)
+            //{
+            //    loc = await FetchUserLocation(userId);
+            //    if (loc != null)
+            //        arr[n++] = new Location() { Username = loc.Username, Lat = loc.Lat, Lon = loc.Lon };
+            //}
+            //final.Add("friends", arr);
+            //return Json(final);
+
+            Location loc1 = await FetchUserLocation(1);
+            return Json(loc1);
+        }
+        
+        [HttpGet]
+        [Route("GetPath/{user}/{req_user}")]
+        public IActionResult GetPath(string user,string req_user)
+        {
+
+
+            return Json(user+req_user);
+        }
+        
+        [HttpGet]
+        [Route("GetAppUsers/{userName}")]
+        public IActionResult GetAppUsers(string userName)
+        {
+            return Json(userName);
+        }
+
+        [HttpGet]
+        [Route("AddFriend/{user}/{req_user}")]
+        public IActionResult AddFriend(string user, string req_user)
+        {
+            return Json(user + req_user);
+        }
+
+        [HttpGet]
+        [Route("ConfirmFriend/{user}/{req_user}")]
+        public IActionResult ConfirmFriend(string user, string req_user)
+        {
+            return Json(user + req_user);
+        }
+
+        [HttpGet]
+        [Route("RemoveFriend/{user}/{req_user}")]
+        public IActionResult RemoveFriend(string user, string req_user)
+        {
+            return Json(user + req_user);
+        }
+
+
     }
 }
