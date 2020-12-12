@@ -652,7 +652,7 @@ namespace Road_Map_Web_API.Controllers
         //    var final = new Hashtable();
         //    Location loc;
         //    int n = 0;
-        //    int[] ConfUsers = GetConfirmedUsers(userName);
+        //    int[] ConfUsers = GetConfirmedUserId(userName);
         //    Location[] arr = new Location[ConfUsers.Length];
 
         //    foreach (int userId in ConfUsers)
@@ -664,12 +664,12 @@ namespace Road_Map_Web_API.Controllers
         //    final.Add("friends", arr);
         //    return Json(final);
         //}
-        
+
         //[HttpGet]
         //[Route("GetPath/{user}/{req_user}")]
-        //public async Task<IActionResult> GetPath(string user,string req_user)
+        //public async Task<IActionResult> GetPath(string user, string req_user)
         //{
-        //    int user1_id, user2_id,start,end,graphNo=0,V_No=Data.footGrapheVertices;
+        //    int user1_id, user2_id, start, end, graphNo = 0, V_No = Data.footGrapheVertices;
         //    Location loc_1, loc_2;
         //    List<double[]> lst = new List<double[]>();
         //    var final = new Hashtable();
@@ -689,7 +689,7 @@ namespace Road_Map_Web_API.Controllers
         //        int[] routes = cal.GetRouteNumbers(graphNo, start, end);
         //        double[,] routeLocations;
         //        foreach (int r in routes)
-        //        {                  
+        //        {
         //            routeLocations = LocationData.GetFootRoute(r);
         //            lst.AddRange(new List<double[]>(cal.ValidateRoute(start, end, graphNo, r, routeLocations)));
         //        }
@@ -699,46 +699,27 @@ namespace Road_Map_Web_API.Controllers
         //    }
         //    return Json(final);
         //}
-        
+
         //[HttpGet]
         //[Route("GetAppUsers/{userName}")]
         //public async Task<IActionResult> GetAppUsers(string userName)
         //{
         //    var final = new Hashtable();
-        //    Location loc;
-        //    int[] ConfUsers = GetConfirmedUsers(userName);
-        //    int[] ReqUsers = GetRequestedUsers(userName);
-        //    int[] AllUsers = GetAllUsers(userName);
-        //    int n = 0;
-        //    Location[] arr = new Location[ConfUsers.Length];
-        //    foreach (int userId in ConfUsers)
-        //    {
-        //        loc = await FetchUserLocation(userId);
-        //        if (loc != null)
-        //            arr[n++] = new Location() { Username = loc.Username, Lat = loc.Lat, Lon = loc.Lon };
-        //    }
-        //    final.Add("friends", arr);
-        //    n = 0;
-        //    arr = new Location[ReqUsers.Length];
-        //    foreach (int userId in ReqUsers)
-        //    {
-        //        loc = await FetchUserLocation(userId);
-        //        if (loc != null)
-        //            arr[n++] = new Location() { Username = loc.Username, Lat = loc.Lat, Lon = loc.Lon };
-        //    }
-        //    final.Add("friend_requests", arr);
-        //    n = 0;
-        //    arr = new Location[AllUsers.Length - (ConfUsers.Length + ReqUsers.Length)];
-        //    foreach (int id in AllUsers)
-        //    {
-        //        if (!ConfUsers.Contains(id) && !ReqUsers.Contains(id))
-        //        {
-        //            loc = await FetchUserLocation(id);
-        //            if (loc != null)
-        //                arr[n++] = new Location() { Username = loc.Username, Lat = loc.Lat, Lon = loc.Lon };
-        //        }
-        //    }
-        //    final.Add("other_users", arr);
+        //    string[] ConfUsers = GetConfirmedUsernames(userName);
+        //    string[] ReqUsers = GetRequestedUsernames(userName);
+        //    string[] AllUsers = GetAllUsernames(userName);
+        //    List<string> otherUsers = new List<string>();
+        //    if(ConfUsers.Length!=0)
+        //        final.Add("friends", ConfUsers);
+        //    if (ReqUsers.Length != 0)
+        //        final.Add("friend_requests", ReqUsers);
+
+        //    foreach (string name in AllUsers)            
+        //        if (!ConfUsers.Contains(name) && !ReqUsers.Contains(name))
+        //            otherUsers.Add(name);
+
+        //    if (otherUsers.Count != 0)
+        //        final.Add("other_users", otherUsers);
         //    return Json(final);
         //}
 
@@ -746,7 +727,6 @@ namespace Road_Map_Web_API.Controllers
         //[Route("AddFriend/{user}/{req_user}")]
         //public IActionResult AddFriend(string user, string req_user)
         //{
-
         //    if (AddFriendRequest(user, req_user))
         //        return Ok();
         //    else
