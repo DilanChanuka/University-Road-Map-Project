@@ -1,5 +1,5 @@
-import 'package:map_interfaces/Screens/Login/login_page.dart';
 import 'package:map_interfaces/Screens/Map/places.dart';
+import 'package:map_interfaces/Screens/Welcome/welcome_page.dart';
 import 'package:map_interfaces/page_tran.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -84,48 +84,17 @@ class LogGuestState extends State<LogGuest>
           style: TextStyle(
             fontSize: MediaQuery.of(context).size.width / 20,
             color: Colors.white,
-          ),
-          ),
-          backgroundColor: firstColor,
-        ),
-        drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                UserAccountsDrawerHeader(
-                  accountName: Text("User Name"), 
-                  accountEmail: Text("User Email"),
-                  currentAccountPicture: CircleAvatar(
-                    backgroundColor: mainColor,
-                    child: Text("A"),
-                  ),
-                  decoration: BoxDecoration(
-                    color: firstColor,
-                  ),
-                ),
-
-                ListTile(
-                  title: Text("Sign In",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
-                  leading: Icon(Icons.exit_to_app,color: blackcolor,), 
-                  onTap: () =>
-                    _handleSubmitlogin(context),
-                ),
-
-                ListTile(
-                  title: Text("Settings",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
-                  leading: Icon(Icons.settings,color: blackcolor,),
-                  onTap: (){},
-                ),
-
-                ListTile(
-                  title: Text("Help and feedback",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
-                  leading: Icon(Icons.help,color: blackcolor,),
-                  onTap: (){},
-                ),
-
-              ],
             ),
           ),
+          backgroundColor: firstColor,
+          leading: IconButton(icon: Icon(
+            Icons.arrow_back,
+            size: MediaQuery.of(context).size.width / 15,
+            color: mainColor,
+            ),
+             onPressed: () {_handleWelcomePage(context);},
+          ),
+        ),
         body: Stack(
           children: <Widget>[
             Container(
@@ -152,13 +121,13 @@ class LogGuestState extends State<LogGuest>
     });
   }
 
-  Future<void> _handleSubmitlogin(BuildContext context) async{
+  Future<void> _handleWelcomePage(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
       await Future.delayed(Duration(seconds: 3,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
-      Navigator.push(context,MaterialPageRoute(builder: (context) => Login()));
+      Navigator.push(context,MaterialPageRoute(builder: (context) => WelcomePage()));
     }
     catch(error){
       print(error);
