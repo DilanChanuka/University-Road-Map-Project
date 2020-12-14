@@ -1,4 +1,6 @@
+import 'package:map_interfaces/Screens/LocationShare/manage_friends_page.dart';
 import 'package:map_interfaces/Screens/Map/search_map_show_page.dart';
+import 'package:map_interfaces/Screens/Profile/PrifilePage.dart';
 import 'package:map_interfaces/Screens/Welcome/welcome_page.dart';
 import 'package:map_interfaces/page_tran.dart';
 import 'package:dropdownfield/dropdownfield.dart';
@@ -65,20 +67,23 @@ class _MHPage extends State<Spage>
                   title: Text("Sign Out",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.exit_to_app,color: blackcolor,), 
                   onTap: () =>
-                    _handleSubmitwelcome(context),
-                  
+                    _handleSubmitwelcome(context), 
                 ),
 
                 ListTile(
                   title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.person,color: blackcolor,),
-                  onTap: (){},
+                  onTap: (){
+                    _handleSetProfile(context);
+                  },
                 ),
 
                 ListTile(
-                  title: Text("Contacts",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
+                  title: Text("Manage Friends",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.contacts,color: blackcolor,),
-                  onTap: (){},
+                  onTap: (){
+                    _handleManageFriends(context);
+                  },
                 ),
 
                 ListTile(
@@ -116,12 +121,15 @@ class _MHPage extends State<Spage>
           ),
           ],
             color: colorwhite,
-            border: Border.all(),
+            border: Border.all(color: colorborder),
         ),
           child: SingleChildScrollView(
             child: TextFormField(
               readOnly: true,
+              autocorrect: true,
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(5),
+                border: InputBorder.none,
                 labelText: 'Enter Destination',
               ),
                 onTap: (){
@@ -136,11 +144,11 @@ class _MHPage extends State<Spage>
                                 child: Container(  
                                     child: DropDownField(
                                       required: true,
-                                      itemsVisibleInDropdown: 3,
+                                      itemsVisibleInDropdown: 6,
                                       controller: placeNameSelect,
                                       hintText: "Choose destination",
                                       hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
-                                      enabled: true,
+                                      enabled: true, 
                                       items: placeName,
                                       onValueChanged: (value)
                                       {  
@@ -335,6 +343,32 @@ class _MHPage extends State<Spage>
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => Search()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+   Future<void> _handleManageFriends(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => Managefriends()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleSetProfile(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage()));
     }
     catch(error){
       print(error);

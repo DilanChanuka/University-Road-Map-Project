@@ -52,7 +52,7 @@ class _TermConPageState extends State<TCBody>
             margin: EdgeInsets.all(MediaQuery.of(context).size.height / 300),
             padding: EdgeInsets.all(MediaQuery.of(context).size.height / 400),
             decoration: BoxDecoration(
-              border: Border.all(),
+              border: Border.all(color: colorborder),
             ),
             child: SingleChildScrollView(
               child: ClipRRect(

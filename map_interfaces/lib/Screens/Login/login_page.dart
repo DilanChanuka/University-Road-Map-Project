@@ -137,7 +137,7 @@ class _LoginPageState extends State<LBody>
                 ),
               ],
               color: mainColor,
-              border: Border.all(),
+              border: Border.all(color: colorborder),
             ),
             child: FlatButton(onPressed: () => _handleSubmitforgotten(context),
               child: SingleChildScrollView(
@@ -226,7 +226,7 @@ class _LoginPageState extends State<LBody>
                 ),
               ],
               color: mainColor,
-              border: Border.all(),
+              border: Border.all(color:  colorborder),
             ),
             child: FlatButton(
               onPressed: () => _handleSubmitsignupdonotacc(context),

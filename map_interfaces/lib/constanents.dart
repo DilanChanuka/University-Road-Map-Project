@@ -10,3 +10,6 @@ const colorBlue = Colors.blue;
 const purcolor = Colors.purple;
 const grycolor = Colors.grey;
 const colorwhite = Colors.white;
+const colorborder = Color(0xFF9E9E9E);
+const colorgreen = Color(0xFF2E7D32);
+const clrblue = Color(0xFF1A237E);

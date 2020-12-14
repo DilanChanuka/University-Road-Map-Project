@@ -1,5 +1,7 @@
 import 'package:map_interfaces/Screens/AddSearch/add_search_page.dart';
+import 'package:map_interfaces/Screens/LocationShare/manage_friends_page.dart';
 import 'package:map_interfaces/Screens/Map/places.dart';
+import 'package:map_interfaces/Screens/Profile/PrifilePage.dart';
 import 'package:map_interfaces/Screens/Search/search_page.dart';
 import 'package:map_interfaces/Screens/Welcome/welcome_page.dart';
 import 'package:map_interfaces/page_tran.dart';
@@ -121,15 +123,19 @@ class MainMapState extends State<MainMap>
                 ),
 
                 ListTile(
-                  title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
+                  title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),
                   leading: Icon(Icons.person,color: blackcolor,),
-                  onTap: (){},
+                  onTap: (){
+                    _handleSetProfile(context);
+                  },
                 ),
 
                 ListTile(
-                  title: Text("Contacts",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
+                  title: Text("Manage Friends",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.contacts,color: blackcolor,),
-                  onTap: (){},
+                  onTap: (){
+                    _handleManageFriends(context);
+                  },
                 ),
 
                 ListTile(
@@ -200,13 +206,13 @@ class MainMapState extends State<MainMap>
               borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 35)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.6),
-                  spreadRadius: 2,
-                  blurRadius: 5,
+                  color: Colors.black.withOpacity(0.3),
+                  spreadRadius: 1,
+                  blurRadius: 3,
                   offset: Offset(0, 3),
                 ),
               ],
-              border: Border.all(),
+              border: Border.all(color: colorborder),
             ),
             height: 1.4 * (MediaQuery.of(context).size.height / 20),
             width: 3 * (MediaQuery.of(context).size.width /9),
@@ -248,13 +254,13 @@ class MainMapState extends State<MainMap>
               borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 35)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.6),
-                  spreadRadius: 2,
-                  blurRadius: 5,
+                  color: Colors.black.withOpacity(0.3),
+                  spreadRadius: 1,
+                  blurRadius: 3,
                   offset: Offset(0, 3),
                 ),
               ],
-              border: Border.all(),
+              border: Border.all(color: colorborder),
             ),
             height: 1.4 * (MediaQuery.of(context).size.height / 20),
             width: 3 * (MediaQuery.of(context).size.width /9),
@@ -319,6 +325,32 @@ class MainMapState extends State<MainMap>
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => WelcomePage()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleManageFriends(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => Managefriends()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleSetProfile(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage()));
     }
     catch(error){
       print(error);

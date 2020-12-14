@@ -1,3 +1,5 @@
+import 'package:map_interfaces/Screens/LocationShare/manage_friends_page.dart';
+import 'package:map_interfaces/Screens/Profile/PrifilePage.dart';
 import 'package:map_interfaces/Screens/Welcome/welcome_page.dart';
 import 'package:map_interfaces/page_tran.dart';
 import 'package:flutter/material.dart';
@@ -59,15 +61,18 @@ class SearchState extends State<Search>
                 ListTile(
                   title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.person,color: blackcolor,),
-                  onTap: (){},
+                  onTap: (){
+                    _handleSetProfile(context);
+                  },
                 ),
 
                 ListTile(
-                  title: Text("Contacts",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
+                  title: Text("Manage Friends",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.contacts,color: blackcolor,),
-                  onTap: (){},
+                  onTap: (){
+                    _handleManageFriends(context);
+                  },
                 ),
-
                 ListTile(
                   title: Text("Settings",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.settings,color: blackcolor,),
@@ -166,6 +171,32 @@ class SearchState extends State<Search>
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => WelcomePage()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleManageFriends(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => Managefriends()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleSetProfile(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage()));
     }
     catch(error){
       print(error);

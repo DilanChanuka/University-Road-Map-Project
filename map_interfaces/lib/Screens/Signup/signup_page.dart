@@ -259,7 +259,7 @@ class _SignUpPageState extends State<SBody>
                 ),
               ],
               color: mainColor,
-              border: Border.all(),
+              border: Border.all(color: colorborder),
             ),
             child: FlatButton(
               onPressed: () => 

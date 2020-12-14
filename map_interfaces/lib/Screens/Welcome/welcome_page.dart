@@ -25,6 +25,20 @@ class _WelcomePageState extends State<WBody>
 {
   final GlobalKey<ScaffoldState> _scafflodKey = GlobalKey<ScaffoldState>();
 
+  static const snackBarDuration = Duration(seconds: 3);
+  DateTime backBarDuration;
+
+  final snackBar = SnackBar(
+    backgroundColor: firstColor,
+    content: Text("Press back again to leave",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        color: mainColor
+      ),
+    ),
+    duration: snackBarDuration,
+  );
+
    Widget _buildLogo(){
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +49,7 @@ class _WelcomePageState extends State<WBody>
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.height/20,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: blackcolor,
             ),
           ),
         ),
@@ -50,7 +64,9 @@ class _WelcomePageState extends State<WBody>
         key: _scafflodKey,
         resizeToAvoidBottomPadding: false,
         backgroundColor: mainColor,
-        body: Stack(
+        body: WillPopScope( 
+          onWillPop: () => handleWillpop(context),
+          child: Stack(
           children: <Widget>[
             Container(
               height: MediaQuery.of(context).size.height*0.7,
@@ -76,6 +92,7 @@ class _WelcomePageState extends State<WBody>
             ),
           ],
         ),
+      ),
       ),
     );
   }
@@ -113,7 +130,7 @@ class _WelcomePageState extends State<WBody>
                           ),
                         ],*/
                         //color: mainColor,
-                        border: Border.all(),
+                        border: Border.all(color: colorborder),
                       ),
                       child: Column(
                         children: <Widget>[ 
@@ -297,7 +314,7 @@ class _WelcomePageState extends State<WBody>
                 ),
               ],
               color: mainColor,
-              border: Border.all(),
+              border: Border.all(color: colorborder,),
             ),
             child:  FlatButton(
               onPressed: ()=> _handleSubmitguest(context),
@@ -359,6 +376,19 @@ class _WelcomePageState extends State<WBody>
     catch(error){
       print(error);
     }
+  }
+
+  Future<bool> handleWillpop(BuildContext context) async {
+    final now = DateTime.now();
+    final backButtonPressedHasNotBeenPressedOrSnackBarHasBeenClosed = backBarDuration == null || now.difference(backBarDuration) > snackBarDuration;
+
+    if(backButtonPressedHasNotBeenPressedOrSnackBarHasBeenClosed)
+    {
+      backBarDuration = now;
+      Scaffold.of(context).showSnackBar(snackBar);
+      return false;
+    }
+    return true;
   }
 }
 

@@ -1,4 +1,6 @@
+import 'package:map_interfaces/Screens/LocationShare/manage_friends_page.dart';
 import 'package:map_interfaces/Screens/Map/addSearch_map_show_page.dart';
+import 'package:map_interfaces/Screens/Profile/PrifilePage.dart';
 import 'package:map_interfaces/Screens/Welcome/welcome_page.dart';
 import 'package:map_interfaces/page_tran.dart';
 import 'package:dropdownfield/dropdownfield.dart';
@@ -13,7 +15,7 @@ class AddSPage extends StatelessWidget
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.white,
+        primaryColor: colorwhite,
         backgroundColor: firstColor,
       ),
       home: Hpage(),
@@ -76,6 +78,7 @@ class _MHPage extends State<Hpage> {
                           children: [
                             DropdownButton(
                                 isExpanded: true,
+                                autofocus: true,
                                 //hint: Text("Select Department"),
                                 value: departmentvalue,
                                 underline: Container(
@@ -119,6 +122,7 @@ class _MHPage extends State<Hpage> {
           
                             DropdownButton(
                                 isExpanded: true,
+                                autofocus: true,
                                 //hint: Text("Select Floor"),
                                 value: floorvalue,
                                 underline: Container(
@@ -214,7 +218,7 @@ class _MHPage extends State<Hpage> {
                           ),
                         ],
                         color: tridColor,
-                        border: Border.all(),
+                        border: Border.all(color: blackcolor),
                       ),
                     child: Text("Out Side",
                       textAlign: TextAlign.center,
@@ -242,7 +246,7 @@ class _MHPage extends State<Hpage> {
                           ),
                         ],
                         color: tridColor,
-                        border: Border.all(),
+                        border: Border.all(color: blackcolor),
                       ),
                       child: Text("In Side",
                         textAlign: TextAlign.center,
@@ -337,13 +341,17 @@ class _MHPage extends State<Hpage> {
                 ListTile(
                   title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),
                   leading: Icon(Icons.person,color: blackcolor,),
-                  onTap: (){},
+                  onTap: (){
+                    _handleSetProfile(context);
+                  },
                 ),
 
                 ListTile(
-                  title: Text("Contacts",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),
+                  title: Text("Manage Friends",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.contacts,color: blackcolor,),
-                  onTap: (){},
+                  onTap: (){
+                    _handleManageFriends(context);
+                  },
                 ),
 
                 ListTile(
@@ -415,13 +423,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5),
         ),
           onTap: (){
             return showDialog(
@@ -435,7 +446,7 @@ class _MHPage extends State<Hpage> {
                             child: Container(  
                                 child: DropDownField(
                                   required: true,
-                                  itemsVisibleInDropdown: 3,
+                                  itemsVisibleInDropdown: 6,
                                   controller: vehicleoutUserLocselect,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28,),
@@ -485,13 +496,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5),
         ),
           onTap: (){
             return showDialog(
@@ -505,7 +519,7 @@ class _MHPage extends State<Hpage> {
                             child: Container(  
                                 child: DropDownField(
                                   required: true,
-                                  itemsVisibleInDropdown: 3,
+                                  itemsVisibleInDropdown: 6,
                                   controller: vehicleinUserLocselect,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -571,13 +585,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5),
         ),
           onTap: (){
             return showDialog(
@@ -591,7 +608,7 @@ class _MHPage extends State<Hpage> {
                             child: Container(  
                                 child: DropDownField(
                                   required: true,
-                                  itemsVisibleInDropdown: 3,
+                                  itemsVisibleInDropdown: 6,
                                   controller: floorcontroller,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -641,13 +658,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -661,7 +681,7 @@ class _MHPage extends State<Hpage> {
                             child: Container(  
                                 child: DropDownField(
                                   required: true,
-                                  itemsVisibleInDropdown: 3,
+                                  itemsVisibleInDropdown: 6,
                                   controller: floorcontroller,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -711,13 +731,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -731,7 +754,7 @@ class _MHPage extends State<Hpage> {
                             child: Container(  
                                 child: DropDownField(
                                   required: true,
-                                  itemsVisibleInDropdown: 3,
+                                  itemsVisibleInDropdown: 6,
                                   controller: floorcontroller,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -781,13 +804,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -801,7 +827,7 @@ class _MHPage extends State<Hpage> {
                             child: Container(  
                                 child: DropDownField(
                                   required: true,
-                                  itemsVisibleInDropdown: 3,
+                                  itemsVisibleInDropdown: 6,
                                   controller: walkoutUserLocselect,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -851,13 +877,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -871,7 +900,7 @@ class _MHPage extends State<Hpage> {
                             child: Container(  
                                 child: DropDownField(
                                   required: true,
-                                  itemsVisibleInDropdown: 3,
+                                  itemsVisibleInDropdown: 6,
                                   controller: vehicleinDestiLocselect,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -922,13 +951,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -942,7 +974,7 @@ class _MHPage extends State<Hpage> {
                             child: Container(  
                                 child: DropDownField(
                                   required: true,
-                                  itemsVisibleInDropdown: 3,
+                                  itemsVisibleInDropdown: 6,
                                   controller: vehicleoutDestiLocselect,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -1008,13 +1040,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -1028,7 +1063,7 @@ class _MHPage extends State<Hpage> {
                             child: Container(  
                                 child: DropDownField(
                                   required: true,
-                                  itemsVisibleInDropdown: 3,
+                                  itemsVisibleInDropdown: 6,
                                   controller: iffloorcontroller,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -1078,13 +1113,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -1098,7 +1136,7 @@ class _MHPage extends State<Hpage> {
                             child: Container(  
                                 child: DropDownField(
                                   required: true,
-                                  itemsVisibleInDropdown: 3,
+                                  itemsVisibleInDropdown: 6,
                                   controller: iffloorcontroller,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -1148,13 +1186,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -1168,7 +1209,7 @@ class _MHPage extends State<Hpage> {
                             child: Container(  
                                 child: DropDownField(
                                   required: true,
-                                  itemsVisibleInDropdown: 3,
+                                  itemsVisibleInDropdown: 6,
                                   controller: iffloorcontroller,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -1218,13 +1259,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -1238,7 +1282,7 @@ class _MHPage extends State<Hpage> {
                             child: Container(  
                                 child: DropDownField(
                                   required: true,
-                                  itemsVisibleInDropdown: 3,
+                                  itemsVisibleInDropdown: 6,
                                   controller: walkoutDestiLocselect,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -2055,6 +2099,32 @@ class _MHPage extends State<Hpage> {
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => AddSearch()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleManageFriends(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => Managefriends()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _handleSetProfile(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage()));
     }
     catch(error){
       print(error);

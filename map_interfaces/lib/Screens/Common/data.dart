@@ -62,6 +62,7 @@ List<String> walkoutDestiLoc = [
   "CS Main-auditorium",
   "CS Wash Rooms",
   "CS Computer Lab 03",
+  "CS Car park",
   "Lecture Hall 01"
 ];
 final walkoutDestiLocselect = TextEditingController();
@@ -79,8 +80,9 @@ List<String> vehicleoutUserLoc = [
   "Medical Center Car Park",
   "Library Car Park",
   "Maths Department Car Park",
-  "CS Car park"
-  
+  "CS Car park",
+  "Faculty of fisharies",
+  "Medical Center",
 ];
 final vehicleoutUserLocselect = TextEditingController();
 String vehicleoutUserLocselected = "";
@@ -89,7 +91,7 @@ List<String> vehicleoutDestiLoc = [
   "Main Gate",
   "Y Junction",
   "Library Junction",
-  "Scenes faculty Canteen",
+  "Scienes faculty Canteen",
   "Botany Department Car Park",
   "Zoology Department Car Park",
   "Chemistry Department Car Park",
@@ -98,6 +100,8 @@ List<String> vehicleoutDestiLoc = [
   "Library Car Park",
   "Maths Department Car Park",
   "CS Car park",
+  "Faculty of fisharies",
+  "Medical Center",
 ];
 final vehicleoutDestiLocselect = TextEditingController();
 String vehicleoutDestiLocselected = "";
@@ -266,6 +270,7 @@ List<String> iffirst = [
   "CS Special Room",
   "CS Wash Rooms",
   "CS Computer Lab 03",
+  "CS Car park",
   ];
 //final iffirstf = TextEditingController();
 String iffirstselected = "";
@@ -304,6 +309,7 @@ List<String> ifsecound = [
   "CS Main-auditorium",
   "CS Wash Rooms",
   "CS Computer lab 02",
+  "CS Car park",
   ];
 //final ifsecoundf = TextEditingController();
 String ifsecoundselected = "";

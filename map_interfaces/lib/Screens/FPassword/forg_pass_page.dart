@@ -118,7 +118,7 @@ class _ForgPassPageState extends State<FBody>
                             padding: EdgeInsets.all(MediaQuery.of(context).size.height / 150),
                             margin: EdgeInsets.all(MediaQuery.of(context).size.height / 40),
                             decoration: BoxDecoration(
-                              border: Border.all(),
+                              border: Border.all(color: colorborder),
                             ),
                             child: SingleChildScrollView(           
                               child: Text("To reset your password,submit your email address below.If we can find yor,an email will be send to your email address,with instruction how to get access again.",
