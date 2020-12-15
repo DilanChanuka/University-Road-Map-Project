@@ -124,7 +124,7 @@ class _LoginPageState extends State<LBody>
       children: <Widget>[
         SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height / 15,
+            height: MediaQuery.of(context).size.height / 20,
             margin: EdgeInsets.all(MediaQuery.of(context).size.height / 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
@@ -173,7 +173,7 @@ class _LoginPageState extends State<LBody>
                 ),
               ],
             ),
-            height: 1.4 * (MediaQuery.of(context).size.height / 20),
+            height: 1.2 * (MediaQuery.of(context).size.height / 20),
             width: 5 * (MediaQuery.of(context).size.width /10),
             margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30),
             child: RaisedButton(
@@ -212,7 +212,7 @@ class _LoginPageState extends State<LBody>
       children: <Widget>[
         SingleChildScrollView(
           child: Container(
-          height: MediaQuery.of(context).size.height / 15,
+          height: MediaQuery.of(context).size.height / 20,
             padding: EdgeInsets.zero,
             margin: EdgeInsets.all(MediaQuery.of(context).size.height / 60),
             decoration: BoxDecoration(

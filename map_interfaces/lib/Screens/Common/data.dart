@@ -313,3 +313,12 @@ List<String> ifsecound = [
   ];
 //final ifsecoundf = TextEditingController();
 String ifsecoundselected = "";
+
+final List<String> faculty = [
+  "Faculty of Science",
+  "Faculty of Art",
+  "Faculty of Fisharies",
+  "Faculty of Management"
+];
+
+String fty;

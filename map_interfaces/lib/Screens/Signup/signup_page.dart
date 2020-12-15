@@ -1,3 +1,4 @@
+import 'package:map_interfaces/Screens/Common/data.dart';
 import 'package:map_interfaces/Screens/Map/main_map.dart';
 import 'package:map_interfaces/page_tran.dart';
 import 'package:email_validator/email_validator.dart';
@@ -50,7 +51,7 @@ class _SignUpPageState extends State<SBody>
   Widget _buildUsernameRow() // user name 
   {
     return Padding(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 80),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 300),
         child: SingleChildScrollView(
           child: TextFormField(
             keyboardType: TextInputType.name,
@@ -84,9 +85,12 @@ class _SignUpPageState extends State<SBody>
   Widget _buidemailRow() // user email
   {
     return Padding(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 80),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 300),
         child: SingleChildScrollView(
           child: TextFormField(
+            autofocus: true,
+           
+            autocorrect: true,
             keyboardType: TextInputType.name,
           /* onChanged: (value){
               setState(() {
@@ -111,7 +115,7 @@ class _SignUpPageState extends State<SBody>
   Widget _buildPasswordRow() // user password 
   {
     return Padding(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 80),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 300),
         child: SingleChildScrollView(
           child: TextFormField(
             keyboardType: TextInputType.text,
@@ -187,11 +191,8 @@ class _SignUpPageState extends State<SBody>
   }
   Widget buildSignUpButton()
   {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        SingleChildScrollView(
+    return Center(
+        child: SingleChildScrollView(
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
@@ -204,7 +205,7 @@ class _SignUpPageState extends State<SBody>
                 ),
               ],
             ),
-            height: 1.4 * (MediaQuery.of(context).size.height / 20),
+            height: 1.2 * (MediaQuery.of(context).size.height / 20),
             width: 5 * (MediaQuery.of(context).size.width /10),
             margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 60),
             child: RaisedButton(
@@ -233,19 +234,14 @@ class _SignUpPageState extends State<SBody>
             ),
           ),
         ),
-
-      ],
     );
   }
   Widget buildLoginButton()
   {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        SingleChildScrollView(
+    return Center(
+        child: SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height / 15,
+            height: MediaQuery.of(context).size.height / 20,
             padding: EdgeInsets.zero,
             margin: EdgeInsets.all(MediaQuery.of(context).size.height / 60),
             decoration: BoxDecoration(
@@ -280,11 +276,9 @@ class _SignUpPageState extends State<SBody>
                   ),
                 ),
               ),
-
-              ),
             ),
         ),
-      ],
+      ),
     );
   }
   Widget _buildContainer()
@@ -312,7 +306,7 @@ class _SignUpPageState extends State<SBody>
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                  SizedBox(height: MediaQuery.of(context).size.height / 50,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -334,6 +328,14 @@ class _SignUpPageState extends State<SBody>
                       _buildUsernameRow(),
                       _buidemailRow(),
                       _buildPasswordRow(),
+                       SizedBox(
+                        height: MediaQuery.of(context).size.height / 150,
+                      ),
+                      _submitFaculty(),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 150,
+                      ),
+                      _userType(),
                       buildAgreeButton(),
                       buildSignUpButton(),
                       buildLoginButton(),
@@ -386,6 +388,92 @@ class _SignUpPageState extends State<SBody>
       ),
     );
   }
+  Widget _submitFaculty(){
+    return SingleChildScrollView(
+      child: Center(
+        child: Container(
+          padding: EdgeInsets.all(1),
+          height: MediaQuery.of(context).size.height / 13,
+          width: MediaQuery.of(context).size.width  * 0.7,
+          decoration: BoxDecoration(
+            color: colorwhite,
+            border: Border.all(color: colorborder),
+          ),
+          child: SingleChildScrollView(
+            child: Center(
+              child: DropdownButton(
+                underline: SizedBox(),
+                value: fty,
+                items: faculty
+                .map((fty) => DropdownMenuItem(
+                  child: SingleChildScrollView(
+                    child: Text(fty,
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width / 22,
+                      ),
+                    ),
+                  ),
+                  value: fty,
+                )).toList(),
+                onChanged: (String vl){
+                  setState(() {
+                    fty = vl;
+                  });
+                },
+                autofocus: true,
+                isExpanded: true,
+                hint: Text("Select Faculty"),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  Widget _userType(){
+    return SingleChildScrollView(
+      child: Center(
+        child: Container(
+          height: MediaQuery.of(context).size.height / 12.5,
+          width: MediaQuery.of(context).size.width * 0.7,
+          decoration: BoxDecoration(
+            color: colorwhite,
+            border: Border.all(color: colorborder),
+          ),
+          child: SingleChildScrollView(
+            child: Row(
+              children: [
+                Radio(
+                  value: 0, 
+                  groupValue: rdValue, 
+                  onChanged: handleRadioValueChange,
+                ),
+                SingleChildScrollView(
+                  child:Text("Staff Member",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width / 25,
+                    ),
+                  ),
+                ),
+                Radio(
+                  value: 1, 
+                  groupValue: rdValue, 
+                  onChanged: handleRadioValueChange,
+                ),
+                SingleChildScrollView(
+                  child: Text("Student",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width / 25,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   Future<void> _handleSubmittcpage(BuildContext context) async{
     try{
@@ -424,5 +512,19 @@ class _SignUpPageState extends State<SBody>
     catch(error){
       print(error);
     }
+  }
+
+  int rdValue;
+  void handleRadioValueChange(int value){
+    setState(() {
+      rdValue = value;
+
+      switch(rdValue){
+        case 0:
+          break;
+        case 1:
+          break;
+      }
+    });
   }
 }
