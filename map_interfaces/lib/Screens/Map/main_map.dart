@@ -1,4 +1,5 @@
 import 'package:map_interfaces/Screens/AddSearch/add_search_page.dart';
+import 'package:map_interfaces/Screens/HelpandFeedBack/HelpandFeedback.dart';
 import 'package:map_interfaces/Screens/LocationShare/manage_friends_page.dart';
 import 'package:map_interfaces/Screens/Map/places.dart';
 import 'package:map_interfaces/Screens/Profile/PrifilePage.dart';
@@ -147,7 +148,9 @@ class MainMapState extends State<MainMap>
                 ListTile(
                   title: Text("Help and feedback",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.help,color: blackcolor,),
-                  onTap: (){},
+                  onTap: (){
+                    _hadlehelpandfeedback(context);
+                  },
                 ),
 
               ],
@@ -233,7 +236,7 @@ class MainMapState extends State<MainMap>
                     style: TextStyle(
                       color: Colors.white,
                       letterSpacing: 1.5,
-                      fontSize: MediaQuery.of(context).size.width / 20,
+                      fontSize: MediaQuery.of(context).size.width / 22,
                     ),
                   ),
               ),
@@ -281,7 +284,7 @@ class MainMapState extends State<MainMap>
                     style: TextStyle(
                       color: Colors.white,
                       letterSpacing: 1.5,
-                      fontSize: MediaQuery.of(context).size.width / 20,
+                      fontSize: MediaQuery.of(context).size.width / 22,
                     ),
                 ),
               ),
@@ -351,6 +354,19 @@ class MainMapState extends State<MainMap>
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+  
+  Future<void> _hadlehelpandfeedback(BuildContext context) async{
+    try{
+      Dialogs.showLoadingDialog(context,_keyLoader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(context,MaterialPageRoute(builder: (context) => HelpandFeedBack()));
     }
     catch(error){
       print(error);

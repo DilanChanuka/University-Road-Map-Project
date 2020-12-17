@@ -40,14 +40,14 @@ class _WelcomePageState extends State<WBody>
   );
 
    Widget _buildLogo(){
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         SingleChildScrollView(
           child: Text(
             "WELCOME",
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height/20,
+              fontSize: MediaQuery.of(context).size.width / 10,
               fontWeight: FontWeight.bold,
               color: blackcolor,
             ),
@@ -84,8 +84,9 @@ class _WelcomePageState extends State<WBody>
             SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  _buildLogo(),
+                  _buildLogo(), 
                   _buildContainer(),
                 ],
               ),
@@ -119,17 +120,8 @@ class _WelcomePageState extends State<WBody>
                   SingleChildScrollView(
                     child: Container(
                       margin: EdgeInsets.all(MediaQuery.of(context).size.height / 30),
-                      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 30),
+                      padding: EdgeInsets.all(MediaQuery.of(context).size.height / 40),
                       decoration: BoxDecoration(
-                        /*boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.6),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 3),
-                          ),
-                        ],*/
-                        //color: mainColor,
                         border: Border.all(color: colorborder),
                       ),
                       child: Column(
@@ -142,8 +134,7 @@ class _WelcomePageState extends State<WBody>
                                 child: Text(
                                   "UOR",
                                   style: TextStyle(
-                                    //backgroundColor: Colors.lightBlue,
-                                    fontSize: MediaQuery.of(context).size.height / 20,
+                                    fontSize: MediaQuery.of(context).size.width / 12,
                                     color: tridColor,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -159,8 +150,7 @@ class _WelcomePageState extends State<WBody>
                                 child: Text(
                                   "NAVIGATION",
                                   style: TextStyle(
-                                    //backgroundColor: Colors.lightBlue,
-                                    fontSize: MediaQuery.of(context).size.height / 20,
+                                    fontSize: MediaQuery.of(context).size.width / 12,
                                     color: tridColor,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -176,8 +166,7 @@ class _WelcomePageState extends State<WBody>
                                 child: Text(
                                   "SYSTEM",
                                   style: TextStyle(
-                                    //backgroundColor: Colors.lightBlue,
-                                    fontSize: MediaQuery.of(context).size.height / 20,
+                                    fontSize: MediaQuery.of(context).size.width / 12,
                                     color: tridColor,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -236,7 +225,7 @@ class _WelcomePageState extends State<WBody>
                     style: TextStyle(
                       color: Colors.white,
                       letterSpacing: 1.5,
-                      fontSize: MediaQuery.of(context).size.height / 40,
+                      fontSize: MediaQuery.of(context).size.width / 20,
                     ),
                   ),
               ),
@@ -281,7 +270,7 @@ class _WelcomePageState extends State<WBody>
                     style: TextStyle(
                       color: Colors.white,
                       letterSpacing: 1.5,
-                      fontSize: MediaQuery.of(context).size.height / 40,
+                      fontSize: MediaQuery.of(context).size.width / 20,
                     ),
                   ),
               ),
@@ -322,8 +311,7 @@ class _WelcomePageState extends State<WBody>
                 child: Text("Log in as a guest",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    //decoration: TextDecoration.underline,
-                    fontSize: MediaQuery.of(context).size.height / 40,
+                    fontSize: MediaQuery.of(context).size.width / 20,
                     color: blackcolor,
                   ),
                 ),
@@ -368,7 +356,7 @@ class _WelcomePageState extends State<WBody>
   Future<void> _handleSubmitguest(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
+      await Future.delayed(Duration(seconds: 2,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => LogGuest()));

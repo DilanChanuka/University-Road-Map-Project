@@ -36,17 +36,17 @@ class _TermConPageState extends State<TCBody>
             backgroundColor: firstColor,
             title: Text("Terms and Conditions",
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height / 30,
+              fontSize: MediaQuery.of(context).size.width / 20,
               ),
             ),
             leading: IconButton(icon: Icon(
               Icons.arrow_back,
-              size: MediaQuery.of(context).size.height / 20,
+              size: MediaQuery.of(context).size.width / 15,
               color: mainColor,
             ),
              onPressed: () =>
                _handleSubmitsign(context),
-             ),
+            ),
           ),
           body: Container(
             margin: EdgeInsets.all(MediaQuery.of(context).size.height / 300),
@@ -58,7 +58,7 @@ class _TermConPageState extends State<TCBody>
               child: ClipRRect(
                 borderRadius: BorderRadius.zero,
                 child: Container(
-                  height:MediaQuery.of(context).size.height * 1.4,
+                  height:MediaQuery.of(context).size.height * 1.7,
                   width:MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -73,7 +73,7 @@ class _TermConPageState extends State<TCBody>
                         child: Text("AGREEMENT TO TERMS",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.height / 35,
+                            fontSize: MediaQuery.of(context).size.width / 15,
                           ),
                         ),
                       ),
@@ -83,7 +83,7 @@ class _TermConPageState extends State<TCBody>
                           overflow: TextOverflow.ellipsis,
                           maxLines: 200,
                           style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 40,
+                            fontSize: MediaQuery.of(context).size.width / 20,
                           ),
                         ),
                       ),
@@ -91,7 +91,7 @@ class _TermConPageState extends State<TCBody>
                       SingleChildScrollView(
                         child: Text("1. By using the site you represent and warrant that all registraion infromation you submit will be true,accurate,current,complete.",
                           style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 40,
+                            fontSize: MediaQuery.of(context).size.width / 20,
                           ),
                         ),
                       ),
@@ -99,7 +99,7 @@ class _TermConPageState extends State<TCBody>
                       SingleChildScrollView(
                         child: Text("2. You may be required to register with the site, You agree to keep your password confidential and will be responsible for all use of your account and password.We reserve the right to remove or change a user name you select if we determine in our sole discretion,that such user name is in appropriate,obscence or otherwise objectionable.",
                           style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 40,
+                            fontSize: MediaQuery.of(context).size.width / 20,
                           ),
                         ),
                       ),
@@ -107,7 +107,7 @@ class _TermConPageState extends State<TCBody>
                       SingleChildScrollView(
                         child: Text("3. If we terminate or suspend your account for any reason, you are prohibited from registering and creating a new account under your name,a fake or borrowed name.",
                           style: TextStyle( 
-                            fontSize: MediaQuery.of(context).size.height / 40,
+                            fontSize: MediaQuery.of(context).size.width / 20,
                           ),
                         ),
                       ),
@@ -115,7 +115,7 @@ class _TermConPageState extends State<TCBody>
                       SingleChildScrollView(
                         child: Text("4. We can not gurantee the site will be available at all times.We may experience hardware,software or other problems or need to perform maintenance related to the site.",
                           style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 40,
+                            fontSize: MediaQuery.of(context).size.width / 20,
                           ),
                         ),
                       ),
@@ -123,7 +123,7 @@ class _TermConPageState extends State<TCBody>
                       SingleChildScrollView(
                         child: Text("5. In order to resolve a complaint regarding the site or to receive further information regarding use of the site, please contact us at.",
                           style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 40,
+                            fontSize: MediaQuery.of(context).size.width / 20,
                           ),
                         ),
                       ),
@@ -131,7 +131,7 @@ class _TermConPageState extends State<TCBody>
                       SingleChildScrollView(
                         child: Text("Phone No:- ",
                           style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 35,
+                            fontSize: MediaQuery.of(context).size.width / 20,
                           ),
                         ),
                       ),
@@ -139,7 +139,7 @@ class _TermConPageState extends State<TCBody>
                       SingleChildScrollView(
                         child: Text("Email address:- ",
                           style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 35,
+                            fontSize: MediaQuery.of(context).size.width / 20,
                           ),
                         ),
                       ),
@@ -147,7 +147,7 @@ class _TermConPageState extends State<TCBody>
                       SingleChildScrollView(
                         child: Text("Fax:- ",
                           style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 35,
+                            fontSize: MediaQuery.of(context).size.width / 20,
                           ),
                         ),
                       ),
@@ -166,7 +166,7 @@ class _TermConPageState extends State<TCBody>
   Future<void> _handleSubmitsign(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
+      await Future.delayed(Duration(seconds: 1,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => SignUp()));

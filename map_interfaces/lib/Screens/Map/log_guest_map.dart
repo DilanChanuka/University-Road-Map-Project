@@ -124,7 +124,7 @@ class LogGuestState extends State<LogGuest>
   Future<void> _handleWelcomePage(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
+      await Future.delayed(Duration(seconds: 2,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => WelcomePage()));

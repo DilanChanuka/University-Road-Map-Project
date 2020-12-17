@@ -1,7 +1,5 @@
-import 'package:map_interfaces/Screens/LocationShare/manage_friends_page.dart';
+import 'package:map_interfaces/Screens/Map/main_map.dart';
 import 'package:map_interfaces/Screens/Map/search_map_show_page.dart';
-import 'package:map_interfaces/Screens/Profile/PrifilePage.dart';
-import 'package:map_interfaces/Screens/Welcome/welcome_page.dart';
 import 'package:map_interfaces/page_tran.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/gestures.dart';
@@ -42,64 +40,17 @@ class _MHPage extends State<Spage>
                 fontSize: MediaQuery.of(context).size.width / 20,
               ),
             ),
+            leading: IconButton(icon: Icon(
+              Icons.arrow_back,
+              size: MediaQuery.of(context).size.width / 15,
+              color: mainColor,
+            ),
+             onPressed: () =>
+               _handleBack(context),
+            )
           ),
           body: SingleChildScrollView(
              child: _buildUser(),
-          ),
-          drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                
-                UserAccountsDrawerHeader(
-                  accountName: Text("User Name"), 
-                  accountEmail: Text("User Email"),
-                  currentAccountPicture: CircleAvatar(
-                    backgroundColor: mainColor,
-                    child: Text("A"),
-                  ),
-                  decoration: BoxDecoration(
-                    color: firstColor,
-                  ),
-                ),
-
-                ListTile(
-                  title: Text("Sign Out",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
-                  leading: Icon(Icons.exit_to_app,color: blackcolor,), 
-                  onTap: () =>
-                    _handleSubmitwelcome(context), 
-                ),
-
-                ListTile(
-                  title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
-                  leading: Icon(Icons.person,color: blackcolor,),
-                  onTap: (){
-                    _handleSetProfile(context);
-                  },
-                ),
-
-                ListTile(
-                  title: Text("Manage Friends",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
-                  leading: Icon(Icons.contacts,color: blackcolor,),
-                  onTap: (){
-                    _handleManageFriends(context);
-                  },
-                ),
-
-                ListTile(
-                  title: Text("Settings",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
-                  leading: Icon(Icons.settings,color: blackcolor,),
-                  onTap: (){},
-                ),
-
-                ListTile(
-                  title: Text("Help and feedback",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
-                  leading: Icon(Icons.help,color: blackcolor,),
-                  onTap: (){},
-                ),
-
-              ],
-            ),
           ),
       ),
     );
@@ -212,7 +163,7 @@ class _MHPage extends State<Spage>
                   style: TextStyle(
                     color: mainColor,
                     letterSpacing: 1.5,
-                    fontSize: MediaQuery.of(context).size.height / 30,
+                    fontSize: MediaQuery.of(context).size.width / 20,
                   ),
                 ),
               ),
@@ -323,13 +274,13 @@ class _MHPage extends State<Spage>
     );
   }
 
-  Future<void> _handleSubmitwelcome(BuildContext context) async{
+  Future<void> _handleBack(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
+      await Future.delayed(Duration(seconds: 2,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
-      Navigator.push(context,MaterialPageRoute(builder: (context) => WelcomePage()));
+      Navigator.push(context,MaterialPageRoute(builder: (context) => MainMap()));
     }
     catch(error){
       print(error);
@@ -339,36 +290,10 @@ class _MHPage extends State<Spage>
   Future<void> _handleSubmitsearch(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
+      await Future.delayed(Duration(seconds: 2,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => Search()));
-    }
-    catch(error){
-      print(error);
-    }
-  }
-
-   Future<void> _handleManageFriends(BuildContext context) async{
-    try{
-      Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
-      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
-
-      Navigator.push(context,MaterialPageRoute(builder: (context) => Managefriends()));
-    }
-    catch(error){
-      print(error);
-    }
-  }
-
-  Future<void> _handleSetProfile(BuildContext context) async{
-    try{
-      Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
-      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
-
-      Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage()));
     }
     catch(error){
       print(error);

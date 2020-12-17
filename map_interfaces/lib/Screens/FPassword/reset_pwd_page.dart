@@ -53,8 +53,11 @@ class _ResetPageState extends State<RPWDBody>
             SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  _buildLogo(),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 15,
+                  ),
                   _buildcontainer(),
                 ],
               ),
@@ -62,24 +65,6 @@ class _ResetPageState extends State<RPWDBody>
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildLogo(){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        SingleChildScrollView(
-          child: Text(
-            "UOR NAVIGATION",
-              style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/20,
-                fontWeight: FontWeight.bold,
-                color: blackcolor,
-              ),
-            ),
-        ),
-      ],
     );
   }
 
@@ -251,7 +236,7 @@ class _ResetPageState extends State<RPWDBody>
                     style: TextStyle(
                       color: Colors.white,
                       letterSpacing: 1.5,
-                      fontSize: MediaQuery.of(context).size.height / 30,
+                      fontSize: MediaQuery.of(context).size.width / 20,
                     ),
                   ),
               ),
@@ -282,7 +267,7 @@ class _ResetPageState extends State<RPWDBody>
             ),
             height: 1.4 * (MediaQuery.of(context).size.height / 20),
             width: 5 * (MediaQuery.of(context).size.width /10),
-            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30),
+            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30 ,top: MediaQuery.of(context).size.height / 30),
             child: RaisedButton(
               elevation: 5.0,
               color: firstColor,
@@ -298,7 +283,7 @@ class _ResetPageState extends State<RPWDBody>
                     style: TextStyle(
                       color: Colors.white,
                       letterSpacing: 1.5,
-                      fontSize: MediaQuery.of(context).size.height / 30,
+                      fontSize: MediaQuery.of(context).size.width / 20,
                     ),
                   ),
               ),
@@ -325,7 +310,7 @@ class _ResetPageState extends State<RPWDBody>
   Future<void> _handleSubmitcancel(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
+      await Future.delayed(Duration(seconds: 2,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => ForgPass()));

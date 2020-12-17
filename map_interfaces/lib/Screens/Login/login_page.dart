@@ -31,7 +31,7 @@ class _LoginPageState extends State<LBody>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
   String username,password;
-  Widget _buildLogo(){
+  /*Widget _buildLogo(){
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -39,7 +39,7 @@ class _LoginPageState extends State<LBody>
           child: Text(
             "UOR NAVIGATION",
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/20,
+                fontSize: MediaQuery.of(context).size.width/10,
                 fontWeight: FontWeight.bold,
                 color: blackcolor,
               ),
@@ -47,7 +47,7 @@ class _LoginPageState extends State<LBody>
         ),
       ],
     );
-  }
+  }*/
   Widget _buildUsernameRow() 
   {
     return Padding(
@@ -56,11 +56,6 @@ class _LoginPageState extends State<LBody>
         child: TextFormField(
           keyboardType: TextInputType.name,
           textCapitalization: TextCapitalization.words,
-          /*onChanged: (value){
-            setState(() {
-              username = value;
-            });
-          },*/
           decoration: InputDecoration(
             prefixIcon: Icon(
                 Icons.perm_identity,
@@ -90,11 +85,6 @@ class _LoginPageState extends State<LBody>
         child: TextFormField(
           keyboardType: TextInputType.text,
           obscureText: true,
-          /*onChanged: (value){
-            setState(() {
-              password = value;
-            });
-          },*/
           decoration: InputDecoration(
             prefixIcon: Icon(
                 Icons.lock,
@@ -125,7 +115,7 @@ class _LoginPageState extends State<LBody>
         SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height / 20,
-            margin: EdgeInsets.all(MediaQuery.of(context).size.height / 20),
+            margin: EdgeInsets.all(MediaQuery.of(context).size.height / 60),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
               boxShadow: [
@@ -143,8 +133,7 @@ class _LoginPageState extends State<LBody>
               child: SingleChildScrollView(
                 child: Text("Forgotten your password?",
                   style: TextStyle(
-                    //decoration: TextDecoration.underline,
-                    fontSize: MediaQuery.of(context).size.height / 40,
+                    fontSize: MediaQuery.of(context).size.width / 22,
                     color: tridColor,
                   ),
                 ),
@@ -175,7 +164,7 @@ class _LoginPageState extends State<LBody>
             ),
             height: 1.2 * (MediaQuery.of(context).size.height / 20),
             width: 5 * (MediaQuery.of(context).size.width /10),
-            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30),
+            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30,top: MediaQuery.of(context).size.height / 30),
             child: RaisedButton(
               elevation: 5.0,
               color: firstColor,
@@ -195,7 +184,7 @@ class _LoginPageState extends State<LBody>
                     style: TextStyle(
                       color: Colors.white,
                       letterSpacing: 1.5,
-                      fontSize: MediaQuery.of(context).size.height / 40,
+                      fontSize: MediaQuery.of(context).size.width / 20,
                     ),
                   ),
               ),
@@ -238,7 +227,7 @@ class _LoginPageState extends State<LBody>
                         text: "Don't have an account? ",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: MediaQuery.of(context).size.height / 40,
+                          fontSize: MediaQuery.of(context).size.width / 22,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -246,7 +235,7 @@ class _LoginPageState extends State<LBody>
                         text: "Sign Up",
                         style: TextStyle(
                           color: firstColor,
-                          fontSize: MediaQuery.of(context).size.height / 40,
+                          fontSize: MediaQuery.of(context).size.width / 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -295,7 +284,7 @@ class _LoginPageState extends State<LBody>
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: tridColor,
-                            fontSize: MediaQuery.of(context).size.height / 20,
+                            fontSize: MediaQuery.of(context).size.width / 10,
                           ),
                         ),
                       ),
@@ -341,8 +330,11 @@ class _LoginPageState extends State<LBody>
             SingleChildScrollView(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  _buildLogo(),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 15,
+                  ),
                   _buildContainer(),
                 ],
               ),
@@ -356,7 +348,7 @@ class _LoginPageState extends State<LBody>
   Future<void> _handleSubmitforgotten(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
+      await Future.delayed(Duration(seconds: 2,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => ForgPass()));
@@ -369,7 +361,7 @@ class _LoginPageState extends State<LBody>
   Future<void> _handleSubmitsignupdonotacc(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
+      await Future.delayed(Duration(seconds: 2,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => SignUp()));

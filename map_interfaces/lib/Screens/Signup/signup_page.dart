@@ -31,23 +31,6 @@ class _SignUpPageState extends State<SBody>
   bool checkB = false;
   bool first = true;
 
-  Widget _buildLogo(){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        SingleChildScrollView(
-          child: Text(
-            "UOR NAVIGATION",
-              style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/20,
-                fontWeight: FontWeight.bold,
-                color: blackcolor,
-              ),
-            ),
-        ),
-      ],
-    );
-  }
   Widget _buildUsernameRow() // user name 
   {
     return Padding(
@@ -56,11 +39,6 @@ class _SignUpPageState extends State<SBody>
           child: TextFormField(
             keyboardType: TextInputType.name,
             textCapitalization: TextCapitalization.words,
-            /*onChanged: (value){
-              setState(() {
-                username = value;
-              });
-            },*/
             decoration: InputDecoration(
               prefixIcon: Icon(
                   Icons.perm_identity,
@@ -227,7 +205,7 @@ class _SignUpPageState extends State<SBody>
                     style: TextStyle(
                       color: Colors.white,
                       letterSpacing: 1.5, 
-                      fontSize: MediaQuery.of(context).size.height / 40,
+                      fontSize: MediaQuery.of(context).size.width / 20,
                     ),
                   ),
               ),
@@ -268,7 +246,7 @@ class _SignUpPageState extends State<SBody>
                         text: "I'm already a member",
                         style: TextStyle(
                           color: blackcolor,
-                          fontSize: MediaQuery.of(context).size.height / 40,
+                          fontSize: MediaQuery.of(context).size.width / 22,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -284,8 +262,8 @@ class _SignUpPageState extends State<SBody>
   Widget _buildContainer()
   {
     return Row(
-      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         SingleChildScrollView(
           child: ClipRRect(
@@ -315,7 +293,7 @@ class _SignUpPageState extends State<SBody>
                           "SIGNUP",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.height / 20,
+                            fontSize: MediaQuery.of(context).size.width / 10,
                             color: tridColor,
                           ),
                         ),
@@ -377,8 +355,11 @@ class _SignUpPageState extends State<SBody>
             SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  _buildLogo(),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 15,
+                  ),
                   _buildContainer(), 
                 ],
               ),
@@ -392,7 +373,7 @@ class _SignUpPageState extends State<SBody>
     return SingleChildScrollView(
       child: Center(
         child: Container(
-          padding: EdgeInsets.all(1),
+          padding: EdgeInsets.all(2),
           height: MediaQuery.of(context).size.height / 13,
           width: MediaQuery.of(context).size.width  * 0.7,
           decoration: BoxDecoration(
@@ -422,7 +403,11 @@ class _SignUpPageState extends State<SBody>
                 },
                 autofocus: true,
                 isExpanded: true,
-                hint: Text("Select Faculty"),
+                hint: Text("Select Faculty",
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width / 22,
+                  ),
+                ),
               ),
             ),
           ),
@@ -478,7 +463,7 @@ class _SignUpPageState extends State<SBody>
   Future<void> _handleSubmittcpage(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
+      await Future.delayed(Duration(seconds: 1,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => TCPage()));
@@ -504,7 +489,7 @@ class _SignUpPageState extends State<SBody>
   Future<void> _handleSubmitlogall(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
+      await Future.delayed(Duration(seconds: 2,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
       Navigator.push(context,MaterialPageRoute(builder: (context) => Login()));

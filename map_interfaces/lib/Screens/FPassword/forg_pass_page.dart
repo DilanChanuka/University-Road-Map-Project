@@ -50,8 +50,11 @@ class _ForgPassPageState extends State<FBody>
             SingleChildScrollView(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  _buildLogo(),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 15,
+                  ),
                   _buildContainer(),
                 ],
               ),
@@ -62,7 +65,7 @@ class _ForgPassPageState extends State<FBody>
     );
   }
 
-  Widget _buildLogo(){
+  /*Widget _buildLogo(){
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -70,7 +73,7 @@ class _ForgPassPageState extends State<FBody>
           child: Text(
             "UOR NAVIGATION",
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height/20,
+                fontSize: MediaQuery.of(context).size.width/10,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
@@ -78,12 +81,13 @@ class _ForgPassPageState extends State<FBody>
         ),
       ],
     );
-  }
+  }*/
 
   Widget _buildContainer()
   {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           SingleChildScrollView(
           child: ClipRRect(
@@ -121,12 +125,11 @@ class _ForgPassPageState extends State<FBody>
                               border: Border.all(color: colorborder),
                             ),
                             child: SingleChildScrollView(           
-                              child: Text("To reset your password,submit your email address below.If we can find yor,an email will be send to your email address,with instruction how to get access again.",
+                              child: Text("  To reset your password, submit your email address below. If we can find yor,an email will be send to your email address,with instruction how to get access again.",
                               overflow: TextOverflow.ellipsis,
                               maxLines: 6,
-                              //textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 15.0,
+                                  fontSize: MediaQuery.of(context).size.width / 22,
                                 ),
                               ),
                             ),
@@ -149,7 +152,7 @@ class _ForgPassPageState extends State<FBody>
                                 style: TextStyle(
                                   color: tridColor,
                                   decoration: TextDecoration.underline,
-                                  fontSize: MediaQuery.of(context).size.height / 30,
+                                  fontSize: MediaQuery.of(context).size.width / 15,
                                 ),
                               ),
                             ),
@@ -178,11 +181,6 @@ class _ForgPassPageState extends State<FBody>
         child: SingleChildScrollView(
           child: TextFormField(
             keyboardType: TextInputType.name,
-            /*onChanged: (value){
-              setState(() {
-                email = value;
-              });
-            },*/
             decoration: InputDecoration(
               prefixIcon: Icon(
                   Icons.email,
@@ -240,7 +238,7 @@ class _ForgPassPageState extends State<FBody>
                     style: TextStyle(
                       color: Colors.white,
                       letterSpacing: 1.5,
-                      fontSize: MediaQuery.of(context).size.height / 30,
+                      fontSize: MediaQuery.of(context).size.width / 20,
                     ),
                   ),
               ),

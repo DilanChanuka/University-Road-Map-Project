@@ -1,9 +1,7 @@
-import 'package:map_interfaces/Screens/LocationShare/manage_friends_page.dart';
+import 'package:map_interfaces/Screens/AddSearch/add_search_page.dart';
 import 'package:map_interfaces/Screens/Map/AddFloor/First.dart';
 import 'package:map_interfaces/Screens/Map/AddFloor/Ground.dart';
 import 'package:map_interfaces/Screens/Map/AddFloor/Second.dart';
-import 'package:map_interfaces/Screens/Profile/PrifilePage.dart';
-import 'package:map_interfaces/Screens/Welcome/welcome_page.dart';
 import 'package:map_interfaces/page_tran.dart';
 import 'package:flutter/material.dart';
 import 'package:map_interfaces/constanents.dart';
@@ -11,8 +9,6 @@ import 'package:map_interfaces/constanents.dart';
 class AddSearch extends StatefulWidget
 {
   AddSearch() : super();
-
-  final String txt= "UOR";
   @override
   AddSearchState createState() => AddSearchState();
 
@@ -33,7 +29,7 @@ class AddSearchState extends State<AddSearch>
           backgroundColor: firstColor,
           title: Text("Find Out",
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.width / 15,
+              fontSize: MediaQuery.of(context).size.width / 20,
             ),
           ),
           bottom: TabBar(
@@ -88,6 +84,14 @@ class AddSearchState extends State<AddSearch>
               ),
             ],
           ),
+          leading: IconButton(icon: Icon(
+              Icons.arrow_back,
+              size: MediaQuery.of(context).size.width / 15,
+              color: mainColor,
+            ),
+             onPressed: () =>
+               _handleBack(context),
+          ),
         ), 
         body: TabBarView(
             children: <Widget>[
@@ -108,98 +112,18 @@ class AddSearchState extends State<AddSearch>
               ),
             ],
           ),
-
-        drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                UserAccountsDrawerHeader(
-                  accountName: Text("User Name"), 
-                  accountEmail: Text("User Email"),
-                  currentAccountPicture: CircleAvatar(
-                    backgroundColor: mainColor,
-                    child: Text("A"),
-                  ),
-                  decoration: BoxDecoration(
-                    color: firstColor,
-                  ),
-                ),
-
-                ListTile(
-                  title: Text("Sign Out",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
-                  leading: Icon(Icons.exit_to_app,color: blackcolor,), 
-                  onTap: () => _handleSubmitwelcome(context),
-                ),
-
-                ListTile(
-                  title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
-                  leading: Icon(Icons.person,color: blackcolor,),
-                  onTap: (){
-                    _handleSetProfile(context);
-                  },
-                ),
-
-                ListTile(
-                  title: Text("Manage Friends",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
-                  leading: Icon(Icons.contacts,color: blackcolor,),
-                  onTap: (){
-                    _handleManageFriends(context);
-                  },
-                ),
-
-                ListTile(
-                  title: Text("Settings",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
-                  leading: Icon(Icons.settings,color: blackcolor,),
-                  onTap: (){},
-                ),
-
-                ListTile(
-                  title: Text("Help and feedback",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
-                  leading: Icon(Icons.help,color: blackcolor,),
-                  onTap: (){},
-                ),
-
-              ],
-            ),
-          ),  
         ),
       ),
     );
   }
 
-  Future<void> _handleSubmitwelcome(BuildContext context) async{
+  Future<void> _handleBack(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
+      await Future.delayed(Duration(seconds: 2,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
-      Navigator.push(context,MaterialPageRoute(builder: (context) => WelcomePage()));
-    }
-    catch(error){
-      print(error);
-    }
-  }
-
-  Future<void> _handleManageFriends(BuildContext context) async{
-    try{
-      Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
-      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
-
-      Navigator.push(context,MaterialPageRoute(builder: (context) => Managefriends()));
-    }
-    catch(error){
-      print(error);
-    }
-  }
-
-  Future<void> _handleSetProfile(BuildContext context) async{
-    try{
-      Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
-      Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
-
-      Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage()));
+      Navigator.push(context,MaterialPageRoute(builder: (context) => AddSPage()));
     }
     catch(error){
       print(error);
