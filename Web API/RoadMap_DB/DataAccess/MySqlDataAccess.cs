@@ -88,7 +88,6 @@ namespace RoadMap_DB.DataAccess
                     {
                         data[i, 0] = double.Parse(dt.Rows[i]["lat"].ToString());
                         data[i, 1] = double.Parse(dt.Rows[i]["lng"].ToString());
-
                     }
 
                     return data;
@@ -290,7 +289,6 @@ namespace RoadMap_DB.DataAccess
 
             using (MySqlConnection con = new MySqlConnection(ConnectionString))
             {
-
                 con.Open();
                 double[,] empty = new double[1, 1];
                 try

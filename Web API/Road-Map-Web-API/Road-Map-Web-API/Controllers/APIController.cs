@@ -592,7 +592,7 @@ namespace Road_Map_Web_API.Controllers
         [HttpPost("{username}/{password}")]
         public IActionResult IdentifyUser(string username, string password)
         {
-            if (LocationData.GetUserIdentity(username,password))
+            if (LocationData.GetUserIdentity(username, password))
                 return Ok();
             else
                 return Unauthorized();
@@ -601,157 +601,171 @@ namespace Road_Map_Web_API.Controllers
         [HttpPost]
         public IActionResult RegisterUser([FromBody]APIUser[] user)
         {
-            if (LocationData.SetUser(user[0].username,user[0].email,user[0].password))
+            if (LocationData.SetUser(user[0].username,user[0].email, user[0].type, user[0].faculty, user[0].password))
                 return Created("http://127.0.0.1:5000/API", user[0].username+" Registered");
+            else
+                return BadRequest("Username alredy exist !");
+        }
+
+
+        //[HttpGet]
+        //[Route("Test/{username1}/{username2}")]
+        //public IActionResult Test([FromRoute] string username1, [FromRoute] string username2)
+        //{
+        //    return Json(LocationData.RemoveFriendRequest(username1,username2));
+        //}
+
+
+        //Location Shearing system request handling methods
+
+        [HttpGet]
+        [Route("UserLocation/{userName}/{LAT:double}/{LON:double}")]
+        public async Task<IActionResult> UserLocation(string userName, double LAT, double LON)
+        {
+            int userId = LocationData.GetUserId(userName);
+            if (userId != 0)
+            {
+                Location loc = new Location()
+                {
+                    Username = userName,
+                    Lat = LAT,
+                    Lon = LON
+                };
+                try
+                {
+                    FirebaseClient client = new FirebaseClient("https://university-road-map-project-default-rtdb.firebaseio.com/");
+                    await client.Child("UserLocation/" + userId).PutAsync(loc);
+                    return Ok("Successfully Updated..!");
+                }
+                catch
+                {
+                    return BadRequest("There is an issue with realtime database connection..!");
+                }
+            }
+            else
+                return BadRequest("This username is not exist in the database ..!");
+        }
+
+        private async Task<Location> FetchUserLocation(int userId)
+        {
+            try
+            {
+                FirebaseClient client = new FirebaseClient("https://university-road-map-project-default-rtdb.firebaseio.com/");
+                var read = await client.Child("UserLocation").Child(userId.ToString()).OnceSingleAsync<Location>();
+                return new Location() { Username = read.Username, Lat = read.Lat, Lon = read.Lon };
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetLocations/{userName}")]
+        public async Task<IActionResult> GetLocations(string userName)
+        {
+            var final = new Hashtable();
+            Location loc;
+            int[] ConfUsers = LocationData.GetConfirmedUserId(userName);
+            List<Location> arr = new List<Location>();
+
+            foreach (int userId in ConfUsers)
+            {
+                loc = await FetchUserLocation(userId);
+                if (loc != null)
+                    arr.Add(new Location() { Username = loc.Username, Lat = loc.Lat, Lon = loc.Lon });
+            }
+            final.Add("friends", arr);
+            return Json(final);
+        }
+
+        [HttpGet]
+        [Route("GetPath/{user}/{req_user}")]
+        public async Task<IActionResult> GetPath(string user, string req_user)
+        {
+            int user1_id, user2_id, start, end, graphNo = 0, V_No = Data.footGrapheVertices;
+            Location loc_1, loc_2;
+            List<double[]> lst = new List<double[]>();
+            var final = new Hashtable();
+            Calculations cal = new Calculations();
+
+            user1_id = LocationData.GetUserId(user);
+            user2_id = LocationData.GetUserId(req_user);
+
+            loc_1 = await FetchUserLocation(user1_id);
+            loc_2 = await FetchUserLocation(user2_id);
+
+            start = cal.GetNearestVertexNo(V_No, graphNo, loc_1.Lat, loc_1.Lon);
+            end = cal.GetNearestVertexNo(V_No, graphNo, loc_2.Lat, loc_2.Lon);
+
+            if (start != end)
+            {
+                int[] routes = cal.GetRouteNumbers(graphNo, start, end);
+                double[,] routeLocations;
+                foreach (int r in routes)
+                {
+                    routeLocations = LocationData.GetFootRoute(r);
+                    lst.AddRange(new List<double[]>(cal.ValidateRoute(start, end, graphNo, r, routeLocations)));
+                }
+                final.Add("routelocations", lst);
+                final.Add("distance_time", cal.FindDistanceAndTime(graphNo, start, end));
+                return Json(final);
+            }
+            return Json(final);
+        }
+
+        [HttpGet]
+        [Route("GetAppUsers/{userName}")]
+        public async Task<IActionResult> GetAppUsers(string userName)
+        {
+            var final = new Hashtable();
+            string[] ConfUsers = LocationData.GetConfirmedUsernames(userName);
+            string[] ReqUsers = LocationData.GetRequestedUsernames(userName);
+            string[] AllUsers = LocationData.GetAllUsernames(userName);
+            List<string> otherUsers = new List<string>();
+            if (ConfUsers.Length != 0)
+                final.Add("friends", ConfUsers);
+            if (ReqUsers.Length != 0)
+                final.Add("friend_requests", ReqUsers);
+
+            foreach (string name in AllUsers)
+                if (!ConfUsers.Contains(name) && !ReqUsers.Contains(name))
+                    otherUsers.Add(name);
+
+            if (otherUsers.Count != 0)
+                final.Add("other_users", otherUsers);
+            return Json(final);
+        }
+
+        [HttpGet]
+        [Route("AddFriend/{user}/{req_user}")]
+        public IActionResult AddFriend(string user, string req_user)
+        {
+            if (LocationData.AddFriendRequest(user, req_user))
+                return Ok();
             else
                 return BadRequest();
         }
 
-        //Location Shearing system request handling methods
+        [HttpGet]
+        [Route("ConfirmFriend/{user}/{req_user}")]
+        public IActionResult ConfirmFriend(string user, string req_user)
+        {
+            if (LocationData.ConfirmFriendRequest(user, req_user))
+                return Ok();
+            else
+                return BadRequest();
+        }
 
-        //[HttpGet]
-        //[Route("UserLocation/{userName}/{LAT:double}/{LON:double}")]
-        //public async Task<IActionResult> UserLocation(string userName, double LAT, double LON)
-        //{
-        //    Location loc = new Location()
-        //    {
-        //        Username = userName,
-        //        Lat = LAT,
-        //        Lon = LON
-        //    };
-        //    try
-        //    {
-        //        FirebaseClient client = new FirebaseClient("https://university-road-map-project-default-rtdb.firebaseio.com/");
-        //        await client.Child("UserLocation/" + GetUserId(userName)).PutAsync(loc);
-        //        return Ok("Successfully Updated..!");
-        //    }
-        //    catch
-        //    {
-        //        return BadRequest("There is an issue with realtime database connection..!");
-        //    }
-        //}
-
-        //private async Task<Location> FetchUserLocation(int userId)
-        //{
-        //    try
-        //    {
-        //        FirebaseClient client = new FirebaseClient("https://university-road-map-project-default-rtdb.firebaseio.com/");
-        //        var read = await client.Child("UserLocation").Child(userId).OnceSingleAsync<Location>();
-        //        return new Location() { Username = read.Username, Lat = read.Lat, Lon = read.Lon };
-        //    }
-        //    catch
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        //[HttpGet]
-        //[Route("GetLocations/{userName}")]
-        //public async Task<IActionResult> GetLocations(string userName)
-        //{
-        //    var final = new Hashtable();
-        //    Location loc;
-        //    int n = 0;
-        //    int[] ConfUsers = GetConfirmedUserId(userName);
-        //    Location[] arr = new Location[ConfUsers.Length];
-
-        //    foreach (int userId in ConfUsers)
-        //    {
-        //        loc = await FetchUserLocation(userId);
-        //        if (loc != null)
-        //            arr[n++] = new Location() { Username = loc.Username, Lat = loc.Lat, Lon = loc.Lon };
-        //    }
-        //    final.Add("friends", arr);
-        //    return Json(final);
-        //}
-
-        //[HttpGet]
-        //[Route("GetPath/{user}/{req_user}")]
-        //public async Task<IActionResult> GetPath(string user, string req_user)
-        //{
-        //    int user1_id, user2_id, start, end, graphNo = 0, V_No = Data.footGrapheVertices;
-        //    Location loc_1, loc_2;
-        //    List<double[]> lst = new List<double[]>();
-        //    var final = new Hashtable();
-        //    Calculations cal = new Calculations();
-
-        //    user1_id = GetUserId(user);
-        //    user2_id = GetUserId(req_user);
-
-        //    loc_1 = await FetchUserLocation(user1_id);
-        //    loc_2 = await FetchUserLocation(user2_id);
-
-        //    start = cal.GetNearestVertexNo(V_No, graphNo, loc_1.Lat, loc_1.Lon);
-        //    end = cal.GetNearestVertexNo(V_No, graphNo, loc_2.Lat, loc_2.Lon);
-
-        //    if (start != end)
-        //    {
-        //        int[] routes = cal.GetRouteNumbers(graphNo, start, end);
-        //        double[,] routeLocations;
-        //        foreach (int r in routes)
-        //        {
-        //            routeLocations = LocationData.GetFootRoute(r);
-        //            lst.AddRange(new List<double[]>(cal.ValidateRoute(start, end, graphNo, r, routeLocations)));
-        //        }
-        //        final.Add("routelocations", lst);
-        //        final.Add("distance_time", cal.FindDistanceAndTime(graphNo, start, end));
-        //        return Json(final);
-        //    }
-        //    return Json(final);
-        //}
-
-        //[HttpGet]
-        //[Route("GetAppUsers/{userName}")]
-        //public async Task<IActionResult> GetAppUsers(string userName)
-        //{
-        //    var final = new Hashtable();
-        //    string[] ConfUsers = GetConfirmedUsernames(userName);
-        //    string[] ReqUsers = GetRequestedUsernames(userName);
-        //    string[] AllUsers = GetAllUsernames(userName);
-        //    List<string> otherUsers = new List<string>();
-        //    if(ConfUsers.Length!=0)
-        //        final.Add("friends", ConfUsers);
-        //    if (ReqUsers.Length != 0)
-        //        final.Add("friend_requests", ReqUsers);
-
-        //    foreach (string name in AllUsers)            
-        //        if (!ConfUsers.Contains(name) && !ReqUsers.Contains(name))
-        //            otherUsers.Add(name);
-
-        //    if (otherUsers.Count != 0)
-        //        final.Add("other_users", otherUsers);
-        //    return Json(final);
-        //}
-
-        //[HttpGet]
-        //[Route("AddFriend/{user}/{req_user}")]
-        //public IActionResult AddFriend(string user, string req_user)
-        //{
-        //    if (AddFriendRequest(user, req_user))
-        //        return Ok();
-        //    else
-        //        return BadRequest();
-        //}
-
-        //[HttpGet]
-        //[Route("ConfirmFriend/{user}/{req_user}")]
-        //public IActionResult ConfirmFriend(string user, string req_user)
-        //{
-        //    if (ConfirmFriendRequest(user, req_user))
-        //        return Ok();
-        //    else
-        //        return BadRequest();
-        //}
-
-        //[HttpGet]
-        //[Route("RemoveFriend/{user}/{req_user}")]
-        //public IActionResult RemoveFriend(string user, string req_user)
-        //{
-        //    if (RemoveFriendRequest(user, req_user))
-        //        return Ok();
-        //    else
-        //        return BadRequest();
-        //}
+        [HttpGet]
+        [Route("RemoveFriend/{user}/{req_user}")]
+        public IActionResult RemoveFriend(string user, string req_user)
+        {
+            if (LocationData.RemoveFriendRequest(user, req_user))
+                return Ok();
+            else
+                return BadRequest();
+        }
 
     }
 }

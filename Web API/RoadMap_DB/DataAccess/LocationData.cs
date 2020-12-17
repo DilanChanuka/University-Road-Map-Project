@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using Newtonsoft.Json;
@@ -25,7 +26,7 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                location = (from f in _db.floors
+                location = (from f in _db.floor
                             join l in _db.location
                             on f.f_location_id equals l.location_id
                             where f.floor_id == floorID & f.f_dept_id == departmentID
@@ -93,7 +94,7 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                location = (from v in _db.vehicle_routes
+                location = (from v in _db.vehicle_route
                             join l in _db.location
                             on v.v_location_id equals l.location_id
                             where v.v_route_id == routeID
@@ -128,7 +129,7 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                location = (from vtx in _db.vertext_locations
+                location = (from vtx in _db.vertext_location
                             join l in _db.location
                             on vtx.location_id equals l.location_id
                             where vtx.vertex_No == vertexNo & vtx.graph_No == graphNo
@@ -154,7 +155,7 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                 foot_location = (from fr in _db.foot_routes
+                 foot_location = (from fr in _db.foot_route
                                      join l in _db.location
                                      on fr.f_location_id equals l.location_id
                                      where fr.f_route_id == routeID
@@ -214,7 +215,7 @@ namespace RoadMap_DB.DataAccess
             var entranceLocation = new List<Location>();
             int n = 0;
 
-            entranceLocation = (from e in _db.entrances
+            entranceLocation = (from e in _db.entrance
                                 join l in _db.location
                                 on e.e_location_id equals l.location_id
                                 where e.e_dept_id == departmentID
@@ -232,9 +233,7 @@ namespace RoadMap_DB.DataAccess
                     arr[i, 1] = entranceLocation[i].lng_value;
                 }
             }
-
             return arr;
-
         }
 
         public static double[,] GetInnerRoute(int departmentID, int routeID)
@@ -244,7 +243,7 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                innrtLocation = (from i in _db.inner_routes
+                innrtLocation = (from i in _db.inner_route
                                  join l in _db.location
                                  on i.i_location_id equals l.location_id
                                  where i.in_route_id == routeID & i.i_dept_id == departmentID
@@ -304,7 +303,6 @@ namespace RoadMap_DB.DataAccess
             {
 
             }
-
             return arr;
         }
 
@@ -338,24 +336,216 @@ namespace RoadMap_DB.DataAccess
             return arr;
         }
 
-        public static bool SetUser(string username, string email, string password)
-        {           
-            User u = new User()
+        public static bool SetUser(string username, string email, string type, string faculty, string password)
+        {
+            try
             {
-                name = username,
-                email = email,
-                type = "user",
-                pwd = password,
+                var userList = new List<User>();
+                userList = (from usr in _db.user
+                            where usr.name == username
+                            select usr).ToList();
 
-            };
+                if (userList.Count == 0)
+                {
+                    User u = new User()
+                    {
+                        name = username,
+                        email = email,
+                        type = type,
+                        faculty = faculty,
+                        pwd = password,
+                    };
+
+                    try
+                    {
+                        _db.user.Add(u);
+                        _db.SaveChanges();
+                        return true;
+                    }
+                    catch { }
+                }
+            }
+            catch { }           
+            return false;
+        }
+
+        //location shairing system
+
+        public static int GetUserId(string username)
+        {
+            try
+            {
+                var userList = new List<User>();
+                userList = (from usr in _db.user
+                            where usr.name == username
+                            select usr).ToList();
+
+                if (userList.Count >= 0)
+                {
+                    return userList[0].user_id;
+                }
+            }
+            catch { }
+            return 0;
+        }
+
+        public static int[] GetConfirmedUserId(string username)
+        {
+            int userId = GetUserId(username);
+            int[] userList=new int[] { };
+            if (userId != 0)
+            {
+                try
+                {
+                    userList = (from up in _db.user_privilage
+                                where up.status == "confirmed" && up.user1_id == userId
+                                select up.user2_id).ToArray();
+                }
+                catch { }
+            }
+            return userList;
+        }
+
+        public static string[] GetConfirmedUsernames(string username)
+        {
+            int userId = GetUserId(username);
+            List<string> userList = new List<string>();
+            if (userId != 0)
+            {
+                try
+                {
+                    User_privilage[] ary = null;
+                    ary=_db.user_privilage.Where(up => up.status == "Confirmed" && up.user1_id == userId)
+                        .Include(up => up.user2).ToArray();
+                    if(ary != null)
+                    {
+                        userList = new List<string>(ary.Length);
+                        foreach (var item in ary)
+                            userList.Add(item.user2.name);
+                    }
+                }
+                catch { }
+            }
+            return userList.ToArray();
+        }
+
+        public static string[] GetRequestedUsernames(string username)
+        {
+            int userId = GetUserId(username);
+            List<string> userList = new List<string>();
+            if (userId != 0)
+            {
+                try
+                {
+                    User_privilage[] ary = null;
+                    ary = _db.user_privilage.Where(up => up.status == "Requested" && up.user1_id == userId)
+                        .Include(up => up.user2).ToArray();
+                    if (ary != null)
+                    {
+                        userList = new List<string>(ary.Length);
+                        foreach (var item in ary)
+                            userList.Add(item.user2.name);
+                    }
+                }
+                catch { }
+            }
+            return userList.ToArray();
+        }
+
+        public static string[] GetAllUsernames(string username)
+        {
+            string[] userList=new string[] { };
+            try
+            {
+                userList = (from usr in _db.user
+                            where usr.name != username
+                            select usr.name).ToArray();            
+            }
+            catch { }
+            return userList;
+        }
+
+        public static bool AddFriendRequest(string user1, string user2)
+        {
+            int user1Id = GetUserId(user1);
+            int user2Id = GetUserId(user2);
 
             try
             {
-                _db.users.Add(u);
-                _db.SaveChanges();
-                return true;
+                var userList = new List<User_privilage>();
+                userList = (from usr in _db.user_privilage
+                            where usr.user1_id == user2Id && usr.user2_id == user1Id && usr.status == "Requested"
+                            select usr).ToList();
+
+                if (userList.Count == 0)
+                {
+                    User_privilage up = new User_privilage()
+                    {
+                        user1_id = user2Id,
+                        user2_id = user1Id,
+                        status= "Requested"
+                    };
+                    try
+                    {
+                        _db.user_privilage.Add(up);
+                        _db.SaveChanges();
+                        return true;
+                    }
+                    catch { }
+                }
             }
             catch { }
+            return false;
+        }
+
+        public static bool ConfirmFriendRequest(string user1, string user2)
+        {
+            int user1Id = GetUserId(user1);
+            int user2Id = GetUserId(user2);
+
+            int rows= _db.Database.ExecuteSqlRaw($"UPDATE user_privilage SET status = 'Confirmed' " +
+                $"WHERE user1_id = '{user1Id}' and user2_id = '{user2Id}'");
+            if (rows >= 1)
+            {
+                try
+                {
+                    var userList = new List<User_privilage>();
+                    userList = (from usr in _db.user_privilage
+                                where usr.user1_id == user2Id && usr.user2_id == user1Id && usr.status == "Confirmed"
+                                select usr).ToList();
+
+                    if (userList.Count == 0)
+                    {
+                        User_privilage up = new User_privilage()
+                        {
+                            user1_id = user2Id,
+                            user2_id = user1Id,
+                            status = "Confirmed"
+                        };
+                        try
+                        {
+                            _db.user_privilage.Add(up);
+                            _db.SaveChanges();
+                            return true;
+                        }
+                        catch { }
+                    }
+                }
+                catch { }
+            }
+            return false;
+        }
+
+        public static bool RemoveFriendRequest(string user1, string user2)
+        {
+            int user1Id = GetUserId(user1);
+            int user2Id = GetUserId(user2);
+
+            int rows = _db.Database.ExecuteSqlRaw($"DELETE FROM user_privilage WHERE " +
+                $"(status = 'Confirmed' AND user1_id = '{user1Id}' AND user2_id = '{user2Id}') " +
+                $"OR (status = 'Confirmed' AND user1_id = '{user2Id}' AND user2_id = '{user1Id}')");
+            if (rows >= 1)
+                return true;
             return false;
         }
 
