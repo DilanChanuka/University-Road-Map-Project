@@ -23,7 +23,6 @@ namespace RoadMap_DB.Models
        public List<Place> lplaces { get; set; }
        public List<vehicle_route> lv_route { get; set; }
        public List<foot_route> lf_route { get; set; }
-       public List<User_location> lu_location { get; set; }
        public List<Vertext_Location> lvertext_Locations { get; set; }
         
     }

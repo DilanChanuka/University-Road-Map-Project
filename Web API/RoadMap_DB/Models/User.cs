@@ -20,6 +20,7 @@ namespace RoadMap_DB.Models
                             ErrorMessage = "Please Enter a valid email address")]
         public string email { get; set; }
         public  string type { get; set; }
+        public string faculty { get; set; }
 
         [MaxLength(30)]  // Crate nvarchar(20) in Mysql 
         public string pwd {  get; set; }
