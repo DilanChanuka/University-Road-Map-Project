@@ -7263,11 +7263,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "H:\\API\\Web API\\RoadMap_DB\\RoadMap_DB.csproj",
+      "projectUniqueName": "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\latest\\Web API\\RoadMap_DB\\RoadMap_DB.csproj",
       "projectName": "RoadMap_DB",
-      "projectPath": "H:\\API\\Web API\\RoadMap_DB\\RoadMap_DB.csproj",
+      "projectPath": "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\latest\\Web API\\RoadMap_DB\\RoadMap_DB.csproj",
       "packagesPath": "C:\\Users\\DILANCHANUKALASANTHA\\.nuget\\packages\\",
-      "outputPath": "H:\\API\\Web API\\RoadMap_DB\\obj\\",
+      "outputPath": "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\latest\\Web API\\RoadMap_DB\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -7286,6 +7286,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -7297,6 +7298,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
@@ -7339,7 +7341,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

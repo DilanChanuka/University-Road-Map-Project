@@ -1030,6 +1030,9 @@
           }
         }
       },
+      "SweetAlert/1.0.0": {
+        "type": "package"
+      },
       "System.AppContext/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -3883,6 +3886,28 @@
         "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
         "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.nuspec",
         "runtimes/ubuntu.16.10-x64/native/System.Security.Cryptography.Native.OpenSsl.so"
+      ]
+    },
+    "SweetAlert/1.0.0": {
+      "sha512": "eaHJph59CQhNUf5h6k02LaWM31az2t8JBHcJuVXW2dZ+QU2TDkHCxOUSNdAVIgfj+ivQsBTp6laWt8H0nKAydQ==",
+      "type": "package",
+      "path": "sweetalert/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "content/Content/bootstrap/mixins.less",
+        "content/Content/bootstrap/variables.less",
+        "content/Content/sweetalert/bootstrap-sweetalert.png",
+        "content/Content/sweetalert/docs.css",
+        "content/Content/sweetalert/sweet-alert-animations.less",
+        "content/Content/sweetalert/sweet-alert-combine.less",
+        "content/Content/sweetalert/sweet-alert.css",
+        "content/Content/sweetalert/sweet-alert.less",
+        "content/Content/sweetalert/thumbs-up.jpg",
+        "content/Controllers/SweetController.cs",
+        "content/Views/Sweet/Alert.cshtml",
+        "sweetalert.1.0.0.nupkg.sha512",
+        "sweetalert.nuspec"
       ]
     },
     "System.AppContext/4.3.0": {
@@ -7545,7 +7570,8 @@
       "Microsoft.EntityFrameworkCore.Design >= 3.1.9",
       "Microsoft.Extensions.Configuration.Json >= 3.1.9",
       "Newtonsoft.Json >= 12.0.3",
-      "RoadMap_DB >= 1.0.0"
+      "RoadMap_DB >= 1.0.0",
+      "SweetAlert >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -7555,11 +7581,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "H:\\API\\Web API\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
+      "projectUniqueName": "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\latest\\Web API\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
       "projectName": "Road-Map-Web-API",
-      "projectPath": "H:\\API\\Web API\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
+      "projectPath": "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\latest\\Web API\\Road-Map-Web-API\\Road-Map-Web-API\\Road-Map-Web-API.csproj",
       "packagesPath": "C:\\Users\\DILANCHANUKALASANTHA\\.nuget\\packages\\",
-      "outputPath": "H:\\API\\Web API\\Road-Map-Web-API\\Road-Map-Web-API\\obj\\",
+      "outputPath": "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\latest\\Web API\\Road-Map-Web-API\\Road-Map-Web-API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -7578,9 +7604,10 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "H:\\API\\Web API\\RoadMap_DB\\RoadMap_DB.csproj": {
-              "projectPath": "H:\\API\\Web API\\RoadMap_DB\\RoadMap_DB.csproj"
+            "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\latest\\Web API\\RoadMap_DB\\RoadMap_DB.csproj": {
+              "projectPath": "C:\\Users\\DILANCHANUKALASANTHA\\Desktop\\latest\\Web API\\RoadMap_DB\\RoadMap_DB.csproj"
             }
           }
         }
@@ -7593,6 +7620,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "FirebaseDatabase.net": {
             "target": "Package",
@@ -7611,6 +7639,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[12.0.3, )"
+          },
+          "SweetAlert": {
+            "target": "Package",
+            "version": "[1.0.0, )"
           }
         },
         "imports": [
@@ -7631,7 +7663,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
