@@ -16,6 +16,7 @@ using RoadMap_DB.Data;
 using RoadMap_DB.Models;
 using Firebase.Database;
 using Firebase.Database.Query;
+using Road_Map_Web_API.Models;
 
 namespace Road_Map_Web_API.Controllers
 {
@@ -30,7 +31,7 @@ namespace Road_Map_Web_API.Controllers
 
         [HttpGet]
         [Route("GetFloor/{department:int}/{floor:int}")]
-        public IActionResult GetFloor(int department,int floor)
+        public IActionResult GetFloor(int department, int floor)
         {
             int n = 0;
             List<double[]> lst = new List<double[]>();
@@ -39,18 +40,18 @@ namespace Road_Map_Web_API.Controllers
             double[,] floorLocations = LocationData.GetFloorLocations(department, floor);
             Dictionary<string, double[]> places = LocationData.GetFloorPlaces(department, floor);
             Place[] arr = new Place[places.Count];
-     
+
             for (int i = 0; i < floorLocations.GetLength(0); i++)
                 lst.Add(new double[] { floorLocations[i, 0], floorLocations[i, 1] });
             //this should change according to the department
-            if(floor==0)
+            if (floor == 0)
                 final.Add("floor_0_locations", lst);
             else if (floor == 1)
                 final.Add("floor_1_locations", lst);
-            else 
+            else
                 final.Add("floor_2_locations", lst);
 
-            foreach (KeyValuePair<string,double[]> pair in places)
+            foreach (KeyValuePair<string, double[]> pair in places)
             {
                 temp = pair.Value;
                 arr[n++] = new Place()
@@ -61,7 +62,7 @@ namespace Road_Map_Web_API.Controllers
                 };
             }
             final.Add("places", arr);
-            return Json(final);            
+            return Json(final);
         }
 
         [HttpGet]
@@ -77,7 +78,7 @@ namespace Road_Map_Web_API.Controllers
             Dictionary<string, double[]> places = LocationData.GetFloorPlaces(ids[0], ids[1]);
             Dictionary<string, double[]> place = LocationData.GetPlaceWithName(placeID);
             Place[] arr = new Place[places.Count];
-            Place pl=new Place();
+            Place pl = new Place();
 
             for (int i = 0; i < floorLocations.GetLength(0); i++)
                 lst.Add(new double[] { floorLocations[i, 0], floorLocations[i, 1] });
@@ -122,12 +123,12 @@ namespace Road_Map_Web_API.Controllers
 
         [HttpGet]
         [Route("GetRoute/{startLAT:double}/{startLON:double}/{endLAT:double}/{endLON:double}/{method}")]
-        public IActionResult GetRoute(double startLAT, double startLON, double endLAT, double endLON , [FromRoute] string method)
+        public IActionResult GetRoute(double startLAT, double startLON, double endLAT, double endLON, [FromRoute] string method)
         {
             List<double[]> lst = new List<double[]>();
             var final = new Hashtable();
             Calculations cal = new Calculations();
-            int V_No,grapgNo,start,end;
+            int V_No, grapgNo, start, end;
             switch (method)
             {
                 case "f":
@@ -137,9 +138,9 @@ namespace Road_Map_Web_API.Controllers
                 case "v":
                     V_No = Data.vehicleGrapheVertices;
                     grapgNo = 1;
-                    break;              
+                    break;
                 default:
-                    V_No=Data.footGrapheVertices;
+                    V_No = Data.footGrapheVertices;
                     grapgNo = 0;
                     break;
             }
@@ -152,7 +153,7 @@ namespace Road_Map_Web_API.Controllers
                 foreach (int r in routes)
                 {
                     if (grapgNo == 0)
-                        routeLocations = LocationData.GetFootRoute(r);  
+                        routeLocations = LocationData.GetFootRoute(r);
                     else
                         routeLocations = LocationData.GetVehicleRoute(r);
 
@@ -177,7 +178,7 @@ namespace Road_Map_Web_API.Controllers
             List<double[]> stair_1_2_RouteSet = new List<double[]>();
             List<double[]> firstFloorRouteSet = new List<double[]>();
             List<double[]> secondFloorRouteSet = new List<double[]>();
-            double distance=0, time=0;
+            double distance = 0, time = 0;
             var final = new Hashtable();
             double[,] routeLocations;
             double[] temp = new double[2], distanceAndTime;
@@ -204,8 +205,8 @@ namespace Road_Map_Web_API.Controllers
                     break;
             }
             start = cal.GetNearestVertexNo(V_No, graphNo, startLAT, startLON);
-            localEnd = cal.FindEnterenceVertexNo(V_No, graphNo,start);
-                       
+            localEnd = cal.FindEnterenceVertexNo(V_No, graphNo, start);
+
             if (start != localEnd)
             {
                 int[] route = cal.GetRouteNumbers(graphNo, start, localEnd);
@@ -222,7 +223,7 @@ namespace Road_Map_Web_API.Controllers
 
                     lst.AddRange(new List<double[]>(cal.ValidateRoute(start, localEnd, graphNo, r, routeLocations)));
                 }
-                final.Add("outerroutelocations",new List<double[]>(lst));
+                final.Add("outerroutelocations", new List<double[]>(lst));
 
             }
             lst.Clear();
@@ -241,7 +242,7 @@ namespace Road_Map_Web_API.Controllers
             distanceAndTime = cal.FindDistanceAndTime(graphNo, innerStart, innerEnd);
             distance += distanceAndTime[0];
             time += distanceAndTime[1];
-                      
+
             //according to the department,no of arrays should change
             foreach (int rt in routes)
             {
@@ -271,7 +272,7 @@ namespace Road_Map_Web_API.Controllers
                     stair_1_2_RouteSet.AddRange(new List<double[]>(cal.ValidateRoute(innerStart, innerEnd, graphNo, rt, routeLocations)));
                 }
             }
-       
+
             if (zeroFloorRouteSet.Count != 0)
             {
                 final.Add("floor_0_routelocations", new List<double[]>(zeroFloorRouteSet));
@@ -282,7 +283,7 @@ namespace Road_Map_Web_API.Controllers
                     lst.Add(new double[] { floorLocations[i, 0], floorLocations[i, 1] });
                 final.Add("floor_0_locations", new List<double[]>(lst));
             }
-                                
+
             if (firstFloorRouteSet.Count != 0)
             {
                 final.Add("floor_1_routelocations", new List<double[]>(firstFloorRouteSet));
@@ -293,7 +294,7 @@ namespace Road_Map_Web_API.Controllers
                     lst.Add(new double[] { floorLocations[i, 0], floorLocations[i, 1] });
                 final.Add("floor_1_locations", new List<double[]>(lst));
             }
-    
+
             if (secondFloorRouteSet.Count != 0)
             {
                 final.Add("floor_2_routelocations", new List<double[]>(secondFloorRouteSet));
@@ -304,7 +305,7 @@ namespace Road_Map_Web_API.Controllers
                     lst.Add(new double[] { floorLocations[i, 0], floorLocations[i, 1] });
                 final.Add("floor_2_locations", new List<double[]>(lst));
             }
-              
+
             if (stair_0_1_RouteSet.Count != 0)
                 final.Add("stair_0_1_locations", stair_0_1_RouteSet);
             if (stair_1_2_RouteSet.Count != 0)
@@ -329,7 +330,7 @@ namespace Road_Map_Web_API.Controllers
 
         [HttpGet]
         [Route("GetPlaceInOut/{department:int}/{floor:int}/{startLAT:double}/{startLON:double}/{endLAT:double}/{endLON:double}")]
-        public IActionResult GetPlaceInOut(int department, int floor,double startLAT, double startLON, double endLAT, double endLON)
+        public IActionResult GetPlaceInOut(int department, int floor, double startLAT, double startLON, double endLAT, double endLON)
         {
             List<double[]> lst = new List<double[]>();
             double distance = 0, time = 0;
@@ -429,7 +430,7 @@ namespace Road_Map_Web_API.Controllers
 
             graphNo = 0;
             outerStrat = Data.EntranceOuterMatch[EntranceAndInnerEnd[0]];
-            outerEnd= cal.GetNearestVertexNo(Data.footGrapheVertices, graphNo, endLAT, endLON);
+            outerEnd = cal.GetNearestVertexNo(Data.footGrapheVertices, graphNo, endLAT, endLON);
             lst.Clear();
             if (outerStrat != outerEnd)
             {
@@ -445,14 +446,14 @@ namespace Road_Map_Web_API.Controllers
                     lst.AddRange(new List<double[]>(cal.ValidateRoute(outerStrat, outerEnd, 0, r, routeLocations)));
                 }
                 final.Add("outerroutelocations", new List<double[]>(lst));
-            }  
+            }
             final.Add("distance_time", new double[] { distance, Math.Round(time, 1) });
             return Json(final);
         }
 
         [HttpGet]
         [Route("GetPlaceInIn/{department:int}/{floor:int}/{startLAT:double}/{startLON:double}/{placeID:int}")]
-        public IActionResult GetPlaceInIn(int department, int floor,double startLAT, double startLON, int placeID)
+        public IActionResult GetPlaceInIn(int department, int floor, double startLAT, double startLON, int placeID)
         {
             List<double[]> lst = new List<double[]>();
             var final = new Hashtable();
@@ -462,9 +463,9 @@ namespace Road_Map_Web_API.Controllers
             Dictionary<string, double[]> place;
             Place pl;
             Calculations cal = new Calculations();
-            int graphNo = 2,start,end=0;
+            int graphNo = 2, start, end = 0;
 
-            start= cal.GetNearestVertexNo(department,floor,Data.CSDepartmentGrapheVertices, graphNo, startLAT, startLON);                        
+            start = cal.GetNearestVertexNo(department, floor, Data.CSDepartmentGrapheVertices, graphNo, startLAT, startLON);
             for (int i = 0; i < Data.CSMainPlaceMatch.Length; i++)
                 if (Data.CSMainPlaceMatch[i] == placeID)
                 {
@@ -582,12 +583,6 @@ namespace Road_Map_Web_API.Controllers
             final.Add("place", pl);
             return Json(final);
         }
-                
-        [HttpGet]
-        public IActionResult Index()
-        {            
-            return View();
-        }
 
         [HttpPost("{username}/{password}")]
         public IActionResult IdentifyUser(string username, string password)
@@ -599,22 +594,13 @@ namespace Road_Map_Web_API.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterUser([FromBody]APIUser[] user)
+        public IActionResult RegisterUser([FromBody] APIUser[] user)
         {
-            if (LocationData.SetUser(user[0].username,user[0].email, user[0].type, user[0].faculty, user[0].password))
-                return Created("http://127.0.0.1:5000/API", user[0].username+" Registered");
+            if (LocationData.SetUser(user[0].username, user[0].email, user[0].type, user[0].faculty, user[0].password))
+                return Created("http://127.0.0.1:5000/API", user[0].username + " Registered");
             else
                 return BadRequest("Username alredy exist !");
         }
-
-
-        //[HttpGet]
-        //[Route("Test/{username1}/{username2}")]
-        //public IActionResult Test([FromRoute] string username1, [FromRoute] string username2)
-        //{
-        //    return Json(LocationData.RemoveFriendRequest(username1,username2));
-        //}
-
 
         //Location Shearing system request handling methods
 
@@ -716,7 +702,7 @@ namespace Road_Map_Web_API.Controllers
 
         [HttpGet]
         [Route("GetAppUsers/{userName}")]
-        public async Task<IActionResult> GetAppUsers(string userName)
+        public IActionResult GetAppUsers(string userName)
         {
             var final = new Hashtable();
             string[] ConfUsers = LocationData.GetConfirmedUsernames(userName);
@@ -767,5 +753,104 @@ namespace Road_Map_Web_API.Controllers
                 return BadRequest();
         }
 
+        //Admin Panel methods
+      
+        [HttpGet]
+        [Route("AdminPanel")]
+        public IActionResult AdminPanel()
+        {
+            var final = new Dictionary<string, List<APIUser>>();
+            var usersTable = LocationData.GetAllUsers();
+            if (usersTable.Count > 0)
+            {
+                List<APIUser> usrList = new List<APIUser>();
+                foreach (KeyValuePair<string,string[]> usr in usersTable)
+                {
+                    usrList.Add(new APIUser()
+                    {
+                        username=usr.Value[0],
+                        faculty=usr.Value[1],
+                        type=usr.Value[2]
+                    });
+
+                    var friendList = LocationData.GetFriendsOfUser(usr.Value[0]);
+                    if (friendList.Count > 0)
+                    {
+                        foreach (KeyValuePair<string, string[]> frnd in friendList)
+                        {
+                            usrList.Add(new APIUser()
+                            {
+                                username = frnd.Value[0],
+                                faculty = frnd.Value[1],
+                                type = frnd.Value[2]
+                            });
+                        }
+                    }
+                    final.Add(usr.Key, new List<APIUser>(usrList));
+                    usrList.Clear();
+                }
+            }
+            return View(final);
+        }
+
+        [HttpGet]
+        [Route("RemoveUser/{username}")]
+        public IActionResult RemoveUser(string username)
+        {
+            if (LocationData.RemoveUser(username))
+            {
+                @TempData["status"] = "yes";
+                @TempData["access"] = "yes";
+                return RedirectToAction("AdminPanel");
+            }
+            else
+            {
+                @TempData["status"] = "no";
+                @TempData["access"] = "yes";
+                return RedirectToAction("AdminPanel");
+            }
+        }
+
+        [HttpGet]
+        [Route("UnfriendUser/{user_1}/{user_2}")]
+        public IActionResult UnfriendUser(string user_1, string user_2)
+        {
+            if (LocationData.RemoveFriendRequest(user_1, user_2))
+            {
+                @TempData["removestatus"] = "yes";
+                @TempData["access"] = "yes";
+                return RedirectToAction("AdminPanel");
+            }
+            else
+            {
+                @TempData["removestatus"] = "no";
+                @TempData["access"] = "yes";
+                return RedirectToAction("AdminPanel");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Login")]
+        public IActionResult Login([FromForm]AdminUser user)
+        {
+            if (LocationData.IdentifyAdmin(user.Username, user.Password))
+            {
+                @TempData["access"] = "yes";
+                return RedirectToAction("AdminPanel");
+            }
+            else
+            {
+                @TempData["login"] = "invalid";
+                @TempData["access"] = "no";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
     }
 }

@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using RoadMap_DB.Data;
 using RoadMap_DB.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -281,6 +282,24 @@ namespace RoadMap_DB.DataAccess
                 return false;
         }
 
+        public static bool IdentifyAdmin(string username, string password)
+        {
+            if (username == "Admin")
+            {
+                try
+                {
+                    string[] userList = (from usr in _db.user
+                                         where usr.name == "Admin"
+                                         select usr.pwd).ToArray();
+
+                    if (userList[0] == password)
+                        return true;
+                }
+                catch { }
+            }
+            return false;
+        }
+
         public static double[] GetPlace(int placeID)
         {
             var placeLocation = new List<Location>();
@@ -458,7 +477,7 @@ namespace RoadMap_DB.DataAccess
             try
             {
                 userList = (from usr in _db.user
-                            where usr.name != username
+                            where usr.name != username && usr.name != "Admin"
                             select usr.name).ToArray();            
             }
             catch { }
@@ -549,6 +568,70 @@ namespace RoadMap_DB.DataAccess
             return false;
         }
 
+        public static bool RemoveUser(string username)
+        {
+            int userId = GetUserId(username);
+
+            int rows1 = _db.Database.ExecuteSqlRaw($"DELETE FROM user_privilage WHERE " +
+                $"(user1_id = '{userId}') " +
+                $"OR (user2_id = '{userId}')");
+            int rows2 = _db.Database.ExecuteSqlRaw($"DELETE FROM user WHERE " +
+            $"(id = '{userId}') ");
+
+            if (rows1 >= 1 || rows2 >= 1)
+                return true;
+            return false;
+        }
+
+        public static Dictionary<string, string[]> GetAllUsers()
+        {
+            var final = new Dictionary<string, string[]>();
+            try
+            {
+                var userList = new List<User>();
+                userList = (from usr in _db.user
+                            where usr.name != "Admin"
+                            select usr).ToList();
+
+                if (userList.Count > 0)
+                {
+                    int n = 1;
+                    foreach (var u in userList)
+                    {
+                        final.Add(n.ToString(), new string[] { u.name, u.faculty, u.type });
+                        n++;
+                    }
+                }
+            }
+            catch { }
+            return final;
+        }
+
+        public static Dictionary<string, string[]> GetFriendsOfUser(string username)
+        {
+            int userId = GetUserId(username);
+            var final = new Dictionary<string, string[]>();
+            if (userId != 0)
+            {
+                try
+                {
+                    User_privilage[] ary = null;
+                    ary = _db.user_privilage.Where(up => up.status == "Confirmed" && up.user1_id == userId)
+                        .Include(up => up.user2).ToArray();
+                    if (ary != null)
+                    {
+                        int n = 1;
+                        foreach (var u in ary)
+                        {
+                            final.Add(n.ToString(), new string[] { u.user2.name,u.user2.faculty,u.user2.type });
+                            n++;
+                        }
+                    }
+                }
+                catch { }
+            }
+            return final;
+        }
         #endregion
     }
 }
