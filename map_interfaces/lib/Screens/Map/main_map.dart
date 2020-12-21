@@ -139,11 +139,11 @@ class MainMapState extends State<MainMap>
                   },
                 ),
 
-                ListTile(
+                /*ListTile(
                   title: Text("Settings",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.settings,color: blackcolor,),
                   onTap: (){},
-                ),
+                ),*/
 
                 ListTile(
                   title: Text("Help and feedback",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),

@@ -73,6 +73,28 @@ class _FriendsRequestsState extends State<FriendsRequests> {
                   ),
                 ],
               ),
+              subtitle: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: Text(dummyFriendsreq[i].faculty,
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width / 25,
+                      ),
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: Text(dummyFriendsreq[i].type,
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width / 25,
+                        color: blackcolor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

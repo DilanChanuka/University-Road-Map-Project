@@ -23,6 +23,8 @@ class Body extends StatefulWidget{
 class _Bodycreate extends State<Body>{
 
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  TextEditingController name = TextEditingController();
+  TextEditingController mess = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,151 +46,264 @@ class _Bodycreate extends State<Body>{
              onPressed: () {_handleMainPage(context);},
           ),
         ),
-        body: Padding(
-          padding: EdgeInsets.all(MediaQuery.of(context).size.height / 200),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              //checkItems(),
-              buildFeeedBackFrom(),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 100,
-              ),
-              //email(),
-              Spacer(),
-              SingleChildScrollView(
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: FlatButton(
-                        onPressed: (){},
-                        color: firstColor, 
-                        child: Text("SUBMIT",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: mainColor,
-                            fontSize: MediaQuery.of(context).size.width / 20,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+        body: SingleChildScrollView(
+          child: buildBody(),
+        ),
+      ),
+    );
+  }
+  Widget buildName()
+  {
+    return SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height / 12,
+            width: MediaQuery.of(context).size.width * 0.8,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
                 ),
+              ],
+              color: colorwhite,
+              border: Border.all(color: colorborder),
+            ),
+            child: SingleChildScrollView(
+            child: TextField(
+              controller: name,
+              maxLines: 1,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(3),
+                border: InputBorder.none,
+                hintText: "Name",
+                hintStyle: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width / 22,
+                ),   
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+          ),
     );
   }
-  /*Widget checkItems(){
-    return SingleChildScrollView(
+  Widget _buildMessage()
+  {
+    return SingleChildScrollView(        
       child: Container(
-        margin: EdgeInsets.all(MediaQuery.of(context).size.height / 60),
-        width: MediaQuery.of(context).size.width * 0.9,
-        padding: EdgeInsets.all(MediaQuery.of(context).size.height / 200),
+        height: MediaQuery.of(context).size.height * 0.35,
+        width: MediaQuery.of(context).size.width * 0.8,
         decoration: BoxDecoration(
-          border: Border.all(color: colorborder,),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text("Please select the type of feedback",
-              style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width / 20,
-              ),
-            ),
-            buildCheckItem("Login trouble"),
-            buildCheckItem("Personal profile"),
-            buildCheckItem("Other issues"),
-            buildCheckItem("Suggestions"),
+          boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.6),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
           ],
+            color: colorwhite,
+            border: Border.all(color: colorborder),
         ),
-      ),
-    );
-  }
-
-  Widget buildCheckItem(title){
-    return SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.all(2),
-        child: Row(
-          children: <Widget>[
-            Icon(Icons.check_circle, color: firstColor,),
-            SizedBox(width: MediaQuery.of(context).size.width / 40,),
-            Text(title,
-              style: TextStyle(
-                color: firstColor,
-                fontWeight: FontWeight.bold,
-                fontSize: MediaQuery.of(context).size.width / 22,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }*/
-  Widget buildFeeedBackFrom(){
-    return SingleChildScrollView(
-      child: Container(
-        height: MediaQuery.of(context).size.height / 3,
-        child: Stack(
-          children: <Widget>[
-            TextField(
+          child: SingleChildScrollView(
+            child: TextField(
+              controller: mess,
               maxLines: 10,
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(3),
+                border: InputBorder.none,
                 hintText: "Please briefly describe the issue",
                 hintStyle: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width / 25,
+                  fontSize: MediaQuery.of(context).size.width / 22,
+                ),   
+              ),
+            ),
+          ),
+      ),
+    );
+  }
+  Widget buildSendButton()
+  {
+    return SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
                 ),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: colorborder,),
+              ],
+            ),
+            height: (MediaQuery.of(context).size.height / 12),
+            width: 5 * (MediaQuery.of(context).size.width /10),
+            child: RaisedButton(
+              elevation: 5.0,
+              color: firstColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
+              ),
+              onPressed: () => { },
+              child: SingleChildScrollView(
+                child: Text(
+                  "Send",
+                  style: TextStyle(
+                    color: mainColor,
+                    letterSpacing: 1.5,
+                    fontSize: MediaQuery.of(context).size.width / 20,
+                  ),
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                        width: 1.0,
-                        color: colorborder,
-                      ),
-                    ),
-                  ),
-                  padding: EdgeInsets.all(MediaQuery.of(context).size.height / 120),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        decoration: BoxDecoration(
-                          color: colorborder,
-                          borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 50),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(MediaQuery.of(context).size.height / 100,),
-                          child: Icon(
-                            Icons.add,
-                            color: firstColor,
-                            size: MediaQuery.of(context).size.width / 20,
+          ),
+    );
+  }
+  Widget buildBody()
+  {
+    return SingleChildScrollView(
+        child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+
+                    SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.6),
+                                spreadRadius: 2,
+                                blurRadius: 3,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: SingleChildScrollView(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(MediaQuery.of(context).size.height / 30),
+                              ),
+                              child: Container(
+                                height: MediaQuery.of(context).size.height * 0.17,
+                                width: MediaQuery.of(context).size.width * 0.96,
+                                decoration: BoxDecoration(
+                                  color: mainColor,
+                                ),
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        buildName(),
+                                      ],
+                                    ),
+                                  ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width / 100,),
-                      Text("Upload screenshot (optional)",
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 25,
+                      ],
+                    ),
+
+                    SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.6),
+                                spreadRadius: 2,
+                                blurRadius: 3,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: SingleChildScrollView(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(MediaQuery.of(context).size.height / 30),
+                            ),
+                            child: Container(
+                            height: MediaQuery.of(context).size.height * 0.40,
+                            width: MediaQuery.of(context).size.width * 0.96,
+                            decoration: BoxDecoration(
+                              color: mainColor,
+                            ),
+                              child: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    _buildMessage(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                      ],
+                    ),
+
+                    SizedBox(height: MediaQuery.of(context).size.height / 30,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 30)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.6),
+                                spreadRadius: 2,
+                                blurRadius: 3,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: SingleChildScrollView(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(MediaQuery.of(context).size.height / 30),
+                              ),
+                              child: Container(
+                                height: MediaQuery.of(context).size.height * 0.17,
+                                width: MediaQuery.of(context).size.width * 0.96,
+                                decoration: BoxDecoration(
+                                  color: mainColor,
+                                ),
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        buildSendButton(),
+                                      ],
+                                    ),
+                                  ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                ],
               ),
-          ],
         ),
-      ),
     );
   }
 

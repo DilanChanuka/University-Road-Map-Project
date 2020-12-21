@@ -16,7 +16,7 @@ class _FriendsState extends State<Friends> {
         itemBuilder: (BuildContext contxt,int i) => Column(
           children: <Widget>[
             Divider(
-              height: 10.0,
+              height: 20.0,
               color: colorborder,
               thickness: 1.0,
             ), 
@@ -68,6 +68,28 @@ class _FriendsState extends State<Friends> {
                             fontSize: MediaQuery.of(context).size.width / 22,
                           ),
                         ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              subtitle: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: Text(dummyFriends[i].faculty,
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width / 25,
+                      ),
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: Text(dummyFriends[i].type,
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width / 25,
+                        color: blackcolor,
                       ),
                     ),
                   ),

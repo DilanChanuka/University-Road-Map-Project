@@ -284,7 +284,7 @@ class _SignUpPageState extends State<SBody>
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: MediaQuery.of(context).size.height / 50,),
+                  //SizedBox(height: MediaQuery.of(context).size.height / 50,),//change 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -306,13 +306,13 @@ class _SignUpPageState extends State<SBody>
                       _buildUsernameRow(),
                       _buidemailRow(),
                       _buildPasswordRow(),
-                       SizedBox(
+                      /* SizedBox(
                         height: MediaQuery.of(context).size.height / 150,
-                      ),
+                      ),*/
                       _submitFaculty(),
-                      SizedBox(
+                      /*SizedBox(
                         height: MediaQuery.of(context).size.height / 150,
-                      ),
+                      ),*/
                       _userType(),
                       buildAgreeButton(),
                       buildSignUpButton(),
@@ -381,7 +381,8 @@ class _SignUpPageState extends State<SBody>
             border: Border.all(color: colorborder),
           ),
           child: SingleChildScrollView(
-            child: Center(
+            child: Container(//change center 
+              height: MediaQuery.of(context).size.height / 15,// change
               child: DropdownButton(
                 underline: SizedBox(),
                 value: fty,
@@ -426,6 +427,8 @@ class _SignUpPageState extends State<SBody>
             border: Border.all(color: colorborder),
           ),
           child: SingleChildScrollView(
+            child: Container(// change
+              height: MediaQuery.of(context).size.height / 15,// change
             child: Row(
               children: [
                 Radio(
@@ -456,6 +459,7 @@ class _SignUpPageState extends State<SBody>
             ),
           ),
         ),
+      ),
       ),
     );
   }

@@ -80,6 +80,28 @@ class _AddFriendsState extends State<AddFriends> {
                   ),
                 ],
               ),
+              subtitle: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: Text( dummyAddFriends[i].faculty,
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width / 25,
+                      ),
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: Text( dummyAddFriends[i].type,
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width / 25,
+                        color: blackcolor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
