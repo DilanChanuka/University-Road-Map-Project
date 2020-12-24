@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 
+
 List<String> walkoutUserLoc = [
-  "Your Location",
   "Main Gate",
   "Y Junction",
   "Library Junction",
@@ -23,6 +23,16 @@ List<String> walkoutUserLoc = [
   "Medical Center",
   "Student Common Room",
   "Student reading place",
+  // new places
+  "Maths Department Car Park",
+  "Administrative Building car park",
+  "Computer Science Department car park",
+  "General Car Park",
+  "Science Complex Car park",
+  "Zoology Department Car Park",
+  "Chemistry Departmet car park",
+  "Medical center car park",
+  "Physics department car park",
 ];
 final walkoutUserLocselect = TextEditingController();
 String walkoutUserLocselected = "";
@@ -64,27 +74,37 @@ List<String> walkoutDestiLoc = [
   "CS Wash Rooms",
   "CS Computer Lab 03",
   "CS Car park",
-  "Lecture Hall 01"
+  "Lecture Hall 01",
+  //new places
+  "Maths Department Car Park",
+  "Administrative Building car park",
+  "Computer Science Department car park",
+  "General Car Park",
+  "Science Complex Car park",
+  "Zoology Department Car Park",
+  "Chemistry Departmet car park",
+  "Medical center car park",
+  "Physics department car park",
 ];
 final walkoutDestiLocselect = TextEditingController();
 String walkoutDestiLocselected = "";
 
 List<String> vehicleoutUserLoc = [
-  "Your Location",
   "Main Gate",
   "Y Junction",
   "Library Junction",
-  "Scienes faculty Canteen",
-  "Botany Department Car Park",
-  "Zoology Department Car Park",
-  "Chemistry Department Car Park",
-  "Physics Department Car Park",
-  "Medical Center Car Park",
-  "Library Car Park",
   "Maths Department Car Park",
-  "CS Car park",
-  "Faculty of fisharies",
-  "Medical Center",
+  "Administrative Building car park",
+  "Computer Science Department car park",
+  "Science Faculty canteen",
+  "General Car Park",
+  "Science Complex Car park",
+  "Botany Department",
+  "Zoology Department Car Park",
+  "Faculty of Fisheries",
+  "Chemistry Departmet car park",
+  "Medical center car park",
+  "Physics department car park",
 ];
 final vehicleoutUserLocselect = TextEditingController();
 String vehicleoutUserLocselected = "";
@@ -93,17 +113,18 @@ List<String> vehicleoutDestiLoc = [
   "Main Gate",
   "Y Junction",
   "Library Junction",
-  "Scienes faculty Canteen",
-  "Botany Department Car Park",
-  "Zoology Department Car Park",
-  "Chemistry Department Car Park",
-  "Physics Department Car Park",
-  "Medical Center Car Park",
-  "Library Car Park",
   "Maths Department Car Park",
-  "CS Car park",
-  "Faculty of fisharies",
-  "Medical Center",
+  "Administrative Building car park",
+  "Computer Science Department car park",
+  "Science Faculty canteen",
+  "General Car Park",
+  "Science Complex Car park",
+  "Botany Department",
+  "Zoology Department Car Park",
+  "Faculty of Fisheries",
+  "Chemistry Departmet car park",
+  "Medical center car park",
+  "Physics department car park",
 ];
 final vehicleoutDestiLocselect = TextEditingController();
 String vehicleoutDestiLocselected = "";
@@ -154,6 +175,16 @@ List<String> placeName=[
   "CS Wash Rooms",
   "CS Computer Lab 03",
   "Lecture Hall 01"
+  //new places
+  "Maths Department Car Park",
+  "Administrative Building car park",
+  "Computer Science Department car park",
+  "General Car Park",
+  "Science Complex Car park",
+  "Zoology Department Car Park",
+  "Chemistry Departmet car park",
+  "Medical center car park",
+  "Physics department car park",
 ];
 final placeNameSelect = TextEditingController();
 String placeNameselected = "";
@@ -176,7 +207,6 @@ List<String> department=[
 String departmentvalue ="Computer Science Department";
 
 List<String> ground = [
-  "Your Location",
   "CS Wash Rooms",
   "CS Computer Lab 01",
   "CS Car park"
@@ -185,7 +215,6 @@ final floorcontroller = TextEditingController();
 String groundselected = "";
 
 List<String> first = [
-  "Your Location",
   "CS Record Room",
   "CS Special Lab",
   "CS Lecture's Room",
@@ -202,7 +231,6 @@ List<String> first = [
 String firstselected = "";
 
 List<String> secound = [
-  "Your Location",
   "CS Mini-auditorium",
   "CS Computer Lab 03"
   ];
@@ -243,6 +271,17 @@ List<String> ifground = [
   "CS Special Room",
   "CS Demonstrator's Room",
   "CS Main-auditorium",
+
+  //new places
+  "Maths Department Car Park",
+  "Administrative Building car park",
+  "Computer Science Department car park",
+  "General Car Park",
+  "Science Complex Car park",
+  "Zoology Department Car Park",
+  "Chemistry Departmet car park",
+  "Medical center car park",
+  "Physics department car park",
   ];
 final iffloorcontroller = TextEditingController();
 String ifgroundselected = "";
@@ -276,6 +315,17 @@ List<String> iffirst = [
   "CS Wash Rooms",
   "CS Computer Lab 03",
   "CS Car park",
+  
+  //new places
+  "Maths Department Car Park",
+  "Administrative Building car park",
+  "Computer Science Department car park",
+  "General Car Park",
+  "Science Complex Car park",
+  "Zoology Department Car Park",
+  "Chemistry Departmet car park",
+  "Medical center car park",
+  "Physics department car park",
   ];
 //final iffirstf = TextEditingController();
 String iffirstselected = "";
@@ -315,9 +365,21 @@ List<String> ifsecound = [
   "CS Wash Rooms",
   "CS Computer lab 02",
   "CS Car park",
+  //new places
+  "Maths Department Car Park",
+  "Administrative Building car park",
+  "Computer Science Department car park",
+  "General Car Park",
+  "Science Complex Car park",
+  "Zoology Department Car Park",
+  "Chemistry Departmet car park",
+  "Medical center car park",
+  "Physics department car park",
   ];
+//final ifsecoundf = TextEditingController();
+String ifsecoundselected = "";
 
-  final List<String> faculty = [
+final List<String> faculty = [
   "Faculty of Science",
   "Faculty of Art",
   "Faculty of Fisharies",
@@ -326,8 +388,9 @@ List<String> ifsecound = [
 
 
 //final ifsecoundf = TextEditingController();
-String ifsecoundselected = "";
+//String ifsecoundselected = "";
 String user="Dilan";
+String useremail="";
 bool isOnRealTimeUserLocation=false;
 
 List<String> outSideplaces=["Main Gate","Y Junction", "Library Junction","Library",
@@ -370,7 +433,7 @@ const routesDColor=Color.fromARGB(150, 40,122,198);
 const floorDColor=Color.fromARGB(150,25,162,150);
 const stairDColor=Colors.red;
 //width
-const int routeWidth=7;
+const int routeWidth=6;
 const int floorWidth=3;
 const int stairWidth=8;
 
@@ -381,7 +444,8 @@ const SECOND_FLOOOR=2;
 const double ZOOM=20.0;
 
 const List<double> uorMainGate=[5.937777, 80.574449];
-
+double currentLat2=5.937777;
+double currentLng2= 80.574449;
 /*
   01-Lecture's Room               
   02-Instructor's Room            

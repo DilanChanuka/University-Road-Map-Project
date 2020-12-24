@@ -11,8 +11,9 @@ import 'package:http/http.dart' as http;
         var data=await http.get(url);
 
         if(data.statusCode==200)
-           responseValue=true;
-                  
+             responseValue=true;
+        else
+            responseValue=false;                  
      }catch(error)
      {
         print(error);

@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
-import 'package:map_interfaces/Screens/Map/log_guest_map.dart';
-import 'package:map_interfaces/Screens/Signup/signup_page_12.dart';
+import 'package:map_interfaces/Screens/Map/Function/log_guest_map.dart';
+import 'package:map_interfaces/Screens/Signup/signup_page.dart';
 import 'package:map_interfaces/page_tran.dart';
 import 'package:flutter/material.dart';
 import 'package:map_interfaces/Screens/Login/login_page.dart';

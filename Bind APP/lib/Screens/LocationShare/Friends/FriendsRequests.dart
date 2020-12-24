@@ -4,6 +4,7 @@ import '../../../constanents.dart';
 import 'package:map_interfaces/Screens/Common/data.dart';
 import 'package:map_interfaces/Screens/Request/Location_shearing.dart';
 import 'package:map_interfaces/Screens/Request/Send_Request.dart';
+import 'package:map_interfaces/Screens/LocationShare/Friends/Friends.dart';
 
 List<dynamic> frendRequestList=new List<dynamic>();
 
@@ -74,17 +75,26 @@ class _FriendsRequestsState extends State<FriendsRequests> {
                           List<String> parm=[user,frendRequestList[i]];
                           String url=getConfiremFiredrequest(parm);
                           Future<bool> myfuture=sendRequest(url);
+                          bool remove=false;
 
-                          setState(() {
                             myfuture.then((value) => {
                               if(value){
-                                  frendRequestList.removeAt(i),
-                                  setMessage("Your Request Succesfull \n Updated.....!"),
+                                  setState((){
+                                    firendList.add(frendRequestList[i]);
+                                    frendRequestList.removeAt(i);
+                                  }),
+                                  remove=true,
+                                  setMessage("Your Request Succesfull \n Updated.....!"),                 
                               }else
                                   setMessage("Unable To Aprove Your Request. \nPlease try Again..!"),                              
                             });
-                          });
+
+                           setState(() {
+                                if(remove)
+                                frendRequestList.removeAt(i);  
+                              });
                         },
+
                         child: Text("Confirm",
                           style: TextStyle(
                             color: Colors.white,

@@ -60,38 +60,43 @@ void disitionFunc(BuildContext context, GlobalKey _loader,List<dynamic> arr)
           //drawplace inside to inside
           if(startInside==true && endInside==true)
           {
-              
-              int selectedfloorId=getfloorID(arr[3]); //get selected floor ID
-              int startFloorID=getsAdfloorID(arr[0]);
-              int destinationID=allplaceID[arr[1]];
-              int destfloorID=getsAdfloorID(arr[1]);//get destination floorID
-              List<double> startarr=getPlaceLatLg(arr[0]);
-              
-              String url=getplaceInInRequest(departmentID,startFloorID , destinationID, startarr);   
-              myfuture=getjsonvalue(url);
+              if(arr[4]!='v')
+              {
+                  messageBox(context,"Notice","Inside Routes Can't be Vehicle..");
+              }else{
 
-              List<dynamic> allResponse=new List<dynamic>();
+                  int selectedfloorId=getfloorID(arr[3]); //get selected floor ID
+                  int startFloorID=getsAdfloorID(arr[0]);
+                  int destinationID=allplaceID[arr[1]];
+                  int destfloorID=getsAdfloorID(arr[1]);//get destination floorID
+                  List<double> startarr=getPlaceLatLg(arr[0]);
+                  
+                  String url=getplaceInInRequest(departmentID,startFloorID , destinationID, startarr);   
+                  myfuture=getjsonvalue(url);
 
-              //Add All Rquird Data 
-              allResponse.add(selectedfloorId);
-              allResponse.add(destinationID);
-              allResponse.add(startFloorID);
-              allResponse.add(destfloorID);
-              allResponse.add(arr[0]);
+                  List<dynamic> allResponse=new List<dynamic>();
 
-              //0=>selectedfloorId
-              //1=>destinationID
-              //2=>startFloorID
-              //3=>destfloorID
-              //4=>start Place Name (arr[0])
-              //5=>Response
-              
-              myfuture.then((response) =>{
+                  //Add All Rquird Data 
+                  allResponse.add(selectedfloorId);
+                  allResponse.add(destinationID);
+                  allResponse.add(startFloorID);
+                  allResponse.add(destfloorID);
+                  allResponse.add(arr[0]);
 
-                allResponse.add(response),
-                _loadingGetPlaceInIn(context, _loader,allResponse)
+                  //0=>selectedfloorId
+                  //1=>destinationID
+                  //2=>startFloorID
+                  //3=>destfloorID
+                  //4=>start Place Name (arr[0])
+                  //5=>Response
+                  
+                  myfuture.then((response) =>{
 
-              });
+                    allResponse.add(response),
+                    _loadingGetPlaceInIn(context, _loader,allResponse)
+
+                  });
+              }
           }
 
           //drwa place inside to outside (drawplaceinout)
@@ -163,8 +168,8 @@ void disitionFunc(BuildContext context, GlobalKey _loader,List<dynamic> arr)
               String url=getrouteRequest(startAdestination,arr[4]);
 
 
-              Future<String> myfuture=getjsonvalue(url);
-              myfuture.then((response) => {
+              Future<String> myfuture1=getjsonvalue(url);
+              myfuture1.then((response) => {
                 _loadingOuterRoutes(context, _loader,response,arr)       
               });
               
@@ -262,7 +267,8 @@ void disitionFunc(BuildContext context, GlobalKey _loader,List<dynamic> arr)
             {
               //set Notification -->>  user not in floor. user sitting in outside of university
               //setMessage("You now sitting in outside of University ...Don't select inside ");
-              showMessages(context);
+              String msg='"Your are Now sintting in Outside of Campus... \n Do not select inside place.."';
+              showMessages(context,msg);
             }
             else
             {
@@ -442,7 +448,7 @@ Future<void> _loadingGetPlaceInIn(BuildContext context,GlobalKey _loader,List<dy
     }
   }
    
-void serachPlace(BuildContext context,String placeNameselected)
+void serachPlace(BuildContext context,GlobalKey _loader,String placeNameselected)
 {
 
     bool inside=false;
@@ -478,10 +484,8 @@ void serachPlace(BuildContext context,String placeNameselected)
 
         Future<String> myfuture=getjsonvalue(url);
         myfuture.then((response) => {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder:(context)=>DrawFloor(drawfloor(response),placeNameselected)))
+          _loadingSearch(context, _loader,response,placeNameselected),
+         
         });
 
     }
@@ -583,6 +587,23 @@ int getfloorIdWithName(String placeName)
       Navigator.of(_keyloader.currentContext,rootNavigator: true).pop();
 
      // Navigator.push(context,MaterialPageRoute(builder: (context) => AddSearch()));
+    }
+    catch(error){
+      print(error);
+    }
+  }
+
+  Future<void> _loadingSearch(BuildContext context,GlobalKey<State> _keyloader,String response,String placename) async
+  {
+    try{
+      Dialogs.showLoadingDialog(context,_keyloader);
+      await Future.delayed(Duration(seconds: 3,));
+      Navigator.of(_keyloader.currentContext,rootNavigator: true).pop();
+
+      Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder:(context)=>DrawFloor(drawfloor(response),placename)));
     }
     catch(error){
       print(error);

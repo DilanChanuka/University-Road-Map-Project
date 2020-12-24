@@ -1,5 +1,5 @@
-import 'package:map_interfaces/Screens/Map/main_map.dart';
-import 'package:map_interfaces/Screens/Map/search_map_show_page.dart';
+import 'package:map_interfaces/Screens/Map/Function/main_map.dart';
+import 'package:map_interfaces/Screens/Map/Function/search_map_show_page.dart';
 import 'package:map_interfaces/page_tran.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/gestures.dart';
@@ -27,6 +27,7 @@ class _MHPage extends State<Spage>
 {
 
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  final GlobalKey<State> _loader = GlobalKey<State>();
   String location,destination;
   @override
   Widget build(BuildContext context) {
@@ -154,7 +155,7 @@ class _MHPage extends State<Spage>
                 borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
               ),
               onPressed: () => {
-		            serachPlace(context,dselectedDestination)
+		            serachPlace(context,_loader,dselectedDestination)
                // placeNameselected = null,
                // placeNameSelect.clear(),
                 //_handleSubmitsearch(context),

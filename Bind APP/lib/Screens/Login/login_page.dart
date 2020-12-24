@@ -1,7 +1,7 @@
-import 'package:map_interfaces/Screens/Map/main_map.dart';
+import 'package:map_interfaces/Screens/Map/Function/main_map.dart';
 import 'package:map_interfaces/page_tran.dart';
 import 'package:flutter/material.dart';
-import 'package:map_interfaces/Screens/Signup/signup_page_12.dart';
+import 'package:map_interfaces/Screens/Signup/signup_page.dart';
 import 'package:map_interfaces/constanents.dart';
 import 'package:map_interfaces/Screens/FPassword/forg_pass_page.dart';
 import 'package:map_interfaces/Screens/Common/data.dart';
@@ -61,6 +61,9 @@ class _LoginPageState extends State<LBody>
         child: TextFormField(
           keyboardType: TextInputType.name,
           textCapitalization: TextCapitalization.words,
+          onChanged:(value)=>{
+            username=value,
+          },
           decoration: InputDecoration(
             prefixIcon: Icon(
                 Icons.perm_identity,
@@ -89,6 +92,9 @@ class _LoginPageState extends State<LBody>
       child: SingleChildScrollView(
         child: TextFormField(
           keyboardType: TextInputType.text,
+          onChanged: (value)=>{
+            password=value,
+          },
           obscureText: true,
           decoration: InputDecoration(
             prefixIcon: Icon(
@@ -177,23 +183,20 @@ class _LoginPageState extends State<LBody>
                 borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
               ),
               onPressed: ()async => {
-                //if(_formKey.currentState.validate())
-                //{
-                  //_formKey.currentState.save(),
+      
                   url=port+"/"+username+"/"+password+"",
                   myfuture=authenticateUser(url),
                   myfuture.then((value) => {
                     if(value){
-                        user=username,
+                        user=username,                     
                         Navigator.push(context,MaterialPageRoute(builder: (context) => MainMap())),
                     }
                     else{
                       showAlertLogin(context),
                     }
                       
-                  }),
-                  _handleSubmitloginMainmap(context),
-              // }
+                  }),         
+             
               },
               child: SingleChildScrollView(
                 child: Text(

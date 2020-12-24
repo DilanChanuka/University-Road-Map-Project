@@ -1,5 +1,5 @@
-import 'package:map_interfaces/Screens/AddSearch/add_search_page.dart';
-import 'package:map_interfaces/Screens/Map/places.dart';
+import 'package:map_interfaces/Screens/Direction/Direction_page.dart';
+import 'package:map_interfaces/Screens/Map/Function/places.dart';
 import 'package:map_interfaces/Screens/Profile/PrifilePage.dart';
 import 'package:map_interfaces/Screens/Welcome/welcome_page.dart';
 import 'package:map_interfaces/page_tran.dart';
@@ -310,7 +310,7 @@ class MainMapState extends State<Get2UserPath>
       await Future.delayed(Duration(seconds: 3,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
-      Navigator.push(context,MaterialPageRoute(builder: (context) => AddSPage()));
+      Navigator.push(context,MaterialPageRoute(builder: (context) => DirectionPage()));
     }
     catch(error){
       print(error);
@@ -337,7 +337,7 @@ class MainMapState extends State<Get2UserPath>
       await Future.delayed(Duration(seconds: 3,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
-      Navigator.push(context,MaterialPageRoute(builder: (context) => AddSPage()));
+      Navigator.push(context,MaterialPageRoute(builder: (context) => DirectionPage()));
     }
     catch(error){
       print(error);

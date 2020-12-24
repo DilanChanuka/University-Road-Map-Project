@@ -1,4 +1,4 @@
-import 'package:map_interfaces/Screens/AddSearch/add_search_page.dart';
+import 'package:map_interfaces/Screens/Direction/Direction_page.dart';
 import 'package:map_interfaces/Screens/Common/data.dart';
 import 'package:map_interfaces/Screens/LocationShare/manage_friends_page.dart';
 import 'package:map_interfaces/Screens/Profile/PrifilePage.dart';
@@ -21,7 +21,7 @@ Widget getSideBar(BuildContext context,GlobalKey _keyLoader)
       await Future.delayed(Duration(seconds: 3,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
-      Navigator.push(context,MaterialPageRoute(builder: (context) => AddSPage()));
+      Navigator.push(context,MaterialPageRoute(builder: (context) => DirectionPage()));
     }
     catch(error){
       print(error);
@@ -34,7 +34,7 @@ Widget getSideBar(BuildContext context,GlobalKey _keyLoader)
       await Future.delayed(Duration(seconds: 3,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
-      Navigator.push(context,MaterialPageRoute(builder: (context) => AddSPage()));
+      Navigator.push(context,MaterialPageRoute(builder: (context) => DirectionPage()));
     }
     catch(error){
       print(error);
@@ -87,8 +87,8 @@ return Drawer(
               padding: EdgeInsets.zero,
               children: <Widget>[
                 UserAccountsDrawerHeader(
-                  accountName: Text("User Name"), 
-                  accountEmail: Text("User Email"),
+                  accountName: Text(user), 
+                  accountEmail: Text(useremail),
                   currentAccountPicture: CircleAvatar(
                     backgroundColor: mainColor,
                     child: Text("A"),
@@ -101,8 +101,11 @@ return Drawer(
                 ListTile(
                   title: Text("Sign Out",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),),
                   leading: Icon(Icons.exit_to_app,color: blackcolor,), 
-                  onTap: () => _handleSubmitwelcome(context),
-                ),
+                  onTap: () => {
+                       user="",
+                       useremail="",
+                      _handleSubmitwelcome(context),
+                  }),
 
                 ListTile(
                   title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),

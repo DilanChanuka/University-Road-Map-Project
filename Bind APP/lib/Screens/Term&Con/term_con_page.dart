@@ -1,6 +1,6 @@
 import 'package:map_interfaces/page_tran.dart';
 import 'package:flutter/material.dart';
-import 'package:map_interfaces/Screens/Signup/signup_page_12.dart';
+import 'package:map_interfaces/Screens/Signup/signup_page.dart';
 import 'package:map_interfaces/constanents.dart';
 
 class TCPage extends StatelessWidget

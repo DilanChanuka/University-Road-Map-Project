@@ -1,13 +1,16 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:map_interfaces/Screens/Common/data.dart';
-import 'package:map_interfaces/Screens/Map/main_map.dart';
 import 'package:map_interfaces/page_tran.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:map_interfaces/Screens/Login/login_page.dart';
 import 'package:map_interfaces/constanents.dart';
 import 'package:map_interfaces/Screens/Term&Con/term_con_page.dart';
+import 'package:map_interfaces/Screens/Map/Display/Notification.dart';
+
+
+bool sinUpflage=false;
 
 class SignUp  extends StatelessWidget 
 {
@@ -31,6 +34,7 @@ class _SignUpPageState extends State<SBody>
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String username,upassword,uemail,id,fty,type;
   String jsonbody;
+  var data;
   Future<dynamic> response;
   bool checkB = false;
   bool first = true;
@@ -203,30 +207,22 @@ class _SignUpPageState extends State<SBody>
               ),
               onPressed: ()async => {
 
-                print(username),
-                print(uemail),
-                print(upassword),
-                print(fty),
-                print(type),
-             
                 jsonbody=getJsonBody(username,uemail,upassword,fty,type),
-                await http.post(
+                data=await http.post(
                   port,
                   headers: {"Content-Type": "application/json"},
                   body: jsonbody,
                 ),
 
-             /*if(_formKey.currentState.validate())
-                {
-                  _formKey.currentState.save(),
-                  _handleSubmitmmap(context),
-                }
-                */
-                //if(_formKey.currentState.validate())
-                //{
-                // _formKey.currentState.save(),
-                 // _handleSubmitmmap(context),
-              //}
+                if(data.statusCode==200 || data.statusCode==201){
+                       messageBox(context,"Congradulation","Registation succesfull .."),
+                       if(sinUpflage){
+                            _handleSubmitmmap(context),
+                            sinUpflage=false,
+                       }
+                          
+                }                
+                
               },
               child: SingleChildScrollView(
                 child: Text(
@@ -505,7 +501,7 @@ class _SignUpPageState extends State<SBody>
       await Future.delayed(Duration(seconds: 3,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
-      Navigator.push(context,MaterialPageRoute(builder: (context) => MainMap()));
+      Navigator.push(context,MaterialPageRoute(builder: (context) => Login()));
     }
     catch(error){
       print(error);
@@ -526,7 +522,7 @@ class _SignUpPageState extends State<SBody>
 
       String body=json.encode(data);
 
-      return body;
+      return "["+body+"]";
   }
 
 

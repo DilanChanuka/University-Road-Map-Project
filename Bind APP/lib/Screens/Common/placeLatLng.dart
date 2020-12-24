@@ -3,7 +3,7 @@ Map<String,dynamic> placeLatLng={
   
     //Inside Places
     "CS Lecture's Room":[5.939537,80.576488],
-    "CS Instructor's Room":[5.939599,80.576251],
+    "CS Instructors's Room":[5.939599,80.576251],
     "CS Computer Lab 01":[5.939724,80.576026],
     "CS Mini-auditorium":[5.939969,80.575967],
     "CS Head's Room":[5.939608,80.576487],
@@ -40,7 +40,18 @@ Map<String,dynamic> placeLatLng={
     "Chemistry Department":[5.940944,80.576713],
     "Medical Center":[5.940433,80.576065],
     "Student Common Room":[5.939709,80.577373],
-    "Student reading place":[5.93893,80.577123]
+    "Student reading place":[5.93893,80.577123],
+
+    //New place
+    "Maths Department Car Park":[5.93913,80.576061],
+    "Administrative Building car park":[5.938189,80.576188],
+    "Computer Science Department car park":[5.939588,80.575933],
+    "General Car Park":[5.939329,80.577647],
+    "Science Complex Car park":[5.939591,80.577559],
+    "Zoology Department Car Park":[5.940565,80.577915],
+    "Chemistry Departmet car park":[5.940944,80.576713],
+    "Medical center car park":[5.940433,80.576065],
+    "Physics department car park":[5.940576,80.576218],
     
   };
 
@@ -48,7 +59,7 @@ Map<String,dynamic> placeLatLng={
    
     //Inside Places
     "CS Lecture's Room":1,
-    "CS Instructor's Room":2,
+    "CS Instructors's Room":2,
     "CS Computer Lab 01":3,
     "CS Mini-auditorium":4,
     "CS Head's Room":5,
@@ -85,7 +96,17 @@ Map<String,dynamic> placeLatLng={
     "Chemistry Department":34,
     "Medical Center":35,
     "Student Common room":36,
-    "Student reading place":37
-    
-    
+    "Student reading place":37,
+
+    //Car park
+    "Maths Department Car Park":38,
+    "Administrative Building car park":39,
+    "Computer Science Department car park":40,
+    "General Car Park":41,
+    "Science Complex Car park":42,
+    "Zoology Department Car Park":43,
+    "Chemistry Departmet car park":44,
+    "Medical center car park":45,
+    "Physics department car park":46,
+      
     };

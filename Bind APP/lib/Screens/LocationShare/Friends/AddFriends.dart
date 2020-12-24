@@ -74,30 +74,28 @@ class _AddFriendsState extends State<AddFriends> {
                           
                           List<String> parm=[user,addfrendList[i]];
                           String url=getAddFirendrequest(parm);
-                          
-                          setState(() {
-                            /*
-                            if(addfrendList[i].pressed == false){
-                              addfrendList[i].pressed = true;
-                            }
-                            else{
-                              addfrendList[i].pressed = false;
-                            }
-                    */      
+                          bool remove=false;
+                         
+                          String msg="Alredy You have send Request..!";
+               
                             Future<bool> myfuture=sendRequest(url);
                             myfuture.then((value) =>{
                                 if(value){
-                                    addfrendList.removeAt(i),
-                                    setMessage("Your Request Succesfull.....!"),
-                                }
-                                else
-                                    setMessage("Unable To Send Request. \nPlease try Again..!"),                              
+                                      setState((){
+                                          addfrendList.removeAt(i);
+                                      }),
+                                      remove=true,
+                                      setMessage("Your Request Succesfull.....!"),
+                                    }else{
+                                      showMessages(context,msg),
+                                }               
+                            }); 
 
-                            });
-                             
-                          });
-                            
-                         
+                            setState(() {
+                                if(remove)
+                                addfrendList.removeAt(i);  
+                              });                                       
+                                                 
                         },
                         child: Text("Add",
                           style: TextStyle(

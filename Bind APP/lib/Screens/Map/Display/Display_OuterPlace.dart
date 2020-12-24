@@ -38,25 +38,7 @@ class DisplayOuterPlace extends StatefulWidget
   }
 
 }
-class Floor
-{
-  int id;
-  String name;
 
-  Floor(this.id,this.name);
-
-  static List<Floor> getFloor(){
-    return <Floor>[
-    
-      Floor(0, 'Ground Floor'),
-      Floor(1, 'First Floor'),
-      Floor(2, 'Second Floor'),
-    ];
-  
-    
-
-  }
-}
 class _DrawState extends State<DisplayOuterPlace>
 {
 
@@ -97,34 +79,13 @@ class _DrawState extends State<DisplayOuterPlace>
 @override
 void initState()
 {
-  _dropdownMenuitem = buildDropdownMenuItems(_floor).cast<DropdownMenuItem<Floor>>();
+ // _dropdownMenuitem = buildDropdownMenuItems(_floor).cast<DropdownMenuItem<Floor>>();
    customMapPing();
-  _selectedFloor = _dropdownMenuitem[floorID].value;
+  //_selectedFloor = _dropdownMenuitem[floorID].value;
   super.initState();
 }
 
-List<DropdownMenuItem<Floor>> buildDropdownMenuItems(List floors){
-  List<DropdownMenuItem<Floor>> items = List();
-  for(Floor floor in floors){
-    items.add(
-      DropdownMenuItem(
-        value: floor, // have to change default selected floor value acoding to relevent floor
-        child: Text(floor.name,style: TextStyle(fontSize: 25.0),),
-        
-      ),
-    );
-  }
 
-  return items;
-}
-
-onChangeDropdwonItem(Floor selectedFloor){
-  setState(() 
-  {
-    _selectedFloor = selectedFloor;
- 
-  });
-}
 
   static LatLng _center =LatLng(markerLocation[0],markerLocation[1]);
   final Set<Marker> _markers = {};
@@ -216,13 +177,7 @@ static CameraPosition initialLocation = CameraPosition(
           backgroundColor: firstColor,
           actions: <Widget>[
              SizedBox(width: 60.0,),
-               DropdownButton(
-                  iconSize: 25.0,
-                  iconEnabledColor: mainColor,
-                  value: _selectedFloor,
-                  items: _dropdownMenuitem, 
-                  onChanged: onChangeDropdwonItem,
-                  ),
+            
           ],
         ),
         drawer:getSideBar(context, _keyLoader),

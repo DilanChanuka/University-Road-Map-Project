@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:map_interfaces/Screens/Welcome/welcome_page.dart';
-import 'package:map_interfaces/Screens/Map/main_map.dart';
+import 'package:map_interfaces/Screens/Map/Function/main_map.dart';
 import 'package:map_interfaces/Screens/Signup/signup_page.dart';
 
 void main() => runApp(MyApp());
@@ -13,8 +13,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.black26,
       ),
-      home:MainMap(), 
-      //home: SignUp(),
+      //home:MainMap(), 
+      home: WelcomePage(),
     );
   }
 }

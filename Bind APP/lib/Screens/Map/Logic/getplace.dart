@@ -32,6 +32,7 @@ List<dynamic> getplace(List<dynamic> data,int selectedFloorID,int destinationFID
     Set<Polyline> _polyline={}; 
     List<int> flage=[1,1,1];
     List<int> flageStar=[1,1];
+    bool flage12=false;
   
     if(data[3][selectedFloorID].length>0)
     {
@@ -39,6 +40,7 @@ List<dynamic> getplace(List<dynamic> data,int selectedFloorID,int destinationFID
          //get outer routes polyline
         if(data[0].length>0 && selectedFloorID==0)
         {
+            flage12=true;
             Polyline outerR=Polyline(
               polylineId:PolylineId("outerR"),
               color: routeColor,
@@ -46,7 +48,18 @@ List<dynamic> getplace(List<dynamic> data,int selectedFloorID,int destinationFID
               points: data[0] );
 
               _polyline.add(outerR);
+              
+        }else if(data[0].length>0 && !flage12)
+        {
+            Polyline outerR12=Polyline(
+              polylineId:PolylineId("outerR12"),
+              color: routeColor,
+              width: routeWidth,
+              points: data[0] );
+
+            _polyline.add(outerR12);
         }
+
 
         //get floor Routes
         if(data[1][selectedFloorID].length>0)

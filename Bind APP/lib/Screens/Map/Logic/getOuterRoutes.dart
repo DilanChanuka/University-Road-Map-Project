@@ -34,7 +34,7 @@ List<dynamic> getOuterRoutes(List<dynamic> data,int selectedfloorid,List<dynamic
             markerId:MarkerId('source'),
             infoWindow: InfoWindow(title: "Start Location"),
             position: LatLng(data[0][0].latitude, data[0][0].longitude),
-            icon: sourceIcon
+            icon: sourceIcon,
             ));
 
           //destination pin

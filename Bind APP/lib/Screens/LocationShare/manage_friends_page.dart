@@ -3,7 +3,7 @@ import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:map_interfaces/Screens/LocationShare/Friends/AddFriends.dart';
 import 'package:map_interfaces/Screens/LocationShare/Friends/Friends.dart';
 import 'package:map_interfaces/Screens/LocationShare/Friends/FriendsRequests.dart';
-import 'package:map_interfaces/Screens/Map/main_map.dart';
+import 'package:map_interfaces/Screens/Map/Function/main_map.dart';
 import 'package:map_interfaces/constanents.dart';
 import 'package:map_interfaces/page_tran.dart';
 
@@ -59,7 +59,8 @@ class _Bodycreate extends State<Body> with SingleTickerProviderStateMixin
       ),
         onPressed: () 
         {
-          _handleMainPage(context);
+          Navigator.push(context,MaterialPageRoute(builder: (context) => MainMap()));
+          //_handleMainPage(context);
         },
       ),
       title: Text("Manage Friends",

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:map_interfaces/Screens/Map/main_map.dart';
+import 'package:map_interfaces/Screens/Map/Function/main_map.dart';
 import '../../constanents.dart';
 import '../../page_tran.dart';
 

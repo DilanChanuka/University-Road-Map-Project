@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:map_interfaces/Screens/LocationShare/Friends/AddFriends.dart';
 import 'package:map_interfaces/Screens/Map/Display/Notification.dart';
 import 'package:map_interfaces/Screens/Request/Send_Request.dart';
 import 'package:map_interfaces/Screens/Request/Location_shearing.dart';
@@ -71,23 +72,35 @@ class _FriendsState extends State<Friends> {
                         ),*/
                         onPressed: (){
 
+  /*                           setState((){
+                                      addfrendList.add(firendList[i]);
+                                      firendList.removeAt(i);
+                                    });
+*/
+
+                          String msg="Unable Remove Firend. \nPlease try Again..!";
+                          bool remove=false;
                           List<String> parm=[user,firendList[i]];
                           String url=getRemoveFirendRequest(parm);
                           Future<bool> myfuture=sendRequest(url);
-                          
-                          setState(() {
-                            myfuture.then((value) => {
+
+                          myfuture.then((value) => {
                               if(value){
-                                  firendList.removeAt(i),
+                                  setState((){
+                                      addfrendList.add(firendList[i]);
+                                      firendList.removeAt(i);
+                                    }),
+                                  remove=true,
                                   setMessage("Your Request Succesfull Updated.....!")
                               }else
-                                  setMessage("Unable Remove Firend. \nPlease try Again..!"),                              
-
-                                  
-
+                                  showMessages(context,msg),
                             });
-                            
-                          });
+
+                              setState(() {
+                                if(remove)
+                                firendList.removeAt(i);  
+                              });
+
                         },
                         child: Text("Remove",
                           style: TextStyle(

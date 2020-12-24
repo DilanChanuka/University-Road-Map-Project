@@ -1,12 +1,12 @@
 
-import 'package:map_interfaces/Screens/Map/GetUser_Location.dart';
-import 'package:map_interfaces/Screens/Disition/disistionFunc.dart';
-import 'package:map_interfaces/Screens/Welcome/welcome_page.dart';
+import 'package:map_interfaces/Screens/Map/Function/main_map.dart';
 import 'package:map_interfaces/page_tran.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
 import 'package:map_interfaces/constanents.dart';
 import 'package:map_interfaces/Screens/Common/data.dart';
+import 'package:map_interfaces/Screens/Disition/disistionFunc.dart';
+import 'package:map_interfaces/Screens/Map/Function/GetUser_Location.dart';
 
 bool departmentFlage=false;
 bool floorFlage=false;
@@ -18,6 +18,8 @@ bool selectcurrentLocation=false;
 Future<List<dynamic>> currentLat;
 List<double> startLocation=new List<double>();
 List<dynamic> userLocAndPolyline=new List<dynamic>();
+List<dynamic> reqValue=new List<dynamic>();
+
 class DirectionPage extends StatelessWidget
 {
   @override
@@ -25,7 +27,7 @@ class DirectionPage extends StatelessWidget
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.white,
+        primaryColor: colorwhite,
         backgroundColor: firstColor,
       ),
       home: Hpage(),
@@ -89,6 +91,7 @@ class _MHPage extends State<Hpage> {
                           children: [
                             DropdownButton(
                                 isExpanded: true,
+                                autofocus: true,
                                 //hint: Text("Select Department"),
                                 value: departmentvalue,
                                 underline: Container(
@@ -106,8 +109,7 @@ class _MHPage extends State<Hpage> {
                                   );
                                 }).toList(),
                                 onChanged: (String dp) {
-                                  setState(() 
-                                  {
+                                  setState(() {
                                     dselectedDepartment = dp;
                                     departmentQ.insert(0,dselectedDepartment);
                                     departmentFlage=true;
@@ -135,8 +137,9 @@ class _MHPage extends State<Hpage> {
           
                             DropdownButton(
                                 isExpanded: true,
+                                autofocus: true,
                                 //hint: Text("Select Floor"),
-                                value:dselectedFloorName,
+                                value: dselectedFloorName,
                                 underline: Container(
                                   height: 3,
                                   color: firstColor,
@@ -152,8 +155,7 @@ class _MHPage extends State<Hpage> {
                                   );
                                 }).toList(),
                                 onChanged: (fl) {
-                                  setState(() 
-                                  {
+                                  setState(() {
                                     dselectedFloorName = fl;
                                     floorQ.insert(0,dselectedFloorName);
                                     floorFlage=true;
@@ -178,7 +180,7 @@ class _MHPage extends State<Hpage> {
                 },
                 child: Text("OK",
                   style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width / 20,
+                    fontSize: MediaQuery.of(context).size.width / 22,
                     fontWeight: FontWeight.bold,
                     color: firstColor,
                   ),
@@ -233,7 +235,7 @@ class _MHPage extends State<Hpage> {
                           ),
                         ],
                         color: tridColor,
-                        border: Border.all(),
+                        border: Border.all(color: blackcolor),
                       ),
                     child: Text("Out Side",
                       textAlign: TextAlign.center,
@@ -261,7 +263,7 @@ class _MHPage extends State<Hpage> {
                           ),
                         ],
                         color: tridColor,
-                        border: Border.all(),
+                        border: Border.all(color: blackcolor),
                       ),
                       child: Text("In Side",
                         textAlign: TextAlign.center,
@@ -305,6 +307,7 @@ class _MHPage extends State<Hpage> {
                   ),
                   child: Text("Walk",
                     style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width / 25,
                       color: mainColor,
                     ),
                   ),
@@ -315,70 +318,28 @@ class _MHPage extends State<Hpage> {
                 ),
                   child: Text("Vehicle",
                     style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width / 25,
                       color: mainColor,
                     ),
                   ),
                 ),
               ],
             ),
-          ),
+            leading: IconButton(icon: Icon(
+              Icons.arrow_back,
+              size: MediaQuery.of(context).size.width / 15,
+              color: mainColor,
+            ),
+             onPressed: () =>
+               _handleBack(context),
+            ),
+            ),
           body:
           TabBarView(
             children:[
               _tab2(),
               _tab1(),
             ],
-          ),
-          drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                
-                UserAccountsDrawerHeader(
-                  accountName: Text("User Name"), 
-                  accountEmail: Text("User Email"),
-                  currentAccountPicture: CircleAvatar(
-                    backgroundColor: mainColor,
-                    child: Text("A"),
-                  ),
-                  decoration: BoxDecoration(
-                    color: firstColor,
-                  ),
-                ),
-
-                ListTile(
-                  title: Text("Sign Out",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),
-                  leading: Icon(Icons.exit_to_app,color: blackcolor,), 
-                  onTap: () =>
-                    _handleSubmitwelcome(context),
-                ),
-
-                ListTile(
-                  title: Text("Profile",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),
-                  leading: Icon(Icons.person,color: blackcolor,),
-                  onTap: (){},
-                ),
-
-                ListTile(
-                  title: Text("Contacts",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),
-                  leading: Icon(Icons.contacts,color: blackcolor,),
-                  onTap: (){},
-                ),
-
-                ListTile(
-                  title: Text("Settings",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),
-                  leading: Icon(Icons.settings,color: blackcolor,),
-                  onTap: (){},
-                ),
-
-                ListTile(
-                  title: Text("Help and feedback",style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20,),),
-                  leading: Icon(Icons.help,color: blackcolor,),
-                  onTap: (){},
-                ),
-
-              ],
-            ),
           ),
         ),
       ),
@@ -434,13 +395,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5),
         ),
           onTap: (){
             return showDialog(
@@ -449,11 +413,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),
                             child: Container(  
                                 child: DropDownField(
-                                  itemsVisibleInDropdown: 2,
+                                  required: true,
+                                  itemsVisibleInDropdown: 6,
                                   controller: vehicleoutUserLocselect,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28,),
@@ -462,7 +427,7 @@ class _MHPage extends State<Hpage> {
                                   onValueChanged: (value)
                                   {  
                                     setState(() {
-                                      dselectedStart = value;
+                                     dselectedStart = value;
                                       dvOr='v';
 
                                       startLocationQ.insert(0,dselectedStart);
@@ -476,7 +441,7 @@ class _MHPage extends State<Hpage> {
                                 ), 
                             ), 
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(dselectedStart);},
@@ -511,13 +476,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5),
         ),
           onTap: (){
             return showDialog(
@@ -526,11 +494,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),
                             child: Container(  
                                 child: DropDownField(
-                                  itemsVisibleInDropdown: 2,
+                                  required: true,
+                                  itemsVisibleInDropdown: 6,
                                   controller: vehicleinUserLocselect,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -548,13 +517,12 @@ class _MHPage extends State<Hpage> {
 
                                       if(startLocationQ[0]=="Your Location")
                                             currentLocation=true;
-
                                     });
                                   },
                                 ), 
                             ),  
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(dselectedStart);},
@@ -605,13 +573,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5),
         ),
           onTap: (){
             return showDialog(
@@ -620,11 +591,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(                       
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                      
                             child: Container(  
                                 child: DropDownField(
-                                  itemsVisibleInDropdown: 2,
+                                  required: true,
+                                  itemsVisibleInDropdown: 6,
                                   controller: floorcontroller,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -633,7 +605,7 @@ class _MHPage extends State<Hpage> {
                                   onValueChanged: (value)
                                   {  
                                     setState(() {
-                                     dselectedStart = value;
+                                      dselectedStart = value;
                                       dvOr='f';
 
                                       startLocationQ.insert(0,dselectedStart);
@@ -641,13 +613,13 @@ class _MHPage extends State<Hpage> {
                                       vORfFlage=true;
 
                                       if(startLocationQ[0]=="Your Location")
-                                            currentLocation=true;
+                                            currentLocation=true;;
                                     });
                                   },
                                 ), 
                             ),  
                         ),      
-                      ), 
+                       
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(dselectedStart);},
@@ -682,13 +654,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -697,11 +672,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(                         
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
                             child: Container(  
                                 child: DropDownField(
-                                  itemsVisibleInDropdown: 2,
+                                  required: true,
+                                  itemsVisibleInDropdown: 6,
                                   controller: floorcontroller,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -724,7 +700,7 @@ class _MHPage extends State<Hpage> {
                                 ), 
                             ),   
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(dselectedStart);},
@@ -759,13 +735,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -774,11 +753,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(                         
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
                             child: Container(  
                                 child: DropDownField(
-                                  itemsVisibleInDropdown: 2,
+                                  required: true,
+                                  itemsVisibleInDropdown: 6,
                                   controller: floorcontroller,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -801,7 +781,7 @@ class _MHPage extends State<Hpage> {
                                 ), 
                             ),                           
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(dselectedStart);},
@@ -836,13 +816,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Your Location',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -851,11 +834,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(                          
+                     content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
                             child: Container(  
                                 child: DropDownField(
-                                  itemsVisibleInDropdown: 2,
+                                  required: true,
+                                  itemsVisibleInDropdown: 6,
                                   controller: walkoutUserLocselect,
                                   hintText: "Your Location",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -867,7 +851,7 @@ class _MHPage extends State<Hpage> {
                                       dselectedStart = value;
                                       dvOr='f';
 
-                                      startLocationQ.insert(0, dselectedStart);
+                                      startLocationQ.insert(0,dselectedStart);
                                       vOfQ.insert(0,dvOr);
                                       vORfFlage=true;
 
@@ -878,7 +862,7 @@ class _MHPage extends State<Hpage> {
                                 ), 
                             ),                           
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(dselectedStart);},
@@ -891,7 +875,7 @@ class _MHPage extends State<Hpage> {
               }
             );
           },
-        controller: TextEditingController(text:dselectedStart),
+        controller: TextEditingController(text: dselectedStart),
       ),
       ),
     );
@@ -913,13 +897,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -928,11 +915,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(                      
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
                             child: Container(  
                                 child: DropDownField(
-                                  itemsVisibleInDropdown: 2,
+                                  required: true,
+                                  itemsVisibleInDropdown: 6,
                                   controller: vehicleinDestiLocselect,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -952,7 +940,7 @@ class _MHPage extends State<Hpage> {
                                 ), 
                               ),                            
                         ),      
-                      ), 
+                       
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(dselectedStart);},
@@ -988,13 +976,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -1003,11 +994,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(                       
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
                             child: Container(  
                                 child: DropDownField(
-                                  itemsVisibleInDropdown: 2,
+                                  required: true,
+                                  itemsVisibleInDropdown: 6,
                                   controller: vehicleoutDestiLocselect,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -1018,13 +1010,12 @@ class _MHPage extends State<Hpage> {
                                     setState(() {
                                       dselectedDestination = value;                                   
                                       endLocationQ.insert(0,dselectedDestination);
-
                                     });
                                   },
                                 ), 
                             ),                             
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(dselectedDestination);},
@@ -1075,13 +1066,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -1090,11 +1084,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(                       
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
                             child: Container(  
                                 child: DropDownField(
-                                  itemsVisibleInDropdown: 2,
+                                  required: true,
+                                  itemsVisibleInDropdown: 6,
                                   controller: iffloorcontroller,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -1110,7 +1105,7 @@ class _MHPage extends State<Hpage> {
                                 ), 
                             ),                           
                         ),      
-                      ), 
+                      
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(dselectedDestination);},
@@ -1145,13 +1140,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -1160,11 +1158,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(                        
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
                             child: Container(  
                                 child: DropDownField(
-                                  itemsVisibleInDropdown: 2,
+                                  required: true,
+                                  itemsVisibleInDropdown: 6,
                                   controller: iffloorcontroller,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -1180,7 +1179,7 @@ class _MHPage extends State<Hpage> {
                                 ), 
                             ),                             
                         ),      
-                      ), 
+                       
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(dselectedDestination);},
@@ -1215,13 +1214,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -1230,11 +1232,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(                         
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
                             child: Container(  
                                 child: DropDownField(
-                                  itemsVisibleInDropdown: 2,
+                                  required: true,
+                                  itemsVisibleInDropdown: 6,
                                   controller: iffloorcontroller,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -1250,7 +1253,7 @@ class _MHPage extends State<Hpage> {
                                 ), 
                             ),                           
                         ),      
-                      ), 
+                       
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(dselectedDestination);},
@@ -1285,13 +1288,16 @@ class _MHPage extends State<Hpage> {
           ),
         ],
         color: colorwhite,
-        border: Border.all(),
+        border: Border.all(color: colorborder),
       ),
       child: TextFormField(
         readOnly: true,
         autofocus: true,
+        autocorrect: true,
         decoration: InputDecoration(
           labelText: 'Enter Destination',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(5)
         ),
           onTap: (){
             return showDialog(
@@ -1300,11 +1306,12 @@ class _MHPage extends State<Hpage> {
                 builder: (context) {
                   return StatefulBuilder(builder: (context, setState) {
                     return AlertDialog(
-                      content: Form(
-                        child: SingleChildScrollView(                        
+                      content: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),                         
                             child: Container(  
                                 child: DropDownField(
-                                  itemsVisibleInDropdown: 2,
+                                  required: true,
+                                  itemsVisibleInDropdown: 6,
                                   controller: walkoutDestiLocselect,
                                   hintText: "Choose destination",
                                   hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width / 28),
@@ -1315,13 +1322,12 @@ class _MHPage extends State<Hpage> {
                                     setState(() {
                                       dselectedDestination = value;
                                       endLocationQ.insert(0,dselectedDestination);
-
                                     });
                                   },
                                 ), 
                             ),                           
                         ),      
-                      ), 
+                       
                       actions: [
                         FlatButton(
                           onPressed: (){Navigator.of(context).pop(dselectedDestination);},
@@ -1338,7 +1344,7 @@ class _MHPage extends State<Hpage> {
       ),
       ),
     );
-  } 
+  }
   
   Widget buildEnterButtonVehicleInSide()
   {
@@ -1363,9 +1369,9 @@ class _MHPage extends State<Hpage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
             ),
-            onPressed: ()=>
-            {
-             
+            onPressed: () => {
+
+	           
               arr.insert(0,startLocationQ[0]),
               arr.insert(1,endLocationQ[0]), 
 
@@ -1400,11 +1406,13 @@ class _MHPage extends State<Hpage> {
                           //1=>google map polyline
                           currentLat.then((value) => {
                                 userLocAndPolyline=value,
+                                reqValue.add(userLocAndPolyline[0]),
+                                reqValue.add(userLocAndPolyline[1]),
                                 flage=true,
                                 arr.removeAt(0),
-                                arr.insert(0,userLocAndPolyline),
+                                arr.insert(0,reqValue),
                                 arr.insert(5,1), //1 =>> user wants to current location
-
+                                currentLocation=false,
                                 disitionFunc(context,_loader, arr),
                           }),                                                         
               }
@@ -1415,15 +1423,15 @@ class _MHPage extends State<Hpage> {
               if(!selectcurrentLocation)
                  disitionFunc(context,_loader, arr),             
 
-              arr.clear(),
-            },
+              
+	    },
             child: SingleChildScrollView(
             child: Text(
               "Enter",
               style: TextStyle(
                 color: mainColor,
                 letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 30,
+                fontSize: MediaQuery.of(context).size.width / 20,
               ),
             ),
             ),
@@ -1456,13 +1464,14 @@ class _MHPage extends State<Hpage> {
               borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
             ),
             onPressed: () => {
-            //  _handleSubmitaddsearch(context),
+              //_handleSubmitaddsearch(context),
               vehicleoutUserLocselect.clear(),
               vehicleoutUserLocselected = null,
               vehicleoutDestiLocselect.clear(),
               vehicleoutDestiLocselected = null,
-            
-               arr.insert(0,startLocationQ[0]),
+
+              
+              arr.insert(0,startLocationQ[0]),
               arr.insert(1,endLocationQ[0]), 
 
               //add department  value for quere
@@ -1496,30 +1505,32 @@ class _MHPage extends State<Hpage> {
                           //1=>google map polyline
                           currentLat.then((value) => {
                                 userLocAndPolyline=value,
+                                reqValue.add(userLocAndPolyline[0]),
+                                reqValue.add(userLocAndPolyline[1]),
                                 flage=true,
                                 arr.removeAt(0),
-                                arr.insert(0,userLocAndPolyline),
+                                arr.insert(0,reqValue),
                                 arr.insert(5,1), //1 =>> user wants to current location
-
+                                currentLocation=false,
                                 disitionFunc(context,_loader, arr),
                           }),                                                         
               }
               else{
                     arr.insert(5,0), //0==>> user not want current location
               },
-                           
+                      
               if(!selectcurrentLocation)
                  disitionFunc(context,_loader, arr),             
 
+
             },
-      
             child: SingleChildScrollView(
             child: Text(
               "Enter",
               style: TextStyle(
                 color: mainColor,
                 letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 30,
+                fontSize: MediaQuery.of(context).size.width / 20,
               ),
             ),
             ),
@@ -1552,7 +1563,7 @@ class _MHPage extends State<Hpage> {
               borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
             ),
             onPressed: () => {
-             // _handleSubmitaddsearch(context),
+              //_handleSubmitaddsearch(context),
               floorcontroller.clear(),
               groundselected = null,
               firstselected = null,
@@ -1562,7 +1573,7 @@ class _MHPage extends State<Hpage> {
               iffirstselected = null,
               ifsecoundselected = null,
 
-             
+              
               arr.insert(0,startLocationQ[0]),
               arr.insert(1,endLocationQ[0]), 
 
@@ -1597,22 +1608,22 @@ class _MHPage extends State<Hpage> {
                           //1=>google map polyline
                           currentLat.then((value) => {
                                 userLocAndPolyline=value,
+                                reqValue.add(userLocAndPolyline[0]),
+                                reqValue.add(userLocAndPolyline[1]),
                                 flage=true,
                                 arr.removeAt(0),
-                                arr.insert(0,userLocAndPolyline),
+                                arr.insert(0,reqValue),
                                 arr.insert(5,1), //1 =>> user wants to current location
-
+                                currentLocation=false,
                                 disitionFunc(context,_loader, arr),
                           }),                                                         
               }
               else{
                     arr.insert(5,0), //0==>> user not want current location
               },
-              
-              
+                      
               if(!selectcurrentLocation)
                  disitionFunc(context,_loader, arr),             
-
             },
             child: SingleChildScrollView(
             child: Text(
@@ -1620,7 +1631,7 @@ class _MHPage extends State<Hpage> {
               style: TextStyle(
                 color: mainColor,
                 letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 30,
+                fontSize: MediaQuery.of(context).size.width / 20,
               ),
             ),
             ),
@@ -1651,14 +1662,14 @@ class _MHPage extends State<Hpage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height / 30),
             ),
-            onPressed: () async => {
-              
+            onPressed: () => {
+              //_handleSubmitaddsearch(context),
               walkoutUserLocselect.clear(),
               walkoutUserLocselected = null,
               walkoutDestiLocselect.clear(),
               walkoutDestiLocselected = null,
 
-              arr.insert(0,startLocationQ[0]),
+               arr.insert(0,startLocationQ[0]),
               arr.insert(1,endLocationQ[0]), 
 
               //add department  value for quere
@@ -1686,36 +1697,40 @@ class _MHPage extends State<Hpage> {
                   arr.insert(4,"f"),
               
               if(currentLocation){
+                  
                   selectcurrentLocation=true,           
                           currentLat=getUserLocation(),
                           //0=>user location LatLng
                           //1=>google map polyline
                           currentLat.then((value) => {
                                 userLocAndPolyline=value,
+                                reqValue.add(userLocAndPolyline[0]),
+                                reqValue.add(userLocAndPolyline[1]),
                                 flage=true,
                                 arr.removeAt(0),
-                                arr.insert(0,userLocAndPolyline),
+                                arr.insert(0,reqValue),
                                 arr.insert(5,1), //1 =>> user wants to current location
-
+                                currentLocation=false,
                                 disitionFunc(context,_loader, arr),
                           }),                                                         
               }
               else{
                     arr.insert(5,0), //0==>> user not want current location
               },
-              
-              
+                      
               if(!selectcurrentLocation)
                  disitionFunc(context,_loader, arr),             
-            },
 
+             
+
+              },
             child: SingleChildScrollView(
             child: Text(
               "Enter",
               style: TextStyle(
                 color: mainColor,
                 letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 30,
+                fontSize: MediaQuery.of(context).size.width / 20,
               ),
             ),
             ),
@@ -2310,13 +2325,13 @@ class _MHPage extends State<Hpage> {
     );
   }
 
-  Future<void> _handleSubmitwelcome(BuildContext context) async{
+  Future<void> _handleBack(BuildContext context) async{
     try{
       Dialogs.showLoadingDialog(context,_keyLoader);
-      await Future.delayed(Duration(seconds: 3,));
+      await Future.delayed(Duration(seconds: 2,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
-      Navigator.push(context,MaterialPageRoute(builder: (context) => WelcomePage()));
+      Navigator.push(context,MaterialPageRoute(builder: (context) => MainMap()));
     }
     catch(error){
       print(error);
@@ -2329,15 +2344,13 @@ class _MHPage extends State<Hpage> {
       await Future.delayed(Duration(seconds: 3,));
       Navigator.of(_keyLoader.currentContext,rootNavigator: true).pop();
 
-     // Navigator.push(context,MaterialPageRoute(builder: (context) => AddSearch()));
+      //Navigator.push(context,MaterialPageRoute(builder: (context) => AddSearch()));
     }
     catch(error){
       print(error);
     }
   }
 }
-
-
 
 String dselectedStart="";
 String dselectedDestination = "";
@@ -2366,9 +2379,3 @@ String floorvalue  = "";
 String departmentvalue ="Computer Science Department";
 final groundf = TextEditingController();
 final firstf = TextEditingController();
-final secoundf = TextEditingController();
-final ifgroundf = TextEditingController();
-final iffirstf = TextEditingController();
-final ifsecoundf = TextEditingController();
-
-

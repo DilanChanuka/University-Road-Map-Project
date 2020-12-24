@@ -1,5 +1,4 @@
-
-
+import 'package:map_interfaces/Screens/Signup/signup_page.dart';
 import 'package:flutter/material.dart';  
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:map_interfaces/Screens/Common/data.dart';
@@ -115,15 +114,37 @@ Future<Widget> showAlertLogin(BuildContext context) async
     });
 
 }
+Future<Widget> messageBox(BuildContext context,String title,String message) async
+{
+   return showDialog(
+    context:context,
+    builder:(BuildContext context){
+       return AlertDialog(
+        title:Text(title),
+        content:Text(message),
+        actions: <Widget>[
+          FlatButton(
+            onPressed:(){
+                sinUpflage=true;
+                Navigator.pop(context);
+            },
+            child:Text("Ok")), 
+        ],
+      );
+    });
 
-Future<Widget> showMessages(BuildContext context) async
+
+}
+
+
+Future<Widget> showMessages(BuildContext context,String message) async
 {
    return showDialog(
     context:context,
     builder:(BuildContext context){
        return AlertDialog(
         title:Text("warnning"),
-        content:Text("Your are Now sintting in Outside of Campus... \n Do not select inside place.."),
+        content:Text(message),
         actions: <Widget>[
           FlatButton(
             onPressed:(){

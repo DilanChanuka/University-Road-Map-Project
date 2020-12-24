@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_interfaces/Screens/Common/data.dart';
+import 'package:map_interfaces/Screens/Direction/Direction_page.dart';
+import 'package:map_interfaces/Screens/Map/Function/GetUser_Location.dart';
 import 'dart:async';
 import 'package:map_interfaces/constanents.dart';
 import 'package:map_interfaces/Screens/Map/Logic/getOuterRoutes.dart';
@@ -74,6 +76,7 @@ class _DrawState extends State<DrawRouteLine>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   List<Floor> _floor = Floor.getFloor();
   List<DropdownMenuItem<Floor>> _dropdownMenuitem;
+  Set<Marker> _realtimeMarker={};
   Floor _selectedFloor; 
 
   GoogleMapController mapcontroller;
@@ -110,6 +113,7 @@ void initState()
   _selectedFloor = _dropdownMenuitem[floorID].value;
   customMapPing();
   super.initState();
+  
 }
 
 List<DropdownMenuItem<Floor>> buildDropdownMenuItems(List floors){
@@ -265,6 +269,9 @@ static CameraPosition initialLocation = CameraPosition(
                  alignment: Alignment.topLeft,
                  child: Column(
                    children: [
+                     FloatingActionButton(
+                       onPressed:(){},
+                       child: Icon(Icons.directions_walk ,), ),
                      RaisedButton(
                       
                       onPressed:(){},
