@@ -125,10 +125,11 @@ class _ForgPassPageState extends State<FBody>
                               border: Border.all(color: colorborder),
                             ),
                             child: SingleChildScrollView(           
-                              child: Text("  To reset your password, submit your email address below. If we can find yor,an email will be send to your email address,with instruction how to get access again.",
+                              child: Text("To reset your password, submit your email address below. If we can find yor,an email will be send to your email address,with instruction how to get access again.",
                               overflow: TextOverflow.ellipsis,
                               maxLines: 6,
                                 style: TextStyle(
+                                  //letterSpacing: MediaQuery.of(context).size.width / 400,
                                   fontSize: MediaQuery.of(context).size.width / 22,
                                 ),
                               ),
@@ -152,7 +153,7 @@ class _ForgPassPageState extends State<FBody>
                                 style: TextStyle(
                                   color: tridColor,
                                   decoration: TextDecoration.underline,
-                                  fontSize: MediaQuery.of(context).size.width / 15,
+                                  fontSize: MediaQuery.of(context).size.width / 18,
                                 ),
                               ),
                             ),

@@ -77,7 +77,7 @@ class _Bodycreate extends State<Body>{
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(3),
                 border: InputBorder.none,
-                hintText: "Name",
+                hintText: "Your Name",
                 hintStyle: TextStyle(
                   fontSize: MediaQuery.of(context).size.width / 22,
                 ),   
