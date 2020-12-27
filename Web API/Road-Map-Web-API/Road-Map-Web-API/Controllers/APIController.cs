@@ -20,8 +20,7 @@ using Road_Map_Web_API.Models;
 
 namespace Road_Map_Web_API.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
+    [ApiController]    
     public class APIController : Controller
     {
         public APIController(ApplicationDBContext db)
@@ -584,7 +583,8 @@ namespace Road_Map_Web_API.Controllers
             return Json(final);
         }
 
-        [HttpPost("{username}/{password}")]
+        [HttpPost]
+        [Route("IdentifyUser/{username}/{password}")]
         public IActionResult IdentifyUser(string username, string password)
         {
             if (LocationData.GetUserIdentity(username, password))
@@ -594,12 +594,18 @@ namespace Road_Map_Web_API.Controllers
         }
 
         [HttpPost]
+        [Route("RegisterUser")]
         public IActionResult RegisterUser([FromBody] APIUser[] user)
         {
-            if (LocationData.SetUser(user[0].username, user[0].email, user[0].type, user[0].faculty, user[0].password))
-                return Created("http://127.0.0.1:5000/API", user[0].username + " Registered");
+            if (user[0].username.Length > 0)
+            {
+                if (LocationData.SetUser(user[0].username, user[0].email, user[0].type, user[0].faculty, user[0].password))
+                    return Created("http://127.0.0.1:5000/API", user[0].username + " Registered");
+                else
+                    return BadRequest("Username alredy exist !");
+            }
             else
-                return BadRequest("Username alredy exist !");
+                return BadRequest("Username is Empty !");
         }
 
         //Location Shearing system request handling methods
@@ -801,12 +807,14 @@ namespace Road_Map_Web_API.Controllers
             {
                 @TempData["status"] = "yes";
                 @TempData["access"] = "yes";
+                @TempData["searchText"] = "*";
                 return RedirectToAction("AdminPanel");
             }
             else
             {
                 @TempData["status"] = "no";
                 @TempData["access"] = "yes";
+                @TempData["searchText"] = "*";
                 return RedirectToAction("AdminPanel");
             }
         }
@@ -819,12 +827,14 @@ namespace Road_Map_Web_API.Controllers
             {
                 @TempData["removestatus"] = "yes";
                 @TempData["access"] = "yes";
+                @TempData["searchText"] = "*";
                 return RedirectToAction("AdminPanel");
             }
             else
             {
                 @TempData["removestatus"] = "no";
                 @TempData["access"] = "yes";
+                @TempData["searchText"] = "*";
                 return RedirectToAction("AdminPanel");
             }
         }
@@ -837,6 +847,7 @@ namespace Road_Map_Web_API.Controllers
             if (LocationData.IdentifyAdmin(user.Username, user.Password))
             {
                 @TempData["access"] = "yes";
+                @TempData["searchText"] = "*";
                 return RedirectToAction("AdminPanel");
             }
             else
@@ -848,9 +859,19 @@ namespace Road_Map_Web_API.Controllers
         }
 
         [HttpGet]
+        [Route("")]        
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        [Route("Search/{text}")]
+        public IActionResult Search(string text)
+        {
+            @TempData["access"] = "yes";
+            @TempData["searchText"] = text;
+            return Json(text);
         }
     }
 }

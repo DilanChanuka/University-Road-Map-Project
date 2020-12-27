@@ -20,7 +20,7 @@ namespace RoadMap_DB.DataAccess
 
         #region SQL QUERY
 
-        private static string Encryption(string password)
+        public static string GetHash(string password)
         {
             MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
             UTF8Encoding encoder = new UTF8Encoding();
@@ -34,7 +34,6 @@ namespace RoadMap_DB.DataAccess
                 encryptdata.Append(encrypt[i].ToString());
             }
             return encryptdata.ToString();
-
         }
         public static string[] GetUser(string sql)
         {

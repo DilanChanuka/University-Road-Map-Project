@@ -8,6 +8,7 @@ using RoadMap_DB.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -95,10 +96,10 @@ namespace RoadMap_DB.DataAccess
 
             try
             {
-                location = (from v in _db.vehicle_route
+                location = (from v in _db.foot_route
                             join l in _db.location
-                            on v.v_location_id equals l.location_id
-                            where v.v_route_id == routeID
+                            on v.f_location_id equals l.location_id
+                            where v.f_route_id == routeID
                             select l).ToList();
 
             }
@@ -127,6 +128,8 @@ namespace RoadMap_DB.DataAccess
 
             double[] arr = new double[2];
             var location = new List<Location>();
+            if (graphNo == 1)
+                graphNo = 0;
 
             try
             {
@@ -136,9 +139,11 @@ namespace RoadMap_DB.DataAccess
                             where vtx.vertex_No == vertexNo & vtx.graph_No == graphNo
                             select l).ToList();
 
-               
-                arr[0] = location[0].lat_value;
-                arr[1] = location[0].lng_value;
+                if (location.Count != 0)
+                {
+                    arr[0] = location[0].lat_value;
+                    arr[1] = location[0].lng_value;
+                }
             }
             catch(Exception ex)
             {
@@ -272,11 +277,11 @@ namespace RoadMap_DB.DataAccess
 
         public static bool GetUserIdentity(string username, string password)
         {
-            String sql = "SELECT name,pwd FROM roadmap_db.users " +
-                "where name='"+ username + "' and pwd="+password+";";
+            String sql = "SELECT name,pwd FROM roadmap_db.user " +
+                "where name='"+ username + "' and pwd='"+MySqlDataAccess.GetHash(password)+"';";
 
             string[] data = MySqlDataAccess.GetIdentity(sql);
-            if (data[0] == username && data[1] == password)
+            if (data[0] == username && data[1] == MySqlDataAccess.GetHash(password))
                 return true;
             else
                 return false;
@@ -292,7 +297,7 @@ namespace RoadMap_DB.DataAccess
                                          where usr.name == "Admin"
                                          select usr.pwd).ToArray();
 
-                    if (userList[0] == password)
+                    if (userList[0] == MySqlDataAccess.GetHash(password))
                         return true;
                 }
                 catch { }
@@ -372,7 +377,7 @@ namespace RoadMap_DB.DataAccess
                         email = email,
                         type = type,
                         faculty = faculty,
-                        pwd = password,
+                        pwd = MySqlDataAccess.GetHash(password),
                     };
 
                     try
@@ -575,6 +580,22 @@ namespace RoadMap_DB.DataAccess
             int rows1 = _db.Database.ExecuteSqlRaw($"DELETE FROM user_privilage WHERE " +
                 $"(user1_id = '{userId}') " +
                 $"OR (user2_id = '{userId}')");
+
+
+            User[] userList = new User[] { };
+            try
+            {
+                userList = (from usr in _db.user
+                            where usr.name == username
+                            select usr).ToArray();
+
+                using (StreamWriter sw = File.AppendText(@"wwwroot/users/DeletedUserList.txt"))
+                {
+                    sw.WriteLine(userList[0].user_id + "\t" + userList[0].name + "\t" + userList[0].email + "\t" + userList[0].type + "\t" + userList[0].faculty + "\t" + userList[0].pwd);
+                }
+            }
+            catch { }
+
             int rows2 = _db.Database.ExecuteSqlRaw($"DELETE FROM user WHERE " +
             $"(id = '{userId}') ");
 
