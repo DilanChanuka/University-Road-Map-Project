@@ -11,12 +11,12 @@ namespace Road_Map_Web_API
 
         //no of vertices in the graphs
         public static int footGrapheVertices = 115;
-        public static int vehicleGrapheVertices = 0;
+        public static int vehicleGrapheVertices = 115;
         public static int CSDepartmentGrapheVertices = 71;
 
         //no of routes in the graphs
         public static int noOfFootRoutes = 141;
-        public static int noOfVehicleRoutes = 0;
+        public static int noOfVehicleRoutes = 141;
         public static int noOfCSMainRoutes = 76;
 
         //end points of each route 
@@ -48,7 +48,13 @@ namespace Road_Map_Web_API
         public static int[] CSFloo_0_VerticesSet = new int[] { 50,51,54,55,57,58,59,61,62,64,63,70,68,69,67,26,66,60,56,65 };
         public static int[] CSFloo_1_VerticesSet = new int[] { 19,21,32,22,31,23,24,25,27,28,29,33,30,17,34,35,36,38,37,39,46,40,41,42,43,44,47,52,53,16,48,49,45,18,20 };
         public static int[] CSFloo_2_VerticesSet = new int[] { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 };
-       
+
+        //Vehicle Route graph vertex number set
+        public static int[] VehicleGraph_VerticesSet = new int[] { 0, 113, 114, 1, 111, 3, 112, 15, 46, 51, 52, 58, 47, 59, 84, 81, 82, 83, 93, 91, 78, 77, 75, 26, 89, 85, 108, 24, 23, 25, 29, 33, 34, 6, 27, 22, 20, 18, 12, 90, 5, 7, 2, 109, 4, 99 };
+
+        //missing vertices set of foot graph
+        public static int[] FootGraph_MissingVerticesSet = new int[] { 53, 56, 73, 79, 86, 88 };
+
         //includes place numbers for relavelt vertex numbers of CS Department main graph 
         //index=department graph vertex number,value=place id
         public static int[] CSMainPlaceMatch = new int[71];
@@ -98,6 +104,18 @@ namespace Road_Map_Web_API
                     j++;
                 }
 
+
+                j = 0;
+                lines = System.IO.File.ReadAllLines(@"wwwroot/DataSet/vehicleGraph.txt");
+                foreach (string line in lines)
+                {
+                    split = line.Split(',');
+                    for (int i = 0; i < vehicleGrapheVertices; i++)
+                        vehicleRoutesGraph[j, i] = int.Parse(split[i]);
+
+                    j++;
+                }
+
                 j = 0;
                 lines = System.IO.File.ReadAllLines(@"wwwroot/DataSet/footGraphEndPoints.txt");
                 foreach (string line in lines)
@@ -119,7 +137,20 @@ namespace Road_Map_Web_API
 
                     j++;
                 }
-            }catch(Exception e)
+
+                j = 0;
+                lines = System.IO.File.ReadAllLines(@"wwwroot/DataSet/vehicleGrapheEndPoints.txt");
+                foreach (string line in lines)
+                {
+                    split = line.Split(',');
+                    for (int i = 0; i < 2; i++)
+                        vehicleRouteEndpoints[j, i] = int.Parse(split[i]);
+
+                    j++;
+                }
+
+            }
+            catch(Exception e)
             {
                 Console.WriteLine(e.Message);
             }

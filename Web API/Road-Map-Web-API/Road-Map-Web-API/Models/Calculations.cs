@@ -13,9 +13,26 @@ namespace Road_Map_Web_API
             double[] distance = new double[noOfVertices];
             double[] temp;
             for (int i = 0; i < noOfVertices; i++)
+                distance[i] = double.MaxValue;            
+
+            for (int i = 0; i < noOfVertices; i++)
             {
-                temp = LocationData.GetVertexLoaction(graphNo,i);
-                distance[i] = Math.Sqrt(Math.Pow(lat - temp[0], 2) + Math.Pow(lon - temp[1], 2));
+                if (graphNo == 0)
+                {
+                    if (!Data.FootGraph_MissingVerticesSet.Contains(i)) 
+                    {
+                        temp = LocationData.GetVertexLoaction(graphNo, i);
+                        distance[i] = Math.Sqrt(Math.Pow(lat - temp[0], 2) + Math.Pow(lon - temp[1], 2));
+                    }
+                }
+                else
+                {
+                    if (Data.VehicleGraph_VerticesSet.Contains(i))
+                    {
+                        temp = LocationData.GetVertexLoaction(0, i);
+                        distance[i] = Math.Sqrt(Math.Pow(lat - temp[0], 2) + Math.Pow(lon - temp[1], 2));
+                    }
+                }
             }
             return Array.IndexOf(distance, distance.Min());
         }
@@ -45,6 +62,7 @@ namespace Road_Map_Web_API
 
         public int FindEnterenceVertexNo(int noOfVertices, int graphNo, int start)
         {
+            FindShortestPath find = new FindShortestPath();
             int[,] graph;
             int[] dist, distance;
 
@@ -84,6 +102,7 @@ namespace Road_Map_Web_API
 
         public int[] GetRouteNumbers(int graphNo,int start,int end)
         {
+            FindShortestPath find = new FindShortestPath();
             int[,] graph, endPoints;
             int V_No;
             int[] path;
@@ -235,6 +254,7 @@ namespace Road_Map_Web_API
 
         public double[] FindDistanceAndTime(int graphNo, int start, int end)
         {
+            FindShortestPath find = new FindShortestPath();
             int[,] graph;
             int V_No;
             int[] distances;
@@ -259,10 +279,13 @@ namespace Road_Map_Web_API
                     break;
             }
             distances = find.GetShortestDistanceList(graph, V_No, start);
-            return new double[] { distances[end], Math.Round((distances[end] * 5.1) / 60, 1) };
+
+            if(graphNo == 1)
+                return new double[] { distances[end], Math.Round((distances[end] * 0.45) / 60, 2) };
+            else
+                return new double[] { distances[end], Math.Round((distances[end] * 3.1) / 60, 1) };
         }
 
-        readonly FindShortestPath find = new FindShortestPath();
         int Middle { get; set; }
     }
 }

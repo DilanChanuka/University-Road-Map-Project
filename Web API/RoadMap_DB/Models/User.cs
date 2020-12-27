@@ -22,7 +22,6 @@ namespace RoadMap_DB.Models
         public  string type { get; set; }
         public string faculty { get; set; }
 
-        [MaxLength(30)]  // Crate nvarchar(20) in Mysql 
         public string pwd {  get; set; }
     }
 }

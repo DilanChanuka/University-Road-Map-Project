@@ -52,11 +52,12 @@ namespace Road_Map_Web_API
 
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapControllers();
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=API}/{action=Index}"
-                    );
+                endpoints.MapControllers();
+
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=API}/{action=Index}"
+                //    );
                 
             });
 

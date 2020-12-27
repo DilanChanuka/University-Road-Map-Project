@@ -159,8 +159,7 @@ namespace RoadMap_DB.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("pwd")
-                        .HasColumnType("varchar(30) CHARACTER SET utf8mb4")
-                        .HasMaxLength(30);
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("type")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
