@@ -19,6 +19,10 @@ namespace Road_Map_Web_API
         public static int noOfVehicleRoutes = 141;
         public static int noOfCSMainRoutes = 76;
 
+        //time per meter from seconds
+        public static double walkingTimePerMeter = 3.1;
+        public static double drivingTimePerMeter = 0.45;
+
         //end points of each route 
         //index=route number 
         public static int[,] foorRouteEndpoints = new int[noOfFootRoutes, 2];

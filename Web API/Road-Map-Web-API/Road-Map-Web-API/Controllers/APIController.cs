@@ -204,7 +204,7 @@ namespace Road_Map_Web_API.Controllers
                     break;
             }
             start = cal.GetNearestVertexNo(V_No, graphNo, startLAT, startLON);
-            localEnd = cal.FindEnterenceVertexNo(V_No, graphNo, start);
+            localEnd = cal.FindEnterenceVertexNo(V_No, graphNo, start, placeID);
 
             if (start != localEnd)
             {
@@ -229,11 +229,17 @@ namespace Road_Map_Web_API.Controllers
 
             for (int i = 0; i < Data.CSMainOuterInnerMatch.Length; i++)
                 if (Data.CSMainOuterInnerMatch[i] == localEnd)
+                {
                     innerStart = i;
+                    break;
+                }
 
             for (int i = 0; i < Data.CSMainPlaceMatch.Length; i++)
                 if (Data.CSMainPlaceMatch[i] == placeID)
+                {
                     innerEnd = i;
+                    break;
+                }
 
             graphNo = 2;
             ids = LocationData.GetDepartmentAndFloor(placeID);

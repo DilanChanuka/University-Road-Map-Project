@@ -60,21 +60,47 @@ namespace Road_Map_Web_API
             return Array.IndexOf(distance, distance.Min());
         }
 
-        public int FindEnterenceVertexNo(int noOfVertices, int graphNo, int start)
+        public int FindEnterenceVertexNo(int noOfVertices, int graphNo, int start, int placeID)
         {
             FindShortestPath find = new FindShortestPath();
-            int[,] graph;
-            int[] dist, distance;
+            int[,] graph,innerGraph;
+            int[] dist_1, dist_2, distance, ids;
+            int innerStart, innerEnd = 0, innerVerticesNo;
 
             if (graphNo == 0)
                 graph = Data.footRoutesGraph;
             else
                 graph = Data.vehicleRoutesGraph;
-            
-            dist= find.GetShortestDistanceList(graph, noOfVertices, start);
+
+            ids = LocationData.GetDepartmentAndFloor(placeID);
+
+            if (ids[0] == 1)
+            {
+                innerGraph = Data.CSDepartmentGraph;
+                innerVerticesNo = Data.CSDepartmentGrapheVertices;
+            }
+            else
+            {
+                innerGraph = Data.footRoutesGraph;
+                innerVerticesNo = Data.footGrapheVertices;
+            }
+
+            for (int j = 0; j < Data.CSMainPlaceMatch.Length; j++)
+                if (Data.CSMainPlaceMatch[j] == placeID)
+                {
+                    innerEnd = j;
+                    break;
+                }
+
+            dist_1 = find.GetShortestDistanceList(graph, noOfVertices, start);
             distance = new int[Data.EntranceOuterMatch.Length];
             for (int i = 0; i < Data.EntranceOuterMatch.Length; i++)
-                distance[i] = dist[Data.EntranceOuterMatch[i]];
+            {
+                distance[i] = dist_1[Data.EntranceOuterMatch[i]];
+                innerStart = Data.CSMainEntranceInnerMatch[i];            
+                dist_2 = find.GetShortestDistanceList(innerGraph, innerVerticesNo, innerStart);
+                distance[i] += dist_2[innerEnd];
+            }
 
             //according to the department,Entrance outer match should change
             return  Data.EntranceOuterMatch[Array.IndexOf(distance, distance.Min())];
@@ -281,9 +307,9 @@ namespace Road_Map_Web_API
             distances = find.GetShortestDistanceList(graph, V_No, start);
 
             if(graphNo == 1)
-                return new double[] { distances[end], Math.Round((distances[end] * 0.45) / 60, 2) };
+                return new double[] { distances[end], Math.Round((distances[end] * Data.drivingTimePerMeter) / 60, 2) };
             else
-                return new double[] { distances[end], Math.Round((distances[end] * 3.1) / 60, 1) };
+                return new double[] { distances[end], Math.Round((distances[end] * Data.walkingTimePerMeter) / 60, 1) };
         }
 
         int Middle { get; set; }
