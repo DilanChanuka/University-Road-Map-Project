@@ -69,8 +69,8 @@ void getUserRealTimeLocation() async
 
  startTimeout([int milliseconds]) 
  {
-    // var duration = milliseconds == null ? timeout : ms * milliseconds;
-      //   return new Timer(duration, getUserRealTimeLocation);  
+     var duration = milliseconds == null ? timeout : ms * milliseconds;
+         return new Timer(duration, getUserRealTimeLocation);  
  }
 
 void sendRequest(String address)async

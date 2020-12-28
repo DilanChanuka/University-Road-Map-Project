@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:map_interfaces/Screens/Common/data.dart';
 import 'package:map_interfaces/Screens/Search/search_page.dart';
 import 'dart:async';
@@ -95,6 +98,12 @@ class _DrawState extends State<DrawPlaceInIn>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   Circle circle;
   Floor _selectedFloor; 
+  Location _locationTracker12= new Location();
+  Marker currentlocationM12;
+  Circle markerCircle12;
+  bool  _changeSetting12;
+   StreamSubscription _locationSubcription12;  
+
 
   GoogleMapController mapcontroller;
   Completer<GoogleMapController> _controller=Completer();
@@ -192,9 +201,75 @@ static CameraPosition initialLocation = CameraPosition(
   );
 
   Future<void> _goToPosition() async{
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(initialLocation),);
+    //final GoogleMapController controller = await _controller.future;
+    //controller.animateCamera(CameraUpdate.newCameraPosition(initialLocation),);
+     try
+        {
+            startTimeout();
+            Uint8List imageData=await getmarker();
+
+           // var location=await _locationTracker.getLocation();
+            updateLocationAndCircle(currentLat2,currentLng2, imageData);
+
+            if(_locationSubcription12!=null)
+                _locationSubcription12.cancel();
+
+             _changeSetting12=await _locationTracker12.changeSettings();
+                if(_changeSetting12)
+                {
+
+                    _locationTracker12.onLocationChanged.listen((LocationData currentLoc){
+
+                        if(mapcontroller!=null){
+                        mapcontroller.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+                          bearing: 1.12455,
+                          target: LatLng(currentLoc.latitude,currentLoc.longitude),
+                          tilt: 0,
+                          zoom: 18.0)));
+                          print(currentLoc.latitude);
+                          updateLocationAndCircle(currentLoc.latitude,currentLoc.longitude, imageData);
+                          
+                      }
+                    });
+                }
+            
+        }
+        catch(error)
+        {
+
+        }
+
   }
+
+   void updateLocationAndCircle(double lat,double lng,Uint8List imageData)
+    {
+        LatLng latlng=LatLng(lat,lng);
+        this.setState(() {
+          currentlocationM12=Marker(
+            markerId:MarkerId("userLocation"),
+            position: latlng,
+            draggable: false,
+            flat: true,
+            zIndex: 2,
+            anchor: Offset(0.5,0.5),
+            icon: BitmapDescriptor.fromBytes(imageData));
+        });
+
+         markerCircle12=Circle(
+           circleId:CircleId("userclicle"),
+           radius:15.0,
+           zIndex: 1,
+           strokeColor:Colors.blue,
+           fillColor: Colors.blue.withAlpha(70),
+           center: latlng );
+    }
+
+     Future<Uint8List> getmarker() async
+    {
+        ByteData bytedata=await DefaultAssetBundle.of(context).load('assets/currentLocationPin.png');
+        return bytedata.buffer.asUint8List();
+    }
+
 
 
   _onCamMove(CameraPosition position)
